@@ -1,3 +1,17 @@
+# CLEANUP
+
+```
+cd android
+.\gradlew clean
+
+cd ..
+npm start --reset-cache
+```
+
+
+
+
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
