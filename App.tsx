@@ -9,7 +9,7 @@ import * as React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {View, Text, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+// import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // function HomeScreen({navigation}) {
 //   return (
@@ -23,7 +23,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 //   );
 // }
 
-function HomeScreen({navigation}) {
+function HomeScreen({navigation}): React.JSX.Element {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Button
@@ -52,7 +52,7 @@ function HomeScreen({navigation}) {
 //   );
 // }
 
-function NotificationsScreen({navigation }) {
+function NotificationsScreen({navigation}): React.JSX.Element {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Button onPress={() => navigation.goBack()} title="Go back home" />
@@ -73,7 +73,16 @@ function App(): React.JSX.Element {
       </Stack.Navigator> */}
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Notification" component={NotificationsScreen} />
+        <Drawer.Screen name="Automation" component={NotificationsScreen} />
+        <Drawer.Screen name="MASVS-STORAGE" component={NotificationsScreen} />
+        <Drawer.Screen name="MASVS-CRYPTO" component={NotificationsScreen} />
+        <Drawer.Screen name="MASVS-AUTH" component={NotificationsScreen} />
+        <Drawer.Screen name="MASVS-NETWORK" component={NotificationsScreen} />
+        <Drawer.Screen name="MASVS-PLATFORM" component={NotificationsScreen} />
+        <Drawer.Screen name="MASVS-CODE" component={NotificationsScreen} />
+        <Drawer.Screen name="MASVS-RESILIENCE" component={NotificationsScreen} />
+        <Drawer.Screen name="MASVS-PRIVACY" component={NotificationsScreen} />
+
       </Drawer.Navigator>
     </NavigationContainer>
   );
