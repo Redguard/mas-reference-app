@@ -27,7 +27,10 @@ function App(): React.JSX.Element {
               key={item.key}
               name={'MASVS-' + item.key}
               component={CategoryScreen}
-              initialParams={{description: item.description}}
+              initialParams={{
+                description: item.description,
+                testCases: [item.general, item.android, item.ios],
+              }}
               options={{
                 headerStyle: {backgroundColor: item.color},
                 drawerItemStyle: {backgroundColor: item.color},
