@@ -1,0 +1,24 @@
+import {ScrollView, Text, TouchableOpacity} from 'react-native';
+import {TestCases} from '../testcases.tsx';
+import styles from './styles.tsx';
+import React from 'react';
+
+function TestScreen({route, navigation}: any): React.JSX.Element {
+  var testCases: TestCases = route.params.testCase;
+  navigation.setOptions({title: testCases.title});
+
+  return (
+    <ScrollView style={styles.categoryDescription}>
+      <Text>{route.params.description}</Text>
+      {testCases.testCases.map(testCase => {
+        return (
+          <TouchableOpacity key={testCase.id} style={styles.button}>
+            <Text>{testCase.title}</Text>
+          </TouchableOpacity>
+        );
+      })}
+    </ScrollView>
+  );
+}
+
+export default TestScreen;
