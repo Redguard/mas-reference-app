@@ -8,9 +8,11 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     backgroundColor: '#DDDDDD',
+    borderColor: '#70706f',
+    borderWidth: 1,
+    borderRadius: 10,
     padding: 10,
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: 10,
   },
 });
 

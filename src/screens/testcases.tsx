@@ -6,61 +6,61 @@ const TestCases = [
       'This test case focuses on identifying potentially sensitive data stored by an application and verifying if it is securely stored.',
     general: [
       {
-        log: [
-          {
-            title: 'Sensitive Data in Application-Log',
-            description:
-              'This test cases will write the following sensitive data to the application log:\n- Different Password-Identifiere\n- Valid Access-Token\n- ...\n',
-            testCases: ['writeLog'],
-          },
-        ],
+        id: 'log',
+        title: 'Sensitive Data in Log',
+        description:
+          'This test cases will write the following sensitive data to the application log:\n- Different Password-Identifiere\n- Valid Access-Token\n- ...\n',
+        testCases: ['writeLog'],
       },
     ],
     android: [
       {
-        sharedPreferences: [
-          {
-            title: 'SharedPreferences',
-            description:
-              'This testcase stores data using unencrypted SharedPreferences.\n',
-            testCases: ['writeSharedPreferences', 'readSharedPreferences'],
-          },
+        id: 'sharedPreferences',
+        title: 'SharedPreferences',
+        description:
+          'This testcase stores data using unencrypted SharedPreferences.\n',
+        testCases: ['writeSharedPreferences', 'readSharedPreferences'],
+      },
+      {
+        id: 'encryptedSharedPreferences',
+        title: 'Encrypted SharedPreferences',
+        description:
+          'This testcase stores data using secure, encrypted SharedPreferences.\n',
+        testCases: [
+          'writeEncryptedSharedPreferences',
+          'readEncryptedSharedPreferences',
+          {},
         ],
-        encryptedSharedPreferences: [
-          {
-            title: 'Encrypted SharedPreferences',
-            description:
-              'This testcase stores data using secure, encrypted SharedPreferences.\n',
-            testCases: [
-              'writeEncryptedSharedPreferences',
-              'readEncryptedSharedPreferences',
-              {},
-            ],
-          },
-        ],
-        'java.io': [
-          {
-            title: 'java.io',
-            description:
-              'Theses tests will write and read data into the local sanbox using the java.io Classes.',
-            testCases: [
-              'writeBufferedOutputStream',
-              'writeBufferedWriter',
-              'writeByteArrayOutputStream',
-              'writeCharArrayWriter',
-              'writeConsole',
-              'writeDataOutputStream',
-              'writeFileOutputStream',
-              'writeFilterOutputStream',
-              'writeFilterWriter',
-              'writeObjectOutputStream',
-              'writeStringWriter',
-            ],
-          },
+      },
+      {
+        id: 'java.io',
+        title: 'java.io',
+        description:
+          'Theses tests will write and read data into the local sanbox using the java.io Classes.',
+        testCases: [
+          'writeBufferedOutputStream',
+          'writeBufferedWriter',
+          'writeByteArrayOutputStream',
+          'writeCharArrayWriter',
+          'writeConsole',
+          'writeDataOutputStream',
+          'writeFileOutputStream',
+          'writeFilterOutputStream',
+          'writeFilterWriter',
+          'writeObjectOutputStream',
+          'writeStringWriter',
         ],
       },
     ],
-    ios: [],
+    ios: [
+      {
+        id: 'keychain',
+        title: 'Sensitive Data in Keychain',
+        description:
+          'This test cases will read and write sensitive Data to the iOS Keychain.',
+        testCases: ['writeDataFromKeychain', 'readDataToKeychain'],
+      },
+    ],
   },
   {
     key: 'CRYPTO',
