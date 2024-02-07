@@ -2,7 +2,7 @@
 
 ```
 cd android
-.\gradlew clean
+./gradlew clean
 
 cd ..
 npm start --reset-cache

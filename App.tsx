@@ -9,7 +9,7 @@ import * as React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import TestCases from './src/screens/testcases.tsx';
-import CategoryScreen from './src/screens/categoryScreen/categoryScreen.tsx'
+import CategoryScreen from './src/screens/categoryScreen/categoryScreen.tsx';
 import HomeScreen from './src/screens/homeScreen/homeScreen.tsx';
 import AutomationScreen from './src/screens/automationScreen/automationScreen.tsx';
 
