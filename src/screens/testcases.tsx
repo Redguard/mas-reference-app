@@ -1,4 +1,28 @@
-const TestCases = [
+type TestCase = {
+  id: string;
+  title: string;
+  description: string;
+};
+
+type TestCases = {
+  id: string;
+  title: string;
+  description: string;
+  testCases: TestCase[];
+};
+
+type MASCategory = {
+  key: string;
+  color: string;
+  description: string;
+  general: TestCases[];
+  android: TestCases[];
+  ios: TestCases[];
+};
+
+type TestCaseCollection = MASCategory[];
+
+const appContent: TestCaseCollection = [
   {
     key: 'STORAGE',
     color: '#df5c8c',
@@ -10,7 +34,19 @@ const TestCases = [
         title: 'Sensitive Data in Log',
         description:
           'This test cases will write the following sensitive data to the application log:\n- Different Password-Identifiere\n- Valid Access-Token\n- ...\n',
-        testCases: ['writeLog'],
+        testCases: [
+          {
+            id: 'writePasswordsToLog',
+            title: 'Write Password into Log',
+            description:
+              'Write Keywords related to Passwords into the Application LOG.',
+          },
+          {
+            id: 'writeAccessTokenToLog',
+            title: 'Write Access Token into Log',
+            description: 'Write a valid Access Token into the Application LOG.',
+          },
+        ],
       },
     ],
     android: [
@@ -19,7 +55,21 @@ const TestCases = [
         title: 'SharedPreferences',
         description:
           'This testcase stores data using unencrypted SharedPreferences.\n',
-        testCases: ['writeSharedPreferences', 'readSharedPreferences'],
+        testCases: [
+          {
+            id: 'writeSharedPreferences',
+            title: 'Write SharedPreferences',
+            description:
+              'Write data into the snadbox using unencrypted SharedPreferences',
+          },
+          {
+            id: 'readSharedPreferences',
+            title: 'Read SharedPreferences',
+            description:
+              'Read data into the snadbox using unencrypted SharedPreferences',
+          },
+        ],
+        // testCases: ['writeSharedPreferences', 'readSharedPreferences'],
       },
       {
         id: 'encryptedSharedPreferences',
@@ -27,9 +77,18 @@ const TestCases = [
         description:
           'This testcase stores data using secure, encrypted SharedPreferences.\n',
         testCases: [
-          'writeEncryptedSharedPreferences',
-          'readEncryptedSharedPreferences',
-          {},
+          {
+            id: 'writeEncryptedSharedPreferences',
+            title: 'Write SharedPreferences',
+            description:
+              'Write data into the snadbox using encrypted EncryptedSharedPreferences',
+          },
+          {
+            id: 'readEncryptedSharedPreferences',
+            title: 'Write Access Token into Log',
+            description:
+              'Read data into the snadbox using encrypted EncryptedSharedPreferences',
+          },
         ],
       },
       {
@@ -38,17 +97,29 @@ const TestCases = [
         description:
           'Theses tests will write and read data into the local sanbox using the java.io Classes.',
         testCases: [
-          'writeBufferedOutputStream',
-          'writeBufferedWriter',
-          'writeByteArrayOutputStream',
-          'writeCharArrayWriter',
-          'writeConsole',
-          'writeDataOutputStream',
-          'writeFileOutputStream',
-          'writeFilterOutputStream',
-          'writeFilterWriter',
-          'writeObjectOutputStream',
-          'writeStringWriter',
+          {
+            id: 'writeBufferedOutputStream',
+            title: 'Write writeBufferedOutputStream',
+            description:
+              'Write data into the sandbox using writeBufferedOutputStream',
+          },
+          {
+            id: 'writeBufferedWriter',
+            title: 'Write writeBufferedWriter',
+            description:
+              'Write data into the sandbox using writeBufferedWriter',
+          },
+          // 'writeBufferedOutputStream',
+          // 'writeBufferedWriter',
+          // 'writeByteArrayOutputStream',
+          // 'writeCharArrayWriter',
+          // 'writeConsole',
+          // 'writeDataOutputStream',
+          // 'writeFileOutputStream',
+          // 'writeFilterOutputStream',
+          // 'writeFilterWriter',
+          // 'writeObjectOutputStream',
+          // 'writeStringWriter',
         ],
       },
     ],
@@ -58,7 +129,20 @@ const TestCases = [
         title: 'Sensitive Data in Keychain',
         description:
           'This test cases will read and write sensitive Data to the iOS Keychain.',
-        testCases: ['writeDataFromKeychain', 'readDataToKeychain'],
+        testCases: [
+          {
+            id: 'writeDataFromKeychain',
+            title: 'Write Data into the Keychain',
+            description: 'Write unencrypted data sandbox Keychain.',
+          },
+          {
+            id: 'readDataToKeychain',
+            title: 'Read Data from Keychain',
+            description:
+              'Write data into the sandbox using writeBufferedWriter',
+          },
+          //'writeDataFromKeychain', 'readDataToKeychain'
+        ],
       },
     ],
   },
@@ -126,4 +210,5 @@ const TestCases = [
   // },
 ];
 
-export default TestCases;
+export default appContent;
+export type {TestCases};
