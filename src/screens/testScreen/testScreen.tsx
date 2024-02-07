@@ -1,11 +1,16 @@
 import {ScrollView, Text, TouchableOpacity} from 'react-native';
 import {TestCases} from '../testcases.tsx';
 import styles from './styles.tsx';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 function TestScreen({route, navigation}: any): React.JSX.Element {
   var testCases: TestCases = route.params.testCase;
-  navigation.setOptions({title: testCases.title});
+  // Rerender after headerTitle change
+  useEffect(() => {
+    navigation.setOptions({
+      title: testCases.title,
+    });
+  }, [testCases.title, navigation]);
 
   return (
     <ScrollView style={styles.categoryDescription}>

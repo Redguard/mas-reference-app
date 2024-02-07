@@ -33,7 +33,7 @@ const appContent: TestCaseCollection = [
         id: 'log',
         title: 'Sensitive Data in Log',
         description:
-          'This test cases will write the following sensitive data to the application log:\n- Different Password-Identifiere\n- Valid Access-Token\n- ...\n',
+          'This test cases will write the following sensitive data to the application log:\n\n- Different Password-Identifiere\n- Valid Access-Token\n- ...\n',
         testCases: [
           {
             id: 'writePasswordsToLog',
