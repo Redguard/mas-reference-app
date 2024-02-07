@@ -1,11 +1,12 @@
 import {ScrollView, Text, TouchableOpacity, Platform} from 'react-native';
 import styles from './style.tsx';
+import {TestCases} from '../testcases.tsx';
 import React from 'react';
 
 function CategoryScreen({route}: {route: any}): React.JSX.Element {
-  const generalTestCases = route.params.testCases[0];
-  const androidTestCases = route.params.testCases[1];
-  const iosTestCases = route.params.testCases[2];
+  const generalTestCases: TestCases[] = route.params.testCases[0];
+  const androidTestCases: TestCases[] = route.params.testCases[1];
+  const iosTestCases: TestCases[] = route.params.testCases[2];
 
   return (
     <ScrollView style={styles.categoryDescription}>
