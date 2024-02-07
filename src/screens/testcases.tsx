@@ -69,7 +69,6 @@ const appContent: TestCaseCollection = [
               'Read data into the snadbox using unencrypted SharedPreferences',
           },
         ],
-        // testCases: ['writeSharedPreferences', 'readSharedPreferences'],
       },
       {
         id: 'encryptedSharedPreferences',
@@ -101,13 +100,12 @@ const appContent: TestCaseCollection = [
             id: 'writeBufferedOutputStream',
             title: 'Write writeBufferedOutputStream',
             description:
-              'Write data into the sandbox using writeBufferedOutputStream',
+              'Write data into the sandbox using BufferedOutputStream',
           },
           {
             id: 'writeBufferedWriter',
             title: 'Write writeBufferedWriter',
-            description:
-              'Write data into the sandbox using writeBufferedWriter',
+            description: 'Write data into the sandbox using BufferedWriter',
           },
           // 'writeBufferedOutputStream',
           // 'writeBufferedWriter',
@@ -151,7 +149,27 @@ const appContent: TestCaseCollection = [
     color: '#f65928',
     description:
       "This category also focuses on the management of cryptographic keys throughout their lifecycle, including key generation, storage, and protection. Poor key management can compromise even the strongest cryptography, so it is crucial for developers to follow the recommended best practices to ensure the security of their users' sensitive data.",
-    general: [],
+    general: [
+      {
+        id: 'bouncyCastle',
+        title: 'Sensitive Data in Log',
+        description:
+          'This test cases will write the following sensitive data to the application log:\n- Different Password-Identifiere\n- Valid Access-Token\n- ...\n',
+        testCases: [
+          {
+            id: 'writePasswordsToLog',
+            title: 'Write Password into Log',
+            description:
+              'Write Keywords related to Passwords into the Application LOG.',
+          },
+          {
+            id: 'writeAccessTokenToLog',
+            title: 'Write Access Token into Log',
+            description: 'Write a valid Access Token into the Application LOG.',
+          },
+        ],
+      },
+    ],
     android: [],
     ios: [],
   },

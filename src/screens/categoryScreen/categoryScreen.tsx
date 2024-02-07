@@ -1,43 +1,62 @@
 import {ScrollView, Text, TouchableOpacity, Platform} from 'react-native';
-import styles from './style.tsx';
+import styles from './styles.tsx';
 import {TestCases} from '../testcases.tsx';
-import React from 'react';
+import TestScreen from '../testScreen/testScreen.tsx';
 
-function CategoryScreen({route}: {route: any}): React.JSX.Element {
-  const generalTestCases: TestCases[] = route.params.testCases[0];
+import React from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+function CategoryScreen({route, navigation}: any): React.JSX.Element {
+  var generalTestCases: TestCases[] = route.params.testCases[0];
   const androidTestCases: TestCases[] = route.params.testCases[1];
   const iosTestCases: TestCases[] = route.params.testCases[2];
+
+  var platformTestCases: TestCases[] = generalTestCases;
+
+  if (Platform.OS === 'android') {
+    platformTestCases = platformTestCases.concat(androidTestCases);
+  } else if (Platform.OS === 'ios') {
+    platformTestCases = platformTestCases.concat(iosTestCases);
+  }
 
   return (
     <ScrollView style={styles.categoryDescription}>
       <Text>{route.params.description}</Text>
-      {generalTestCases.map(testCase => {
+      {platformTestCases.map(testCase => {
         return (
-          <TouchableOpacity key={testCase.id} style={styles.button}>
+          <TouchableOpacity
+            key={testCase.id}
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate('Tests', {
+                testCase: testCase,
+              })
+            }>
             <Text>{testCase.title}</Text>
           </TouchableOpacity>
         );
-      })}
-      {androidTestCases.map(testCase => {
-        if (Platform.OS === 'android') {
-          return (
-            <TouchableOpacity key={testCase.id} style={styles.button}>
-              <Text>{testCase.title}</Text>
-            </TouchableOpacity>
-          );
-        }
-      })}
-      {iosTestCases.map(testCase => {
-        if (Platform.OS === 'ios') {
-          return (
-            <TouchableOpacity key={testCase.id} style={styles.button}>
-              <Text>{testCase.title}</Text>
-            </TouchableOpacity>
-          );
-        }
       })}
     </ScrollView>
   );
 }
 
-export default CategoryScreen;
+const CategoryStack = createNativeStackNavigator();
+
+function CategoryStackScreen({route}: {route: any}): React.JSX.Element {
+  return (
+    <CategoryStack.Navigator>
+      <CategoryStack.Screen
+        name=" "
+        component={CategoryScreen}
+        initialParams={route.params}
+      />
+      <CategoryStack.Screen
+        name="Tests"
+        component={TestScreen}
+        initialParams={route.params}
+      />
+    </CategoryStack.Navigator>
+  );
+}
+
+export default CategoryStackScreen;
