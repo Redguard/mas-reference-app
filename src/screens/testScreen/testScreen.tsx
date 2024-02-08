@@ -17,7 +17,10 @@ function TestScreen({route, navigation}: any): React.JSX.Element {
       <Text>{route.params.description}</Text>
       {testCases.testCases.map(testCase => {
         return (
-          <TouchableOpacity key={testCase.id} style={styles.button}>
+          <TouchableOpacity
+            key={testCase.id}
+            style={styles.button}
+            onPress={() => testCase.nativeModule()}>
             <Text>{testCase.title}</Text>
           </TouchableOpacity>
         );

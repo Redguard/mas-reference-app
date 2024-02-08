@@ -1,7 +1,12 @@
+import {NativeModules} from 'react-native';
+const {StorageSharedPreferences} = NativeModules;
+const {StorageEncryptedSharedPreferences} = NativeModules;
+
 type TestCase = {
   id: string;
   title: string;
   description: string;
+  nativeModule: any;
 };
 
 type TestCases = {
@@ -40,11 +45,13 @@ const appContent: TestCaseCollection = [
             title: 'Write Password into Log',
             description:
               'Write Keywords related to Passwords into the Application LOG.',
+            nativeModule: null,
           },
           {
             id: 'writeAccessTokenToLog',
             title: 'Write Access Token into Log',
             description: 'Write a valid Access Token into the Application LOG.',
+            nativeModule: null,
           },
         ],
       },
@@ -57,16 +64,25 @@ const appContent: TestCaseCollection = [
           'This testcase stores data using unencrypted SharedPreferences.\n',
         testCases: [
           {
-            id: 'writeSharedPreferences',
-            title: 'Write SharedPreferences',
+            id: 'writeSharedPreferences.string',
+            title: 'Write SharedPreferences.string',
             description:
-              'Write data into the snadbox using unencrypted SharedPreferences',
+              'Write string into the snadbox using putString method of SharedPreferences.',
+            nativeModule: StorageSharedPreferences.putString,
+          },
+          {
+            id: 'writeSharedPreferences.stringSet',
+            title: 'Write SharedPreferences.stringSet',
+            description:
+              'Write stringSet into the snadbox using putStringSet method of SharedPreferences.',
+            nativeModule: StorageSharedPreferences.putStringSet,
           },
           {
             id: 'readSharedPreferences',
             title: 'Read SharedPreferences',
             description:
               'Read data into the snadbox using unencrypted SharedPreferences',
+            nativeModule: StorageSharedPreferences.read,
           },
         ],
       },
@@ -81,12 +97,14 @@ const appContent: TestCaseCollection = [
             title: 'Write SharedPreferences',
             description:
               'Write data into the snadbox using encrypted EncryptedSharedPreferences',
+            nativeModule: StorageEncryptedSharedPreferences.write,
           },
           {
             id: 'readEncryptedSharedPreferences',
             title: 'Write Access Token into Log',
             description:
               'Read data into the snadbox using encrypted EncryptedSharedPreferences',
+            nativeModule: StorageEncryptedSharedPreferences.read,
           },
         ],
       },
@@ -101,11 +119,13 @@ const appContent: TestCaseCollection = [
             title: 'Write writeBufferedOutputStream',
             description:
               'Write data into the sandbox using BufferedOutputStream',
+            nativeModule: null,
           },
           {
             id: 'writeBufferedWriter',
             title: 'Write writeBufferedWriter',
             description: 'Write data into the sandbox using BufferedWriter',
+            nativeModule: null,
           },
           // 'writeBufferedOutputStream',
           // 'writeBufferedWriter',
@@ -132,12 +152,14 @@ const appContent: TestCaseCollection = [
             id: 'writeDataFromKeychain',
             title: 'Write Data into the Keychain',
             description: 'Write unencrypted data sandbox Keychain.',
+            nativeModule: null,
           },
           {
             id: 'readDataToKeychain',
             title: 'Read Data from Keychain',
             description:
               'Write data into the sandbox using writeBufferedWriter',
+            nativeModule: null,
           },
           //'writeDataFromKeychain', 'readDataToKeychain'
         ],
@@ -161,11 +183,13 @@ const appContent: TestCaseCollection = [
             title: 'Write Password into Log',
             description:
               'Write Keywords related to Passwords into the Application LOG.',
+            nativeModule: null,
           },
           {
             id: 'writeAccessTokenToLog',
             title: 'Write Access Token into Log',
             description: 'Write a valid Access Token into the Application LOG.',
+            nativeModule: null,
           },
         ],
       },
