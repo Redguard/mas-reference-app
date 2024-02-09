@@ -1,6 +1,6 @@
 import {ScrollView, Text, TouchableOpacity} from 'react-native';
 import styles from './styles.tsx';
-import React, {Component, useEffect} from 'react';
+import React, {Component, useEffect, useLayoutEffect} from 'react';
 import {TestCases} from '../../appContent.tsx';
 
 class ExecuteTestButton extends Component<any, any> {
@@ -34,8 +34,7 @@ class ExecuteTestButton extends Component<any, any> {
 
 function TestScreen({route, navigation}: any): React.JSX.Element {
   var testCases: TestCases = route.params.testCase;
-  // Rerender after headerTitle change
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       title: testCases.title,
       headerShown: true,
@@ -46,7 +45,6 @@ function TestScreen({route, navigation}: any): React.JSX.Element {
     <ScrollView style={styles.categoryDescription}>
       <Text>{route.params.description}</Text>
       {testCases.testCases.map(testCase => {
-        // console.log(testCase.nativeModule);
         return (
           <ExecuteTestButton
             key={testCase.id}
