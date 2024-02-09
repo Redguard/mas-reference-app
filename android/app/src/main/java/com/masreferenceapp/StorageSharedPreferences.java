@@ -11,6 +11,9 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class StorageSharedPreferences extends ReactContextBaseJavaModule {
     ReactApplicationContext context;
@@ -30,25 +33,25 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
     public String putString(){
         SharedPreferences sharedPref = context.getSharedPreferences("key", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("username", "administrator");
-        editor.putString("password", "supersecret");
+        editor.putString("password", "Password123!");
         editor.commit();
-        return "Writing SharedPreferences";
+        return "Writing SharedPreferences String";
     }
 
     @ReactMethod
     public String putStringSet(){
         SharedPreferences sharedPref = context.getSharedPreferences("key", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        // editor.putString("username", "administrator");
-        // editor.putString("password", "supersecret");
-        // editor.commit();
-        return "Writing SharedPreferences";
+        Set<String> stringSet = new HashSet<String>();
+        stringSet.add("Password123!");
+        stringSet.add("HelloWorld!");
+        editor.putStringSet("passwords", stringSet);
+        editor.commit();
+        return "Writing SharedPreferences StringSet";
     }
 
     @ReactMethod
     public String read(){
-        Log.i("REAADD", "sUPER SECRET PASSSWD");
         return "Reading SharedPreferences";
     }
 }
