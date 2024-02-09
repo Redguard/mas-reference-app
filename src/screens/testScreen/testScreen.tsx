@@ -1,6 +1,6 @@
 import {ScrollView, Text, TouchableOpacity} from 'react-native';
 import styles from './styles.tsx';
-import React, {Component, useEffect, useLayoutEffect} from 'react';
+import React, {Component, useLayoutEffect} from 'react';
 import {TestCases} from '../../appContent.tsx';
 
 class ExecuteTestButton extends Component<any, any> {
