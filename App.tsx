@@ -29,7 +29,7 @@ function App(): React.JSX.Element {
               component={CategoryStackScreen}
               initialParams={{
                 description: item.description,
-                testCases: [item.general, item.android, item.ios],
+                tests: item.tests,
               }}
               options={{
                 headerStyle: {backgroundColor: item.color},
