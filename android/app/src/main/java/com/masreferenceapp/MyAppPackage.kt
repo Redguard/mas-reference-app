@@ -20,6 +20,7 @@ class MyAppPackage : ReactPackage {
         val modules = mutableListOf<NativeModule>()
         modules.add(StorageSharedPreferences(reactContext))
         modules.add(StorageEncryptedSharedPreferences(reactContext))
+        modules.add(StorageLog(reactContext))
         return modules
     }
 

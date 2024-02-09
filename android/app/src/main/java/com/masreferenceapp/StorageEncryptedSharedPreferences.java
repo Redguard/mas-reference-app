@@ -19,13 +19,13 @@ public class StorageEncryptedSharedPreferences extends ReactContextBaseJavaModul
         return "StorageEncryptedSharedPreferences";
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public String write(){
         Log.i("WRITE ENCRYPTED", "sUPER SECRET PASSSWD");
         return "Writing SharedPreferences";
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public String read(){
         Log.i("REAADD ENCRYPTED", "sUPER SECRET PASSSWD");
         return "Reading SharedPreferences";

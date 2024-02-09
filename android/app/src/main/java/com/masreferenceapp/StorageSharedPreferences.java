@@ -29,7 +29,7 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
         return "StorageSharedPreferences";
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public String putString(){
         SharedPreferences sharedPref = context.getSharedPreferences("key", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -38,7 +38,7 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
         return "Writing SharedPreferences String";
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public String putStringSet(){
         SharedPreferences sharedPref = context.getSharedPreferences("key", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -50,7 +50,7 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
         return "Writing SharedPreferences StringSet";
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public String read(){
         return "Reading SharedPreferences";
     }
