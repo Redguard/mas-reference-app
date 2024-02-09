@@ -1,7 +1,35 @@
 import {ScrollView, Text, TouchableOpacity} from 'react-native';
 import {TestCases} from '../testcases.tsx';
 import styles from './styles.tsx';
-import React, {useEffect} from 'react';
+import React, {Component, useEffect} from 'react';
+
+class ExecuteTestButton extends Component<any, any> {
+  nativeFunction: any;
+
+  constructor(props: any) {
+    super(props);
+    this.nativeFunction = props.nativeFunction;
+    this.state = {successful: false};
+  }
+
+  onPress() {
+    // execute the native function
+    this.nativeFunction();
+    this.setState({successful: true});
+  }
+
+  render() {
+    return (
+      <TouchableOpacity
+        style={
+          this.state.successful === true ? styles.buttonPressed : styles.button
+        }
+        onPress={() => this.onPress()}>
+        <Text>{this.props.title}</Text>
+      </TouchableOpacity>
+    );
+  }
+}
 
 function TestScreen({route, navigation}: any): React.JSX.Element {
   var testCases: TestCases = route.params.testCase;
@@ -16,13 +44,13 @@ function TestScreen({route, navigation}: any): React.JSX.Element {
     <ScrollView style={styles.categoryDescription}>
       <Text>{route.params.description}</Text>
       {testCases.testCases.map(testCase => {
+        // console.log(testCase.nativeModule);
         return (
-          <TouchableOpacity
+          <ExecuteTestButton
             key={testCase.id}
-            style={styles.button}
-            onPress={() => testCase.nativeModule()}>
-            <Text>{testCase.title}</Text>
-          </TouchableOpacity>
+            nativeFunction={testCase.nativeFunction}
+            title={testCase.title}
+          />
         );
       })}
     </ScrollView>
