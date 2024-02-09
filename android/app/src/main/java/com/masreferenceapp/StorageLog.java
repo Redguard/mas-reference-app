@@ -23,6 +23,6 @@ public class StorageLog extends ReactContextBaseJavaModule {
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String writeSensitiveData(){
-        return "Writing Sensitive Data to LogS";
+        return "OK";
     }
 }

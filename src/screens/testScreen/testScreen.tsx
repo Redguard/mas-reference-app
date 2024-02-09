@@ -1,7 +1,7 @@
 import {ScrollView, Text, TouchableOpacity} from 'react-native';
-import {TestCases} from '../testcases.tsx';
 import styles from './styles.tsx';
 import React, {Component, useEffect} from 'react';
+import {TestCases} from '../../appContent.tsx';
 
 class ExecuteTestButton extends Component<any, any> {
   nativeFunction: any;
@@ -14,7 +14,8 @@ class ExecuteTestButton extends Component<any, any> {
 
   onPress() {
     // execute the native function
-    this.nativeFunction();
+    const ret: string = this.nativeFunction();
+    console.log(ret);
     this.setState({successful: true});
   }
 
@@ -37,6 +38,7 @@ function TestScreen({route, navigation}: any): React.JSX.Element {
   useEffect(() => {
     navigation.setOptions({
       title: testCases.title,
+      headerShown: true,
     });
   }, [testCases.title, navigation]);
 

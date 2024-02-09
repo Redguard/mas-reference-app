@@ -22,12 +22,12 @@ public class StorageEncryptedSharedPreferences extends ReactContextBaseJavaModul
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String write(){
         Log.i("WRITE ENCRYPTED", "sUPER SECRET PASSSWD");
-        return "Writing SharedPreferences";
+        return "OK";
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String read(){
         Log.i("REAADD ENCRYPTED", "sUPER SECRET PASSSWD");
-        return "Reading SharedPreferences";
+        return "OK";
     }
 }

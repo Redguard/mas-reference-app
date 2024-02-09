@@ -23,6 +23,6 @@ public class TemplateClass extends ReactContextBaseJavaModule {
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String putString(){
-        return "Writing SharedPreferences String";
+        return "OK";
     }
 }

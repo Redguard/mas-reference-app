@@ -35,7 +35,7 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("password", "Password123!");
         editor.commit();
-        return "Writing SharedPreferences String";
+        return "OK";
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -47,11 +47,11 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
         stringSet.add("HelloWorld!");
         editor.putStringSet("passwords", stringSet);
         editor.commit();
-        return "Writing SharedPreferences StringSet";
+        return "OK";
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String read(){
-        return "Reading SharedPreferences";
+        return "OK";
     }
 }

@@ -1,7 +1,7 @@
 import {ScrollView, Text, TouchableOpacity} from 'react-native';
 import styles from './styles.tsx';
-import {TestCases} from '../testcases.tsx';
 import TestScreen from '../testScreen/testScreen.tsx';
+import {TestCases} from '../../appContent.tsx';
 
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -34,7 +34,7 @@ const CategoryStack = createNativeStackNavigator();
 
 function CategoryStackScreen({route}: {route: any}): React.JSX.Element {
   return (
-    <CategoryStack.Navigator>
+    <CategoryStack.Navigator screenOptions={{headerShown: false}}>
       <CategoryStack.Screen
         name=" "
         component={CategoryScreen}
