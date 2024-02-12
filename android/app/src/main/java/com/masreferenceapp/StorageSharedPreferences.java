@@ -60,9 +60,9 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
     public String putStringSet(){
         SharedPreferences sharedPref = context.getSharedPreferences("masRefAppKey", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        Set<String> stringSet = new HashSet<String>();
-        stringSet.add("Password123!");
-        stringSet.add("HelloWorld!");
+            Set<String> stringSet = new HashSet<String>();
+            stringSet.add("Password123!");
+            stringSet.add("HelloWorld!");
         editor.putStringSet("masRefAppKeyPasswords", stringSet);
         editor.commit();
         return "OK";

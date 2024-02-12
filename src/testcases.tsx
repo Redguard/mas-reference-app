@@ -4,6 +4,7 @@ const {
   StorageSharedPreferences,
   StorageEncryptedSharedPreferences,
   StorageLog,
+  StorageDataStore,
 } = NativeModules;
 
 interface Dictionary<Type> {
@@ -85,21 +86,75 @@ if (Platform.OS === 'android') {
       ],
     },
     {
-      title: 'Encrypted SharedPreferences',
+      title: 'EncryptedSharedPreferences',
       description:
         'This testcase stores data using secure, encrypted SharedPreferences.\n',
       testCases: [
         {
-          title: 'Write SharedPreferences',
-          description:
-            'Write data into the snadbox using encrypted EncryptedSharedPreferences',
-          nativeFunction: StorageEncryptedSharedPreferences.write,
+          title: 'Create insecure EncryptedSharedPreferences Instance',
+          description: 'Create EncryptedSharedPreferences.',
+          nativeFunction:
+            StorageEncryptedSharedPreferences.createEncryptedSharedPreferences,
         },
         {
-          title: 'Write Access Token into Log',
+          title: 'Write String to EncryptedSharedPreferences',
           description:
-            'Read data into the snadbox using encrypted EncryptedSharedPreferences',
-          nativeFunction: StorageEncryptedSharedPreferences.read,
+            'Write string into the snadbox using putString method of EncryptedSharedPreferences.',
+          nativeFunction: StorageEncryptedSharedPreferences.putString,
+        },
+        {
+          title: 'Write StringSet to EncryptedSharedPreferences',
+          description:
+            'Write stringSet into the snadbox using putStringSet method of EncryptedSharedPreferences.',
+          nativeFunction: StorageEncryptedSharedPreferences.putStringSet,
+        },
+        {
+          title: 'Read String from EncryptedSharedPreferences',
+          description:
+            'Read a String from the unencrypted EncryptedSharedPreferences',
+          nativeFunction: StorageEncryptedSharedPreferences.readString,
+        },
+        {
+          title: 'Read StringSet from EncryptedSharedPreferences',
+          description:
+            'Read a StringSet from the unencrypted EncryptedSharedPreferences',
+          nativeFunction: StorageEncryptedSharedPreferences.readStringSet,
+        },
+      ],
+    },
+    {
+      title: 'DataStore',
+      description: 'This testcase stores data using the DataStore.',
+      testCases: [
+        {
+          title: 'Init Preferences DataStore (RxDataStoreBuilder)',
+          description:
+            'Uses RxDataStoreBuilder to create a Preferences DataStore',
+          nativeFunction: StorageDataStore.initPreferenceDataStore,
+        },
+        {
+          title: 'Write String to Preferences DataStore',
+          description:
+            'Write String into the snadbox using Preferences DataStore',
+          nativeFunction: StorageDataStore.writeStringPreferenceDataStore,
+        },
+        {
+          title: 'Write StringSet to Preferences DataStore',
+          description:
+            'Write StringSet into the snadbox using Preferences DataStore',
+          nativeFunction: StorageDataStore.writeStringSetPreferenceDataStore,
+        },
+        {
+          title: 'Read String from Preferences DataStore',
+          description:
+            'Read String from the snadbox using Preferences DataStore',
+          nativeFunction: StorageDataStore.readStringPreferenceDataStore,
+        },
+        {
+          title: 'Read StringSet from Preferences DataStore',
+          description:
+            'Read StringSet from the snadbox using Preferences DataStore',
+          nativeFunction: StorageDataStore.readStringSetPreferenceDataStore,
         },
       ],
     },

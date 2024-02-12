@@ -21,6 +21,7 @@ class MyAppPackage : ReactPackage {
         modules.add(StorageSharedPreferences(reactContext))
         modules.add(StorageEncryptedSharedPreferences(reactContext))
         modules.add(StorageLog(reactContext))
+        modules.add(StorageDataStore(reactContext))
         return modules
     }
 

@@ -121,6 +121,12 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.7.6'
     implementation 'androidx.navigation:navigation-ui:2.7.6'
 
+    implementation 'androidx.security:security-crypto:1.0.0'
+
+    implementation "androidx.datastore:datastore:1.0.0"
+    implementation "androidx.datastore:datastore-rxjava3:1.0.0"
+    implementation 'androidx.datastore:datastore-preferences-rxjava3:1.0.0'
+
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {
