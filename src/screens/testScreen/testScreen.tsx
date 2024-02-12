@@ -43,7 +43,7 @@ function TestScreen({route, navigation}: any): React.JSX.Element {
 
   return (
     <ScrollView style={styles.categoryDescription}>
-      <Text>{route.params.description}</Text>
+      <Text>{testCases.description}</Text>
       {testCases.testCases.map(testCase => {
         return (
           <ExecuteTestButton
