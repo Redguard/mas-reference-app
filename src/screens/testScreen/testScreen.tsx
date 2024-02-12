@@ -47,7 +47,7 @@ function TestScreen({route, navigation}: any): React.JSX.Element {
       {testCases.testCases.map(testCase => {
         return (
           <ExecuteTestButton
-            key={testCase.id}
+            key={testCase.title.replace(' ', '_')}
             nativeFunction={testCase.nativeFunction}
             title={testCase.title}
           />

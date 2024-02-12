@@ -1,14 +1,12 @@
 import testCases from './testcases.tsx';
 
 type TestCase = {
-  id: string;
   title: string;
   description: string;
   nativeFunction: any;
 };
 
 type TestCases = {
-  id: string;
   title: string;
   description: string;
   testCases: TestCase[];
