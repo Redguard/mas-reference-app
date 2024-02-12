@@ -1,9 +1,10 @@
 package com.masreferenceapp;
 
+import static android.content.Context.CONTEXT_RESTRICTED;
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -30,28 +31,60 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
+    public String getInsecureSharedPreferences(){
+        SharedPreferences sharedPref;
+        String retunCode = "OK";
+        try {
+            sharedPref = context.getSharedPreferences("masRefAppKey", Context.MODE_WORLD_READABLE);
+        } catch (Exception e){
+            retunCode = e.toString();
+        }
+        try {
+            sharedPref = context.getSharedPreferences("masRefAppKey", Context.MODE_WORLD_WRITEABLE);
+        } catch (Exception e) {
+            retunCode = e.toString();
+        }
+        return retunCode;
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public String putString(){
-        SharedPreferences sharedPref = context.getSharedPreferences("key", MODE_PRIVATE);
+        SharedPreferences sharedPref = context.getSharedPreferences("masRefAppKey", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("password", "Password123!");
+        editor.putString("masRefAppKeyPassword", "Password123!");
         editor.commit();
         return "OK";
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String putStringSet(){
-        SharedPreferences sharedPref = context.getSharedPreferences("key", MODE_PRIVATE);
+        SharedPreferences sharedPref = context.getSharedPreferences("masRefAppKey", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         Set<String> stringSet = new HashSet<String>();
         stringSet.add("Password123!");
         stringSet.add("HelloWorld!");
-        editor.putStringSet("passwords", stringSet);
+        editor.putStringSet("masRefAppKeyPasswords", stringSet);
         editor.commit();
         return "OK";
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String read(){
+    public String readString(){
+        this.putString();
+
+        SharedPreferences sharedPref = context.getSharedPreferences("masRefAppKey", MODE_PRIVATE);
+        String readValue = sharedPref.getString("masRefAppKeyPassword", "");
+
+        return "OK";
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String readStringSet(){
+        this.putStringSet();
+
+        SharedPreferences sharedPref = context.getSharedPreferences("masRefAppKey", MODE_PRIVATE);
+        Set<String> readValue = sharedPref.getStringSet("masRefAppKeyPasswords", new HashSet<>());
+
         return "OK";
     }
 }

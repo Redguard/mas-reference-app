@@ -15,7 +15,7 @@ function CategoryScreen({route, navigation}: any): React.JSX.Element {
       {platformTestCases.map(testCase => {
         return (
           <TouchableOpacity
-            key={testCase.id}
+            key={testCase.title.replace(' ', '_')}
             style={styles.button}
             onPress={() =>
               navigation.navigate('Tests', {
