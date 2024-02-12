@@ -10,7 +10,7 @@ import com.facebook.react.bridge.ReactMethod;
 public class TemplateClass extends ReactContextBaseJavaModule {
     ReactApplicationContext context;
 
-    TemplateClass(ReactApplicationContext context) {
+    public TemplateClass(ReactApplicationContext context) {
         super(context);
         this.context = context;
     }

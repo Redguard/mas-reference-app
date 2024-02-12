@@ -6,6 +6,11 @@ import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ReactShadowNode
 import com.facebook.react.uimanager.ViewManager
+import com.masreferenceapp.storage.StorageDataStore
+import com.masreferenceapp.storage.StorageDataStoreProto
+import com.masreferenceapp.storage.StorageEncryptedSharedPreferences
+import com.masreferenceapp.storage.StorageLog
+import com.masreferenceapp.storage.StorageSharedPreferences
 
 
 class MyAppPackage : ReactPackage {
@@ -22,6 +27,7 @@ class MyAppPackage : ReactPackage {
         modules.add(StorageEncryptedSharedPreferences(reactContext))
         modules.add(StorageLog(reactContext))
         modules.add(StorageDataStore(reactContext))
+        modules.add(StorageDataStoreProto(reactContext))
         return modules
     }
 

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "com.msareferenceapp";
+option java_multiple_files = true;
+
+message UserPreference {
+    string first_name = 1;
+    string last_name = 2;
+    string password = 3;
+}

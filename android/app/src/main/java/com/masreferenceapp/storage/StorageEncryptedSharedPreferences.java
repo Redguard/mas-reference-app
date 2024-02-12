@@ -1,15 +1,15 @@
-package com.masreferenceapp;
+package com.masreferenceapp.storage;
 
-import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.Status;
+
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
@@ -19,7 +19,7 @@ import java.util.Set;
 public class StorageEncryptedSharedPreferences extends ReactContextBaseJavaModule {
     ReactApplicationContext context;
 
-    StorageEncryptedSharedPreferences(ReactApplicationContext context) {
+    public StorageEncryptedSharedPreferences(ReactApplicationContext context) {
         super(context);
         this.context = context;
     }
