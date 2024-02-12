@@ -5,6 +5,7 @@ const {
   StorageEncryptedSharedPreferences,
   StorageLog,
   StorageDataStore,
+  StorageDataStoreProto,
 } = NativeModules;
 
 interface Dictionary<Type> {
@@ -91,7 +92,7 @@ if (Platform.OS === 'android') {
         'This testcase stores data using secure, encrypted SharedPreferences.\n',
       testCases: [
         {
-          title: 'Create insecure EncryptedSharedPreferences Instance',
+          title: 'Create EncryptedSharedPreferences Instance',
           description: 'Create EncryptedSharedPreferences.',
           nativeFunction:
             StorageEncryptedSharedPreferences.createEncryptedSharedPreferences,
@@ -124,7 +125,8 @@ if (Platform.OS === 'android') {
     },
     {
       title: 'DataStore',
-      description: 'This testcase stores data using the DataStore.',
+      description:
+        'This testcase stores data using the DataStore. Data stored this way is not encrypted in the sandbox. An attacker may therefore be able to retrieve the data.',
       testCases: [
         {
           title: 'Init Preferences DataStore (RxDataStoreBuilder)',
@@ -145,6 +147,12 @@ if (Platform.OS === 'android') {
           nativeFunction: StorageDataStore.writeStringSetPreferenceDataStore,
         },
         {
+          title: 'Write Data to Proto DataStore',
+          description:
+            'Write Data into the snadbox using Preferences DataStore',
+          nativeFunction: StorageDataStoreProto.writeProtoDataStore,
+        },
+        {
           title: 'Read String from Preferences DataStore',
           description:
             'Read String from the snadbox using Preferences DataStore',
@@ -155,6 +163,12 @@ if (Platform.OS === 'android') {
           description:
             'Read StringSet from the snadbox using Preferences DataStore',
           nativeFunction: StorageDataStore.readStringSetPreferenceDataStore,
+        },
+        {
+          title: 'Read Data from Proto DataStore',
+          description:
+            'Read structured Data into the snadbox using Preferences DataStore',
+          nativeFunction: StorageDataStoreProto.readProtoDataStore,
         },
       ],
     },

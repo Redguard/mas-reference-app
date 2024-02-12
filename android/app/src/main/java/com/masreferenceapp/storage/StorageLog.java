@@ -1,4 +1,4 @@
-package com.masreferenceapp;
+package com.masreferenceapp.storage;
 
 import androidx.annotation.NonNull;
 
@@ -10,7 +10,7 @@ import com.facebook.react.bridge.ReactMethod;
 public class StorageLog extends ReactContextBaseJavaModule {
     ReactApplicationContext context;
 
-    StorageLog(ReactApplicationContext context) {
+    public StorageLog(ReactApplicationContext context) {
         super(context);
         this.context = context;
     }
