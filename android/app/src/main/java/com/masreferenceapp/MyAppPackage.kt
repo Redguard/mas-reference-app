@@ -12,6 +12,7 @@ import com.masreferenceapp.storage.StorageDataStoreProto
 import com.masreferenceapp.storage.StorageEncryptedSharedPreferences
 import com.masreferenceapp.storage.StorageExternalStorage
 import com.masreferenceapp.storage.StorageLog
+import com.masreferenceapp.storage.StorageRoomDatabase
 import com.masreferenceapp.storage.StorageSharedPreferences
 
 
@@ -32,6 +33,7 @@ class MyAppPackage : ReactPackage {
         modules.add(StorageDataStoreProto(reactContext))
         modules.add(StorageInternalStorage(reactContext))
         modules.add(StorageExternalStorage(reactContext))
+        modules.add(StorageRoomDatabase(reactContext))
         return modules
     }
 
