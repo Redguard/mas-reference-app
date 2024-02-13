@@ -175,7 +175,7 @@ if (Platform.OS === 'android') {
       ],
     },
     {
-      title: 'Internal Storage',
+      title: 'Internal Sandboxed Storage',
       description:
         'These test cases write data into the internal storage (FilesDir and CacheDir). These files are not encrypted by default.',
       testCases: [
@@ -192,19 +192,19 @@ if (Platform.OS === 'android') {
           nativeFunction: StorageInternalStorage.getCacheDir,
         },
         {
-          title: 'Write a private text file',
+          title: 'Write a internal text file',
           description:
             "Open a private file associated with this Context's application package for writing. Creates the file if it doesn't already exist. ",
           nativeFunction: StorageInternalStorage.writeFileOutput,
         },
         {
-          title: 'Write a text file using different Modes',
+          title: 'Write an internal text file using different Modes',
           description:
             "Open a private file associated with this Context's application package for writing. Creates the file if it doesn't already exist. This test writes different modes such as MODE_WORLD_READABLE.",
           nativeFunction: StorageInternalStorage.writeFileOutputModes,
         },
         {
-          title: 'Read a private text file',
+          title: 'Read a internal text file',
           description:
             'Open a private text file and reads the content using InputStreamReader and BufferedReader.',
           nativeFunction: StorageInternalStorage.readTextFile,
@@ -224,15 +224,45 @@ if (Platform.OS === 'android') {
       ],
     },
     {
-      title: 'External Storage',
+      title: 'External Sandboxed Storage',
       description:
-        'These test cases write data into the extternal storage (ExternalFilesDir and ExternalCacheDir). These files are not encrypted by default.',
+        'These test cases write data into the extternal storage (ExternalFilesDir and ExternalCacheDir). An app can use these locations, if the internal storage is full for exmaple. They are still sandboxed form other applications. However, an attacker may remove the extenral storage and have easy access to this data. These files are not encrypted by default.',
       testCases: [
         {
           title: 'Check state of external storage',
           description:
             'Returns the current state of the primary shared/external storage media.',
           nativeFunction: StorageExternalStorage.checkState,
+        },
+        {
+          title: 'Get root location using getExternalFilesDir',
+          description:
+            'Returns the absolute path to the directory on the primary shared/external storage device where the application can place persistent files it owns. These files are internal to the applications, and not typically visible to the user as media. ',
+          nativeFunction: StorageExternalStorage.getExternalFilesDirRoot,
+        },
+        {
+          title: 'Get external cache location using getExternalCacheDir',
+          description:
+            'Returns absolute path to application-specific directory on the primary shared/external storage device where the application can place cache files it owns. These files are internal to the application, and not typically visible to the user as media. ',
+          nativeFunction: StorageExternalStorage.getExternalCacheDir,
+        },
+        {
+          title: 'Get different external file location',
+          description:
+            'Try to access different types of external locatios such as Environment.DIRECTORY_MUSIC or Environment.DIRECTORY_PICTURES',
+          nativeFunction: StorageExternalStorage.getDifferentExternalDirs,
+        },
+        {
+          title: 'Write a external text file',
+          description:
+            "Open a external file associated with this Context's application package for writing. Creates the file if it doesn't already exist. ",
+          nativeFunction: StorageExternalStorage.writeFileOutput,
+        },
+        {
+          title: 'Read a external text file',
+          description:
+            'Open a external text file and reads the content using InputStreamReader and BufferedReader.',
+          nativeFunction: StorageExternalStorage.readTextFile,
         },
       ],
     },
