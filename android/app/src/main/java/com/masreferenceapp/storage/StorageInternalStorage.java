@@ -63,13 +63,13 @@ public class StorageInternalStorage extends ReactContextBaseJavaModule {
         modes.add(Context.MODE_WORLD_READABLE);
         modes.add(Context.MODE_WORLD_WRITEABLE);
 
-        StringBuilder status = new StringBuilder("OK");
+        StringBuilder status = new StringBuilder();
         StringBuilder message = new StringBuilder();;
 
         for (Number mode : modes) {
             String[] returnValues = writeFileOutputMODE((int)mode);
-            status = new StringBuilder("[" + status + ": " + returnValues[0] + "]");
-            message = new StringBuilder("[" + message + ": " + returnValues[1] + "]");
+            status = status.append("[" + returnValues[0] + "]");
+            message = message.append("["+ returnValues[1] + "]");
         }
         return Status.status(status.toString(), message.toString());
     }
@@ -80,7 +80,7 @@ public class StorageInternalStorage extends ReactContextBaseJavaModule {
         String[] returnValues = new String[2];
         String message = "";
         String filename = "masTestFile";
-        String fileContents = "Some secret Message!";
+        String fileContents = "Some secret Message in the internal sandbox!";
         try (FileOutputStream fos = context.openFileOutput(filename, mode)) {
             fos.write(fileContents.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
@@ -109,21 +109,17 @@ public class StorageInternalStorage extends ReactContextBaseJavaModule {
 
             InputStreamReader inputStreamReader = new InputStreamReader(fis, StandardCharsets.UTF_8);
             StringBuilder stringBuilder = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
-                String line = reader.readLine();
-                while (line != null) {
-                    stringBuilder.append(line).append('\n');
-                    line = reader.readLine();
-                }
-            } catch (IOException e) {
-                // Error occurred when opening raw file for reading.
-            } finally {
-                String contents = stringBuilder.toString();
-                returnValues[1] = contents;
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            String line = reader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append('\n');
+                line = reader.readLine();
             }
+            returnValues[1] = stringBuilder.toString();
 
-        }catch (Exception e){
+        } catch (Exception e){
             returnValues[0] = "FAIL";
+            returnValues[1] = e.toString();
         }
 
         return Status.status(returnValues[0], returnValues[1]);
@@ -131,11 +127,8 @@ public class StorageInternalStorage extends ReactContextBaseJavaModule {
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String getInternalFileList(){
-
         String[] file =  context.fileList();
-
         return Status.status("OK",  Arrays.toString(file));
-
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
