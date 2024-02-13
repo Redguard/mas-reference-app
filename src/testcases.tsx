@@ -8,6 +8,7 @@ const {
   StorageDataStoreProto,
   StorageInternalStorage,
   StorageExternalStorage,
+  StorageRoomDatabase,
 } = NativeModules;
 
 interface Dictionary<Type> {
@@ -266,6 +267,40 @@ if (Platform.OS === 'android') {
         },
       ],
     },
+
+    {
+      title: 'Room API',
+      description:
+        "The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. The data ist not encrypted using this API.",
+      testCases: [
+        {
+          title: 'Init Room Database',
+          description:
+            'Creates a RoomDatabase.Builder for a persistent database. Once a database is built, you should keep a reference to it and re-use it.',
+          nativeFunction: StorageRoomDatabase.init,
+        },
+        {
+          title: 'Write Data to Room Database',
+          description: 'Writes a simple datastrucutre to the Room DB',
+          nativeFunction: StorageRoomDatabase.writeToRoomDb,
+        },
+        {
+          title: 'Read Data from Room Database',
+          description: 'Reads a simple datastrucutre from the Room DB',
+          nativeFunction: StorageRoomDatabase.readFromRoomDb,
+        },
+      ],
+    },
+
+
+    {
+      title: 'MediaStore API',
+      description:
+        "To provide a more enriched user experience, many apps let users contribute and access media that's available on an external storage volume. The framework provides an optimized index into media collections, called the media store, that lets users retrieve and update these media files more easily. Even after your app is uninstalled, these files remain on the user's device. These files remain outside the app sandbox.",
+      testCases: [
+
+      ],
+    }
     // {
     //   title: 'java.io',
     //   description:
