@@ -6,6 +6,8 @@ const {
   StorageLog,
   StorageDataStore,
   StorageDataStoreProto,
+  StorageInternalStorage,
+  StorageExternalStorage,
 } = NativeModules;
 
 interface Dictionary<Type> {
@@ -173,33 +175,95 @@ if (Platform.OS === 'android') {
       ],
     },
     {
-      title: 'java.io',
+      title: 'Internal Storage',
       description:
-        'Theses tests will write and read data into the local sanbox using the java.io Classes.',
+        'These test cases write data into the internal storage (FilesDir and CacheDir). These files are not encrypted by default.',
       testCases: [
         {
-          title: 'Write writeBufferedOutputStream',
-          description: 'Write data into the sandbox using BufferedOutputStream',
-          nativeFunction: null,
+          title: 'Get internal location using getFilesDir',
+          description:
+            'Returns the absolute path to the directory on the filesystem where files created with openFileOutput(String, int) are stored.',
+          nativeFunction: StorageInternalStorage.getFilesDir,
         },
         {
-          title: 'Write writeBufferedWriter',
-          description: 'Write data into the sandbox using BufferedWriter',
-          nativeFunction: null,
+          title: 'Get cache location using getCacheDir',
+          description:
+            'Returns the absolute path to the application specific cache directory on the filesystem.',
+          nativeFunction: StorageInternalStorage.getCacheDir,
         },
-        // 'writeBufferedOutputStream',
-        // 'writeBufferedWriter',
-        // 'writeByteArrayOutputStream',
-        // 'writeCharArrayWriter',
-        // 'writeConsole',
-        // 'writeDataOutputStream',
-        // 'writeFileOutputStream',
-        // 'writeFilterOutputStream',
-        // 'writeFilterWriter',
-        // 'writeObjectOutputStream',
-        // 'writeStringWriter',
+        {
+          title: 'Write a private text file',
+          description:
+            "Open a private file associated with this Context's application package for writing. Creates the file if it doesn't already exist. ",
+          nativeFunction: StorageInternalStorage.writeFileOutput,
+        },
+        {
+          title: 'Write a text file using different Modes',
+          description:
+            "Open a private file associated with this Context's application package for writing. Creates the file if it doesn't already exist. This test writes different modes such as MODE_WORLD_READABLE.",
+          nativeFunction: StorageInternalStorage.writeFileOutputModes,
+        },
+        {
+          title: 'Read a private text file',
+          description:
+            'Open a private text file and reads the content using InputStreamReader and BufferedReader.',
+          nativeFunction: StorageInternalStorage.readTextFile,
+        },
+        {
+          title: 'Get a list of internal files',
+          description:
+            "Returns an array of strings naming the private files associated with this Context's application package.",
+          nativeFunction: StorageInternalStorage.getInternalFileList,
+        },
+        {
+          title: 'Create a cache file',
+          description:
+            'Creates an empty file in the default temporary-file directory, using the given prefix and suffix to generate its name. Invoking this method is equivalent to invoking createTempFile(prefix, suffix, null). ',
+          nativeFunction: StorageInternalStorage.createCacheFile,
+        },
       ],
     },
+    {
+      title: 'External Storage',
+      description:
+        'These test cases write data into the extternal storage (ExternalFilesDir and ExternalCacheDir). These files are not encrypted by default.',
+      testCases: [
+        {
+          title: 'Check state of external storage',
+          description:
+            'Returns the current state of the primary shared/external storage media.',
+          nativeFunction: StorageExternalStorage.checkState,
+        },
+      ],
+    },
+    // {
+    //   title: 'java.io',
+    //   description:
+    //     'Theses tests will write and read data into the local sanbox using the java.io Classes.',
+    //   testCases: [
+    //     {
+    //       title: 'Write writeBufferedOutputStream',
+    //       description: 'Write data into the sandbox using BufferedOutputStream',
+    //       nativeFunction: null,
+    //     },
+    //     {
+    //       title: 'Write writeBufferedWriter',
+    //       description: 'Write data into the sandbox using BufferedWriter',
+    //       nativeFunction: null,
+    //     },
+    //     // 'writeBufferedOutputStream',
+    //     // 'writeBufferedWriter',
+    //     // 'writeByteArrayOutputStream',
+    //     // 'writeCharArrayWriter',
+    //     // 'writeConsole',
+    //     // 'writeDataOutputStream',
+    //     // 'writeFileOutputStream',
+    //     // 'writeFilterOutputStream',
+    //     // 'writeFilterWriter',
+    //     // 'writeObjectOutputStream',
+    //     // 'writeStringWriter',
+    //   ],
+    // },
   );
   testCases.CRYPTO.push();
   testCases.AUTH.push();
