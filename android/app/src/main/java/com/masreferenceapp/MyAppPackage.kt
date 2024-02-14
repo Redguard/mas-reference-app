@@ -7,6 +7,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ReactShadowNode
 import com.facebook.react.uimanager.ViewManager
 import com.masreferenceapp.crypto.CryptoKeyStore
+import com.masreferenceapp.platform.PlatformWebView
 import com.masreferenceapp.storage.StorageInternalStorage
 import com.masreferenceapp.storage.StorageDataStore
 import com.masreferenceapp.storage.StorageDataStoreProto
@@ -38,6 +39,8 @@ class MyAppPackage : ReactPackage {
         modules.add(StorageRoomDatabase(reactContext))
 
         modules.add(CryptoKeyStore(reactContext))
+
+        modules.add(PlatformWebView(reactContext))
 
         return modules
     }

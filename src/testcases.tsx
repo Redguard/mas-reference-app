@@ -10,6 +10,7 @@ const {
   StorageExternalStorage,
   StorageRoomDatabase,
   CryptoKeyStore,
+  PlatformWebView,
 } = NativeModules;
 
 interface Dictionary<Type> {
@@ -39,13 +40,70 @@ var testCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+    {
+      title: 'Sensitive Date in Notifications',
+      description: 'This test uses noitifications to display sensitive data.',
+      testCases: [],
+    },
+    {
+      title: 'Passwords in Cleartext Forms',
+      description:
+        "This test creates input fields which are meant for passwords but don't conciel them proerly.",
+      testCases: [],
+    },
   ],
   CRYPTO: [],
-  AUTH: [],
-  NETWORK: [],
+  AUTH: [
+    {
+      title: 'Biometry',
+      description: '',
+      testCases: [],
+    },
+  ],
+  NETWORK: [
+    {
+      title: 'Unencrypted Connections',
+      description: '',
+      testCases: [],
+    },
+    {
+      title: 'TLS Client Settings',
+      description: '',
+      testCases: [],
+    },
+    {
+      title: 'TLS Pinning',
+      description: '',
+      testCases: [],
+    },
+  ],
   PLATFORM: [],
   CODE: [],
-  RESILIENCE: [],
+  RESILIENCE: [
+    {
+      title: 'Verify Signature',
+      description:
+        'Programmatically verify the signature of the package during runtime.',
+      testCases: [],
+    },
+  ],
+  PRIVACY: [
+    {
+      title: 'Access Phone Data',
+      description: 'e.G. Calendar, Contacts,',
+      testCases: [],
+    },
+    {
+      title: 'Access Geolocation',
+      description: '',
+      testCases: [],
+    },
+    {
+      title: 'SMS',
+      description: '',
+      testCases: [],
+    },
+  ],
 };
 
 // Android Specific TestCases
@@ -394,9 +452,55 @@ if (Platform.OS === 'android') {
       testCases: [],
     },
   );
-  testCases.AUTH.push();
+  testCases.AUTH.push({
+    title: 'Confirm Acccess To Keys',
+    description:
+      'These Tests create Keys setUserAuthenticationRequired set to true.',
+    testCases: [],
+  });
   testCases.NETWORK.push();
-  testCases.PLATFORM.push();
+  testCases.PLATFORM.push({
+    title: 'WebView',
+    description:
+      'This class represents a storage facility for cryptographic keys and certificates. The Android Keystore system lets you store cryptographic keys in a container to make them more difficult to extract from the device. Once keys are in the keystore, you can use them for cryptographic operations, with the key material remaining non-exportable. ',
+    testCases: [
+      {
+        title: 'Load Local Resource',
+        description: '',
+        nativeFunction: PlatformWebView.loadLocalResource,
+      },
+      {
+        title: 'Load Remote HTTP Resource',
+        description: '',
+        nativeFunction: PlatformWebView.loadRemoteHttpResource,
+      },
+      {
+        title: 'Load Remote HTTPS Resource',
+        description: '',
+        nativeFunction: PlatformWebView.loadRemoteHttpsResource,
+      },
+      {
+        title: 'Allow File Access',
+        description: '',
+        nativeFunction: PlatformWebView,
+      },
+      {
+        title: 'Use JavascriptInterface',
+        description: '',
+        nativeFunction: PlatformWebView,
+      },
+      {
+        title: 'Enable Geolocation',
+        description: '',
+        nativeFunction: PlatformWebView,
+      },
+      {
+        title: 'Allow Mixed Content',
+        description: '',
+        nativeFunction: PlatformWebView,
+      },
+    ],
+  });
   testCases.CODE.push();
   testCases.RESILIENCE.push();
 } else if (Platform.OS === 'ios') {
@@ -415,7 +519,7 @@ if (Platform.OS === 'android') {
       },
       {
         title: 'Read Data from Keychain',
-        description: 'Write data into the sandbox using writeBufferedWriter',
+        description: '',
         nativeFunction: null,
       },
       //'writeDataFromKeychain', 'readDataToKeychain'
