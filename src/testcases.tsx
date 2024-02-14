@@ -9,6 +9,7 @@ const {
   StorageInternalStorage,
   StorageExternalStorage,
   StorageRoomDatabase,
+  CryptoKeyStore,
 } = NativeModules;
 
 interface Dictionary<Type> {
@@ -271,7 +272,7 @@ if (Platform.OS === 'android') {
     {
       title: 'Room API',
       description:
-        "The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. The data ist not encrypted using this API.",
+        'The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. The data ist not encrypted using this API.',
       testCases: [
         {
           title: 'Init Room Database',
@@ -291,16 +292,13 @@ if (Platform.OS === 'android') {
         },
       ],
     },
-
-
     {
       title: 'MediaStore API',
       description:
         "To provide a more enriched user experience, many apps let users contribute and access media that's available on an external storage volume. The framework provides an optimized index into media collections, called the media store, that lets users retrieve and update these media files more easily. Even after your app is uninstalled, these files remain on the user's device. These files remain outside the app sandbox.",
-      testCases: [
+      testCases: [],
+    },
 
-      ],
-    }
     // {
     //   title: 'java.io',
     //   description:
@@ -330,7 +328,72 @@ if (Platform.OS === 'android') {
     //   ],
     // },
   );
-  testCases.CRYPTO.push();
+  testCases.CRYPTO.push(
+    {
+      title: 'KeyStore',
+      description:
+        'This class represents a storage facility for cryptographic keys and certificates. The Android Keystore system lets you store cryptographic keys in a container to make them more difficult to extract from the device. Once keys are in the keystore, you can use them for cryptographic operations, with the key material remaining non-exportable. ',
+      testCases: [
+        {
+          title: 'Init KeyStores',
+          description:
+            'Intializes instances of the avialable KeyStores, they are: AndroidKeyStore, AndroidCAStore, BKS, BouncyCastle and PKCS12',
+          nativeFunction: CryptoKeyStore.init,
+        },
+        {
+          title: 'Get Aliases',
+          description:
+            'Retrieves all key aliases of the currently stored keys.',
+          nativeFunction: CryptoKeyStore.getKeyAliases,
+        },
+        {
+          title: 'Create Secure KeyGenParameterSpec',
+          description:
+            'Creates a RSA KeyGenParameterSpec which is considered as secure.',
+          nativeFunction: CryptoKeyStore.createSecureKeyGenParameterSpec,
+        },
+        {
+          title: "Create Insecure KeyGenParameterSpec's",
+          description:
+            'Creates a few KeyGenParameterSpec which are considered inseuce, such as small RSA keysize, insecure ciphers (RC4), or weak digest algorithms.',
+          nativeFunction: CryptoKeyStore.createInsecureKeyGenParameterSpec,
+        },
+        {
+          title: 'Create Asymmetric Key',
+          description: 'Create RSA and EC keys using the KeyPairGenerator.',
+          nativeFunction: CryptoKeyStore.generateAsymmetricKeys,
+        },
+        {
+          title: 'Access Private Key',
+          description:
+            'Creates an asymmetric EC key pair and tries to access the private key.',
+          nativeFunction: CryptoKeyStore.accessPrivateKey,
+        },
+        {
+          title: 'Read KeyInfo',
+          description:
+            'Gets the KeyInfo object of a key and reads information about the key.',
+          nativeFunction: CryptoKeyStore.readKeyInfo,
+        },
+      ],
+    },
+    {
+      title: 'KeyChain',
+      description:
+        'The KeyChain class provides access to private keys and their corresponding certificate chains in credential storage. ',
+      testCases: [],
+    },
+    {
+      title: 'Cipher',
+      description: '',
+      testCases: [],
+    },
+    {
+      title: 'androidx',
+      description: '',
+      testCases: [],
+    },
+  );
   testCases.AUTH.push();
   testCases.NETWORK.push();
   testCases.PLATFORM.push();
