@@ -69,14 +69,13 @@ var appContent: MASCategory[] = [
       "The controls in this category aim to ensure that the app is running on a trusted platform, prevent tampering at runtime and ensure the integrity of the app's intended functionality. Additionally, the controls impede comprehension by making it difficult to figure out how the app works using static analysis and prevent dynamic analysis and instrumentation that could allow an attacker to modify the code at runtime.",
     tests: [],
   },
-  // {
-  //   key: 'PRIVACY',
-  //   color: '#8b5f9e',
-  //   desciption: `test`,
-  //   general: [],
-  //   android: [],
-  //   ios: [],
-  // },
+  {
+    key: 'PRIVACY',
+    color: '#8b5f9e',
+    description:
+      "The main goal of MASVS-PRIVACY is to provide a baseline for user privacy. It is not intended to cover all aspects of user privacy, especially when other standards and regulations such as ENISA or the GDPR already do that. We focus on the app itself, looking at what can be tested using information that's publicly available or found within the app through methods like static or dynamic analysis.",
+    tests: [],
+  },
 ];
 
 var tests = testCases;

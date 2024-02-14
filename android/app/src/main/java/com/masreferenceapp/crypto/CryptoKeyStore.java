@@ -153,7 +153,6 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
                 .setUserAuthenticationRequired(true)
                 .setUserAuthenticationParameters(100,KeyProperties.AUTH_BIOMETRIC_STRONG)
                 .build();
-
         return Status.status("OK", b.toString());
     }
 
@@ -173,7 +172,6 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
                 .setIsStrongBoxBacked(false)
                 .setAlgorithmParameterSpec(new RSAKeyGenParameterSpec(512, new BigInteger("12345")))
                 .build();
-
         return Status.status("OK", b.toString());
     }
 
@@ -196,8 +194,6 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
         } catch (Exception e) {
             return Status.status("FAIL", e.toString());
         }
-
-
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -264,8 +260,5 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
         } catch (Exception e) {
             return Status.status("FAIL", e.toString());
         }
-
-
     }
-
 }
