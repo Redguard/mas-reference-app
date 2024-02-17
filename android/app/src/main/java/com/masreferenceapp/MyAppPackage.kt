@@ -7,14 +7,18 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ReactShadowNode
 import com.facebook.react.uimanager.ViewManager
 import com.masreferenceapp.crypto.CryptoCipher
+import com.masreferenceapp.crypto.CryptoEncryptedFile
 import com.masreferenceapp.crypto.CryptoKeyAttestation
+import com.masreferenceapp.crypto.CryptoKeyChain
 import com.masreferenceapp.crypto.CryptoKeyStore
+import com.masreferenceapp.crypto.CryptoRandom
 import com.masreferenceapp.platform.PlatformWebView
 import com.masreferenceapp.resilience.ResilienceFileIntegrityManager
 import com.masreferenceapp.storage.StorageInternalStorage
 import com.masreferenceapp.storage.StorageDataStore
 import com.masreferenceapp.storage.StorageDataStoreProto
-import com.masreferenceapp.storage.StorageEncryptedSharedPreferences
+import com.masreferenceapp.crypto.CryptoEncryptedSharedPreferences
+import com.masreferenceapp.crypto.CryptoMasterKey
 import com.masreferenceapp.storage.StorageExternalStorage
 import com.masreferenceapp.storage.StorageLog
 import com.masreferenceapp.storage.StorageRoomDatabase
@@ -33,7 +37,6 @@ class MyAppPackage : ReactPackage {
         val modules = mutableListOf<NativeModule>()
 
         modules.add(StorageSharedPreferences(reactContext))
-        modules.add(StorageEncryptedSharedPreferences(reactContext))
         modules.add(StorageLog(reactContext))
         modules.add(StorageDataStore(reactContext))
         modules.add(StorageDataStoreProto(reactContext))
@@ -44,12 +47,16 @@ class MyAppPackage : ReactPackage {
         modules.add(CryptoKeyStore(reactContext))
         modules.add(CryptoKeyAttestation(reactContext))
         modules.add(CryptoCipher(reactContext))
+        modules.add(CryptoRandom(reactContext))
+        modules.add(CryptoKeyChain(reactContext))
+        modules.add(CryptoEncryptedSharedPreferences(reactContext))
+        modules.add(CryptoEncryptedFile(reactContext))
+        modules.add(CryptoMasterKey(reactContext))
 
 
         modules.add(PlatformWebView(reactContext))
 
         modules.add(ResilienceFileIntegrityManager(reactContext))
-
 
         return modules
     }

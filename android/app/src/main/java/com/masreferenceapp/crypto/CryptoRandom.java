@@ -1,16 +1,17 @@
-package com.masreferenceapp;
+package com.masreferenceapp.crypto;
 
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.Status;
 
 
-public class TemplateClass extends ReactContextBaseJavaModule {
+public class CryptoRandom extends ReactContextBaseJavaModule {
     ReactApplicationContext context;
 
-    public TemplateClass(ReactApplicationContext context) {
+    public CryptoRandom(ReactApplicationContext context) {
         super(context);
         this.context = context;
     }
@@ -18,7 +19,7 @@ public class TemplateClass extends ReactContextBaseJavaModule {
     @NonNull
     @Override
     public String getName() {
-        return "TemplateClass";
+        return "CryptoRandom";
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
