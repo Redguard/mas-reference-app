@@ -8,10 +8,10 @@ import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.Status;
 
 
-public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
+public class CryptoMasterKey extends ReactContextBaseJavaModule {
     ReactApplicationContext context;
 
-    public CryptoEncryptedFile(ReactApplicationContext context) {
+    public CryptoMasterKey(ReactApplicationContext context) {
         super(context);
         this.context = context;
     }
@@ -19,7 +19,7 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
     @NonNull
     @Override
     public String getName() {
-        return "TemplateClass";
+        return "CryptoMasterKey";
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)

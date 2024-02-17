@@ -2,7 +2,6 @@ import {NativeModules, Platform} from 'react-native';
 import {TestCases} from './appContent';
 const {
   StorageSharedPreferences,
-  StorageEncryptedSharedPreferences,
   StorageLog,
   StorageDataStore,
   StorageDataStoreProto,
@@ -12,6 +11,8 @@ const {
   CryptoKeyStore,
   CryptoKeyAttestation,
   CryptoCipher,
+  CryptoEncryptedFile,
+  CryptoEncryptedSharedPreferences,
   PlatformWebView,
   ResilienceFileIntegrityManager,
 } = NativeModules;
@@ -148,43 +149,6 @@ if (Platform.OS === 'android') {
           description:
             'Read a StringSet from the unencrypted SharedPreferences',
           nativeFunction: StorageSharedPreferences.readStringSet,
-        },
-      ],
-    },
-    {
-      title: 'EncryptedSharedPreferences',
-      description:
-        'This testcase stores data using secure, encrypted SharedPreferences.\n',
-      testCases: [
-        {
-          title: 'Create EncryptedSharedPreferences Instance',
-          description: 'Create EncryptedSharedPreferences.',
-          nativeFunction:
-            StorageEncryptedSharedPreferences.createEncryptedSharedPreferences,
-        },
-        {
-          title: 'Write String to EncryptedSharedPreferences',
-          description:
-            'Write string into the snadbox using putString method of EncryptedSharedPreferences.',
-          nativeFunction: StorageEncryptedSharedPreferences.putString,
-        },
-        {
-          title: 'Write StringSet to EncryptedSharedPreferences',
-          description:
-            'Write stringSet into the snadbox using putStringSet method of EncryptedSharedPreferences.',
-          nativeFunction: StorageEncryptedSharedPreferences.putStringSet,
-        },
-        {
-          title: 'Read String from EncryptedSharedPreferences',
-          description:
-            'Read a String from the unencrypted EncryptedSharedPreferences',
-          nativeFunction: StorageEncryptedSharedPreferences.readString,
-        },
-        {
-          title: 'Read StringSet from EncryptedSharedPreferences',
-          description:
-            'Read a StringSet from the unencrypted EncryptedSharedPreferences',
-          nativeFunction: StorageEncryptedSharedPreferences.readStringSet,
         },
       ],
     },
@@ -443,14 +407,12 @@ if (Platform.OS === 'android') {
       description:
         " Key Attestation gives you more confidence that the keys you use in your app are stored in a device's hardware-backed keystore. The following sections describe how to verify the properties of hardware-backed keys and how to interpret the attestation certificates' extension data. ",
       testCases: [
-
         {
           title: 'Get Certificate Chain',
           description:
             "Use a KeyStore object's getCertificateChain() method to get a reference to the chain of X.509 certificates associated with the hardware-backed keystore.",
           nativeFunction: CryptoKeyAttestation.getCertificateChain,
         },
-
       ],
     },
     {
@@ -461,7 +423,7 @@ if (Platform.OS === 'android') {
     },
     {
       title: 'Cipher',
-      description: 
+      description:
         'These tests use the Cipher class for basic cryptographic operations such as encrypyt, or sign.',
       testCases: [
         {
@@ -516,15 +478,71 @@ if (Platform.OS === 'android') {
           description: 'Uses Cipher to verify a document.',
           nativeFunction: CryptoCipher.verify,
         },
-
-
-        
-
       ],
     },
     {
-      title: 'androidx',
-      description: '',
+      title: 'EncryptedSharedPreferences',
+      description:
+        'This testcase stores data using secure, encrypted SharedPreferences provided by androidx.security.crypto',
+      testCases: [
+        {
+          title: 'Create EncryptedSharedPreferences Instance',
+          description: 'Create EncryptedSharedPreferences.',
+          nativeFunction:
+            CryptoEncryptedSharedPreferences.createEncryptedSharedPreferences,
+        },
+        {
+          title: 'Write String to EncryptedSharedPreferences',
+          description:
+            'Write string into the snadbox using putString method of EncryptedSharedPreferences.',
+          nativeFunction: CryptoEncryptedSharedPreferences.putString,
+        },
+        {
+          title: 'Write StringSet to EncryptedSharedPreferences',
+          description:
+            'Write stringSet into the snadbox using putStringSet method of EncryptedSharedPreferences.',
+          nativeFunction: CryptoEncryptedSharedPreferences.putStringSet,
+        },
+        {
+          title: 'Read String from EncryptedSharedPreferences',
+          description:
+            'Read a String from the unencrypted EncryptedSharedPreferences',
+          nativeFunction: CryptoEncryptedSharedPreferences.readString,
+        },
+        {
+          title: 'Read StringSet from EncryptedSharedPreferences',
+          description:
+            'Read a StringSet from the unencrypted EncryptedSharedPreferences',
+          nativeFunction: CryptoEncryptedSharedPreferences.readStringSet,
+        },
+      ],
+    },
+
+    {
+      title: 'EncryptedFile',
+      description:
+        'Class used to create and read encrypted files using androidx.security.crypto',
+      testCases: [
+        {
+          title: 'Write Encrypted File',
+          description:
+            'Encrypts a file using the Builder class to configure EncryptedFile',
+          nativeFunction: CryptoEncryptedFile.writeFile,
+        },
+
+        {
+          title: 'Read Encrypted File',
+          description:
+            'Decrypts a file using the Builder class to configure EncryptedFile',
+          nativeFunction: CryptoEncryptedFile.readFile,
+        },
+      ],
+    },
+
+    {
+      title: 'MasterKey',
+      description:
+        "Wrapper for a master key used in the library. On Android M (API 23) and above, this is class references a key that's stored in the Android Keystore. On Android L (API 21, 22), there isn't a master key.",
       testCases: [],
     },
   );

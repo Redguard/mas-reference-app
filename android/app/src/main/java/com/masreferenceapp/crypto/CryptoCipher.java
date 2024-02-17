@@ -214,11 +214,6 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
     }
 
 
-
-    private static SecretKey generatePBEKey(char[] password) throws Exception {
-
-    }
-
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String pbeCipherZeroIV(){
 

@@ -1,4 +1,4 @@
-package com.masreferenceapp.storage;
+package com.masreferenceapp.crypto;
 
 
 import android.content.SharedPreferences;
@@ -16,10 +16,10 @@ import androidx.security.crypto.MasterKeys;
 import java.util.HashSet;
 import java.util.Set;
 
-public class StorageEncryptedSharedPreferences extends ReactContextBaseJavaModule {
+public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule {
     ReactApplicationContext context;
 
-    public StorageEncryptedSharedPreferences(ReactApplicationContext context) {
+    public CryptoEncryptedSharedPreferences(ReactApplicationContext context) {
         super(context);
         this.context = context;
     }
@@ -27,7 +27,7 @@ public class StorageEncryptedSharedPreferences extends ReactContextBaseJavaModul
     @NonNull
     @Override
     public String getName() {
-        return "StorageEncryptedSharedPreferences";
+        return "CryptoEncryptedSharedPreferences";
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
