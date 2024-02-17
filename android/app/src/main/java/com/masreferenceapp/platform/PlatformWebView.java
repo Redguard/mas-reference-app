@@ -11,6 +11,9 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.Status;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class PlatformWebView extends ReactContextBaseJavaModule {
     ReactApplicationContext context;
@@ -30,6 +33,13 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
     public String loadLocalResource(){
 
         WebView wv = new WebView(context);
+
+        Map<String, String> headers =  new HashMap<>();
+        headers.put("X-a", "someHeader");
+        headers.put("X-b", "anotherHeader");
+
+        wv.loadUrl(localWebViewDomain, headers);
+
         wv.loadUrl(localWebViewDomain);
 
         return Status.status("OK", wv.toString());

@@ -50,7 +50,6 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
             statusCode = "FAIL";
         }
         return Status.status(statusCode, message);
-
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)

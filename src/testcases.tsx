@@ -10,7 +10,10 @@ const {
   StorageExternalStorage,
   StorageRoomDatabase,
   CryptoKeyStore,
+  CryptoKeyAttestation,
+  CryptoCipher,
   PlatformWebView,
+  ResilienceFileIntegrityManager,
 } = NativeModules;
 
 interface Dictionary<Type> {
@@ -436,6 +439,21 @@ if (Platform.OS === 'android') {
       ],
     },
     {
+      title: 'Key Attestation',
+      description:
+        " Key Attestation gives you more confidence that the keys you use in your app are stored in a device's hardware-backed keystore. The following sections describe how to verify the properties of hardware-backed keys and how to interpret the attestation certificates' extension data. ",
+      testCases: [
+
+        {
+          title: 'Get Certificate Chain',
+          description:
+            "Use a KeyStore object's getCertificateChain() method to get a reference to the chain of X.509 certificates associated with the hardware-backed keystore.",
+          nativeFunction: CryptoKeyAttestation.getCertificateChain,
+        },
+
+      ],
+    },
+    {
       title: 'KeyChain',
       description:
         'The KeyChain class provides access to private keys and their corresponding certificate chains in credential storage. ',
@@ -443,8 +461,66 @@ if (Platform.OS === 'android') {
     },
     {
       title: 'Cipher',
-      description: '',
-      testCases: [],
+      description: 
+        'These tests use the Cipher class for basic cryptographic operations such as encrypyt, or sign.',
+      testCases: [
+        {
+          title: 'Init Insecure Ciphers',
+          description: 'Initializes insecure ciphers, such as AES/ECB or RC4',
+          nativeFunction: CryptoCipher.initInsecureCiphers,
+        },
+        {
+          title: 'Init Insecure KeyGenerators',
+          description:
+            'Creates KeyGenerators for all available Algorithms, also insecure one such as RC4',
+          nativeFunction: CryptoCipher.initInsecureKeyGenerators,
+        },
+        {
+          title: 'Init Insecure Signatures',
+          description: 'Initializes insecure Signatures.',
+          nativeFunction: CryptoCipher.initInsecureSignatures,
+        },
+        {
+          title: 'Deprecated Bouncy Castle',
+          description: 'Initializes an Cipher object with deprecated BC',
+          nativeFunction: CryptoCipher.bouncyCastle,
+        },
+        {
+          title: 'Password-Based Ciphers',
+          description: 'Initializes an Cipher with PBE',
+          nativeFunction: CryptoCipher.pbeCipher,
+        },
+        {
+          title: 'Password-Based Ciphers with Zero-IV',
+          description:
+            "Password-based encryption (PBE) ciphers that require an initialization vector (IV) can obtain it from the key, if it's suitably constructed, or from an explicitly passed IV. If you pass a PBE key that doesn't contain an IV and don't pass an explicit IV, the PBE ciphers on Android currently assume an IV of zero.",
+          nativeFunction: CryptoCipher.pbeCipherZeroIV,
+        },
+        {
+          title: 'Encrypt',
+          description: 'Ueses AES in CBC mode to encrypt a Text',
+          nativeFunction: CryptoCipher.encrypt,
+        },
+        {
+          title: 'Decrypt',
+          description: 'Ueses AES in CBC mode to encrypt a Text',
+          nativeFunction: CryptoCipher.decrypt,
+        },
+        {
+          title: 'Sign Document',
+          description: 'Uses Cipher to sign a document.',
+          nativeFunction: CryptoCipher.sign,
+        },
+        {
+          title: 'Verify Document',
+          description: 'Uses Cipher to verify a document.',
+          nativeFunction: CryptoCipher.verify,
+        },
+
+
+        
+
+      ],
     },
     {
       title: 'androidx',
@@ -502,7 +578,19 @@ if (Platform.OS === 'android') {
     ],
   });
   testCases.CODE.push();
-  testCases.RESILIENCE.push();
+  testCases.RESILIENCE.push({
+    title: 'FileIntegrityManager',
+    description:
+      'This class provides access to file integrity related operations.',
+    testCases: [
+      {
+        title: 'setupFsVerity',
+        description:
+          "Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ",
+        nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
+      },
+    ],
+  });
 } else if (Platform.OS === 'ios') {
   /*
     iOS Use-Cases
