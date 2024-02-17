@@ -232,6 +232,7 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
                     "masReferenceAppAsymmetricRSA",
                     KeyProperties.PURPOSE_SIGN | KeyProperties.PURPOSE_VERIFY)
                     .setKeySize(512) // for performance :)
+                    .setBlockModes(KeyProperties.BLOCK_MODE_ECB, KeyProperties.BLOCK_MODE_CBC)
                     .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
                     .build());
             KeyPair kp = kpg.generateKeyPair();
