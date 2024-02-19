@@ -10,6 +10,7 @@ import com.masreferenceapp.auth.AuthBiometricManager
 import com.masreferenceapp.auth.AuthBiometricPrompt
 import com.masreferenceapp.auth.AuthFingerprintManager
 import com.masreferenceapp.auth.AuthKeyAccess
+import com.masreferenceapp.auth.AuthKeyguardManager
 import com.masreferenceapp.crypto.CryptoCipher
 import com.masreferenceapp.crypto.CryptoEncryptedFile
 import com.masreferenceapp.crypto.CryptoKeyAttestation
@@ -52,6 +53,7 @@ class MyAppPackage : ReactPackage {
         modules.add(AuthBiometricPrompt(reactContext))
         modules.add(AuthKeyAccess(reactContext))
         modules.add(AuthFingerprintManager(reactContext))
+        modules.add(AuthKeyguardManager(reactContext))
 
         modules.add(CryptoKeyStore(reactContext))
         modules.add(CryptoKeyAttestation(reactContext))
