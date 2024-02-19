@@ -1,18 +1,11 @@
 package com.masreferenceapp.auth;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.KeyguardManager;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.hardware.biometrics.BiometricPrompt;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.CancellationSignal;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,7 +13,6 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.masreferenceapp.R;
 import com.masreferenceapp.Status;
 
 import java.util.concurrent.Executor;
@@ -84,7 +76,7 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
             @Override
             public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                alertDialog.dismiss(); // Dismiss the dialog
+                alertDialog.dismiss();
             }
 
             @Override
@@ -92,7 +84,7 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
                 super.onAuthenticationFailed();
                 Toast t = Toast.makeText(context, "Wrong Fingerprint", Toast.LENGTH_SHORT);
                 t.show();
-                alertDialog.dismiss(); // Dismiss the dialog
+                alertDialog.dismiss();
             }
         };
         Executor mExecutor = Executors.newSingleThreadExecutor();
@@ -147,8 +139,7 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
                 public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
                     System.out.println(result.getCryptoObject().toString());
-//                    alertDialog.dismiss(); // Dismiss the dialog
-                    alertDialog.cancel();
+                    alertDialog.dismiss();
                 }
 
                 @Override
@@ -156,8 +147,7 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
                     super.onAuthenticationFailed();
                     Toast t = Toast.makeText(context, "Wrong Fingerprint", Toast.LENGTH_SHORT);
                     t.show();
-
-                    alertDialog.cancel(); // Dismiss the dialog
+                    alertDialog.dismiss();
                 }
             };
 
