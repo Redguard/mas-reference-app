@@ -6,6 +6,10 @@ import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ReactShadowNode
 import com.facebook.react.uimanager.ViewManager
+import com.masreferenceapp.auth.AuthBiometricManager
+import com.masreferenceapp.auth.AuthBiometricPrompt
+import com.masreferenceapp.auth.AuthFingerprintManager
+import com.masreferenceapp.auth.AuthKeyAccess
 import com.masreferenceapp.crypto.CryptoCipher
 import com.masreferenceapp.crypto.CryptoEncryptedFile
 import com.masreferenceapp.crypto.CryptoKeyAttestation
@@ -44,6 +48,11 @@ class MyAppPackage : ReactPackage {
         modules.add(StorageExternalStorage(reactContext))
         modules.add(StorageRoomDatabase(reactContext))
 
+        modules.add(AuthBiometricManager(reactContext))
+        modules.add(AuthBiometricPrompt(reactContext))
+        modules.add(AuthKeyAccess(reactContext))
+        modules.add(AuthFingerprintManager(reactContext))
+
         modules.add(CryptoKeyStore(reactContext))
         modules.add(CryptoKeyAttestation(reactContext))
         modules.add(CryptoCipher(reactContext))
@@ -52,7 +61,6 @@ class MyAppPackage : ReactPackage {
         modules.add(CryptoEncryptedSharedPreferences(reactContext))
         modules.add(CryptoEncryptedFile(reactContext))
         modules.add(CryptoMasterKey(reactContext))
-
 
         modules.add(PlatformWebView(reactContext))
 

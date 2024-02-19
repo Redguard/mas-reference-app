@@ -2,7 +2,7 @@ import testCases from './testcases.tsx';
 
 type TestCase = {
   title: string;
-  description: string;
+  description?: string;
   nativeFunction: any;
 };
 

@@ -257,7 +257,6 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
             cipher.init(Cipher.ENCRYPT_MODE, key);
             cipher.update(plaintextOne);
             byte[] ciphertext = cipher.doFinal(plaintext);
-            byte[] iv = cipher.getIV();
 
 
             return Status.status("OK", "Ciphertext: " +  bytesToHex(ciphertext));

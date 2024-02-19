@@ -1,11 +1,15 @@
 package com.masreferenceapp.crypto;
 
 import androidx.annotation.NonNull;
+import androidx.security.crypto.MasterKeys;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.Status;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 
 public class CryptoMasterKey extends ReactContextBaseJavaModule {
@@ -23,7 +27,15 @@ public class CryptoMasterKey extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String putString(){
-        return Status.status("OK", "Message");
+    public String createMasterKey()
+    {
+        String masterKeyAlias = null;
+        try {
+            masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+            return Status.status("OK", masterKeyAlias.toString());
+
+        } catch (Exception e) {
+            return Status.status("FAIL", e.toString());
+        }
     }
 }

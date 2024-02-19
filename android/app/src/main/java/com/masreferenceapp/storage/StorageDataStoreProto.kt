@@ -39,7 +39,6 @@ class StorageDataStoreProto(context: ReactApplicationContext) : ReactContextBase
 
     val myPluginScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun writeProtoDataStore(): String? {
         val user = User(firstName = "Hans", lastName = "Meier", password = "Passw0rd!")
@@ -47,7 +46,6 @@ class StorageDataStoreProto(context: ReactApplicationContext) : ReactContextBase
         myPluginScope.launch {
             saveUserToProtoStore(user)
         }
-
         return Status.status("OK", "Stored User Object in Proto DataStore")
     }
 
