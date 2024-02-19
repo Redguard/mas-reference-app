@@ -122,5 +122,5 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
             return Status.status("FAIL", e.toString());
         }
     }
-    
+
 }
