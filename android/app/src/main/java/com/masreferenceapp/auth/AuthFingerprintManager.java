@@ -1,17 +1,26 @@
 package com.masreferenceapp.auth;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.hardware.biometrics.BiometricPrompt;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.CancellationSignal;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.R;
 import com.masreferenceapp.Status;
 
 import java.util.concurrent.Executor;
@@ -29,6 +38,7 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
         super(context);
         this.context = context;
     }
+
 
     @NonNull
     @Override
@@ -55,33 +65,38 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
     public String authenticateSimple(){
         FingerprintManager fpm = context.getSystemService(FingerprintManager.class);
 
+        final CancellationSignal cancellationSignal = new CancellationSignal();
+
+        AlertDialog alertDialog = new AlertDialog.Builder(context.getCurrentActivity())
+
+                .setTitle("Simple Fingerprint")
+                .setMessage("Waiting for Fingerprint")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        cancellationSignal.cancel();
+                        dialogInterface.dismiss(); // Dismiss the dialog
+                    }
+                })
+                .show();
+
         FingerprintManager.AuthenticationCallback callback = new FingerprintManager.AuthenticationCallback() {
-            @Override
-            public void onAuthenticationError(int errorCode, CharSequence errString) {
-                super.onAuthenticationError(errorCode, errString);
-            }
-
-            @Override
-            public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
-                super.onAuthenticationHelp(helpCode, helpString);
-            }
-
             @Override
             public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
+                alertDialog.dismiss(); // Dismiss the dialog
             }
 
             @Override
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
+                Toast t = Toast.makeText(context, "Wrong Fingerprint", Toast.LENGTH_SHORT);
+                t.show();
+                alertDialog.dismiss(); // Dismiss the dialog
             }
         };
         Executor mExecutor = Executors.newSingleThreadExecutor();
-        CancellationSignal mCancellationSignal = new CancellationSignal();
-
-        fpm.authenticate(null, mCancellationSignal, 0, callback, null);
-
-        // the authenticate function itself does not provide any dialog options, you would have to wait here for the event
+        fpm.authenticate(null, cancellationSignal, 0, callback, null);
 
         return Status.status("OK", "FPM Auth executed.");
 
@@ -92,6 +107,20 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
     public String authenticateCryptoObject(){
 
         try {
+            final CancellationSignal cancellationSignal = new CancellationSignal();
+
+            AlertDialog alertDialog = new AlertDialog.Builder(context.getCurrentActivity())
+                    .setTitle("Crypto Object Fingerprint")
+                    .setMessage("Waiting for Fingerprint")
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            cancellationSignal.cancel();
+                            dialogInterface.dismiss(); // Dismiss the dialog
+                        }
+                    })
+                    .show();
+
             KeyGenerator keygen = KeyGenerator.getInstance("AES");
             KeyGenParameterSpec spec = new KeyGenParameterSpec.Builder(
                     "masAccessTests",
@@ -110,23 +139,31 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
             FingerprintManager.CryptoObject cObject = new FingerprintManager.CryptoObject(cipher);
 
 
-
-
             FingerprintManager fpm = context.getSystemService(FingerprintManager.class);
+
 
             FingerprintManager.AuthenticationCallback callback = new FingerprintManager.AuthenticationCallback() {
                 @Override
                 public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
-                    // you could use the crypto object now
                     System.out.println(result.getCryptoObject().toString());
+//                    alertDialog.dismiss(); // Dismiss the dialog
+                    alertDialog.cancel();
+                }
+
+                @Override
+                public void onAuthenticationFailed() {
+                    super.onAuthenticationFailed();
+                    Toast t = Toast.makeText(context, "Wrong Fingerprint", Toast.LENGTH_SHORT);
+                    t.show();
+
+                    alertDialog.cancel(); // Dismiss the dialog
                 }
             };
+
             Executor mExecutor = Executors.newSingleThreadExecutor();
-            CancellationSignal mCancellationSignal = new CancellationSignal();
 
-
-            fpm.authenticate(cObject, mCancellationSignal, 0, callback, null);
+            fpm.authenticate(cObject, cancellationSignal, 0, callback, null);
 
 
             return Status.status("OK", cipher.toString());
