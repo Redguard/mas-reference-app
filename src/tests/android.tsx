@@ -18,6 +18,7 @@ const {
   AuthBiometricPrompt,
   AuthKeyAccess,
   AuthFingerprintManager,
+  AuthKeyguardManager,
   PlatformWebView,
   ResilienceFileIntegrityManager,
 } = NativeModules;
@@ -565,6 +566,38 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+
+    {
+      title: 'KeyguardManager',
+      description:
+        'The KeyguardManager class in Android is used to manage the keyguard (lock screen) functionality. It provides methods for determining the state of the keyguard, requesting its dismissal, and handling various events related to the keyguard.',
+      testCases: [
+        {
+          title: 'Check Keyguard State',
+          description: 'Verifies the state of Keyguard (Secure/Locked?)',
+          nativeFunction: AuthKeyguardManager.checkKeyguardState,
+        },
+        {
+          title: 'Check Device State',
+          description: 'Verifies the state of the device (Secure/Locked?)',
+          nativeFunction: AuthKeyguardManager.checkDeviceState,
+        },
+        {
+          title: 'Check if Pattern is used',
+          description: 'Verifies if the lockscreen uses a pattern or not.',
+          nativeFunction: AuthKeyguardManager.checkPattern,
+        },
+        {
+          title: 'Disable KeyguardLock',
+          nativeFunction: AuthKeyguardManager.disableKeyguardLock,
+        },
+        {
+          title: 'Request Dismiss Keyguard',
+          nativeFunction: AuthKeyguardManager.requestDismissKeyguard,
+        },
+      ],
+    },
+
 
     // Define your Android-specific authentication test cases here
   ],
