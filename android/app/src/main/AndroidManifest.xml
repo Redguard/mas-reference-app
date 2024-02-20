@@ -13,11 +13,27 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".platform.helpers.IpcDeepLinkActivity"
+            android:exported="true" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="masref"
+                      android:host="testactivity"
+                    />
+            </intent-filter>
+
+
+        </activity>
+
         <receiver
-            android:name="com.masreferenceapp.platform.helpers.IpcExportedBroadcastReceiver"
+            android:name=".platform.helpers.IpcExportedBroadcastReceiver"
             android:enabled="true"
-            android:exported="true"
-            >
+            android:exported="true">
+
         </receiver>
 
         <provider
@@ -32,8 +48,8 @@
             android:name=".platform.helpers.IpcExportedService"
             android:enabled="true"
             android:exported="true">
-        </service>
-        <!-- <service -->
+
+        </service> <!-- <service -->
         <!-- android:name=".platform.helpers.IpcExportedMessengerService" -->
         <!-- android:enabled="true" -->
         <!-- android:exported="true" > -->

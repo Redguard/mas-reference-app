@@ -125,12 +125,16 @@ public class PlatformIpc extends ReactContextBaseJavaModule {
         intent.setComponent(componentName);
         intent.putExtra("data", "Nothing to see here, move along.");
         this.context.getCurrentActivity().sendBroadcast(intent);
-        
+
         return Status.status("OK", intent.toString());
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String deepLinks(){
+
+
         return Status.status("OK", "Message");
+
+
     }
 }

@@ -771,6 +771,58 @@ export var androidTestCases: Dictionary<TestCases[]> = {
   ],
   RESILIENCE: [
     {
+      title: 'Anti-Debug',
+      description:
+        'The app tries to find out if it is debuggable, or of a degubber is currently attached.',
+      testCases: [
+        // {
+        //   title: 'setupFsVerity',
+        //   description:
+        //     "Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ",
+        //   nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
+        // },
+      ],
+    },
+    {
+      title: 'Anti-VM',
+      description:
+        'The app tries to find out if it runs in a virual environment or on real hardware',
+      testCases: [
+        // {
+        //   title: 'setupFsVerity',
+        //   description:
+        //     "Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ",
+        //   nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
+        // },
+      ],
+    },
+    {
+      title: 'Play Integrity API',
+      description:
+        'The app tries to validate the integrity of the platform using Play Integrity API',
+      testCases: [
+        // {
+        //   title: 'setupFsVerity',
+        //   description:
+        //     "Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ",
+        //   nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
+        // },
+      ],
+    },
+    {
+      title: 'SafetyNet API',
+      description:
+        'The app tries to validate the integrity of the platform using the deprecated SafetyNet API',
+      testCases: [
+        // {
+        //   title: 'setupFsVerity',
+        //   description:
+        //     "Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ",
+        //   nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
+        // },
+      ],
+    },
+    {
       title: 'FileIntegrityManager',
       description:
         'This class provides access to file integrity related operations.',
