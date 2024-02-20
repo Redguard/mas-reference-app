@@ -33,8 +33,6 @@ public class ResilienceFileIntegrityManager extends ReactContextBaseJavaModule {
 
         // will be added in Android 15
 
-
-
         return Status.status("OK", "Message");
 
     }

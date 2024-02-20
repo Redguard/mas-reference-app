@@ -727,22 +727,27 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Allow File Access',
           description: '',
-          nativeFunction: PlatformWebView,
+          nativeFunction: PlatformWebView.allowFileAccess,
         },
         {
-          title: 'Use JavascriptInterface',
+          title: 'Execute JavaScript From Host',
           description: '',
-          nativeFunction: PlatformWebView,
+          nativeFunction: PlatformWebView.sendDataToJsSandbox,
+        },
+        {
+          title: 'Call Native Function From JavaScript',
+          description: '',
+          nativeFunction: PlatformWebView.readDataFromJsSandbox,
         },
         {
           title: 'Enable Geolocation',
           description: '',
-          nativeFunction: PlatformWebView,
+          nativeFunction: PlatformWebView.enableGeolocation,
         },
         {
           title: 'Allow Mixed Content',
           description: '',
-          nativeFunction: PlatformWebView,
+          nativeFunction: PlatformWebView.allowMixedContent,
         },
       ],
     },
