@@ -17,6 +17,6 @@ class IpcDeepLinkActivity : AppCompatActivity() {
         println(intent.toString())
         println(action.toString())
         println(data.toString())
-
+        finish();
     }
 }
