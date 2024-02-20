@@ -14,6 +14,7 @@ if (Platform.OS === 'android') {
   testCases.STORAGE = testCases.STORAGE.concat(androidTestCases.STORAGE);
   testCases.CRYPTO = testCases.CRYPTO.concat(androidTestCases.CRYPTO);
   testCases.AUTH = testCases.AUTH.concat(androidTestCases.AUTH);
+  testCases.NETWORK = testCases.NETWORK.concat(androidTestCases.NETWORK);
   testCases.PLATFORM = testCases.PLATFORM.concat(androidTestCases.PLATFORM);
   testCases.CODE = testCases.CODE.concat(androidTestCases.CODE);
   testCases.RESILIENCE = testCases.RESILIENCE.concat(

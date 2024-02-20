@@ -19,7 +19,12 @@ const {
   AuthKeyAccess,
   AuthFingerprintManager,
   AuthKeyguardManager,
+  NetworkTlsConfig,
+  NetworkTlsPinning,
+  NetworkLocalNetwork,
   PlatformWebView,
+  PlatformIpc,
+  PlatformUiDisclosure,
   ResilienceFileIntegrityManager,
 } = NativeModules;
 
@@ -597,14 +602,108 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
-
     // Define your Android-specific authentication test cases here
   ],
   NETWORK: [
+    {
+      title: 'TLS Client Settings',
+      description:
+        'These tests change the default TLS client configuration. They can result in insecure settings.',
+      testCases: [
+        {
+          title: 'Use Old TLS-Protocol',
+          nativeFunction: NetworkTlsConfig.oldTlsConfig,
+        },
+        {
+          title: 'Use Insecure Cipher-Suites',
+          description:
+            'These tests configure the client to use insecure cipher suites, such as ones with insecure algorithms or disabled forward secrecy-property.',
+          nativeFunction: NetworkTlsConfig.insecureCipherSuties,
+        },
+        {
+          title: 'TLS Client-Certifitates',
+          nativeFunction: NetworkTlsConfig.clientCertificate,
+        },
+      ],
+    },
+    {
+      title: 'TLS Pinning',
+      description:
+        "By hardcoding or 'pinning' specific TLS certificates or public keys within the application's code, TLS pinning ensures that only trusted servers are communicated with, preventing attackers from intercepting and tampering with sensitive data exchanged between the mobile app and the server.  These tests implement this.",
+      testCases: [
+        {
+          title: 'Use Custem TrustStore',
+          nativeFunction: NetworkTlsPinning.truststore,
+        },
+        {
+          title: 'Use OKHttp CertificatePinner',
+          nativeFunction: NetworkTlsPinning.okHttpCertificatePinner,
+        },
+      ],
+    },
+    {
+      title: 'Local Network',
+      description:
+        "By hardcoding or 'pinning' specific TLS certificates or public keys within the application's code, TLS pinning ensures that only trusted servers are communicated with, preventing attackers from intercepting and tampering with sensitive data exchanged between the mobile app and the server.  These tests implement this.",
+      testCases: [
+        {
+          title: 'Access Local Network',
+          nativeFunction: NetworkLocalNetwork.access,
+        },
+        {
+          title: 'Host HTTP Server',
+          nativeFunction: NetworkLocalNetwork.hostHttpServer,
+        },
+        {
+          title: 'Host TCP Server',
+          nativeFunction: NetworkLocalNetwork.hostTcpServer,
+        },
+        {
+          title: 'Host UDP Server',
+          nativeFunction: NetworkLocalNetwork.hostUDPServer,
+        },
+      ],
+    },
     // Define your Android-specific network test cases here
   ],
   PLATFORM: [
+    {
+      title: 'Inter Process Communication',
+      description:
+        'These tests will simulate how information can be sent trough IPC and potentially cause harm, given the input is not properly validated.',
+      testCases: [
+        {
+          title: 'Exported Activity',
+          description: '',
+          nativeFunction: PlatformIpc.exportedActivity,
+        },
+        {
+          title: 'Service',
+          description: '',
+          nativeFunction: PlatformIpc.service,
+        },
+        // {
+        //   title: 'Message Service',
+        //   description: '',
+        //   nativeFunction: PlatformIpc.serviceMessenger,
+        // },
+        {
+          title: 'Content Provider',
+          description: '',
+          nativeFunction: PlatformIpc.provider,
+        },
+        {
+          title: 'Broadcast Receiver',
+          description: '',
+          nativeFunction: PlatformIpc.broadcastReceiver,
+        },
+        {
+          title: 'Deep Links',
+          description: '',
+          nativeFunction: PlatformIpc.deepLinks,
+        },
+      ],
+    },
     {
       title: 'WebView',
       description:
@@ -647,6 +746,24 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+    {
+      title: 'UI Data Disclosure',
+      description:
+        'UI components that either show such information or take it as input can be a source of data disclosure. Tests in this category simulate them.',
+      testCases: [
+        {
+          title: 'Passwords in Text-Fields',
+          description: '',
+          nativeFunction: PlatformUiDisclosure.loadLocalResource,
+        },
+        {
+          title: 'Sensitve Data in Notifications',
+          description:
+            'This test uses noitifications to display sensitive data.',
+          nativeFunction: PlatformUiDisclosure.sensiteDataNotifications,
+        },
+      ],
+    },
     // Define your Android-specific platform-related test cases here
   ],
   CODE: [
@@ -668,6 +785,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     },
     // Define your Android-specific resilience test cases here
   ],
+  PRIVACY: [],
 };
 
 export default androidTestCases;

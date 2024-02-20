@@ -1,6 +1,6 @@
 import {NativeModules} from 'react-native';
 import {TestCases} from '../appContent';
-const {StorageLog} = NativeModules;
+const {StorageLog, NetworkUnencrypted} = NativeModules;
 
 interface Dictionary<Type> {
   [key: string]: Type;
@@ -52,17 +52,6 @@ export var generalTestCases: Dictionary<TestCases[]> = {
       ],
     },
     {
-      title: 'Sensitive Date in Notifications',
-      description: 'This test uses noitifications to display sensitive data.',
-      testCases: [],
-    },
-    {
-      title: 'Passwords in Cleartext Forms',
-      description:
-        "This test creates input fields which are meant for passwords but don't conciel them proerly.",
-      testCases: [],
-    },
-    {
       title: 'SQLite Database',
       description: '',
       testCases: [],
@@ -78,18 +67,33 @@ export var generalTestCases: Dictionary<TestCases[]> = {
   NETWORK: [
     {
       title: 'Unencrypted Connections',
-      description: '',
-      testCases: [],
-    },
-    {
-      title: 'TLS Client Settings',
-      description: '',
-      testCases: [],
-    },
-    {
-      title: 'TLS Pinning',
-      description: '',
-      testCases: [],
+      description:
+        'Unencrypted HTTP connections on Android are an issue because they expose sensitive data to potential interception and tampering by malicious actors. These tests initiate such',
+      testCases: [
+        {
+          title: 'Resolve Domainname',
+          description: 'Resolves domainname with DNS',
+          nativeFunction: NetworkUnencrypted.resolveDns,
+        },
+        {
+          title: 'Open Standard HTTP Connection',
+          description: 'Opens a standard HTTP connection.',
+          nativeFunction: NetworkUnencrypted.standardHTTP,
+        },
+        {
+          title: 'Open HTTP Connection on Non-Standard Port',
+          description: 'Opens a standard HTTP connection.',
+          nativeFunction: NetworkUnencrypted.nonStandardHTTP,
+        },
+        {
+          title: 'Open Raw TCP connection',
+          nativeFunction: NetworkUnencrypted.rawTcp,
+        },
+        {
+          title: 'Open Raw UDP connection',
+          nativeFunction: NetworkUnencrypted.rawUdp,
+        },
+      ],
     },
     // Define your general network test cases here
   ],
