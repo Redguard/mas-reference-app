@@ -78,8 +78,6 @@ public class CryptoKeyAttestation extends ReactContextBaseJavaModule {
                 message = message + formatCrtFileContents(attestationCerts[i]) + "\n";
             }
 
-
-
             return Status.status("OK", message);
 
         } catch (Exception e) {

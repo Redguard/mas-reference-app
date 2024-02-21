@@ -1,6 +1,6 @@
 import {NativeModules} from 'react-native';
 import {TestCases} from '../appContent';
-const {StorageLog, NetworkUnencrypted} = NativeModules;
+const {StorageLog, NetworkUnencrypted, ResilienceVerifySignature} = NativeModules;
 
 interface Dictionary<Type> {
   [key: string]: Type;
@@ -108,7 +108,12 @@ export var generalTestCases: Dictionary<TestCases[]> = {
       title: 'Verify Signature',
       description:
         'Programmatically verify the signature of the package during runtime.',
-      testCases: [],
+      testCases: [
+        {
+          title: 'Get Package Signatures',
+          nativeFunction: ResilienceVerifySignature.getPackageSignatures,
+        },
+      ],
     },
     // Define your general resilience test cases here
   ],

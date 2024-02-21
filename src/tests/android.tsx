@@ -26,6 +26,8 @@ const {
   PlatformIpc,
   PlatformUiDisclosure,
   ResilienceFileIntegrityManager,
+  ResilienceAntiDebug,
+  ResilienceAntiVm,
 } = NativeModules;
 
 interface Dictionary<Type> {
@@ -780,25 +782,41 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       description:
         'The app tries to find out if it is debuggable, or of a degubber is currently attached.',
       testCases: [
-        // {
-        //   title: 'setupFsVerity',
-        //   description:
-        //     "Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ",
-        //   nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
-        // },
+        {
+          title: 'Verify if App is Debuggable',
+          nativeFunction: ResilienceAntiDebug.debuggable,
+        },
+        {
+          title: 'Verify if Debugger is Attached',
+          nativeFunction: ResilienceAntiDebug.debuggerConnected,
+        },
       ],
     },
     {
       title: 'Anti-VM',
       description:
-        'The app tries to find out if it runs in a virual environment or on real hardware',
+        'The app tries to find out if it runs in a virual environment or on real hardware.',
       testCases: [
-        // {
-        //   title: 'setupFsVerity',
-        //   description:
-        //     "Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ",
-        //   nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
-        // },
+        {
+          title: 'Get IMSI',
+          nativeFunction: ResilienceAntiVm.getImsi,
+        },
+        {
+          title: 'Get Build String',
+          nativeFunction: ResilienceAntiVm.getBuild,
+        },
+        {
+          title: 'Get Networkinterface',
+          nativeFunction: ResilienceAntiVm.getNetworkInterface,
+        },
+        {
+          title: 'Get Installer Package Name',
+          nativeFunction: ResilienceAntiVm.getInstallerPackageName,
+        },
+        {
+          title: 'Get Sendor',
+          nativeFunction: ResilienceAntiVm.getSensor,
+        },
       ],
     },
     {
