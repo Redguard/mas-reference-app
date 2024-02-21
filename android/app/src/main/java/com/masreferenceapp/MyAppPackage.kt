@@ -30,6 +30,9 @@ import com.masreferenceapp.network.NetworkTlsPinning
 import com.masreferenceapp.network.NetworkUnencrypted
 import com.masreferenceapp.platform.PlatformIpc
 import com.masreferenceapp.platform.PlatformUiDisclosure
+import com.masreferenceapp.resilience.ResilienceAntiDebug
+import com.masreferenceapp.resilience.ResilienceAntiVm
+import com.masreferenceapp.resilience.ResilienceVerifySignature
 import com.masreferenceapp.storage.StorageExternalStorage
 import com.masreferenceapp.storage.StorageLog
 import com.masreferenceapp.storage.StorageRoomDatabase
@@ -75,11 +78,14 @@ class MyAppPackage : ReactPackage {
         modules.add(NetworkTlsPinning(reactContext))
         modules.add(NetworkLocalNetwork(reactContext))
 
-        modules.add(PlatformWebView(reactContext))
         modules.add(PlatformIpc(reactContext))
+        modules.add(PlatformWebView(reactContext))
         modules.add(PlatformUiDisclosure(reactContext))
 
         modules.add(ResilienceFileIntegrityManager(reactContext))
+        modules.add(ResilienceVerifySignature(reactContext))
+        modules.add(ResilienceAntiDebug(reactContext))
+        modules.add(ResilienceAntiVm(reactContext))
 
         return modules
     }
