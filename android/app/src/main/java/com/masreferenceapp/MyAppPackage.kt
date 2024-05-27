@@ -36,6 +36,7 @@ import com.masreferenceapp.resilience.ResilienceVerifySignature
 import com.masreferenceapp.storage.StorageExternalStorage
 import com.masreferenceapp.storage.StorageLog
 import com.masreferenceapp.storage.StorageRoomDatabase
+import com.masreferenceapp.storage.StorageSQLite
 import com.masreferenceapp.storage.StorageSharedPreferences
 
 
@@ -57,6 +58,7 @@ class MyAppPackage : ReactPackage {
         modules.add(StorageInternalStorage(reactContext))
         modules.add(StorageExternalStorage(reactContext))
         modules.add(StorageRoomDatabase(reactContext))
+        modules.add(StorageSQLite(reactContext))
 
         modules.add(AuthBiometricManager(reactContext))
         modules.add(AuthBiometricPrompt(reactContext))

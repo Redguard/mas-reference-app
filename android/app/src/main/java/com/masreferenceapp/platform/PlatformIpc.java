@@ -132,7 +132,7 @@ public class PlatformIpc extends ReactContextBaseJavaModule {
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String deepLinks(){
 
-        
+
         return Status.status("OK", "Message");
 
 
