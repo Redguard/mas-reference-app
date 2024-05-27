@@ -1,6 +1,11 @@
 import {NativeModules} from 'react-native';
 import {TestCases} from '../appContent';
-const {StorageLog, NetworkUnencrypted, ResilienceVerifySignature} = NativeModules;
+const {
+  StorageLog,
+  StorageSQLite,
+  NetworkUnencrypted,
+  ResilienceVerifySignature,
+} = NativeModules;
 
 interface Dictionary<Type> {
   [key: string]: Type;
@@ -54,7 +59,12 @@ export var generalTestCases: Dictionary<TestCases[]> = {
     {
       title: 'SQLite Database',
       description: '',
-      testCases: [],
+      testCases: [
+        {
+          title: 'Create SQLite DB',
+          nativeFunction: StorageSQLite.createSQLiteDB,
+        },
+      ],
     },
     // Define your general storage test cases here
   ],
@@ -121,7 +131,28 @@ export var generalTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Access Phone Data',
       description: 'e.G. Calendar, Contacts,',
-      testCases: [],
+      testCases: [
+        // {
+        //   title: 'Get Contacts',
+        //   nativeFunction: PrivacyAccessData.getPackageSignatures,
+        // },
+        // {
+        //   title: 'Write Contacts',
+        //   nativeFunction: PrivacyAccessData.getPackageSignatures,
+        // },
+        // {
+        //   title: 'Get Calendar Event',
+        //   nativeFunction: PrivacyAccessData.getPackageSignatures,
+        // },
+        // {
+        //   title: 'Write Calendar Event',
+        //   nativeFunction: PrivacyAccessData.getPackageSignatures,
+        // },
+        // {
+        //   title: 'Get WIFI',
+        //   nativeFunction: PrivacyAccessData.getWifi,
+        // },
+      ],
     },
     {
       title: 'Access Geolocation',
