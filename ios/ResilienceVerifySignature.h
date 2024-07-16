@@ -5,13 +5,13 @@
 //  Created by Stefan on 09.02.2024.
 //
 
-#ifndef StorageLog_h
-#define StorageLog_h
+#ifndef ResilienceVerifySignature_h
+#define ResilienceVerifySignature_h
 
 #import <React/RCTBridgeModule.h>
-@interface StorageLog : NSObject <RCTBridgeModule>
+@interface ResilienceVerifySignature : NSObject <RCTBridgeModule>
 @end
 
-#endif /* StorageLog_h */
+#endif /* ResilienceVerifySignature_h */
 
 

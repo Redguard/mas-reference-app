@@ -1,17 +1,17 @@
 //
-//  StorageLog.h
+//  NetworkUnencrypted.h
 //  MasReferenceApp
 //
 //  Created by Stefan on 09.02.2024.
 //
 
-#ifndef StorageLog_h
-#define StorageLog_h
+#ifndef NetworkUnencrypted_h
+#define NetworkUnencrypted_h
 
 #import <React/RCTBridgeModule.h>
-@interface StorageLog : NSObject <RCTBridgeModule>
+@interface NetworkUnencrypted : NSObject <RCTBridgeModule>
 @end
 
-#endif /* StorageLog_h */
+#endif /* NetworkUnencrypted_h */
 
 

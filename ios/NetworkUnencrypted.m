@@ -1,13 +1,13 @@
 
-// StorageLog.m
-#import "StorageLog.h"
+// NetworkUnencrypted.m
+#import "NetworkUnencrypted.h"
 
-@implementation StorageLog
+@implementation NetworkUnencrypted
 
 // To export a module named RCTCalendarModule
-RCT_EXPORT_MODULE(StorageLog);
+RCT_EXPORT_MODULE(NetworkUnencrypted);
 
-RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(writeSensitiveData)
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(resolveDns)
 {
   NSLog(@"HELLO LOG");
   return @"Bla";
