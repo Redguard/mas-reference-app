@@ -1,13 +1,13 @@
 
 // StorageLog.m
-#import "StorageLog.h"
+#import "StorageSQLite.h"
 
-@implementation StorageLog
+@implementation StorageSQLite
 
 // To export a module named RCTCalendarModule
-RCT_EXPORT_MODULE(StorageLog);
+RCT_EXPORT_MODULE(StorageSQLite);
 
-RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(writeSensitiveData)
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(createSQLiteDB)
 {
   NSLog(@"HELLO LOG");
   return @"Bla";

@@ -116,6 +116,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    lint {
+        // Turns off checks for the issue IDs you specify.
+        disable += "PackagedPrivateKey"
+    }
 }
 
 

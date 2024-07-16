@@ -3,6 +3,7 @@ import {TestCases} from '../appContent';
 const {
   StorageLog,
   StorageSQLite,
+  StorageHardcodedSecret,
   NetworkUnencrypted,
   ResilienceVerifySignature,
 } = NativeModules;
@@ -57,12 +58,48 @@ export var generalTestCases: Dictionary<TestCases[]> = {
       ],
     },
     {
+      title: 'Hardcoded Secrets',
+      description:
+        'Sensitive data, including cryptographic keys and authentication material, hardcoded in the app package, source code, or compiled binaries, poses significant security risks, as attackers can easily extract this data through reverse engineering. These test simulate sensitve date within code and stored within the binary as embedded files.',
+      testCases: [
+        {
+          title: 'Hardcoded Local Private Key',
+          nativeFunction: StorageHardcodedSecret.privateLocalKeys,
+        },
+        {
+          title: 'Hardcoded Embedded Private Key',
+          nativeFunction: StorageHardcodedSecret.privateEmbeddedKeys,
+        },
+        {
+          title: 'Hardcoded API Keys',
+          nativeFunction: StorageHardcodedSecret.apiKeys,
+        },
+        {
+          title: 'Hardcoded Passwords',
+          nativeFunction: StorageHardcodedSecret.passwords,
+        },
+      ],
+    },
+    {
       title: 'SQLite Database',
-      description: '',
+      description:
+        'SQLite Database is a simple, local SQL-Database. The data is stored in plain text within the sandbox by default. Hence, the developer must take care of protecting sensitive data in nessecary.',
       testCases: [
         {
           title: 'Create SQLite DB',
           nativeFunction: StorageSQLite.createSQLiteDB,
+        },
+        {
+          title: 'Insert Into Table',
+          nativeFunction: StorageSQLite.insertData,
+        },
+        {
+          title: 'Update Exisitng Table',
+          nativeFunction: StorageSQLite.updateData,
+        },
+        {
+          title: 'Delete Table Entry',
+          nativeFunction: StorageSQLite.deleteData,
         },
       ],
     },

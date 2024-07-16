@@ -1,17 +1,17 @@
 //
-//  StorageLog.h
+//  StorageSQLite.h
 //  MasReferenceApp
 //
 //  Created by Stefan on 09.02.2024.
 //
 
-#ifndef StorageLog_h
-#define StorageLog_h
+#ifndef StorageSQLite_h
+#define StorageSQLite_h
 
 #import <React/RCTBridgeModule.h>
-@interface StorageLog : NSObject <RCTBridgeModule>
+@interface StorageSQLite : NSObject <RCTBridgeModule>
 @end
 
-#endif /* StorageLog_h */
+#endif /* StorageSQLite_h */
 
 

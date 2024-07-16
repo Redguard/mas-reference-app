@@ -1,13 +1,13 @@
 
-// StorageLog.m
-#import "StorageLog.h"
+// ResilienceVerifySignature.m
+#import "ResilienceVerifySignature.h"
 
-@implementation StorageLog
+@implementation ResilienceVerifySignature
 
 // To export a module named RCTCalendarModule
 RCT_EXPORT_MODULE(StorageLog);
 
-RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(writeSensitiveData)
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(getPackageSignatures)
 {
   NSLog(@"HELLO LOG");
   return @"Bla";

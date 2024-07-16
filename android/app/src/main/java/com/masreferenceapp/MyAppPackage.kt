@@ -11,6 +11,7 @@ import com.masreferenceapp.auth.AuthBiometricPrompt
 import com.masreferenceapp.auth.AuthFingerprintManager
 import com.masreferenceapp.auth.AuthKeyAccess
 import com.masreferenceapp.auth.AuthKeyguardManager
+import com.masreferenceapp.auth.AuthProtectedConfirmation
 import com.masreferenceapp.crypto.CryptoCipher
 import com.masreferenceapp.crypto.CryptoEncryptedFile
 import com.masreferenceapp.crypto.CryptoKeyAttestation
@@ -38,7 +39,7 @@ import com.masreferenceapp.storage.StorageLog
 import com.masreferenceapp.storage.StorageRoomDatabase
 import com.masreferenceapp.storage.StorageSQLite
 import com.masreferenceapp.storage.StorageSharedPreferences
-
+import com.masreferenceapp.storage.StorageHardcodedSecret
 
 class MyAppPackage : ReactPackage {
 
@@ -59,12 +60,15 @@ class MyAppPackage : ReactPackage {
         modules.add(StorageExternalStorage(reactContext))
         modules.add(StorageRoomDatabase(reactContext))
         modules.add(StorageSQLite(reactContext))
+        modules.add(StorageHardcodedSecret(reactContext))
+
 
         modules.add(AuthBiometricManager(reactContext))
         modules.add(AuthBiometricPrompt(reactContext))
         modules.add(AuthKeyAccess(reactContext))
         modules.add(AuthFingerprintManager(reactContext))
         modules.add(AuthKeyguardManager(reactContext))
+        modules.add(AuthProtectedConfirmation(reactContext))
 
         modules.add(CryptoKeyStore(reactContext))
         modules.add(CryptoKeyAttestation(reactContext))

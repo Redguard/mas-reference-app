@@ -19,6 +19,7 @@ const {
   AuthKeyAccess,
   AuthFingerprintManager,
   AuthKeyguardManager,
+  AuthProtectedConfirmation,
   NetworkTlsConfig,
   NetworkTlsPinning,
   NetworkLocalNetwork,
@@ -604,6 +605,20 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+
+    {
+      title: 'Android Protected Confirmation',
+      description:
+        "Android Protected Confirmation doesn't provide a secure information channel for the user. Data shown here should not be more sensitve than shown in other places within the app.",
+      testCases: [
+        {
+          title: 'Create Protected Confirmation',
+          description: '',
+          nativeFunction: AuthProtectedConfirmation.create,
+        },
+      ],
+    },
+
     // Define your Android-specific authentication test cases here
   ],
   NETWORK: [
