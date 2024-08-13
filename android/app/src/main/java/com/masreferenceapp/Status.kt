@@ -3,6 +3,7 @@ package com.masreferenceapp
 import org.json.JSONObject
 
 object Status {
+    @JvmStatic
     fun status(statusCode: String?, message: String?): String {
         return try {
             val jo = JSONObject()

@@ -6,7 +6,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.Status
 
-class StorageLog_JAVA(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
+class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
     private fun logToAll(message: String) {
         val tag = "MasReferenceAppTestLog"
         Log.v(tag, message)
@@ -32,8 +32,6 @@ class StorageLog_JAVA(var context: ReactApplicationContext) : ReactContextBaseJa
         messages.add("Vorname: test")
         messages.add("Vorname:test")
         messages.add("Nachname: test")
-        val status = StringBuilder()
-        val message = StringBuilder()
         for (m in messages) {
             logToAll(m)
         }
@@ -64,8 +62,6 @@ class StorageLog_JAVA(var context: ReactApplicationContext) : ReactContextBaseJa
         messages.add("PrivateKey: test")
         messages.add("Secret Key: test")
         messages.add("SecretKey: test")
-        val status = StringBuilder()
-        val message = StringBuilder()
         for (m in messages) {
             logToAll(m)
         }
@@ -79,8 +75,6 @@ class StorageLog_JAVA(var context: ReactApplicationContext) : ReactContextBaseJa
         messages.add("PrivateKey: test")
         messages.add("Secret Key: test")
         messages.add("SecretKey: test")
-        val status = StringBuilder()
-        val message = StringBuilder()
         for (m in messages) {
             logToAll(m)
         }
@@ -106,8 +100,6 @@ class StorageLog_JAVA(var context: ReactApplicationContext) : ReactContextBaseJa
         messages.add("-----END EC PRIVATE KEY-----")
         messages.add("Proc-Type: 4,ENCRYPTED")
         messages.add("DEK-Info: AES-256-CBC,F6F1F37584D8189C97F23F9DCD431B42")
-        val status = StringBuilder()
-        val message = StringBuilder()
         for (m in messages) {
             logToAll(m)
         }
@@ -123,8 +115,6 @@ class StorageLog_JAVA(var context: ReactApplicationContext) : ReactContextBaseJa
         messages.add("phone: +41 (076) 3452345")
         messages.add("phone number: +41 (076) 3452345")
         messages.add("Phone Number: +41 (076) 3452345")
-        val status = StringBuilder()
-        val message = StringBuilder()
         for (m in messages) {
             logToAll(m)
         }
@@ -146,8 +136,6 @@ class StorageLog_JAVA(var context: ReactApplicationContext) : ReactContextBaseJa
         messages.add("fakeuser4@hotmail.com")
         messages.add("fakeuser_11@bluewin.ch")
         messages.add("fakeuser16@protonmail.ch")
-        val status = StringBuilder()
-        val message = StringBuilder()
         for (m in messages) {
             logToAll(m)
         }
@@ -170,8 +158,6 @@ class StorageLog_JAVA(var context: ReactApplicationContext) : ReactContextBaseJa
         messages.add("IBAN: ES91 2100 0418 4502 0005 1332")
         messages.add("IBAN: IT60X0542811101000000123456")
         messages.add("IBAN: IT60 X054 2811 1010 0000 1234 56")
-        val status = StringBuilder()
-        val message = StringBuilder()
         for (m in messages) {
             logToAll(m)
         }

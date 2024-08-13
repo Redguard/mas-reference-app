@@ -23,7 +23,7 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
         try {
             socket = factory.createSocket(Constants.remoteWebViewHttpsDomain, 443) as SSLSocket
             try {
-                socket!!.enabledProtocols = arrayOf("TLSv1")
+                socket.enabledProtocols = arrayOf("TLSv1")
             } catch (e: Exception) {
                 status.append("[FAIL]")
                 message.append("$e, ")
@@ -33,7 +33,7 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
                 // second way to set older protocols
                 val params = SSLParameters()
                 params.protocols = arrayOf("TLSv1")
-                socket!!.sslParameters = params
+                socket.sslParameters = params
             } catch (e: Exception) {
                 status.append("[FAIL]")
                 message.append("$e, ")
@@ -67,7 +67,7 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
         try {
             socket = factory.createSocket(Constants.remoteWebViewHttpsDomain, 443) as SSLSocket
             try {
-                socket!!.enabledCipherSuites = ciphers
+                socket.enabledCipherSuites = ciphers
             } catch (e: Exception) {
                 status.append("[FAIL]")
                 message.append("$e, ")
@@ -76,7 +76,7 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
                 socket = factory.createSocket(Constants.remoteWebViewHttpsDomain, 443) as SSLSocket
                 // second way to set older protocols
                 val params = SSLParameters(ciphers, null)
-                socket!!.sslParameters = params
+                socket.sslParameters = params
             } catch (e: Exception) {
                 status.append("[FAIL]")
                 message.append("$e, ")

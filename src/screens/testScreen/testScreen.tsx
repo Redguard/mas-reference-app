@@ -15,6 +15,9 @@ class ExecuteTestButton extends Component<any, any> {
   onPress() {
     // execute the native function
     const ret: string = this.nativeFunction();
+
+    // send result to terminal
+
     console.log(ret);
     this.setState({successful: true});
   }
@@ -34,6 +37,7 @@ class ExecuteTestButton extends Component<any, any> {
 
 function TestScreen({route, navigation}: any): React.JSX.Element {
   var testCases: TestCases = route.params.testCase;
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: testCases.title,

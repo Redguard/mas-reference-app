@@ -1,6 +1,15 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  content: {
+    flex: 3,
+  },
+  // terminal: {
+  //   flex: 1,
+  // },
   categoryDescription: {
     flex: 1,
     margin: 20,

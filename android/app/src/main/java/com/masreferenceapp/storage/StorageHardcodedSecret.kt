@@ -13,24 +13,11 @@ class StorageHardcodedSecret(var context: ReactApplicationContext) : ReactContex
     context
 ) {
     private fun readRawTextFile(resId: Int): String {
-        val inputStream = context.resources.openRawResource(resId)
-        val reader = BufferedReader(InputStreamReader(inputStream))
-        val stringBuilder = StringBuilder()
-        var line: String?
-        try {
-            while (reader.readLine().also { line = it } != null) {
-                stringBuilder.append(line).append('\n')
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } finally {
-            try {
-                inputStream.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
+        return context.resources.openRawResource(resId).use { inputStream ->
+            inputStream.bufferedReader().use { reader ->
+                reader.readText()
             }
         }
-        return stringBuilder.toString()
     }
 
     override fun getName(): String {
