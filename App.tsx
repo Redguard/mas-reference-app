@@ -13,7 +13,7 @@ import CategoryStackScreen from './src/screens/categoryScreen/categoryScreen.tsx
 import HomeScreen from './src/screens/homeScreen/homeScreen.tsx';
 import AutomationScreen from './src/screens/automationScreen/automationScreen.tsx';
 import appContent from './src/appContent.tsx';
-import HeaderBackground from './src/screens/headerBackground.tsx';
+import HeaderBackground from './src/screens/header/headerBackground.tsx';
 
 const Drawer = createDrawerNavigator();
 
