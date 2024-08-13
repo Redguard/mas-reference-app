@@ -3,7 +3,7 @@ import styles from './styles.tsx';
 import TestScreen from '../testScreen/testScreen.tsx';
 import {TestCases} from '../../appContent.tsx';
 
-import React from 'react';
+import React, {useRef} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import TerminalView from '../terminal/TerminalView.tsx';
 
@@ -34,6 +34,8 @@ function CategoryScreen({route, navigation}: any): React.JSX.Element {
 const CategoryStack = createNativeStackNavigator();
 
 function CategoryStackScreen({route}: {route: any}): React.JSX.Element {
+  const terminalRef = useRef(null);
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -46,11 +48,11 @@ function CategoryStackScreen({route}: {route: any}): React.JSX.Element {
           <CategoryStack.Screen
             name="Tests"
             component={TestScreen}
-            initialParams={route.params}
+            initialParams={{...route.params, terminalRef}}
           />
         </CategoryStack.Navigator>
       </View>
-      <TerminalView />
+      <TerminalView ref={terminalRef} />
     </View>
   );
 }
