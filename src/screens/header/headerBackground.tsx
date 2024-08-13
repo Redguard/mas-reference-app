@@ -6,7 +6,7 @@ function HeaderBackground(): React.JSX.Element {
   return (
     <Image
       style={styles.header}
-      source={require('../assets/owasp_background.png')}
+      source={require('../../assets/owasp_background.png')}
       resizeMode="stretch"
     />
   );
