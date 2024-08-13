@@ -41,15 +41,16 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
         }
 
         // Resolve the domain name to its IP addresses
-        resolver.query(
-            null,
-            Constants.remoteWebViewHttpDomain,
-            DnsResolver.TYPE_A,
-            DnsResolver.FLAG_NO_CACHE_LOOKUP,
-            mExecutor,
-            mcancellationSignal,
-            callback
-        )
+        // TODO: kotlin conversion caused an error
+//        resolver.query(
+//            null,
+//            Constants.remoteWebViewHttpDomain,
+//            DnsResolver.TYPE_A,
+//            DnsResolver.FLAG_NO_CACHE_LOOKUP,
+//            mExecutor,
+//            mcancellationSignal,
+//            callback
+//        )
         return Status.status("OK", resolver.toString())
     }
 

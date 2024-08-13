@@ -649,7 +649,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         "By hardcoding or 'pinning' specific TLS certificates or public keys within the application's code, TLS pinning ensures that only trusted servers are communicated with, preventing attackers from intercepting and tampering with sensitive data exchanged between the mobile app and the server.  These tests implement this.",
       testCases: [
         {
-          title: 'Use Custem TrustStore',
+          title: 'Use Custom TrustStore',
           nativeFunction: NetworkTlsPinning.truststore,
         },
         {

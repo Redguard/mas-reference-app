@@ -1,10 +1,11 @@
-import {ScrollView, Text, TouchableOpacity} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles.tsx';
 import TestScreen from '../testScreen/testScreen.tsx';
 import {TestCases} from '../../appContent.tsx';
 
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import TerminalView from '../terminal/TerminalView.tsx';
 
 function CategoryScreen({route, navigation}: any): React.JSX.Element {
   var platformTestCases: TestCases[] = route.params.tests;
@@ -34,18 +35,23 @@ const CategoryStack = createNativeStackNavigator();
 
 function CategoryStackScreen({route}: {route: any}): React.JSX.Element {
   return (
-    <CategoryStack.Navigator screenOptions={{headerShown: false}}>
-      <CategoryStack.Screen
-        name=" "
-        component={CategoryScreen}
-        initialParams={route.params}
-      />
-      <CategoryStack.Screen
-        name="Tests"
-        component={TestScreen}
-        initialParams={route.params}
-      />
-    </CategoryStack.Navigator>
+    <View style={styles.container}>
+      <View style={styles.content}>
+        <CategoryStack.Navigator screenOptions={{headerShown: false}}>
+          <CategoryStack.Screen
+            name=" "
+            component={CategoryScreen}
+            initialParams={route.params}
+          />
+          <CategoryStack.Screen
+            name="Tests"
+            component={TestScreen}
+            initialParams={route.params}
+          />
+        </CategoryStack.Navigator>
+      </View>
+      <TerminalView />
+    </View>
   );
 }
 
