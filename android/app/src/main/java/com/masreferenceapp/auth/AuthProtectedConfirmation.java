@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 import java.util.concurrent.Executor;
@@ -86,9 +87,10 @@ public class AuthProtectedConfirmation extends ReactContextBaseJavaModule {
                     .build();
             dialog.presentPrompt(threadReceivingCallback, callback);
         } catch (ConfirmationNotAvailableException e){
-            return Status.status("OK", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            return r.toJsonString();
         }
 
-        return Status.status("OK", "Message");
-    }
+        ReturnStatus r = new ReturnStatus("OK", "Protected confirmation created.");
+        return r.toJsonString();    }
 }
