@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 import java.util.concurrent.Executor;
@@ -41,7 +42,8 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String isHardwareDetected(){
         FingerprintManager fpm = context.getSystemService(FingerprintManager.class);
-        return Status.status("OK", "HW detected: " + fpm.isHardwareDetected());
+        ReturnStatus r = new ReturnStatus("OK", "Hardware detected: " + fpm.isHardwareDetected());
+        return r.toJsonString();
     }
 
 
@@ -49,7 +51,8 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
     public String hasEnrolledFingerprints(){
 
         FingerprintManager fpm = context.getSystemService(FingerprintManager.class);
-        return Status.status("OK", "HW detected: " + fpm.hasEnrolledFingerprints());
+        ReturnStatus r = new ReturnStatus("OK", "Has enrolled Fingerprint: " + fpm.hasEnrolledFingerprints());
+        return r.toJsonString();
     }
 
 
@@ -90,7 +93,8 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
         Executor mExecutor = Executors.newSingleThreadExecutor();
         fpm.authenticate(null, cancellationSignal, 0, callback, null);
 
-        return Status.status("OK", "FPM Auth executed.");
+        ReturnStatus r = new ReturnStatus("OK", "FingerprintManager Simple Auth executed.");
+        return r.toJsonString();
 
     }
 
@@ -155,11 +159,12 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
 
             fpm.authenticate(cObject, cancellationSignal, 0, callback, null);
 
-
-            return Status.status("OK", cipher.toString());
+            ReturnStatus r = new ReturnStatus("OK", "FingerprintManager Crypto Object Auth executed.");
+            return r.toJsonString();
 
         } catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            return r.toJsonString();
         }
     }
 
