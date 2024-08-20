@@ -12,6 +12,7 @@ import android.security.keystore.KeyProperties;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 import java.util.concurrent.Executor;
@@ -66,7 +67,8 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
 
         prompt.authenticate(mcancellationSignal, mExecutor, mAuthenticationCallback );
 
-        return Status.status("OK", prompt.toString());
+        ReturnStatus r = new ReturnStatus("OK", "Prompt executed.");
+        return r.toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -93,7 +95,8 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
 
         prompt.authenticate(mcancellationSignal, mExecutor, mAuthenticationCallback );
 
-        return Status.status("OK", prompt.toString());
+        ReturnStatus r = new ReturnStatus("OK", "Prompt executed.");
+        return r.toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -153,10 +156,12 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
 
             prompt.authenticate(cObject, mcancellationSignal, mExecutor, mAuthenticationCallback);
 
-            return Status.status("OK", cipher.toString());
+            ReturnStatus r = new ReturnStatus("OK", "Prompt executed.");
+            return r.toJsonString();
 
         } catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            return r.toJsonString();
         }
 
     }
