@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 import java.io.File;
@@ -84,19 +85,21 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
         transformation.add("AES/ECB/PKCS5Padding");
         transformation.add("AES/CBC/PKCS5Padding");
         transformation.add("DES/ECB/PKCS5Padding");
+
+
+        ReturnStatus r = new ReturnStatus();
+
+
         for (String t : transformation) {
             try {
                 Cipher cipher = Cipher.getInstance(t);
-                status.append("[OK]");
-                message.append("["+cipher.toString()+"]");
+                r.addStatus("OK", "Cipher init with tranformation: " + t);
             } catch (Exception e) {
-                status.append("[FAIL]");
-                message.append("["+e.toString()+"]");
+                r.addStatus("FAIL", e.toString());
             }
-
         }
 
-        return Status.status(status.toString(), message.toString());
+        return r.toJsonString();
 
     }
 
@@ -116,18 +119,20 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
         StringBuilder status = new StringBuilder();
         StringBuilder message = new StringBuilder();;
 
+
+        ReturnStatus r = new ReturnStatus();
+
         for (String algorithm : algorithms) {
             try {
                 KeyGenerator kg = KeyGenerator.getInstance(algorithm);
-                status.append("[OK]");
-                message.append("["+kg.toString()+"]");
+                r.addStatus("OK", "Cipher init with algorithm: " + algorithm);
+
             } catch (Exception e) {
-                status.append("[FAIL]");
-                message.append("["+e.toString()+"]");
+                r.addStatus("FAIL", e.toString());
             }
 
         }
-        return Status.status(status.toString(), message.toString());
+        return r.toJsonString();
     }
 
 
@@ -149,45 +154,43 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
         StringBuilder status = new StringBuilder();
         StringBuilder message = new StringBuilder();;
 
+        ReturnStatus r = new ReturnStatus();
+
         for (String s : signatures) {
             try {
                 Signature sig = Signature.getInstance(s);
-                status.append("[OK]");
-                message.append("["+sig.toString()+"]");
+                r.addStatus("OK", "Signature init with algorithm: " + s);
             } catch (Exception e) {
-                status.append("[FAIL]");
-                message.append("["+e.toString()+"]");
+                r.addStatus("FAIL", e.toString());
             }
 
         }
-        return Status.status(status.toString(), message.toString());
+        return r.toJsonString();
     }
 
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String bouncyCastle(){
+        ReturnStatus r = new ReturnStatus();
 
         StringBuilder status = new StringBuilder();
         StringBuilder message = new StringBuilder();;
-            try {
-                Cipher c = Cipher.getInstance("AES/CBC/PKCS7PADDING", "BC");
-                status.append("[OK]");
-                message.append("["+c.toString()+"]");
-            } catch (Exception e) {
-                status.append("[FAIL]");
-                message.append("["+e.toString()+"]");
-            }
+        try {
+            Cipher c = Cipher.getInstance("AES/CBC/PKCS7PADDING", "BC");
+            r.addStatus("OK", "BouncyCastle instance created.");
+        } catch (Exception e) {
+            r.addStatus("Fail", e.toString());
+        }
 
         try {
             Cipher c = Cipher.getInstance("AES/CBC/PKCS7PADDING", Security.getProvider("BC"));
-            status.append("[OK]");
-            message.append("["+c.toString()+"]");
+            r.addStatus("OK", "BouncyCastle instance created.");
         } catch (Exception e) {
-            status.append("[FAIL]");
-            message.append("["+e.toString()+"]");
+            r.addStatus("Fail", e.toString());
+
         }
-        return Status.status(status.toString(), message.toString());
+        return r.toJsonString();
 
     }
 
@@ -199,7 +202,31 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
         StringBuilder message = new StringBuilder();;
 
 
-        String password  = "password";
+        char[] password = "MySecretPassword".toCharArray();
+        int iterationCount = 1000000;
+        int keyLength = 256;
+        int saltLength = keyLength / 8; // same size as key output
+
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[saltLength];
+        random.nextBytes(salt);
+
+        KeySpec keySpec = new PBEKeySpec(password, salt, iterationCount, keyLength);
+
+        ReturnStatus r = new ReturnStatus("OK", "Password Based Encryption Cipher instance created.");
+        return r.toJsonString();
+
+    }
+
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String pbeCipherLowIteration(){
+
+        StringBuilder status = new StringBuilder();
+        StringBuilder message = new StringBuilder();;
+
+
+        char[] password = "MySecretPassword".toCharArray();
         int iterationCount = 1;
         int keyLength = 256;
         int saltLength = keyLength / 8; // same size as key output
@@ -208,8 +235,10 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
         byte[] salt = new byte[saltLength];
         random.nextBytes(salt);
 
-        KeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt, iterationCount, keyLength);
-        return Status.status("OK",  keySpec.toString());
+        KeySpec keySpec = new PBEKeySpec(password, salt, iterationCount, keyLength);
+
+        ReturnStatus r = new ReturnStatus("OK", "Password Based Encryption Cipher instance with 1 iteration of PBEKeySpec created.");
+        return r.toJsonString();
 
     }
 
@@ -219,8 +248,9 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
 
         // more infos: https://developer.android.com/privacy-and-security/cryptography#pbe-without-iv
 
-        try {
+        ReturnStatus r = new ReturnStatus();
 
+        try {
             char[] password = "MySecretPassword".toCharArray();
 
             // Generate PBE key without an IV
@@ -230,20 +260,25 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             SecretKey pbeKey = factory.generateSecret(spec);
 
+            // The code uses AES in CBC mode (PBEWITHSHA256AND256BITAES-CBC-BC) for encryption but does not explicitly specify an Initialization Vector (IV) during the cipher initialization (pbecipher.init(Cipher.ENCRYPT_MODE, pbeKey);).
             Cipher pbecipher = Cipher.getInstance("PBEWITHSHA256AND256BITAES-CBC-BC");
             pbecipher.init(Cipher.ENCRYPT_MODE, pbeKey);
 
-            return Status.status("OK",  pbecipher.toString());
-        } catch (Exception e) {
-            return Status.status("FAIL",  e.toString());
-        }
+            r.addStatus("OK", "PBE Cipher with Zero IV created.");
+            return r.toJsonString();
 
+        } catch (Exception e) {
+            r.addStatus("FAIL", e.toString());
+            return r.toJsonString();
+        }
     }
 
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String encrypt(){
+        ReturnStatus r = new ReturnStatus();
+
         try {
             String partOne = "Fist secret Text: Passw0rd! \n";
             byte[] plaintextOne = partOne.getBytes();
@@ -259,16 +294,20 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
             byte[] ciphertext = cipher.doFinal(plaintext);
 
 
-            return Status.status("OK", "Ciphertext: " +  bytesToHex(ciphertext));
+            r.addStatus("OK", "Encryption done. Ciphertext: " +  bytesToHex(ciphertext));
+            return r.toJsonString();
         }
         catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            r.addStatus("FAIL", e.toString());
+            return r.toJsonString();
         }
     }
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String decrypt(){
+        ReturnStatus r = new ReturnStatus();
+
         try {
 
             String inputString = "Let's DECRYPT this S3CR3T!";
@@ -289,20 +328,21 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
             decrypt.init(Cipher.DECRYPT_MODE, key, iVector);
             String plainText = new String( decrypt.doFinal(ciphertext), StandardCharsets.UTF_8);;
 
-            return Status.status("OK", "Plaintext: " +  plainText);
-
-
-
+            r.addStatus("OK", "Encryption done. Plaintext: " + plainText);
+            return r.toJsonString();
 
         }
         catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            r.addStatus("FAIL", e.toString());
+            return r.toJsonString();
         }
     }
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String sign(){
+        ReturnStatus r = new ReturnStatus();
+
         try {
             String inputString = "Document to sign.";
             byte[] doc = inputString.getBytes();
@@ -315,16 +355,20 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
             s.initSign(kp.getPrivate());
             s.update(doc);
             byte[] signature = s.sign();
-            return Status.status("OK", "Signature: " +  bytesToHex(signature));
+            r.addStatus("OK", "Document signed.");
+            return r.toJsonString();
         }
         catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            r.addStatus("FAIL", e.toString());
+            return r.toJsonString();
         }
     }
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String verify(){
+        ReturnStatus r = new ReturnStatus();
+
         try {
             String inputString = "Document to sign.";
             byte[] doc = inputString.getBytes();
@@ -343,12 +387,12 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
             v.update(doc);
             boolean valid = v.verify(signature);
 
-
-
-            return Status.status("OK", "Verify successful? : " +  valid);
+            r.addStatus("OK", "Document validity:  " + valid);
+            return r.toJsonString();
         }
         catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            r.addStatus("FAIL", e.toString());
+            return r.toJsonString();
         }
     }
 
