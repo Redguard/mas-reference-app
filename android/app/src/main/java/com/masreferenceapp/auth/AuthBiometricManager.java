@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 
@@ -29,7 +30,8 @@ public class AuthBiometricManager extends ReactContextBaseJavaModule {
         BiometricManager bm = BiometricManager.from(context);
         int canAuth = bm.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG);
 
-        return Status.status("OK", String.valueOf(canAuth));
+        ReturnStatus r = new ReturnStatus("OK", "Value of canAuth: " + String.valueOf(canAuth));
+        return r.toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -37,15 +39,15 @@ public class AuthBiometricManager extends ReactContextBaseJavaModule {
         BiometricManager bm = BiometricManager.from(context);
         int canAuth = bm.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK);
 
-        return Status.status("OK", String.valueOf(canAuth));
-    }
+        ReturnStatus r = new ReturnStatus("OK", "Value of canAuth: " + String.valueOf(canAuth));
+        return r.toJsonString();    }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String testDeviceCredentialsAuth(){
         BiometricManager bm = BiometricManager.from(context);
         int canAuth = bm.canAuthenticate(BiometricManager.Authenticators.DEVICE_CREDENTIAL);
 
-        return Status.status("OK", String.valueOf(canAuth));
+        ReturnStatus r = new ReturnStatus("OK", "Value of canAuth: " + String.valueOf(canAuth));
+        return r.toJsonString();
     }
-
 }
