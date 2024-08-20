@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 
@@ -35,7 +36,8 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
         boolean isKeyguardSecure = kgm.isKeyguardSecure();
         boolean isKeyguardLocked = kgm.isKeyguardLocked();
 
-        return Status.status("OK", "Message: "+ isKeyguardSecure +", " +  isKeyguardLocked);
+        ReturnStatus r = new ReturnStatus("OK", "isKeyguardSecure: "+ isKeyguardSecure +", isKeyguardLocked:" +  isKeyguardLocked);
+        return r.toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -45,7 +47,8 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
         boolean isDeviceSecure = kgm.isDeviceSecure();
         boolean isDeviceLocked = kgm.isDeviceLocked();
 
-        return Status.status("OK", "Message: " +  isDeviceSecure+", " +  isDeviceLocked);
+        ReturnStatus r = new ReturnStatus("OK", "isDeviceSecure: " +  isDeviceSecure+", isDeviceLocked:" +  isDeviceLocked);
+        return r.toJsonString();
     }
 
 
@@ -54,10 +57,12 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
 
         try{
             int patternEnabled = Settings.System.getInt(context.getContentResolver(), Settings.Secure.LOCK_PATTERN_ENABLED , 0);
-            return Status.status("OK", "Pattern Enabled?: "+ patternEnabled );
+            ReturnStatus r = new ReturnStatus("OK", "Pattern Enabled: "+ patternEnabled);
+            return r.toJsonString();
 
         }catch (Exception e){
-            return Status.status("FAIL",  e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            return r.toJsonString();
         }
     }
 
@@ -69,7 +74,8 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
         KeyguardManager.KeyguardLock keyguardLock = kgm.newKeyguardLock("Tag");
         keyguardLock.disableKeyguard();
 
-        return Status.status("OK", "Message");
+        ReturnStatus r = new ReturnStatus("OK", "KeyboardLock disabled.");
+        return r.toJsonString();
     }
 
 
@@ -97,7 +103,9 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
 
         kgm.requestDismissKeyguard(context.getCurrentActivity(), callback);
 
-        return Status.status("OK", kgm.toString());
+
+        ReturnStatus r = new ReturnStatus("OK", "KeyguardManager Request dismissed.");
+        return r.toJsonString();
     }
 
 }
