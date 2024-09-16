@@ -7,10 +7,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   lineText: {
-    color: '#00ff00',
     fontFamily: 'monospace',
     fontSize: 14,
     lineHeight: 20,
+    flexWrap: 'wrap',
   },
 });
 

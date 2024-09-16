@@ -10,6 +10,7 @@ import androidx.constraintlayout.motion.widget.KeyPosition;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 import java.math.BigInteger;
@@ -132,7 +133,8 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
 
             return Status.status("OK", r.toString());
         } catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            return r.toJsonString();
         }
     }
 
@@ -192,7 +194,8 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
             KeyPair kp = kpg.generateKeyPair();
             return Status.status("OK", kpg.toString());
         } catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+return r.toJsonString();
         }
     }
 
@@ -217,7 +220,8 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
             return Status.status("OK", pk.toString());
 
         } catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+return r.toJsonString();
         }
     }
 
@@ -259,7 +263,8 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
             return Status.status("OK", r.toString());
 
         } catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+return r.toJsonString();
         }
     }
 }

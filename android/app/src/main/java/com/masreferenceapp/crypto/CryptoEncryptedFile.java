@@ -6,6 +6,7 @@ import androidx.security.crypto.EncryptedFile;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 import androidx.security.crypto.MasterKeys;
 
@@ -68,10 +69,12 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
                 }
             }
 
-            return Status.status("OK", "Encrypted file content: " + hexString);
+            ReturnStatus r = new ReturnStatus("OK", "Encrypted file content: " +  hexString);
+            return r.toJsonString();
 
         } catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            return r.toJsonString();
         }
 
     }
@@ -111,10 +114,12 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
                 outString.append((char)character);
             }
 
-            return Status.status("OK", "Decrypted file content: "+ outString);
+            ReturnStatus r = new ReturnStatus("OK", "Decrypted file content: " +  outString);
+            return r.toJsonString();
 
         } catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            return r.toJsonString();
         }
     }
 
