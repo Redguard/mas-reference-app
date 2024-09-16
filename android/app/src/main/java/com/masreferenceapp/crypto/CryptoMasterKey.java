@@ -6,6 +6,7 @@ import androidx.security.crypto.MasterKeys;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 import java.io.IOException;
@@ -35,7 +36,8 @@ public class CryptoMasterKey extends ReactContextBaseJavaModule {
             return Status.status("OK", masterKeyAlias.toString());
 
         } catch (Exception e) {
-            return Status.status("FAIL", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            return r.toJsonString();
         }
     }
 }

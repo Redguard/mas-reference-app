@@ -345,6 +345,12 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: CryptoCipher.pbeCipher,
         },
         {
+          title: 'Password-Based Cipher with Low Iteration Count',
+          description:
+            'Initializes an Cipher with PBE with 1 iteration when creating the Cipher Spec.',
+          nativeFunction: CryptoCipher.pbeCipherLowIteration,
+        },
+        {
           title: 'Password-Based Ciphers with Zero-IV',
           description:
             "Password-based encryption (PBE) ciphers that require an initialization vector (IV) can obtain it from the key, if it's suitably constructed, or from an explicitly passed IV. If you pass a PBE key that doesn't contain an IV and don't pass an explicit IV, the PBE ciphers on Android currently assume an IV of zero.",
@@ -537,10 +543,16 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'These Tests create Keys setUserAuthenticationRequired set to true.',
       testCases: [
         {
-          title: 'Required Authentication without Prompt',
+          title: 'Device Auth Required',
           description:
-            'Creates a new key wich setUserAuthenticationRequired is set to true, and then accesses it with the KeyStore beeing locked.',
-          nativeFunction: AuthKeyAccess.accessKeyWithoutPrompt,
+            'Creates a new key wich requires a device authentication such as PIN, Password or Pattern.',
+          nativeFunction: AuthKeyAccess.deviceCredentialsRequired,
+        },
+        {
+          title: 'Biometric Auth Required',
+          description:
+            'Creates a new key wich requires a strong biometric authentication.',
+          nativeFunction: AuthKeyAccess.biometryRequired,
         },
         {
           title: 'Long Key Validity',

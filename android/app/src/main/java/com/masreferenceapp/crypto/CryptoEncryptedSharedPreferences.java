@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 import androidx.security.crypto.EncryptedSharedPreferences;
@@ -143,7 +144,8 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
 
             message = readValue;
         } catch (Exception e){
-            return Status.status("FAIL", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            return r.toJsonString();
         }
         return Status.status("OK", message);
     }
@@ -170,7 +172,8 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
             Set<String> readValue = sharedPreferences.getStringSet("masRefAppKeyPasswords", new HashSet<>());
             message = readValue.toString();
         } catch (Exception e){
-            return Status.status("FAIL", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            return r.toJsonString();
         }
         return Status.status("OK", message);
     }

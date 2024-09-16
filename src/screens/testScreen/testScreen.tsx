@@ -18,9 +18,18 @@ class ExecuteTestButton extends Component<any, any> {
     // execute the native function
     const ret: string = this.nativeFunction();
 
+    const retJson = JSON.parse(ret);
+
     // Send result to terminal
     if (this.terminalRef && this.terminalRef.current) {
-      this.terminalRef.current.addLine(ret); // Call addLine on TerminalView
+      retJson.map((item: any, _: any) => {
+        console.log(item);
+        if (item.statusCode === 'OK') {
+          this.terminalRef.current.addSuccess(item.message);
+        } else if (item.statusCode === 'FAIL') {
+          this.terminalRef.current.addFailure(item.message);
+        }
+      });
     }
 
     console.log(ret);

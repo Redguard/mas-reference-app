@@ -1,9 +1,7 @@
 package com.masreferenceapp.resilience;
 
-import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Debug;
 
 import androidx.annotation.NonNull;
@@ -11,6 +9,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 
@@ -37,7 +36,8 @@ public class ResilienceAntiDebug extends ReactContextBaseJavaModule {
             return Status.status("OK", "Debuggable?: " + debuggable);
         }
         catch (Exception e){
-            return Status.status("FAIL", e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            return r.toJsonString();
         }
     }
 
