@@ -9,7 +9,6 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.ReturnStatus;
-import com.masreferenceapp.Status;
 
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
@@ -50,18 +49,18 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
-            message = sharedPreferences.toString();
-        } catch (Exception e){
-            message = e.toString();
-        }
+            ReturnStatus r = new ReturnStatus("OK", "Encrypted Shared Preferences Created");
+            return r.toJsonString();
 
-        return Status.status("OK", message);
+        } catch (Exception e){
+            ReturnStatus r = new ReturnStatus("FAIL", e.toString());
+            return r.toJsonString();
+        }
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String putString(){
         SharedPreferences sharedPref;
-        String message = "";
         try {
             // a the moment, this is the only way of creating encrypted preferences
             // a developer is not able to create an _insecure_ instances of EncryptedSharedPreferences
@@ -81,17 +80,18 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
             editor.putString("masRefAppKeyPassword", "Password123!");
             editor.commit();
 
-            message = editor.toString();
+            ReturnStatus r = new ReturnStatus("OK", "String added.");
+            return r.toJsonString();
+
         } catch (Exception e){
-            message = e.toString();
+            ReturnStatus r = new ReturnStatus("FAIL", e.toString());
+            return r.toJsonString();
         }
-        return Status.status("OK", message);
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String putStringSet(){
         SharedPreferences sharedPref;
-        String message = "";
         try {
             // a the moment, this is the only way of creating encrypted preferences
             // a developer is not able to create an _insecure_ instances of EncryptedSharedPreferences
@@ -114,17 +114,18 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
             editor.putStringSet("masRefAppKeyPasswords", stringSet);
             editor.commit();
 
-            message = editor.toString();
+            ReturnStatus r = new ReturnStatus("OK", "StringSet added.");
+            return r.toJsonString();
         } catch (Exception e){
-            message = e.toString();
+            ReturnStatus r = new ReturnStatus("FAIL", e.toString());
+            return r.toJsonString();
         }
-        return Status.status("OK", message);
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String readString(){
         SharedPreferences sharedPref;
-        String message = "";
+        ReturnStatus r = new ReturnStatus();
         try {
             // a the moment, this is the only way of creating encrypted preferences
             // a developer is not able to create an _insecure_ instances of EncryptedSharedPreferences
@@ -140,20 +141,23 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
-            String readValue = sharedPreferences.getString("masRefAppKeyPassword", "");
 
-            message = readValue;
+            this.putString();
+
+            String readValue = sharedPreferences.getString("masRefAppKeyPassword", "");
+            r.addStatus("OK", "Read values: "  + readValue);
+
         } catch (Exception e){
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            r.addStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
-        return Status.status("OK", message);
+        return r.toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String readStringSet(){
         SharedPreferences sharedPref;
-        String message = "";
+        ReturnStatus r = new ReturnStatus();
         try {
             // a the moment, this is the only way of creating encrypted preferences
             // a developer is not able to create an _insecure_ instances of EncryptedSharedPreferences
@@ -169,12 +173,18 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
+
+
+            this.putStringSet();
+
             Set<String> readValue = sharedPreferences.getStringSet("masRefAppKeyPasswords", new HashSet<>());
-            message = readValue.toString();
+
+
+            r.addStatus("OK", "Read values: "  + readValue.toString());
         } catch (Exception e){
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            r.addStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
-        return Status.status("OK", message);
+        return r.toJsonString();
     }
 }
