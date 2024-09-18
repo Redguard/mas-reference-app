@@ -16,6 +16,7 @@ export var generalTestCases: Dictionary<TestCases[]> = {
   STORAGE: [
     {
       title: 'Sensitive Data in Log',
+      maswe: '0001',
       description:
         'This test cases will write the following sensitive data to the application log:\n\n- Different Password-Identifiere\n- Valid Access-Token\n- ...\n',
       testCases: [
@@ -59,6 +60,7 @@ export var generalTestCases: Dictionary<TestCases[]> = {
     },
     {
       title: 'Hardcoded Secrets',
+      maswe: '0005',
       description:
         'Sensitive data, including cryptographic keys and authentication material, hardcoded in the app package, source code, or compiled binaries, poses significant security risks, as attackers can easily extract this data through reverse engineering. These test simulate sensitve date within code and stored within the binary as embedded files.',
       testCases: [

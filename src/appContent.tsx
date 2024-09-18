@@ -4,12 +4,14 @@ type TestCase = {
   title: string;
   description?: string;
   nativeFunction: any;
+  maswe?: string;
 };
 
 type TestCases = {
   title: string;
   description: string;
   testCases: TestCase[];
+  maswe?: string;
 };
 
 type MASCategory = {
