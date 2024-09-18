@@ -25,7 +25,7 @@ public class AuthProtectedConfirmation extends ReactContextBaseJavaModule {
             this.receiver = receiver;
             this.amount = amount;
         }
-    };
+    }
 
     private static class MyConfirmationCallback extends ConfirmationCallback {
 
@@ -87,7 +87,7 @@ public class AuthProtectedConfirmation extends ReactContextBaseJavaModule {
                     .build();
             dialog.presentPrompt(threadReceivingCallback, callback);
         } catch (ConfirmationNotAvailableException e){
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
 

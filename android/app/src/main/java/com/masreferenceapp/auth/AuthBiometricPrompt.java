@@ -160,7 +160,7 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
             return r.toJsonString();
 
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
 
