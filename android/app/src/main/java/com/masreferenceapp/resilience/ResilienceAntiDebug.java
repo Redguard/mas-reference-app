@@ -36,14 +36,15 @@ public class ResilienceAntiDebug extends ReactContextBaseJavaModule {
             return Status.status("OK", "Debuggable?: " + debuggable);
         }
         catch (Exception e){
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String debuggerConnected(){
-        return Status.status("OK", "Debugger Connected?: " + Debug.isDebuggerConnected());
+        ReturnStatus r = new ReturnStatus("OK", "Debugger Connected?: " + Debug.isDebuggerConnected());
+        return r.toJsonString();
     }
 
 }
