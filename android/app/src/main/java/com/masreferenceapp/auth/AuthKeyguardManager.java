@@ -31,7 +31,7 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String checkKeyguardState(){
-        KeyguardManager kgm = (KeyguardManager) getSystemService(context, KeyguardManager.class);
+        KeyguardManager kgm = getSystemService(context, KeyguardManager.class);
 
         boolean isKeyguardSecure = kgm.isKeyguardSecure();
         boolean isKeyguardLocked = kgm.isKeyguardLocked();
@@ -42,7 +42,7 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String checkDeviceState(){
-        KeyguardManager kgm = (KeyguardManager) getSystemService(context, KeyguardManager.class);
+        KeyguardManager kgm = getSystemService(context, KeyguardManager.class);
 
         boolean isDeviceSecure = kgm.isDeviceSecure();
         boolean isDeviceLocked = kgm.isDeviceLocked();
@@ -61,7 +61,7 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
             return r.toJsonString();
 
         }catch (Exception e){
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
     }
@@ -70,7 +70,7 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String disableKeyguardLock(){
 
-        KeyguardManager kgm = (KeyguardManager) getSystemService(context, KeyguardManager.class);
+        KeyguardManager kgm = getSystemService(context, KeyguardManager.class);
         KeyguardManager.KeyguardLock keyguardLock = kgm.newKeyguardLock("Tag");
         keyguardLock.disableKeyguard();
 
@@ -82,7 +82,7 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String requestDismissKeyguard(){
 
-        KeyguardManager kgm = (KeyguardManager) getSystemService(context, KeyguardManager.class);
+        KeyguardManager kgm = getSystemService(context, KeyguardManager.class);
 
         KeyguardManager.KeyguardDismissCallback callback = new KeyguardManager.KeyguardDismissCallback() {
             @Override

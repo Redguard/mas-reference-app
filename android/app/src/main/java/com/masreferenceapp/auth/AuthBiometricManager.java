@@ -30,7 +30,7 @@ public class AuthBiometricManager extends ReactContextBaseJavaModule {
         BiometricManager bm = BiometricManager.from(context);
         int canAuth = bm.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG);
 
-        ReturnStatus r = new ReturnStatus("OK", "Value of canAuth: " + String.valueOf(canAuth));
+        ReturnStatus r = new ReturnStatus("OK", "Value of canAuth: " + canAuth);
         return r.toJsonString();
     }
 
@@ -39,7 +39,7 @@ public class AuthBiometricManager extends ReactContextBaseJavaModule {
         BiometricManager bm = BiometricManager.from(context);
         int canAuth = bm.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK);
 
-        ReturnStatus r = new ReturnStatus("OK", "Value of canAuth: " + String.valueOf(canAuth));
+        ReturnStatus r = new ReturnStatus("OK", "Value of canAuth: " + canAuth);
         return r.toJsonString();    }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -47,7 +47,7 @@ public class AuthBiometricManager extends ReactContextBaseJavaModule {
         BiometricManager bm = BiometricManager.from(context);
         int canAuth = bm.canAuthenticate(BiometricManager.Authenticators.DEVICE_CREDENTIAL);
 
-        ReturnStatus r = new ReturnStatus("OK", "Value of canAuth: " + String.valueOf(canAuth));
+        ReturnStatus r = new ReturnStatus("OK", "Value of canAuth: " + canAuth);
         return r.toJsonString();
     }
 }
