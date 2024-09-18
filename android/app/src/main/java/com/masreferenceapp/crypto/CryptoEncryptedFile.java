@@ -7,7 +7,6 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.ReturnStatus;
-import com.masreferenceapp.Status;
 import androidx.security.crypto.MasterKeys;
 
 import java.io.File;
@@ -73,7 +72,7 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
             return r.toJsonString();
 
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
 
@@ -118,7 +117,7 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
             return r.toJsonString();
 
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
     }
