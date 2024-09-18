@@ -70,7 +70,7 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
         // more infos: https://developer.android.com/reference/kotlin/javax/crypto/Cipher
 
         StringBuilder status = new StringBuilder();
-        StringBuilder message = new StringBuilder();;
+        StringBuilder message = new StringBuilder();
 
         List<String> transformation = new ArrayList<>();
         transformation.add("AES_128/ECB/PKCS5Padding");
@@ -117,7 +117,7 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
         algorithms.add("RC4");
 
         StringBuilder status = new StringBuilder();
-        StringBuilder message = new StringBuilder();;
+        StringBuilder message = new StringBuilder();
 
 
         ReturnStatus r = new ReturnStatus();
@@ -152,7 +152,7 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
         signatures.add("SHA1withECDSA");
 
         StringBuilder status = new StringBuilder();
-        StringBuilder message = new StringBuilder();;
+        StringBuilder message = new StringBuilder();
 
         ReturnStatus r = new ReturnStatus();
 
@@ -175,7 +175,7 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
         ReturnStatus r = new ReturnStatus();
 
         StringBuilder status = new StringBuilder();
-        StringBuilder message = new StringBuilder();;
+        StringBuilder message = new StringBuilder();
         try {
             Cipher c = Cipher.getInstance("AES/CBC/PKCS7PADDING", "BC");
             r.addStatus("OK", "BouncyCastle instance created.");
@@ -199,7 +199,7 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
     public String pbeCipher(){
 
         StringBuilder status = new StringBuilder();
-        StringBuilder message = new StringBuilder();;
+        StringBuilder message = new StringBuilder();
 
 
         char[] password = "MySecretPassword".toCharArray();
@@ -223,7 +223,7 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
     public String pbeCipherLowIteration(){
 
         StringBuilder status = new StringBuilder();
-        StringBuilder message = new StringBuilder();;
+        StringBuilder message = new StringBuilder();
 
 
         char[] password = "MySecretPassword".toCharArray();
@@ -326,7 +326,7 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
             Cipher decrypt = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             IvParameterSpec iVector = new IvParameterSpec(iv);
             decrypt.init(Cipher.DECRYPT_MODE, key, iVector);
-            String plainText = new String( decrypt.doFinal(ciphertext), StandardCharsets.UTF_8);;
+            String plainText = new String( decrypt.doFinal(ciphertext), StandardCharsets.UTF_8);
 
             r.addStatus("OK", "Encryption done. Plaintext: " + plainText);
             return r.toJsonString();
