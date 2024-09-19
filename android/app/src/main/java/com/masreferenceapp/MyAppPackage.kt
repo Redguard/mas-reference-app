@@ -15,7 +15,6 @@ import com.masreferenceapp.auth.AuthProtectedConfirmation
 import com.masreferenceapp.crypto.CryptoCipher
 import com.masreferenceapp.crypto.CryptoEncryptedFile
 import com.masreferenceapp.crypto.CryptoKeyAttestation
-import com.masreferenceapp.crypto.CryptoKeyChain
 import com.masreferenceapp.crypto.CryptoKeyStore
 import com.masreferenceapp.crypto.CryptoRandom
 import com.masreferenceapp.platform.PlatformWebView
@@ -74,7 +73,6 @@ class MyAppPackage : ReactPackage {
         modules.add(CryptoKeyAttestation(reactContext))
         modules.add(CryptoCipher(reactContext))
         modules.add(CryptoRandom(reactContext))
-        modules.add(CryptoKeyChain(reactContext))
         modules.add(CryptoEncryptedSharedPreferences(reactContext))
         modules.add(CryptoEncryptedFile(reactContext))
         modules.add(CryptoMasterKey(reactContext))
@@ -86,7 +84,6 @@ class MyAppPackage : ReactPackage {
 
         modules.add(PlatformIpc(reactContext))
         modules.add(PlatformWebView(reactContext))
-        modules.add(PlatformUiDisclosure(reactContext))
 
         modules.add(ResilienceFileIntegrityManager(reactContext))
         modules.add(ResilienceVerifySignature(reactContext))
@@ -94,6 +91,8 @@ class MyAppPackage : ReactPackage {
         modules.add(ResilienceAntiVm(reactContext))
 
         modules.add(com.masreferenceapp.privacy.PrivacyAccessData(reactContext))
+        modules.add(com.masreferenceapp.crypto.CryptoKeyChain(reactContext))
+        modules.add(com.masreferenceapp.platform.PlatformUiDisclosure(reactContext))
         //@modules
 
         return modules
