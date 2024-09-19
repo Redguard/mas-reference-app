@@ -64,11 +64,19 @@ function TestScreen({route, navigation}: any): React.JSX.Element {
     <ScrollView style={styles.categoryDescription}>
       <Text>{testCases.description}</Text>
       {testCases.testCases.map(testCase => {
+        var title = testCase.title;
+
+        if (testCases.maswe) {
+          title += ' (MASWE-' + testCases.maswe + ')';
+        } else if (testCase.maswe) {
+          title += ' (MASWE-' + testCase.maswe + ')';
+        }
+
         return (
           <ExecuteTestButton
             key={testCase.title.replace(' ', '_')}
             nativeFunction={testCase.nativeFunction}
-            title={testCase.title}
+            title={title}
             terminalRef={terminalRef}
           />
         );

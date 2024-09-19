@@ -1,11 +1,17 @@
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable prettier/prettier */
 import {NativeModules} from 'react-native';
 import {TestCases} from '../appContent';
 const {
   StorageLog,
   StorageSQLite,
   StorageHardcodedSecret,
+
   NetworkUnencrypted,
+
   ResilienceVerifySignature,
+
+  PrivacyAccessData,
 } = NativeModules;
 
 interface Dictionary<Type> {
@@ -171,22 +177,22 @@ export var generalTestCases: Dictionary<TestCases[]> = {
       title: 'Access Phone Data',
       description: 'e.G. Calendar, Contacts,',
       testCases: [
-        // {
-        //   title: 'Get Contacts',
-        //   nativeFunction: PrivacyAccessData.getPackageSignatures,
-        // },
-        // {
-        //   title: 'Write Contacts',
-        //   nativeFunction: PrivacyAccessData.getPackageSignatures,
-        // },
-        // {
-        //   title: 'Get Calendar Event',
-        //   nativeFunction: PrivacyAccessData.getPackageSignatures,
-        // },
-        // {
-        //   title: 'Write Calendar Event',
-        //   nativeFunction: PrivacyAccessData.getPackageSignatures,
-        // },
+        {
+          title: 'Get Contacts',
+          nativeFunction: PrivacyAccessData.getContacts,
+        },
+        {
+          title: 'Write Contacts',
+          nativeFunction: PrivacyAccessData.writeContacts,
+        },
+        {
+          title: 'Get Calendar Event',
+          nativeFunction: PrivacyAccessData.getCalendarEvent,
+        },
+        {
+          title: 'Write Calendar Event',
+          nativeFunction: PrivacyAccessData.writeCalendarEvent,
+        },
         // {
         //   title: 'Get WIFI',
         //   nativeFunction: PrivacyAccessData.getWifi,

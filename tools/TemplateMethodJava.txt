@@ -1,0 +1,8 @@
+    
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String @methodName(){
+        ReturnStatus r = new ReturnStatus("OK", "Android code stub.");
+        return r.toJsonString();
+    }
+
+    //@method
