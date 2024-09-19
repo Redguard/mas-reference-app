@@ -22,7 +22,7 @@ public class IpcExportedMessengerService extends Service {
      * Handler of incoming messages from clients.
      */
     static class IncomingHandler extends Handler {
-        private Context applicationContext;
+        private final Context applicationContext;
 
         IncomingHandler(Context context) {
             applicationContext = context.getApplicationContext();
@@ -30,11 +30,9 @@ public class IpcExportedMessengerService extends Service {
 
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_SAY_HELLO:
-                    break;
-                default:
-                    super.handleMessage(msg);
+            if (msg.what == MSG_SAY_HELLO) {
+            } else {
+                super.handleMessage(msg);
             }
         }
     }
