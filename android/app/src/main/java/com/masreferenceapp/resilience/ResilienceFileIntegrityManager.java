@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 import java.io.File;
@@ -33,7 +34,7 @@ public class ResilienceFileIntegrityManager extends ReactContextBaseJavaModule {
 
         // will be added in Android 15
 
-        return Status.status("OK", "Message");
+        return new ReturnStatus("OK", "Android Stub").toJsonString();
 
     }
 }

@@ -38,10 +38,11 @@ public class ResilienceVerifySignature extends ReactContextBaseJavaModule {
             {
                 message.append(sig.hashCode() + "\n");
             }
-            return Status.status("OK", message.toString());
+            return new ReturnStatus("OK", "Package signatures: "+message).toJsonString();
+
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
-            return r.toJsonString();
+            return new ReturnStatus("FAIL", e.toString()).toJsonString();
+
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.masreferenceapp.resilience;
 
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.InstallSourceInfo;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 import java.net.NetworkInterface;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -39,12 +41,13 @@ public class ResilienceAntiVm extends ReactContextBaseJavaModule {
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String getImsi(){
         try{
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             String imsi = telephonyManager.getSubscriberId();
-            return Status.status("OK", "Return Value: " + imsi);
+
+            return new ReturnStatus("OK", "IMSI: " + imsi).toJsonString();
         }
         catch (Exception e){
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
     }
@@ -57,36 +60,37 @@ public class ResilienceAntiVm extends ReactContextBaseJavaModule {
             String MODEL = android.os.Build.MODEL;
             String PRODUCT = android.os.Build.PRODUCT;
 
-            return Status.status("OK", "Return Value: " + BOARD + ", " + BRAND + ", " + DEVICE + ", " + MODEL + ", " + PRODUCT );
+            return new ReturnStatus("OK", "Information about the build: " + BOARD + ", " + BRAND + ", " + DEVICE + ", " + MODEL + ", " + PRODUCT ).toJsonString();
+
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String getNetworkInterface(){
 
-        StringBuilder message = new StringBuilder();
         StringBuilder status = new StringBuilder();
+        ReturnStatus r = new ReturnStatus();
 
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
                 NetworkInterface intf = en.nextElement();
 
-                message.append(intf.getName() + ", ");
-                status.append("[OK]");
+                r.addStatus("OK", "Network interface: " + intf.getName());
             }
 
         } catch (Exception e) {
-            message.append(e.toString());
-            status.append("[FAIL]");
+            return new ReturnStatus("FAIL", e.toString()).toJsonString();
         }
 
-        return Status.status(status.toString(), message.toString());
+        return r.toJsonString();
     }
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String getInstallerPackageName(){
 
-        StringBuilder message = new StringBuilder();
+        ReturnStatus r = new ReturnStatus();
+
+
         StringBuilder status = new StringBuilder();
         PackageManager packageManager = context.getPackageManager();
         String PACKAGE_NAME = context.getPackageName();
@@ -94,39 +98,37 @@ public class ResilienceAntiVm extends ReactContextBaseJavaModule {
 
         try {
             String packageVar1 = packageManager.getInstallerPackageName(PACKAGE_NAME);
-            message.append(packageVar1);
-            status.append("[OK]");
+            r.addStatus("OK", "Package Name: " + packageVar1);
+
 
         } catch (Exception e) {
-            message.append(e.toString());
-            status.append("[FAIL]");
+            r.addStatus("FAIL", e.toString());
         }
 
         try {
             InstallSourceInfo packageVar2 = packageManager.getInstallSourceInfo(PACKAGE_NAME);
-            message.append(packageVar2.getInstallingPackageName());
-            status.append("[OK]");
+            r.addStatus("[OK]", "Package Name: " + packageVar2);
+
 
         } catch (Exception e) {
-            message.append(e.toString());
-            status.append("[FAIL]");
+            r.addStatus("FAIL", e.toString());
         }
-        return Status.status(status.toString(), message.toString());
+        return r.toJsonString();
     }
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String getSensor(){
         try{
-             SensorManager smanger = (SensorManager) context.getSystemService(context.SENSOR_SERVICE);
+             SensorManager smanger = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
              Sensor sensor = smanger.getDefaultSensor(Sensor.TYPE_ORIENTATION);
              List<Sensor> sensor2 = smanger.getSensorList(Sensor.TYPE_ALL);
 
-            return Status.status("OK", "Return Value: " + sensor.getName() + ", " + sensor2.toArray().toString());
+            return new ReturnStatus("OK", "Sensor queried. Sensor info: " + sensor.getName() + ", " + Arrays.toString(sensor2.toArray())).toJsonString();
+
         }
         catch (Exception e){
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
-return r.toJsonString();
+            return new ReturnStatus("FAIL", "Exception: " + e).toJsonString();
         }
     }
 
