@@ -93,6 +93,9 @@ class MyAppPackage : ReactPackage {
         modules.add(ResilienceAntiDebug(reactContext))
         modules.add(ResilienceAntiVm(reactContext))
 
+        modules.add(com.masreferenceapp.privacy.PrivacyAccessData(reactContext))
+        //@modules
+
         return modules
     }
 
