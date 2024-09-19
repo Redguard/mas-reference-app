@@ -12,6 +12,7 @@ const {
   
   CryptoKeyStore,
   CryptoKeyAttestation,
+  CryptoKeyChain,
   CryptoCipher,
   CryptoEncryptedFile,
   CryptoEncryptedSharedPreferences,
@@ -317,12 +318,6 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       ],
     },
     {
-      title: 'KeyChain',
-      description:
-        'The KeyChain class provides access to private keys and their corresponding certificate chains in credential storage. ',
-      testCases: [],
-    },
-    {
       title: 'Cipher',
       description:
         'These tests use the Cipher class for basic cryptographic operations such as encrypyt, or sign.',
@@ -459,6 +454,20 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       ],
     },
 
+
+    {
+      title: 'KeyChain',
+      description:
+        'The KeyChain class provides access to private keys and their corresponding certificate chains in credential storage.',
+      testCases: [
+        {
+          title: 'Create a KeyChain',
+          description: 'Creates a KeyChain',
+          nativeFunction: CryptoKeyChain.createKeyChain,
+        },
+      ],
+    },
+
     {
       title: 'Random Numbers',
       description:
@@ -481,13 +490,12 @@ export var androidTestCases: Dictionary<TestCases[]> = {
             'Constructs a secure random number generator (RNG) implementing the default random number algorithm.',
           nativeFunction: CryptoRandom.secureRandom,
         },
-        {
-          title: 'Create SecureRandom with Seed',
-          description:
-            'Constructs a secure random number generator (RNG) implementing the default random number algorithm.',
-          nativeFunction: CryptoRandom.secureRandomSeed,
-        },
-
+        // {
+        //   title: 'Create SecureRandom with Seed',
+        //   description:
+        //     'Constructs a secure random number generator (RNG) implementing the default random number algorithm.',
+        //   nativeFunction: CryptoRandom.secureRandomSeed,
+        // },
         {
           title: 'Create SecureRandom Deprecated',
           description:
@@ -670,11 +678,19 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Use Custom TrustStore',
-          nativeFunction: NetworkTlsPinning.truststore,
+          nativeFunction: NetworkTlsPinning.customTruststore,
         },
         {
           title: 'Use OKHttp CertificatePinner',
           nativeFunction: NetworkTlsPinning.okHttpCertificatePinner,
+        },
+        {
+          title: 'Use WebView CertificatePinner',
+          nativeFunction: NetworkTlsPinning.webViewPinning,
+        },
+        {
+          title: 'Programmatically verify',
+          nativeFunction: NetworkTlsPinning.programmaticallyVerify,
         },
       ],
     },
@@ -802,7 +818,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           title: 'Sensitve Data in Notifications',
           description:
             'This test uses noitifications to display sensitive data.',
-          nativeFunction: PlatformUiDisclosure.sensiteDataNotifications,
+          nativeFunction: PlatformUiDisclosure.sensitveDataNotifications,
         },
       ],
     },
