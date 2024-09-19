@@ -48,7 +48,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         wv.loadUrl(localWebViewDomain, headers);
 
         wv.loadUrl(localWebViewDomain);
-        return new ReturnStatus("OK", "Resource loaded. Title of the WebView: " + wv.getTitle()).toJsonString();
+        return new ReturnStatus("OK", "Resource loaded. URL of the WebView: " + wv.getUrl()).toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -64,7 +64,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
 
         wv.loadUrl("http://"+ remoteHttpDomain);
 
-        return new ReturnStatus("OK", "Resource loaded. Title of the WebView: " + wv.getTitle()).toJsonString();
+        return new ReturnStatus("OK", "Resource loaded. URL of the WebView: " + wv.getUrl()).toJsonString();
 
     }
 
@@ -81,7 +81,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
 
         wv.loadUrl("https://"+ remoteHttpDomain);
 
-        return new ReturnStatus("OK", "Resource loaded. Title of the WebView: " + wv.getTitle()).toJsonString();
+        return new ReturnStatus("OK", "Resource loaded. URL of the WebView: " + wv.getUrl()).toJsonString();
 
     }
 
@@ -92,7 +92,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         wv.loadUrl(localWebViewDomain);
         wv.getSettings().setAllowFileAccess(true);
 
-        return new ReturnStatus("OK", "AllowFileAccess set. Title of the WebView: " + wv.getTitle()).toJsonString();
+        return new ReturnStatus("OK", "AllowFileAccess set. URL of the WebView: " + wv.getUrl()).toJsonString();
 
     }
 
@@ -116,7 +116,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
             }
         });
 
-        return new ReturnStatus("OK", "Data to JS sandobx sent. Title of the WebView: " + wv.getTitle()).toJsonString();
+        return new ReturnStatus("OK", "Data to JS sandobx sent. URL of the WebView: " + wv.getUrl()).toJsonString();
     }
 
 
@@ -129,7 +129,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         wv.addJavascriptInterface(new WebViewJavaScriptBridge(context), "javascriptBridge");
         wv.loadUrl(localWebViewJavaScriptBridge);
 
-        return new ReturnStatus("OK", "Data from JS sandobx read. Title of the WebView: " + wv.getTitle()).toJsonString();
+        return new ReturnStatus("OK", "Data from JS sandobx read. URL of the WebView: " + wv.getUrl()).toJsonString();
 
     }
 
@@ -140,7 +140,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         wv.loadUrl(localWebViewDomain);
         wv.getSettings().setGeolocationEnabled(true);
 
-        return new ReturnStatus("OK", "Geolocation enabled. Title of the WebView: " + wv.getTitle()).toJsonString();
+        return new ReturnStatus("OK", "Geolocation enabled. URL of the WebView: " + wv.getUrl()).toJsonString();
 
     }
 
@@ -152,7 +152,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         wv.loadUrl(localWebViewDomain);
         wv.getSettings().setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW);
 
-        return new ReturnStatus("OK", "MixedContent allowed. Title of the WebView: " + wv.getTitle()).toJsonString();
+        return new ReturnStatus("OK", "MixedContent allowed. URL of the WebView: " + wv.getUrl()).toJsonString();
 
     }
 }
