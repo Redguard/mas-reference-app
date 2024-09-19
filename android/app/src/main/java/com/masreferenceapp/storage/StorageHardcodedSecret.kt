@@ -4,6 +4,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.R
+import com.masreferenceapp.ReturnStatus
 import com.masreferenceapp.Status
 import java.io.BufferedReader
 import java.io.IOException
@@ -32,7 +33,7 @@ class StorageHardcodedSecret(var context: ReactApplicationContext) : ReactContex
         val dsaPrivateKeyPassword = readRawTextFile(R.raw.dsa_2048_with_passphrase)
         val ecPrivateKeyPassword = readRawTextFile(R.raw.ec_secp256k1_with_passphrase)
         val rsaPrivateKeyPassword = readRawTextFile(R.raw.rsa_2048_with_passphrase)
-        return Status.status("OK", "Dummy-Method with Private Keys")
+        return ReturnStatus("OK", "Dummy-Method with Private Keys").toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -169,7 +170,7 @@ class StorageHardcodedSecret(var context: ReactApplicationContext) : ReactContex
             -----END ENCRYPTED PRIVATE KEY-----
             
             """.trimIndent()
-        return Status.status("OK", "Dummy-Method with Private Keys")
+        return ReturnStatus("OK", "Dummy-Method with Private Keys.").toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -250,7 +251,7 @@ class StorageHardcodedSecret(var context: ReactApplicationContext) : ReactContex
         // SendGrid
         val sendgridApiKey =
             "SG.xxxxxxxx.yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy" // SendGrid API Key pattern
-        return Status.status("OK", "Dummy-Method with API Keys")
+        return ReturnStatus("OK", "Dummy-Method with API Keys").toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -264,7 +265,7 @@ class StorageHardcodedSecret(var context: ReactApplicationContext) : ReactContex
         val dbConnectionString1 =
             "jdbc:mysql://localhost:3306/mydatabase?user=root&password=rootpassword"
         val dbConnectionString2 = "mongodb://myUser:myPassword@localhost:27017/mydatabase"
-        return Status.status("OK", "Dummy-Method with Passwords Keys")
+        return ReturnStatus("OK", "Dummy-Method with Passwords Keys").toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -272,6 +273,6 @@ class StorageHardcodedSecret(var context: ReactApplicationContext) : ReactContex
         val accessToken =
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlIjoiT1dBU1AgTUFTIEFkbWluIn0.YODwerxN0UaqulVo32uT_Jt_QABoxvQheK2Dmfq_1Xc"
         val refreshToken = "MIOf-U1zQbyfa3MUfJHhvnUqIut9ClH0xjlDXGJAyqo"
-        return Status.status("OK", "Dummy-Method with Token Keys")
+        return ReturnStatus("OK", "Dummy-Method with Token Keys").toJsonString()
     }
 }
