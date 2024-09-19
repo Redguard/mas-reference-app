@@ -33,10 +33,10 @@ public class CryptoMasterKey extends ReactContextBaseJavaModule {
         String masterKeyAlias = null;
         try {
             masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
-            return Status.status("OK", masterKeyAlias.toString());
-
+            ReturnStatus r = new ReturnStatus("OK", "MasterKey created. Alias is:" + masterKeyAlias);
+            return r.toJsonString();
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
     }

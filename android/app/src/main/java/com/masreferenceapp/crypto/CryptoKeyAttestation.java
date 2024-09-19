@@ -71,18 +71,19 @@ public class CryptoKeyAttestation extends ReactContextBaseJavaModule {
             Certificate[] attestationCerts = ks.getCertificateChain("masAttestationTestKey");
 
             // get certificates
-            String message = "";
+            StringBuilder chain = new StringBuilder();
 
 
             for (int i = 0; i < attestationCerts.length; i++) {
 
-                message = message + formatCrtFileContents(attestationCerts[i]) + "\n";
+                chain.append(formatCrtFileContents(attestationCerts[i])).append("\n");
             }
 
-            return Status.status("OK", message);
+            ReturnStatus r = new ReturnStatus("OK", "Certificate Chain: " + chain.substring(0, 100) + "...");
+            return r.toJsonString();
 
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
 
