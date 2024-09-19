@@ -10,6 +10,7 @@ import androidx.datastore.rxjava3.RxDataStore;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 import java.util.HashSet;
@@ -40,7 +41,7 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String initPreferenceDataStore(){
 
-        return Status.status("OK", prefDataStore.toString());
+        return new ReturnStatus("OK", "DataStore initialized.").toJsonString();
     }
 
 
@@ -53,9 +54,11 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
             MutablePreferences mutablePreferences = prefsIn.toMutablePreferences();
             mutablePreferences.set(EXAMPLE_STRING, "Password: Passw0rd!");
             return Single.just(mutablePreferences);
+
         });
 
-        return Status.status("OK", prefDataStore.toString());
+        return new ReturnStatus("OK", "String written to DataStore.").toJsonString();
+
 
     }
 
@@ -75,7 +78,8 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
             return Single.just(mutablePreferences);
         });
 
-        return Status.status("OK", prefDataStore.toString());
+        return new ReturnStatus("OK", "StringSet Written to Datastore.").toJsonString();
+
     }
 
 //    @ReactMethod(isBlockingSynchronousMethod = true)
@@ -97,7 +101,8 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
 
         String storedString = value.blockingGet();
 
-        return Status.status("OK", storedString);
+        return new ReturnStatus("OK", "String read: " + storedString).toJsonString();
+
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -111,7 +116,8 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
 
         Set<String> storedStringSet = value.blockingGet();
 
-        return Status.status("OK", storedStringSet.toString());
+        return new ReturnStatus("OK", "StringSet read: " + storedStringSet.toString()).toJsonString();
+
     }
 
 }

@@ -5,6 +5,7 @@ import androidx.datastore.dataStore
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.masreferenceapp.ReturnStatus
 import com.masreferenceapp.Status
 import com.masreferenceapp.storage.proto.User
 import com.masreferenceapp.storage.proto.UserSerializer
@@ -12,11 +13,8 @@ import com.msareferenceapp.UserPreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.concurrent.Flow
 
 
 class StorageDataStoreProto(context: ReactApplicationContext) : ReactContextBaseJavaModule(context){
@@ -40,18 +38,18 @@ class StorageDataStoreProto(context: ReactApplicationContext) : ReactContextBase
     val myPluginScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun writeProtoDataStore(): String? {
+    fun writeProtoDataStore(): String {
         val user = User(firstName = "Hans", lastName = "Meier", password = "Passw0rd!")
 
         myPluginScope.launch {
             saveUserToProtoStore(user)
         }
-        return Status.status("OK", "Stored User Object in Proto DataStore")
+        return ReturnStatus("OK", "Stored User Object in Proto DataStore.").toJsonString()
     }
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun readProtoDataStore(): String? {
+    fun readProtoDataStore(): String {
         val user = User(firstName = "Barbara", lastName = "Meier", password = "Passw0rd!")
 
         myPluginScope.launch {
@@ -64,9 +62,7 @@ class StorageDataStoreProto(context: ReactApplicationContext) : ReactContextBase
                 )
             }
         }
-
-
-        return Status.status("OK", "Read User Object in Proto DataStore")
+        return ReturnStatus("OK", "Read User Object in Proto DataStore.").toJsonString()
     }
 
 }
