@@ -55,56 +55,56 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
     public String init(){
 
         StringBuffer status = new StringBuffer();
-        StringBuffer message = new StringBuffer();
+
+        ReturnStatus r = new ReturnStatus();
+
 
         try{
             KeyStore ks = KeyStore.getInstance("AndroidKeyStore");
-            status.append("[OK]");
-            message.append("["+ ks.toString() +"]");
+            r.addStatus("OK", "AndroidKeyStore initialized.");
         }
         catch (Exception e){
-            status.append("[FAIL]");
-            message.append("["+ e.toString() +"]");
+            r.addStatus("FAIL", e.toString());
         }
         try{
             KeyStore ks = KeyStore.getInstance("AndroidCAStore");
-            status.append("[OK]");
-            message.append("["+ ks.toString() +"]");
+            r.addStatus("OK", "AndroidCAStore initialized.");
+
         }
         catch (Exception e){
-            status.append("[FAIL]");
-            message.append("["+ e.toString() +"]");
+            r.addStatus("FAIL", e.toString());
+
         }
         try{
             KeyStore ks = KeyStore.getInstance("BKS");
-            status.append("[OK]");
-            message.append("["+ ks.toString() +"]");
+            r.addStatus("OK", "BKS initialized.");
+
         }
         catch (Exception e){
-            status.append("[FAIL]");
-            message.append("["+ e.toString() +"]");
+            r.addStatus("FAIL", e.toString());
+
         }
         try{
             KeyStore ks = KeyStore.getInstance("BouncyCastle");
-            status.append("[OK]");
-            message.append("["+ ks.toString() +"]");
+            r.addStatus("OK", "BouncyCastle initialized.");
+
         }
         catch (Exception e){
-            status.append("[FAIL]");
-            message.append("["+ e.toString() +"]");
+            r.addStatus("FAIL", e.toString());
+
         }
         try{
             KeyStore ks = KeyStore.getInstance("PKCS12");
+            r.addStatus("OK", "PKCS12 initialized.");
 
-            status.append("[OK]");
-            message.append("["+ ks.toString() +"]");
         }
         catch (Exception e){
-            status.append("[FAIL]");
-            message.append("["+ e.toString() +"]");
+            r.addStatus("FAIL", e.toString());
+
         }
 
-        return Status.status(status.toString(), message.toString());
+
+        return r.toJsonString();
     }
 
 
@@ -125,15 +125,16 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
             ks.load(null);
             Enumeration<String> aliases = ks.aliases();
 
-            StringBuffer r = new StringBuffer();
+            StringBuffer al = new StringBuffer();
 
             Collections.list(aliases).forEach(o -> {
-                r.append("[").append(o).append("]");
+                al.append("[").append(o).append("]");
             });
 
-            return Status.status("OK", r.toString());
+            ReturnStatus r = new ReturnStatus("OK", "Aliases: " + al.toString());
+            return r.toJsonString();
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
     }
@@ -155,7 +156,8 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
                 .setUserAuthenticationRequired(true)
                 .setUserAuthenticationParameters(100,KeyProperties.AUTH_BIOMETRIC_STRONG)
                 .build();
-        return Status.status("OK", b.toString());
+        ReturnStatus r = new ReturnStatus("OK", "Parameter Spec: " + b.toString());
+        return r.toJsonString();
     }
 
 
@@ -174,7 +176,9 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
                 .setIsStrongBoxBacked(false)
                 .setAlgorithmParameterSpec(new RSAKeyGenParameterSpec(512, new BigInteger("12345")))
                 .build();
-        return Status.status("OK", b.toString());
+
+        ReturnStatus r = new ReturnStatus("OK", "Parameter Spec: " + b.toString());
+        return r.toJsonString();
     }
 
 
@@ -192,10 +196,13 @@ public class CryptoKeyStore extends ReactContextBaseJavaModule {
                             KeyProperties.DIGEST_SHA512)
                     .build());
             KeyPair kp = kpg.generateKeyPair();
-            return Status.status("OK", kpg.toString());
+
+            ReturnStatus r = new ReturnStatus("OK", "Asymmetric Key generated.");
+            return r.toJsonString();
+
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
-return r.toJsonString();
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
+            return r.toJsonString();
         }
     }
 
@@ -217,11 +224,12 @@ return r.toJsonString();
 
             PrivateKey pk = kp.getPrivate();
 
-            return Status.status("OK", pk.toString());
+            ReturnStatus r = new ReturnStatus("OK", "Private Key accessed.");
+            return r.toJsonString();
 
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
-return r.toJsonString();
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
+            return r.toJsonString();
         }
     }
 
@@ -244,27 +252,26 @@ return r.toJsonString();
 
             PrivateKey pk = kp.getPrivate();
             KeyFactory factory = KeyFactory.getInstance(pk.getAlgorithm(), "AndroidKeyStore");
-            KeyInfo keyInfo = (KeyInfo) factory.getKeySpec(pk, KeyInfo.class);
+            KeyInfo keyInfo = factory.getKeySpec(pk, KeyInfo.class);
 
-            StringBuffer r = new StringBuffer();
-
-            r.append(keyInfo.getKeySize() + ", ");
-            r.append(Arrays.toString(keyInfo.getDigests()) + ", ");
-            r.append(keyInfo.getPurposes() + ", ");
-            r.append(keyInfo.getKeyValidityStart() + ", ");
-            r.append(Arrays.toString(keyInfo.getBlockModes()) + ", ");
-            r.append(keyInfo.getSecurityLevel() + ", ");
-            r.append(keyInfo.getUserAuthenticationType() + ", ");
-            r.append(keyInfo.isTrustedUserPresenceRequired() + ", ");
-            r.append(keyInfo.isInsideSecureHardware() + ", ");
-            r.append(Arrays.toString(keyInfo.getEncryptionPaddings()) + ", ");
+            String info = keyInfo.getKeySize() + ", " +
+                    Arrays.toString(keyInfo.getDigests()) + ", " +
+                    keyInfo.getPurposes() + ", " +
+                    keyInfo.getKeyValidityStart() + ", " +
+                    Arrays.toString(keyInfo.getBlockModes()) + ", " +
+                    keyInfo.getSecurityLevel() + ", " +
+                    keyInfo.getUserAuthenticationType() + ", " +
+                    keyInfo.isTrustedUserPresenceRequired() + ", " +
+                    keyInfo.isInsideSecureHardware() + ", " +
+                    Arrays.toString(keyInfo.getEncryptionPaddings()) + ", ";
 
 
-            return Status.status("OK", r.toString());
+            ReturnStatus r = new ReturnStatus("OK", "Key Info: " +info);
+            return r.toJsonString();
 
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e.toString());
-return r.toJsonString();
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
+            return r.toJsonString();
         }
     }
 }
