@@ -9,11 +9,10 @@ public class IpcExportedBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("Action: " + intent.getAction() + "\n");
-        sb.append("URI: " + intent.toUri(Intent.URI_INTENT_SCHEME).toString() + "\n");
-        sb.append("Data: " + intent.getStringExtra("data") + "\n");
+        String sb = "Action: " + intent.getAction() + "\n" +
+                "URI: " + intent.toUri(Intent.URI_INTENT_SCHEME) + "\n" +
+                "Data: " + intent.getStringExtra("data") + "\n";
 
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 }

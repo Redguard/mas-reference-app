@@ -4,6 +4,7 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.Cursor;
@@ -21,9 +22,11 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 import java.security.Provider;
+import java.util.Objects;
 
 
 public class PlatformIpc extends ReactContextBaseJavaModule {
@@ -68,7 +71,7 @@ public class PlatformIpc extends ReactContextBaseJavaModule {
         myIntent.putExtra("key", "Hello from the other side.");
 
         context.getApplicationContext().startActivity(myIntent);
-        return Status.status("OK", "Return Value: "  + myIntent);
+        return new ReturnStatus("OK", "Exported activity started. It contains the following extras: " + Objects.requireNonNull(myIntent.getExtras()).toString()).toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -93,10 +96,10 @@ public class PlatformIpc extends ReactContextBaseJavaModule {
 
         };
 
-        context.getCurrentActivity().bindService(myIntent, sc,  context.BIND_AUTO_CREATE);
+        context.getCurrentActivity().bindService(myIntent, sc, Context.BIND_AUTO_CREATE);
         context.getCurrentActivity().unbindService(sc);
 
-        return Status.status("OK", "Message");
+        return new ReturnStatus("OK", "Service started.").toJsonString();
     }
 
 
@@ -114,7 +117,9 @@ public class PlatformIpc extends ReactContextBaseJavaModule {
         Cursor cursor = this.getCurrentActivity().getContentResolver().query(uri, null, null, null, null);
         cursor.moveToFirst();
 
-        return Status.status("OK", "Return Value: " + cursor.getColumnCount() + ", " + cursor.getString(0));
+        return new ReturnStatus("OK", "Provider Started. It contains the following values: " + cursor.getColumnCount() + ", " + cursor.getString(0)).toJsonString();
+
+
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -126,15 +131,14 @@ public class PlatformIpc extends ReactContextBaseJavaModule {
         intent.putExtra("data", "Nothing to see here, move along.");
         this.context.getCurrentActivity().sendBroadcast(intent);
 
-        return Status.status("OK", intent.toString());
+        return new ReturnStatus("OK", "Broadcast received. It contains the following extras: " + Objects.requireNonNull(intent.getExtras()).toString()).toJsonString();
+
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String deepLinks(){
 
-
-        return Status.status("OK", "Message");
-
+        return new ReturnStatus("OK", "MESSAGE").toJsonString();
 
     }
 }

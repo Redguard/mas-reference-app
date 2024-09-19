@@ -3,7 +3,7 @@ package com.masreferenceapp.platform;
 import static android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW;
 import static com.masreferenceapp.Constants.localWebViewDomain;
 import static com.masreferenceapp.Constants.localWebViewJavaScriptBridge;
-import static com.masreferenceapp.Constants.remoteWebViewHttpDomain;
+import static com.masreferenceapp.Constants.remoteHttpDomain;
 
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 import com.masreferenceapp.platform.helpers.WebViewJavaScriptBridge;
 
@@ -47,9 +48,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         wv.loadUrl(localWebViewDomain, headers);
 
         wv.loadUrl(localWebViewDomain);
-
-        return Status.status("OK", wv.toString());
-
+        return new ReturnStatus("OK", "Resource loaded. Title of the WebView: " + wv.getTitle()).toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -61,11 +60,11 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         headers.put("X-a", "someHeader");
         headers.put("X-b", "anotherHeader");
 
-        wv.loadUrl("http://"+remoteWebViewHttpDomain, headers);
+        wv.loadUrl("http://"+ remoteHttpDomain, headers);
 
-        wv.loadUrl("http://"+remoteWebViewHttpDomain);
+        wv.loadUrl("http://"+ remoteHttpDomain);
 
-        return Status.status("OK", wv.toString());
+        return new ReturnStatus("OK", "Resource loaded. Title of the WebView: " + wv.getTitle()).toJsonString();
 
     }
 
@@ -78,11 +77,11 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         headers.put("X-a", "someHeader");
         headers.put("X-b", "anotherHeader");
 
-        wv.loadUrl("https://"+remoteWebViewHttpDomain, headers);
+        wv.loadUrl("https://"+ remoteHttpDomain, headers);
 
-        wv.loadUrl("https://"+remoteWebViewHttpDomain);
+        wv.loadUrl("https://"+ remoteHttpDomain);
 
-        return Status.status("OK", wv.toString());
+        return new ReturnStatus("OK", "Resource loaded. Title of the WebView: " + wv.getTitle()).toJsonString();
 
     }
 
@@ -93,7 +92,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         wv.loadUrl(localWebViewDomain);
         wv.getSettings().setAllowFileAccess(true);
 
-        return Status.status("OK", wv.toString());
+        return new ReturnStatus("OK", "AllowFileAccess set. Title of the WebView: " + wv.getTitle()).toJsonString();
 
     }
 
@@ -117,7 +116,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
             }
         });
 
-        return Status.status("OK", wv.toString());
+        return new ReturnStatus("OK", "Data to JS sandobx sent. Title of the WebView: " + wv.getTitle()).toJsonString();
     }
 
 
@@ -130,7 +129,8 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         wv.addJavascriptInterface(new WebViewJavaScriptBridge(context), "javascriptBridge");
         wv.loadUrl(localWebViewJavaScriptBridge);
 
-        return Status.status("OK", wv.toString());
+        return new ReturnStatus("OK", "Data from JS sandobx read. Title of the WebView: " + wv.getTitle()).toJsonString();
+
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -140,7 +140,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         wv.loadUrl(localWebViewDomain);
         wv.getSettings().setGeolocationEnabled(true);
 
-        return Status.status("OK", wv.toString());
+        return new ReturnStatus("OK", "Geolocation enabled. Title of the WebView: " + wv.getTitle()).toJsonString();
 
     }
 
@@ -152,7 +152,7 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         wv.loadUrl(localWebViewDomain);
         wv.getSettings().setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW);
 
-        return Status.status("OK", wv.toString());
+        return new ReturnStatus("OK", "MixedContent allowed. Title of the WebView: " + wv.getTitle()).toJsonString();
 
     }
 }
