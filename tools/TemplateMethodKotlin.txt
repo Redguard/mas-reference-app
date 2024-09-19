@@ -1,7 +1,8 @@
+    
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun $methodName(): String {
+    fun @methodName(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }
 
-    //@class
+    //@method

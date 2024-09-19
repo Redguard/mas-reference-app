@@ -1,3 +1,5 @@
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable prettier/prettier */
 import {NativeModules} from 'react-native';
 import {TestCases} from '../appContent';
 const {
@@ -7,6 +9,7 @@ const {
   StorageInternalStorage,
   StorageExternalStorage,
   StorageRoomDatabase,
+  
   CryptoKeyStore,
   CryptoKeyAttestation,
   CryptoCipher,
@@ -14,18 +17,22 @@ const {
   CryptoEncryptedSharedPreferences,
   CryptoMasterKey,
   CryptoRandom,
+
   AuthBiometricManager,
   AuthBiometricPrompt,
   AuthKeyAccess,
   AuthFingerprintManager,
   AuthKeyguardManager,
   AuthProtectedConfirmation,
+
   NetworkTlsConfig,
   NetworkTlsPinning,
   NetworkLocalNetwork,
+
   PlatformWebView,
   PlatformIpc,
   PlatformUiDisclosure,
+
   ResilienceFileIntegrityManager,
   ResilienceAntiDebug,
   ResilienceAntiVm,
@@ -48,24 +55,26 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: StorageSharedPreferences.getInsecureSharedPreferences,
         },
         {
-          title: 'Write String to SharedPreferences',
+          title: 'Write sensitve String',
+          maswe: '0006',
           description:
             'Write string into the snadbox using putString method of SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putString,
         },
         {
-          title: 'Write StringSet to SharedPreferences',
+          title: 'Write sensitve StringSet',
+          maswe: '0006',
           description:
             'Write stringSet into the snadbox using putStringSet method of SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putStringSet,
         },
         {
-          title: 'Read String from SharedPreferences',
+          title: 'Read sensitve String',
           description: 'Read a String from the unencrypted SharedPreferences',
           nativeFunction: StorageSharedPreferences.readString,
         },
         {
-          title: 'Read StringSet from SharedPreferences',
+          title: 'Read sensitve StringSet',
           description:
             'Read a StringSet from the unencrypted SharedPreferences',
           nativeFunction: StorageSharedPreferences.readStringSet,
@@ -181,24 +190,24 @@ export var androidTestCases: Dictionary<TestCases[]> = {
             'Returns the current state of the primary shared/external storage media.',
           nativeFunction: StorageExternalStorage.checkState,
         },
-        {
-          title: 'Get root location using getExternalFilesDir',
-          description:
-            'Returns the absolute path to the directory on the primary shared/external storage device where the application can place persistent files it owns. These files are internal to the applications, and not typically visible to the user as media. ',
-          nativeFunction: StorageExternalStorage.getExternalFilesDirRoot,
-        },
-        {
-          title: 'Get external cache location using getExternalCacheDir',
-          description:
-            'Returns absolute path to application-specific directory on the primary shared/external storage device where the application can place cache files it owns. These files are internal to the application, and not typically visible to the user as media. ',
-          nativeFunction: StorageExternalStorage.getExternalCacheDir,
-        },
-        {
-          title: 'Get different external file location',
-          description:
-            'Try to access different types of external locatios such as Environment.DIRECTORY_MUSIC or Environment.DIRECTORY_PICTURES',
-          nativeFunction: StorageExternalStorage.getDifferentExternalDirs,
-        },
+        // {
+        //   title: 'Get root location using getExternalFilesDir',
+        //   description:
+        //     'Returns the absolute path to the directory on the primary shared/external storage device where the application can place persistent files it owns. These files are internal to the applications, and not typically visible to the user as media. ',
+        //   nativeFunction: StorageExternalStorage.getExternalFilesDirRoot,
+        // },
+        // {
+        //   title: 'Get external cache location using getExternalCacheDir',
+        //   description:
+        //     'Returns absolute path to application-specific directory on the primary shared/external storage device where the application can place cache files it owns. These files are internal to the application, and not typically visible to the user as media. ',
+        //   nativeFunction: StorageExternalStorage.getExternalCacheDir,
+        // },
+        // {
+        //   title: 'Get different external file location',
+        //   description:
+        //     'Try to access different types of external locatios such as Environment.DIRECTORY_MUSIC or Environment.DIRECTORY_PICTURES',
+        //   nativeFunction: StorageExternalStorage.getDifferentExternalDirs,
+        // },
         {
           title: 'Write a external text file',
           description:
@@ -386,8 +395,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Create EncryptedSharedPreferences Instance',
           description: 'Create EncryptedSharedPreferences.',
-          nativeFunction:
-            CryptoEncryptedSharedPreferences.createEncryptedSharedPreferences,
+          nativeFunction: CryptoEncryptedSharedPreferences.createEncryptedSharedPreferences,
         },
         {
           title: 'Write String to EncryptedSharedPreferences',
