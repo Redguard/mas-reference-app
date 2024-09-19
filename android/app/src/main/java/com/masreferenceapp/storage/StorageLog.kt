@@ -4,7 +4,9 @@ import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.masreferenceapp.ReturnStatus
 import com.masreferenceapp.Status
+
 
 class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
     private fun logToAll(message: String) {
@@ -22,6 +24,7 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logName(): String {
+        val r = ReturnStatus()
         val messages: MutableList<String> = ArrayList()
         messages.add("Name: test")
         messages.add("Name:test")
@@ -34,12 +37,15 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         messages.add("Nachname: test")
         for (m in messages) {
             logToAll(m)
+            r.addStatus("OK", "Logged the following message:$m")
+
         }
-        return Status.status("OK", "Data Logged to all Logs")
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logPassword(): String {
+        val r = ReturnStatus()
         val messages: MutableList<String> = ArrayList()
         messages.add("Password: test")
         messages.add("password: test")
@@ -64,12 +70,14 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         messages.add("SecretKey: test")
         for (m in messages) {
             logToAll(m)
+            r.addStatus("OK", "Logged the following message:$m")
         }
-        return Status.status("OK", "Data Logged to all Logs")
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logSecrets(): String {
+        val r = ReturnStatus()
         val messages: MutableList<String> = ArrayList()
         messages.add("Private Key: test")
         messages.add("PrivateKey: test")
@@ -77,12 +85,15 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         messages.add("SecretKey: test")
         for (m in messages) {
             logToAll(m)
+            r.addStatus("OK", "Logged the following message:$m")
+
         }
-        return Status.status("OK", "Data Logged to all Logs")
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logPEM(): String {
+        val r = ReturnStatus()
         val messages: MutableList<String> = ArrayList()
         messages.add("-----BEGIN CERTIFICATE-----")
         messages.add("-----BEGIN RSA PRIVATE KEY-----")
@@ -102,12 +113,15 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         messages.add("DEK-Info: AES-256-CBC,F6F1F37584D8189C97F23F9DCD431B42")
         for (m in messages) {
             logToAll(m)
+            r.addStatus("OK", "Logged the following message:$m")
+
         }
-        return Status.status("OK", "Data Logged to all Logs")
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logPhoneNumber(): String {
+        val r = ReturnStatus()
         val messages: MutableList<String> = ArrayList()
         messages.add("PhoneNumber: +41763452345")
         messages.add("phoneNumber: +41 (076) 3452345")
@@ -117,12 +131,15 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         messages.add("Phone Number: +41 (076) 3452345")
         for (m in messages) {
             logToAll(m)
+            r.addStatus("OK", "Logged the following message:$m")
+
         }
-        return Status.status("OK", "Data Logged to all Logs")
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logEmail(): String {
+        val r = ReturnStatus()
         val messages: MutableList<String> = ArrayList()
         messages.add("eMail: fakeuser1@gmail.com")
         messages.add("e-Mail: fakeuser1@gmail.com")
@@ -138,12 +155,15 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         messages.add("fakeuser16@protonmail.ch")
         for (m in messages) {
             logToAll(m)
+            r.addStatus("OK", "Logged the following message:$m")
+
         }
-        return Status.status("OK", "Data Logged to all Logs")
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logFinData(): String {
+        val r = ReturnStatus()
         val messages: MutableList<String> = ArrayList()
         messages.add("CC: 5425233430109903")
         messages.add("CC: 4929 1234 5678 9012")
@@ -160,19 +180,24 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         messages.add("IBAN: IT60 X054 2811 1010 0000 1234 56")
         for (m in messages) {
             logToAll(m)
+            r.addStatus("OK", "Logged the following message:$m")
+
         }
-        return Status.status("OK", "Data Logged to all Logs")
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logLocation(): String {
-        return Status.status("OK", "Data Logged to all Logs")
+        val r = ReturnStatus("OK", "Android Stub")
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun locAccessToken(): String {
+        val r = ReturnStatus()
         logToAll("Access Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MTQxMTg5MjksImV4cCI6MTc0NTY1NDkyOSwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.gbjDeNkm_XLkdEZu0Nqa57PbC8eURw8WdX3to8rYt8Q")
         logToAll("Refresh Token: MIOf-U1zQbyfa3MUfJHhvnUqIut9ClH0xjlDXGJAyqo")
-        return Status.status("OK", "Data Logged to all Logs")
+
+        return ReturnStatus("OK", "Access Token logged.").toJsonString()
     }
 }
