@@ -4,7 +4,7 @@ const JSON5 = require('json5');
 
 /*
 
-This tool takes the OWASP MAS use cases form the following files and creates Android/IOS-Subb-Files:
+This tool takes the OWASP MAS use cases form the following files and creates Android/iOS-Subb-Files:
 
 - <MAS-Root>/src/tests/general.tsx
 - <MAS-Root>/src/tests/android.tsx
@@ -129,7 +129,6 @@ function createStub(jsonObect:any, target:string) {
     }
   }
 }
-
 
 
 const basePath = getBasePath();
