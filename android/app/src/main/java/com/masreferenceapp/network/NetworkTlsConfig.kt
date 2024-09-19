@@ -4,10 +4,11 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.Constants
-import com.masreferenceapp.Status
+import com.masreferenceapp.ReturnStatus
 import javax.net.ssl.SSLParameters
 import javax.net.ssl.SSLSocket
 import javax.net.ssl.SSLSocketFactory
+
 
 class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
     override fun getName(): String {
@@ -17,36 +18,33 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun oldTlsConfig(): String {
         val status = StringBuffer()
-        val message = StringBuffer()
         val factory = SSLSocketFactory.getDefault() as SSLSocketFactory
         var socket: SSLSocket? = null
+        val r = ReturnStatus()
+
         try {
-            socket = factory.createSocket(Constants.remoteWebViewHttpsDomain, 443) as SSLSocket
+            socket = factory.createSocket(Constants.remoteHttpsDomain, 443) as SSLSocket
             try {
                 socket.enabledProtocols = arrayOf("TLSv1")
             } catch (e: Exception) {
-                status.append("[FAIL]")
-                message.append("$e, ")
+                r.addStatus("FAIL", e.toString())
             }
             try {
-                socket = factory.createSocket(Constants.remoteWebViewHttpsDomain, 443) as SSLSocket
+                socket = factory.createSocket(Constants.remoteHttpsDomain, 443) as SSLSocket
                 // second way to set older protocols
                 val params = SSLParameters()
                 params.protocols = arrayOf("TLSv1")
                 socket.sslParameters = params
             } catch (e: Exception) {
-                status.append("[FAIL]")
-                message.append("$e, ")
+                r.addStatus("FAIL", e.toString())
             }
             socket!!.startHandshake()
             socket.close()
-            message.append(socket.toString())
-            status.append("[OK]")
+            r.addStatus("[OK]", "TLS socket with TLSv1 created.")
         } catch (e: Exception) {
-            status.append("[FAIL]")
-            message.append("$e, ")
+            r.addStatus("FAIL", e.toString())
         }
-        return Status.status(status.toString(), message.toString())
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -61,35 +59,34 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
             "SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5"
         )
         val status = StringBuffer()
-        val message = StringBuffer()
         val factory = SSLSocketFactory.getDefault() as SSLSocketFactory
         var socket: SSLSocket? = null
+        val r = ReturnStatus()
         try {
-            socket = factory.createSocket(Constants.remoteWebViewHttpsDomain, 443) as SSLSocket
+            socket = factory.createSocket(Constants.remoteHttpsDomain, 443) as SSLSocket
             try {
                 socket.enabledCipherSuites = ciphers
             } catch (e: Exception) {
-                status.append("[FAIL]")
-                message.append("$e, ")
+                r.addStatus("FAIL", e.toString())
             }
             try {
-                socket = factory.createSocket(Constants.remoteWebViewHttpsDomain, 443) as SSLSocket
+                socket = factory.createSocket(Constants.remoteHttpsDomain, 443) as SSLSocket
                 // second way to set older protocols
                 val params = SSLParameters(ciphers, null)
                 socket.sslParameters = params
             } catch (e: Exception) {
-                status.append("[FAIL]")
-                message.append("$e, ")
+                r.addStatus("FAIL", e.toString())
             }
             socket!!.startHandshake()
             socket.close()
-            message.append(socket.toString())
+
+            r.addStatus("[OK]", "TLS socket with insecure ciphersuite created.")
+
             status.append("[OK]")
         } catch (e: Exception) {
-            status.append("[FAIL]")
-            message.append("$e, ")
+            r.addStatus("FAIL", e.toString())
         }
-        return Status.status(status.toString(), message.toString())
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -97,6 +94,7 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
 
         // load cert to keystore/keychain
         // configure TLS client to use it
-        return Status.status("OK", "Message")
+        val r = ReturnStatus("OK", "Android code stub")
+        return r.toJsonString()
     }
 }

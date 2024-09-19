@@ -7,6 +7,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.Constants
+import com.masreferenceapp.ReturnStatus
 import com.masreferenceapp.Status
 import java.io.PrintWriter
 import java.net.DatagramPacket
@@ -15,8 +16,10 @@ import java.net.HttpURLConnection
 import java.net.InetAddress
 import java.net.Socket
 import java.net.URL
+import java.net.URLConnection
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
+
 
 class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
     context
@@ -27,56 +30,47 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun resolveDns(): String {
-
-        // Create a new instance of DnsResolver
-        val resolver = DnsResolver.getInstance()
-        val mExecutor: Executor = Executors.newSingleThreadExecutor()
-        val mcancellationSignal = CancellationSignal()
-        val callback: DnsResolver.Callback<*> = object : DnsResolver.Callback<Any?> {
-            override fun onAnswer(answer: Any, rcode: Int) {
-                println(answer.toString())
-            }
-
-            override fun onError(error: DnsException) {}
+        val r = ReturnStatus()
+        try {
+            val inetAddress = InetAddress.getByName(Constants.remoteHttpDomain)
+            r.addStatus("OK", "Address for the domain '" + Constants.remoteHttpDomain + "' is: " + inetAddress.hostAddress)
+        } catch (e: Exception) {
+            r.addStatus("FAIL", e.toString())
         }
-
-        // Resolve the domain name to its IP addresses
-        // TODO: kotlin conversion caused an error
-//        resolver.query(
-//            null,
-//            Constants.remoteWebViewHttpDomain,
-//            DnsResolver.TYPE_A,
-//            DnsResolver.FLAG_NO_CACHE_LOOKUP,
-//            mExecutor,
-//            mcancellationSignal,
-//            callback
-//        )
-        return Status.status("OK", resolver.toString())
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun standardHTTP(): String {
+        val r = ReturnStatus()
+
         return try {
-            val url = URL("http://" + Constants.remoteWebViewHttpDomain)
+            val url = URL("http://" + Constants.remoteHttpDomain)
             val urlConnection = url.openConnection() as HttpURLConnection
             val response = StringBuilder()
             urlConnection.disconnect()
-            Status.status("OK", urlConnection.responseMessage)
+            val r = ReturnStatus("OK", "Connection established. Status code was: " + urlConnection.responseCode)
+            r.toJsonString()
         } catch (e: Exception) {
-            Status.status("FAIL", e.toString())
+            val r = ReturnStatus("FAIL", e.toString())
+            return r.toJsonString()
         }
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun nonStandardHTTP(): String {
         return try {
-            val url =
-                URL("http", Constants.remoteWebViewHttpDomain, Constants.remoteWebViewHttpPort, "/")
+            val url = URL("http", Constants.remoteHttpDomain, Constants.remoteHttpPort, "/")
             val urlConnection = url.openConnection() as HttpURLConnection
+            urlConnection.connectTimeout = 500 // Set a timeout for establishing the connection
+            urlConnection.readTimeout = 5000 // Set a timeout for reading data from the server
+
             urlConnection.disconnect()
-            Status.status("OK", urlConnection.responseMessage)
+            val r = ReturnStatus("OK", "Connection established. Status code was: " + urlConnection.responseCode)
+            r.toJsonString()
         } catch (e: Exception) {
-            Status.status("FAIL", e.toString())
+            val r = ReturnStatus("FAIL", e.toString())
+            return r.toJsonString()
         }
     }
 
@@ -84,18 +78,20 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
     fun rawTcp(): String {
         val socket: Socket
         return try {
-            socket = Socket(Constants.remoteWebViewHttpDomain, 80)
+            socket = Socket(Constants.remoteHttpDomain, 80)
             // Get output stream to send data
             val outputStream = socket.getOutputStream()
             val request =
-                "GET / HTTP/1.1\\nHost: " + Constants.remoteWebViewHttpDomain + "\\nX-A:msaTest\\n\\n"
+                "GET / HTTP/1.1\\nHost: " + Constants.remoteHttpDomain + "\\nX-A:msaTest\\n\\n"
             val output = socket.getOutputStream()
             val writer = PrintWriter(output, true)
             writer.print(request)
             socket.close()
-            Status.status("OK", socket.toString())
+            ReturnStatus("OK", "Socket created established.").toJsonString()
+
         } catch (e: Exception) {
-            Status.status("FAIL", "Failed to init socket.")
+            val r = ReturnStatus("FAIL", e.toString())
+            return r.toJsonString()
         }
     }
 
@@ -104,16 +100,18 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
         return try {
             // Create a new UDP socket
             val socket = DatagramSocket()
-            val serverAddress = InetAddress.getByName(Constants.remoteWebViewHttpDomain)
+            val serverAddress = InetAddress.getByName(Constants.remoteHttpDomain)
             val sendData = "HelloUDP".toByteArray()
             val sendPacket = DatagramPacket(sendData, sendData.size, serverAddress, 53)
 
             // Send the UDP packet
             socket.send(sendPacket)
             socket.close()
-            Status.status("OK", socket.toString())
+
+            ReturnStatus("OK", "Socket created established.").toJsonString()
         } catch (e: Exception) {
-            Status.status("FAIL", "Failed to init socket.")
+            val r = ReturnStatus("FAIL", e.toString())
+            return r.toJsonString()
         }
     }
 }
