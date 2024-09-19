@@ -4,6 +4,7 @@ import android.os.Environment
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.masreferenceapp.ReturnStatus
 import com.masreferenceapp.Status
 import java.io.BufferedReader
 import java.io.File
@@ -12,6 +13,7 @@ import java.io.FileOutputStream
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 
+
 class StorageExternalStorage(private val context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
     override fun getName(): String {
         return "StorageExternalStorage"
@@ -19,15 +21,15 @@ class StorageExternalStorage(private val context: ReactApplicationContext) : Rea
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun checkState(): String {
-        return Status.status("OK", Environment.getExternalStorageState())
+        return ReturnStatus("OK", "State: " + Environment.getExternalStorageState()).toJsonString()
     }
 
     @get:ReactMethod(isBlockingSynchronousMethod = true)
     val externalFilesDirRoot: String
         get() {
             val externalFile = context.getExternalFilesDir(null)
-            val message = externalFile?.toString() ?: ""
-            return Status.status("OK", message)
+            val state = externalFile?.toString() ?: ""
+            return ReturnStatus("OK", "External files dir is : $state").toJsonString()
         }
 
     @get:ReactMethod(isBlockingSynchronousMethod = true)
@@ -35,7 +37,7 @@ class StorageExternalStorage(private val context: ReactApplicationContext) : Rea
         get() {
             val externalFile = context.externalCacheDir
             val message = externalFile?.toString() ?: ""
-            return Status.status("OK", message)
+            return ReturnStatus("OK", "External files dir is : $message").toJsonString()
         }
 
     @get:ReactMethod(isBlockingSynchronousMethod = true)
@@ -52,42 +54,45 @@ class StorageExternalStorage(private val context: ReactApplicationContext) : Rea
             )
             val status = StringBuilder()
             val message = StringBuilder()
+            val r = ReturnStatus()
             for (type in types) {
                 val externalFile = context.getExternalFilesDir(type)
                 if (externalFile == null) {
                     status.append("[FAIL]")
+                    r.addStatus("FAIL", "No external file.")
                 } else {
                     status.append("[OK]")
-                    message.append("[$externalFile]")
+                    r.addStatus("OK", "External file: $externalFile" )
+
                 }
             }
-            return Status.status(status.toString(), message.toString())
+            return r.toJsonString()
         }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun writeFileOutput(): String {
-        val returnValues = arrayOfNulls<String>(2)
         val fileContents = "Some secret Message in the external sandbox!"
+        val r = ReturnStatus()
+
         try {
             val file = "masExternalTestfile"
             val appSpecificExternalFile = File(context.getExternalFilesDir(null), file)
             FileOutputStream(appSpecificExternalFile).use { fos ->
                 fos.write(fileContents.toByteArray(StandardCharsets.UTF_8))
             }
-            returnValues[0] = "OK"
-            returnValues[1] = "File successfully written"
+            r.addStatus("OK", "File successfully written.")
         } catch (e: Exception) {
-            returnValues[0] = "FAIL"
-            returnValues[1] = e.toString()
+            r.addStatus("FAIL", e.toString())
+
         }
-        return Status.status(returnValues[0], returnValues[1])
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun readTextFile(): String {
-        val returnValues = arrayOfNulls<String>(2)
-        returnValues[0] = "OK"
-        returnValues[1] = ""
+        val r = ReturnStatus()
+
+
 
         // Ensure the file exists by writing it first
         writeFileOutput()
@@ -98,17 +103,25 @@ class StorageExternalStorage(private val context: ReactApplicationContext) : Rea
             FileInputStream(appSpecificExternalFile).use { fis ->
                 InputStreamReader(fis, StandardCharsets.UTF_8).use { inputStreamReader ->
                     BufferedReader(inputStreamReader).use { reader ->
-                        val stringBuilder = StringBuilder()
-                        stringBuilder.append(reader.readText())
-                        returnValues[1] = stringBuilder.toString()
+                        val text = StringBuilder()
+                        text.append(reader.readText())
+                        r.addStatus("OK", "File successfully read. Content: $text")
+
                     }
                 }
             }
         } catch (e: Exception) {
-            returnValues[0] = "FAIL"
-            returnValues[1] = e.toString()
+            r.addStatus("FAIL", e.toString())
+
         }
 
-        return Status.status(returnValues[0], returnValues[1])
+        return r.toJsonString()
     }
+
+
+    //@method
+    
+    
+    
+
 }
