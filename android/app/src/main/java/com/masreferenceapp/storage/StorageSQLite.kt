@@ -6,7 +6,8 @@ import android.database.sqlite.SQLiteDatabase
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.masreferenceapp.Status
+import com.masreferenceapp.ReturnStatus
+
 
 class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
     private fun initDb(db: SQLiteDatabase) {
@@ -40,7 +41,7 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
         val plainTextDb = SQLiteDatabase.openOrCreateDatabase(dbpath, null)
         initDb(plainTextDb)
         deleteDb()
-        return Status.status("OK", "Message")
+        return ReturnStatus("OK", "Database created. Path: " + dbpath).toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -53,7 +54,7 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
         plainTextDb.insert("myTable", null, values)
         plainTextDb.close()
         deleteDb()
-        return Status.status("OK", "Message")
+        return ReturnStatus("OK", "Data inserted.").toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -67,7 +68,7 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
         values.put("password", "newSecretPW")
         plainTextDb.update("myTable", values, "id" + " = ?", arrayOf(id.toString()))
         deleteDb()
-        return Status.status("OK", "Message")
+        return ReturnStatus("OK", "Data updated.").toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -81,6 +82,6 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
         plainTextDb.delete("myTable", "id" + " = ?", arrayOf(id.toString()))
         plainTextDb.close()
         deleteDb()
-        return Status.status("OK", "Message")
+        return ReturnStatus("OK", "Data deleted.").toJsonString()
     }
 }
