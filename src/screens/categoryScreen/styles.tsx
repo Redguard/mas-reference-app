@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    flex: 3,
+    flex: 4,
   },
   // terminal: {
   //   flex: 1,

@@ -15,7 +15,6 @@ import SettingsScreen from './src/screens/settingsScreen/settingsScreen.tsx';
 import appContent from './src/appContent.tsx';
 import HeaderBackground from './src/screens/header/headerBackground.tsx';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import { Settings } from 'react-native-feather';
 
 export type MasSettings = {
   httpTestDomain: string;
