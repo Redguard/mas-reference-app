@@ -43,7 +43,7 @@ public class AuthBiometricManager extends ReactContextBaseJavaModule {
         return r.toJsonString();    }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String testDeviceCredentialsAuth(){
+    public String testDeviceCrerdentialsAuth(){
         BiometricManager bm = BiometricManager.from(context);
         int canAuth = bm.canAuthenticate(BiometricManager.Authenticators.DEVICE_CREDENTIAL);
 

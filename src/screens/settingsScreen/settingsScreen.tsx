@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -11,16 +11,36 @@ import {
 import styles from './style.tsx';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import DialogInput from 'react-native-dialog-input';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import {MasSettings} from '../../../App.tsx';
 
 function SettingsScreen(): React.JSX.Element {
-  const [isDialogVisible, setIsDialogVisible] = useState(false); // State to handle dialog visibility
-  const [selectedSetting, setSelectedSetting] = useState(null); // To track the selected setting dynamically
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
+  const [selectedSetting, setSelectedSetting] = useState(null);
   const [settings, setSettings] = useState({
-    httpTestDomain: 'redguard.ch',
-    httpsTestDomain: 'redguard.ch',
-    canaryToken: 'MAS_SECRET_987654321_MAS',
+    httpTestDomain: '',
+    httpsTestDomain: '',
+    canaryToken: '',
     androidApiKey: '',
   });
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const globalSettings: string | null = await EncryptedStorage.getItem(
+          'MasReferenceAppSettings',
+        );
+        if (globalSettings) {
+          setSettings(JSON.parse(globalSettings));
+        }
+      } catch (error) {
+        console.error('Failed to retrieve global settings:', error);
+      } finally {
+      }
+    };
+
+    fetchSettings();
+  }, []);
 
   const handleRowPress = (settingKey: any) => {
     setSelectedSetting(settingKey);
@@ -29,12 +49,37 @@ function SettingsScreen(): React.JSX.Element {
 
   const handleDialogSubmit = (inputText: string) => {
     if (selectedSetting) {
-      setSettings(prevSettings => ({
-        ...prevSettings,
-        [selectedSetting]: inputText,
-      }));
+      setSettings(prevSettings => {
+        const updatedSettings = {
+          ...prevSettings,
+          [selectedSetting]: inputText,
+        };
+        updateGlobalSettings(updatedSettings);
+        return updatedSettings;
+      });
     }
     setIsDialogVisible(false);
+  };
+
+  const updateGlobalSettings = (updatedSettings: typeof settings) => {
+    const {httpTestDomain, httpsTestDomain, canaryToken, androidApiKey} =
+      updatedSettings;
+
+    const masSettings: MasSettings = {
+      httpTestDomain: httpTestDomain,
+      httpsTestDomain: httpsTestDomain,
+      canaryToken: canaryToken,
+      androidApiKey: androidApiKey,
+    };
+
+    try {
+      EncryptedStorage.setItem(
+        'MasReferenceAppSettings',
+        JSON.stringify(masSettings),
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCancel = () => {
