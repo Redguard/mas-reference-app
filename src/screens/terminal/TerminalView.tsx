@@ -6,9 +6,8 @@ const TerminalView = forwardRef((props, ref) => {
   const [lines, setLines] = useState<{text: string; color: string}[]>([
     {text: '$ Welcome to the MAS Reference App Shell', color: '#00ff00'},
   ]);
-  const scrollViewRef = useRef<ScrollView>(null); // Create a ref for the ScrollView
+  const scrollViewRef = useRef<ScrollView>(null);
 
-  // Function to add a new line to the terminal
   const addLine = (newLine: string, color: string) => {
     setLines(prevLines => [...prevLines, {text: newLine, color}]);
     if (scrollViewRef.current) {
