@@ -1,6 +1,7 @@
 import {Platform} from 'react-native';
 import {generalTestCases} from './tests/general';
 import {androidTestCases} from './tests/android';
+import {iosTestCases} from './tests/ios';
 
 /*
   General Use-Cases
@@ -26,30 +27,14 @@ if (Platform.OS === 'android') {
     iOS Use-Cases
   */
 
-  testCases.STORAGE.push({
-    title: 'Sensitive Data in Keychain',
-    description:
-      'This test cases will read and write sensitive Data to the iOS Keychain.',
-    testCases: [
-      {
-        title: 'Write Data into the Keychain',
-        description: 'Write unencrypted data sandbox Keychain.',
-        nativeFunction: null,
-      },
-      {
-        title: 'Read Data from Keychain',
-        description: '',
-        nativeFunction: null,
-      },
-      //'writeDataFromKeychain', 'readDataToKeychain'
-    ],
-  });
-  testCases.CRYPTO.push();
-  testCases.AUTH.push();
-  testCases.NETWORK.push();
-  testCases.PLATFORM.push();
-  testCases.CODE.push();
-  testCases.RESILIENCE.push();
+  testCases.STORAGE = testCases.STORAGE.concat(iosTestCases.STORAGE);
+  testCases.CRYPTO = testCases.CRYPTO.concat(iosTestCases.CRYPTO);
+  testCases.AUTH = testCases.AUTH.concat(iosTestCases.AUTH);
+  testCases.NETWORK = testCases.NETWORK.concat(iosTestCases.NETWORK);
+  testCases.PLATFORM = testCases.PLATFORM.concat(iosTestCases.PLATFORM);
+  testCases.CODE = testCases.CODE.concat(iosTestCases.CODE);
+  testCases.RESILIENCE = testCases.RESILIENCE.concat(iosTestCases.RESILIENCE);
+  testCases.PRIVACY = testCases.PRIVACY.concat(iosTestCases.PRIVACY);
 }
 
 export default testCases;

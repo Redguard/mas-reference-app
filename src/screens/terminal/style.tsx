@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
   },
   lineText: {
     fontFamily: 'monospace',
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 10,
+    lineHeight: 15,
     flexWrap: 'wrap',
   },
 });

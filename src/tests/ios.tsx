@@ -8,8 +8,25 @@ interface Dictionary<Type> {
   [key: string]: Type;
 }
 
-export var generalTestCases: Dictionary<TestCases[]> = {
+export var iosTestCases: Dictionary<TestCases[]> = {
   STORAGE: [
+    {
+    title: 'Sensitive Data in Keychain',
+    description:
+      'This test cases will read and write sensitive Data to the iOS Keychain.',
+    testCases: [
+      {
+        title: 'Write Data into the Keychain',
+        description: 'Write unencrypted data sandbox Keychain.',
+        nativeFunction: null,
+      },
+      {
+        title: 'Read Data from Keychain',
+        description: '',
+        nativeFunction: null,
+      },
+    ],
+  },
     // Define your general storage test cases here
   ],
   CRYPTO: [
@@ -36,4 +53,4 @@ export var generalTestCases: Dictionary<TestCases[]> = {
   ],
 };
 
-export default generalTestCases;
+export default iosTestCases;
