@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 
 import java.util.HashSet;
@@ -33,23 +34,24 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String getInsecureSharedPreferences(){
         SharedPreferences sharedPref;
-        String message = "";
-        String statusCode = "OK";
+        ReturnStatus r = new ReturnStatus();
+
         try {
             sharedPref = context.getSharedPreferences("masRefAppKey", Context.MODE_WORLD_READABLE);
-            message = sharedPref.toString();
+            r.addStatus("OK", "SharedPreferences initialized.");
+
         } catch (Exception e){
-            message = e.toString();
-            statusCode = "FAIL";
+            r.addStatus("FAIL", e.toString());
         }
         try {
             sharedPref = context.getSharedPreferences("masRefAppKey", Context.MODE_WORLD_WRITEABLE);
-            message = sharedPref.toString();
+            r.addStatus("OK", "SharedPreferences initialized.");
         } catch (Exception e) {
-            message = e.toString();
-            statusCode = "FAIL";
+            r.addStatus("FAIL", e.toString());
         }
-        return Status.status(statusCode, message);
+
+        return r.toJsonString();
+
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -57,8 +59,8 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
         SharedPreferences sharedPref = context.getSharedPreferences("masRefAppKey", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("masRefAppKeyPassword", "Password123!");
-        editor.commit();
-        return Status.status("OK", editor.toString());
+        editor.apply();
+        return new ReturnStatus("OK", "Data written.").toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -69,8 +71,8 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
             stringSet.add("Password123!");
             stringSet.add("HelloWorld!");
         editor.putStringSet("masRefAppKeyPasswords", stringSet);
-        editor.commit();
-        return Status.status("OK", editor.toString());
+        editor.apply();
+        return new ReturnStatus("OK", "Data written.").toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -80,7 +82,7 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
         SharedPreferences sharedPref = context.getSharedPreferences("masRefAppKey", MODE_PRIVATE);
         String readValue = sharedPref.getString("masRefAppKeyPassword", "");
 
-        return Status.status("OK", readValue.toString());
+        return new ReturnStatus("OK", "Data read: " + readValue).toJsonString();
 
     }
 
@@ -91,6 +93,6 @@ public class StorageSharedPreferences extends ReactContextBaseJavaModule {
         SharedPreferences sharedPref = context.getSharedPreferences("masRefAppKey", MODE_PRIVATE);
         Set<String> readValue = sharedPref.getStringSet("masRefAppKeyPasswords", new HashSet<>());
 
-        return Status.status("OK", readValue.toString());
+        return new ReturnStatus("OK", "Data read: " + readValue).toJsonString();
     }
 }

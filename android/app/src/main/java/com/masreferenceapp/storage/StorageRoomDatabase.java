@@ -9,6 +9,7 @@ import androidx.room.Room;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.Status;
 import com.masreferenceapp.storage.room.AppDatabase;
 import com.masreferenceapp.storage.room.User;
@@ -35,7 +36,7 @@ public class StorageRoomDatabase extends ReactContextBaseJavaModule {
         AppDatabase db = Room.databaseBuilder(this.context,
                 AppDatabase.class, "mas-refernce-app-room-db").build();
 
-        return Status.status("OK", db.toString());
+        return new ReturnStatus("OK", "Database created: " + db.toString()).toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -58,7 +59,8 @@ public class StorageRoomDatabase extends ReactContextBaseJavaModule {
 
         userDao.insert(user);
 
-        return Status.status("OK", userDao.toString());
+        return new ReturnStatus("OK", "Added data to database : " + userDao.toString()).toJsonString();
+
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -72,7 +74,7 @@ public class StorageRoomDatabase extends ReactContextBaseJavaModule {
         UserDao userDao = db.userDao();
         User maximilian = userDao.findByName("Maximilian", "Smith");
 
+        return new ReturnStatus("OK", "Read from database: " + maximilian.firstName + ", " + maximilian.lastName  + ", " + maximilian.password).toJsonString();
 
-        return Status.status("OK", maximilian.firstName + ", " + maximilian.lastName  + ", " + maximilian.password  );
     }
 }
