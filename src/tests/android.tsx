@@ -191,24 +191,24 @@ export var androidTestCases: Dictionary<TestCases[]> = {
             'Returns the current state of the primary shared/external storage media.',
           nativeFunction: StorageExternalStorage.checkState,
         },
-        // {
-        //   title: 'Get root location using getExternalFilesDir',
-        //   description:
-        //     'Returns the absolute path to the directory on the primary shared/external storage device where the application can place persistent files it owns. These files are internal to the applications, and not typically visible to the user as media. ',
-        //   nativeFunction: StorageExternalStorage.getExternalFilesDirRoot,
-        // },
-        // {
-        //   title: 'Get external cache location using getExternalCacheDir',
-        //   description:
-        //     'Returns absolute path to application-specific directory on the primary shared/external storage device where the application can place cache files it owns. These files are internal to the application, and not typically visible to the user as media. ',
-        //   nativeFunction: StorageExternalStorage.getExternalCacheDir,
-        // },
-        // {
-        //   title: 'Get different external file location',
-        //   description:
-        //     'Try to access different types of external locatios such as Environment.DIRECTORY_MUSIC or Environment.DIRECTORY_PICTURES',
-        //   nativeFunction: StorageExternalStorage.getDifferentExternalDirs,
-        // },
+        {
+          title: 'Get root location using getExternalFilesDir',
+          description:
+            'Returns the absolute path to the directory on the primary shared/external storage device where the application can place persistent files it owns. These files are internal to the applications, and not typically visible to the user as media. ',
+          nativeFunction: StorageExternalStorage.getExternalFilesDirRoot,
+        },
+        {
+          title: 'Get external cache location using getExternalCacheDir',
+          description:
+            'Returns absolute path to application-specific directory on the primary shared/external storage device where the application can place cache files it owns. These files are internal to the application, and not typically visible to the user as media. ',
+          nativeFunction: StorageExternalStorage.getExternalCacheDir,
+        },
+        {
+          title: 'Get different external file location',
+          description:
+            'Try to access different types of external locatios such as Environment.DIRECTORY_MUSIC or Environment.DIRECTORY_PICTURES',
+          nativeFunction: StorageExternalStorage.getDifferentExternalDirs,
+        },
         {
           title: 'Write a external text file',
           description:

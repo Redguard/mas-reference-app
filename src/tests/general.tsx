@@ -1,5 +1,3 @@
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable prettier/prettier */
 import {NativeModules} from 'react-native';
 import {TestCases} from '../appContent';
 const {
