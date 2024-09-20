@@ -11,7 +11,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import CategoryStackScreen from './src/screens/categoryScreen/categoryScreen.tsx';
 import HomeScreen from './src/screens/homeScreen/homeScreen.tsx';
-import AutomationScreen from './src/screens/automationScreen/automationScreen.tsx';
+import SettingsScreen from './src/screens/settingsScreen/settingsScreen.tsx';
 import appContent from './src/appContent.tsx';
 import HeaderBackground from './src/screens/header/headerBackground.tsx';
 
@@ -26,12 +26,6 @@ function App(): React.JSX.Element {
         <Drawer.Screen
           name="Home"
           component={HomeScreen}
-          options={{
-            headerBackground: () => <HeaderBackground />,
-          }}/>
-        <Drawer.Screen
-          name="Automation"
-          component={AutomationScreen}
           options={{
             headerBackground: () => <HeaderBackground />,
           }}/>
@@ -54,6 +48,12 @@ function App(): React.JSX.Element {
             />
           );
         })}
+        <Drawer.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{
+            headerBackground: () => <HeaderBackground />,
+          }}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
