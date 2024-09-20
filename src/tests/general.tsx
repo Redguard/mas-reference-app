@@ -22,7 +22,7 @@ export var generalTestCases: Dictionary<TestCases[]> = {
       title: 'Sensitive Data in Log',
       maswe: '0001',
       description:
-        'This test cases will write the following sensitive data to the application log:\n\n- Different Password-Identifiere\n- Valid Access-Token\n- ...\n',
+        'This test cases will write the following sensitive data to the application log.',
       testCases: [
         {
           title: 'Log Name',

@@ -8,15 +8,21 @@ const styles = StyleSheet.create({
   logo: {
     width: 300,
     height: 300,
+    margin: '20%',
   },
   homeStyle: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   title: {
     fontSize: 30,
     fontWeight: 'bold',
+  },
+  text: {
+    margin: '5%',
+    textAlign: 'center',
+    fontSize: 15,
   },
 });
 
