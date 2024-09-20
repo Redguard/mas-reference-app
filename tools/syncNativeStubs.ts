@@ -31,7 +31,7 @@ type TestCases = {
 
 function getBasePath(){
   const arr:string[] = __filename.split('/');
-  arr.splice(-2)
+  arr.splice(-2);
   const basePath = arr.join('/');
   return basePath;
 }
@@ -67,7 +67,7 @@ function createMethod(masDomain:string, classname:string, methodName:string, tar
 
     if ( fs.existsSync(kotlinClass)) {
 
-      const existingClass = fs.readFileSync(kotlinClass, 'utf-8')
+      const existingClass = fs.readFileSync(kotlinClass, 'utf-8');
 
       if (!existingClass.includes('fun ' + methodName + '(): String {')){
         // method does not exist yet
@@ -100,11 +100,10 @@ function createClass(masDomain:string, classname:string, target:string){
       const classContent = fs.readFileSync(basePath + '/tools/TemplateClassKotlin.txt', 'utf-8').replace(/@classname/gm, classname).replace(/@masdomain/gm, masDomain.toLowerCase());
       fs.writeFileSync(kotlinClass, classContent);
 
-      // update MyAppPackage
-
+      // update MyAppPackacke
+      // TODO: verify if duplicate
       const myAppPackageContent = fs.readFileSync(myAppPackageClass, 'utf-8').replace(/\/\/@modules/gm, 'modules.add(com.masreferenceapp.' + masDomain.toLowerCase() + '.' + classname + '(reactContext))\n        //@modules');
       fs.writeFileSync(myAppPackageClass, myAppPackageContent);
-
       console.log('[+] Created new Kotlin Class: ' + kotlinClass);
     }
   }
