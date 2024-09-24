@@ -3,7 +3,7 @@ package com.masreferenceapp.network
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.masreferenceapp.Constants
+import com.masreferenceapp.MasSettings
 import com.masreferenceapp.ReturnStatus
 import javax.net.ssl.SSLParameters
 import javax.net.ssl.SSLSocket
@@ -17,20 +17,22 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun oldTlsConfig(): String {
+        val testDomain = MasSettings.getData("testDomain")
+
         val status = StringBuffer()
         val factory = SSLSocketFactory.getDefault() as SSLSocketFactory
         var socket: SSLSocket? = null
         val r = ReturnStatus()
 
         try {
-            socket = factory.createSocket(Constants.remoteHttpsDomain, 443) as SSLSocket
+            socket = factory.createSocket(testDomain, 443) as SSLSocket
             try {
                 socket.enabledProtocols = arrayOf("TLSv1")
             } catch (e: Exception) {
                 r.addStatus("FAIL", e.toString())
             }
             try {
-                socket = factory.createSocket(Constants.remoteHttpsDomain, 443) as SSLSocket
+                socket = factory.createSocket(testDomain, 443) as SSLSocket
                 // second way to set older protocols
                 val params = SSLParameters()
                 params.protocols = arrayOf("TLSv1")
@@ -49,6 +51,8 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun insecureCipherSuties(): String {
+        val testDomain = MasSettings.getData("testDomain")
+
         val ciphers = arrayOf(
             "TLS_RSA_WITH_AES_128_CBC_SHA",
             "SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA",
@@ -63,14 +67,14 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
         var socket: SSLSocket? = null
         val r = ReturnStatus()
         try {
-            socket = factory.createSocket(Constants.remoteHttpsDomain, 443) as SSLSocket
+            socket = factory.createSocket(testDomain, 443) as SSLSocket
             try {
                 socket.enabledCipherSuites = ciphers
             } catch (e: Exception) {
                 r.addStatus("FAIL", e.toString())
             }
             try {
-                socket = factory.createSocket(Constants.remoteHttpsDomain, 443) as SSLSocket
+                socket = factory.createSocket(testDomain, 443) as SSLSocket
                 // second way to set older protocols
                 val params = SSLParameters(ciphers, null)
                 socket.sslParameters = params

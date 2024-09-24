@@ -8,7 +8,10 @@
  */
 
 import * as React from 'react';
+import {NativeModules} from 'react-native';
+
 import {createDrawerNavigator} from '@react-navigation/drawer';
+
 import {NavigationContainer} from '@react-navigation/native';
 import CategoryStackScreen from './src/screens/categoryScreen/categoryScreen.tsx';
 import HomeScreen from './src/screens/homeScreen/homeScreen.tsx';
@@ -16,28 +19,33 @@ import SettingsScreen from './src/screens/settingsScreen/settingsScreen.tsx';
 import appContent from './src/appContent.tsx';
 import HeaderBackground from './src/screens/header/headerBackground.tsx';
 import EncryptedStorage from 'react-native-encrypted-storage';
+const {MasSettingsSync} = NativeModules;
 
 export type MasSettings = {
-  httpTestDomain: string;
-  httpsTestDomain: string;
+  testDomain: string;
   canaryToken: string;
   androidApiKey: string;
 };
 
-
 const Drawer = createDrawerNavigator();
+
+async function syncGlobalSettingsNativeApp(){
+  try {
+    var settings = await EncryptedStorage.getItem('MasReferenceAppSettings');
+    console.log(MasSettingsSync.setSettings(settings));
+    } catch (error) {
+      console.log(error);
+  }
+}
+
 
 async function initGlobalSettings(){
   try {
-    const settings = await EncryptedStorage.getItem('MasReferenceAppSettings');
+    var settings = await EncryptedStorage.getItem('MasReferenceAppSettings');
     if (settings === null) {
-
-      console.log('First start, storing default settings.');
-
       const masSettings: MasSettings = {
-        httpTestDomain: 'redguard.ch',
-        httpsTestDomain: 'redguard.ch',
-        canaryToken: '__MAS.SECRET.eL4$wV__',
+        testDomain: 'mas.owasp.org',
+        canaryToken: '__MAS.D34!3.MAS__',
         androidApiKey: '',
       };
       try {
@@ -45,14 +53,14 @@ async function initGlobalSettings(){
             'MasReferenceAppSettings',
             JSON.stringify(masSettings)
         );
-        } catch (error) {
+      } catch (error) {
           console.log(error);
-    }
-    }
-
+      }
+      }
+      syncGlobalSettingsNativeApp();
     } catch (error) {
-      console.log(error);
-    }
+    console.log(error);
+  }
 }
 
 function App(): React.JSX.Element {

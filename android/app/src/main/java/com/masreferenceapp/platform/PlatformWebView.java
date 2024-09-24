@@ -1,9 +1,6 @@
 package com.masreferenceapp.platform;
 
 import static android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW;
-import static com.masreferenceapp.Constants.localWebViewDomain;
-import static com.masreferenceapp.Constants.localWebViewJavaScriptBridge;
-import static com.masreferenceapp.Constants.remoteHttpDomain;
 
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
@@ -14,8 +11,8 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.MasSettings;
 import com.masreferenceapp.ReturnStatus;
-import com.masreferenceapp.Status;
 import com.masreferenceapp.platform.helpers.WebViewJavaScriptBridge;
 
 import java.util.HashMap;
@@ -23,6 +20,10 @@ import java.util.Map;
 
 
 public class PlatformWebView extends ReactContextBaseJavaModule {
+
+    private final String localWebViewDomain = "file:///android_asset/masTestPage.html";
+    private final String localWebViewJavaScriptBridge = "file:///android_asset/masJavaScriptBridge.html";
+
     ReactApplicationContext context;
 
     public PlatformWebView(ReactApplicationContext context) {
@@ -53,6 +54,8 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String loadRemoteHttpResource(){
+        String testDomain = MasSettings.getData("testDomain");
+
 
         WebView wv = new WebView(context);
 
@@ -60,9 +63,9 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         headers.put("X-a", "someHeader");
         headers.put("X-b", "anotherHeader");
 
-        wv.loadUrl("http://"+ remoteHttpDomain, headers);
+        wv.loadUrl("http://", headers);
 
-        wv.loadUrl("http://"+ remoteHttpDomain);
+        wv.loadUrl("http://"+ testDomain);
 
         return new ReturnStatus("OK", "Resource loaded. URL of the WebView: " + wv.getUrl()).toJsonString();
 
@@ -70,6 +73,8 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String loadRemoteHttpsResource(){
+        String testDomain = MasSettings.getData("testDomain");
+
 
         WebView wv = new WebView(context);
 
@@ -77,9 +82,9 @@ public class PlatformWebView extends ReactContextBaseJavaModule {
         headers.put("X-a", "someHeader");
         headers.put("X-b", "anotherHeader");
 
-        wv.loadUrl("https://"+ remoteHttpDomain, headers);
+        wv.loadUrl("https://"+ testDomain, headers);
 
-        wv.loadUrl("https://"+ remoteHttpDomain);
+        wv.loadUrl("https://"+ testDomain);
 
         return new ReturnStatus("OK", "Resource loaded. URL of the WebView: " + wv.getUrl()).toJsonString();
 

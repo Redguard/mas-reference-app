@@ -47,45 +47,54 @@ export var androidTestCases: Dictionary<TestCases[]> = {
   STORAGE: [
     {
       title: 'SharedPreferences',
+      maswe: '0006',
       description:
-        'This testcase stores data using unencrypted SharedPreferences.\n',
+        'This testcase stores sensitive data using unencrypted SharedPreferences.\n',
       testCases: [
         {
-          title: 'Get insecure SharedPreferences Instance',
-          description: 'Get an world read/writable SharedPreferenceInstance',
-          nativeFunction: StorageSharedPreferences.getInsecureSharedPreferences,
+          title: 'Write Boolean',
+          description:
+            'Write true into the sandbox using SharedPreferences.',
+          nativeFunction: StorageSharedPreferences.putBoolean,
         },
         {
-          title: 'Write sensitve String',
-          maswe: '0006',
+          title: 'Write Float',
           description:
-            'Write string into the snadbox using putString method of SharedPreferences.',
+          'Write 2.71828 into the sandbox using SharedPreferences.',
+          nativeFunction: StorageSharedPreferences.putFloat,
+        },
+        {
+          title: 'Write Int',
+          description:
+          'Write 43 into the sandbox using SharedPreferences.',
+          nativeFunction: StorageSharedPreferences.putInt,
+        },
+        {
+          title: 'Write Long',
+          description:
+          'Write 3.14159265359 into the sandbox using SharedPreferences.',
+          nativeFunction: StorageSharedPreferences.putString,
+        },
+
+        {
+          title: 'Write String',
+          description:
+          'Write canary token into the sandbox using SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putString,
         },
         {
-          title: 'Write sensitve StringSet',
-          maswe: '0006',
+          title: 'Write StringSet',
           description:
-            'Write stringSet into the snadbox using putStringSet method of SharedPreferences.',
+          'Write a stringset of canary tokens into the sandbox using SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putStringSet,
-        },
-        {
-          title: 'Read sensitve String',
-          description: 'Read a String from the unencrypted SharedPreferences',
-          nativeFunction: StorageSharedPreferences.readString,
-        },
-        {
-          title: 'Read sensitve StringSet',
-          description:
-            'Read a StringSet from the unencrypted SharedPreferences',
-          nativeFunction: StorageSharedPreferences.readStringSet,
         },
       ],
     },
     {
       title: 'DataStore',
+      maswe: '0006',
       description:
-        'This testcase stores data using the DataStore. Data stored this way is not encrypted in the sandbox. An attacker may therefore be able to retrieve the data.',
+        'This testcase stores sensitve data using the DataStore. Data stored this way is not encrypted in the sandbox. An attacker may therefore be able to retrieve the data.',
       testCases: [
         {
           title: 'Init Preferences DataStore (RxDataStoreBuilder)',
@@ -110,25 +119,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           description:
             'Write Data into the snadbox using Preferences DataStore',
           nativeFunction: StorageDataStoreProto.writeProtoDataStore,
-        },
-        {
-          title: 'Read String from Preferences DataStore',
-          description:
-            'Read String from the snadbox using Preferences DataStore',
-          nativeFunction: StorageDataStore.readStringPreferenceDataStore,
-        },
-        {
-          title: 'Read StringSet from Preferences DataStore',
-          description:
-            'Read StringSet from the snadbox using Preferences DataStore',
-          nativeFunction: StorageDataStore.readStringSetPreferenceDataStore,
-        },
-        {
-          title: 'Read Data from Proto DataStore',
-          description:
-            'Read structured Data into the snadbox using Preferences DataStore',
-          nativeFunction: StorageDataStoreProto.readProtoDataStore,
-        },
+        }
       ],
     },
     {

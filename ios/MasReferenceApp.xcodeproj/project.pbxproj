@@ -15,10 +15,7 @@
 		7004D38E9DDD756DC46B9A8A /* libPods-MasReferenceApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C68BED10B7A507A8FEFE43 /* libPods-MasReferenceApp.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		BFA357C0C655080A051211A1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5081E81C4C175E9C3C8CB631 /* PrivacyInfo.xcprivacy */; };
-		F8C561712C04B5ED00658ED5 /* StorageSQLite.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C5616B2C04B5ED00658ED5 /* StorageSQLite.m */; };
-		F8C561722C04B5ED00658ED5 /* NetworkUnencrypted.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C5616D2C04B5ED00658ED5 /* NetworkUnencrypted.m */; };
-		F8C561732C04B5ED00658ED5 /* ResilienceVerifySignature.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C5616E2C04B5ED00658ED5 /* ResilienceVerifySignature.m */; };
-		F8F950A02B75B7B70006CBEC /* StorageLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F9509F2B75B7B70006CBEC /* StorageLog.m */; };
+		F887C5052CA29C7D00864A7B /* StorageLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F887C5042CA29C7D00864A7B /* StorageLog.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,14 +47,7 @@
 		DA3CAB4F0087B4A8C8FDCDBC /* Pods-MasReferenceApp-MasReferenceAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasReferenceApp-MasReferenceAppTests.release.xcconfig"; path = "Target Support Files/Pods-MasReferenceApp-MasReferenceAppTests/Pods-MasReferenceApp-MasReferenceAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F63929C0A66470FCD3511F95 /* libPods-MasReferenceApp-MasReferenceAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MasReferenceApp-MasReferenceAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8C5616B2C04B5ED00658ED5 /* StorageSQLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorageSQLite.m; sourceTree = "<group>"; };
-		F8C5616C2C04B5ED00658ED5 /* ResilienceVerifySignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResilienceVerifySignature.h; sourceTree = "<group>"; };
-		F8C5616D2C04B5ED00658ED5 /* NetworkUnencrypted.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkUnencrypted.m; sourceTree = "<group>"; };
-		F8C5616E2C04B5ED00658ED5 /* ResilienceVerifySignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResilienceVerifySignature.m; sourceTree = "<group>"; };
-		F8C5616F2C04B5ED00658ED5 /* StorageSQLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorageSQLite.h; sourceTree = "<group>"; };
-		F8C561702C04B5ED00658ED5 /* NetworkUnencrypted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkUnencrypted.h; sourceTree = "<group>"; };
-		F8F9509E2B75B6CC0006CBEC /* StorageLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StorageLog.h; sourceTree = "<group>"; };
-		F8F9509F2B75B7B70006CBEC /* StorageLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StorageLog.m; sourceTree = "<group>"; };
+		F887C5042CA29C7D00864A7B /* StorageLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageLog.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,20 +90,20 @@
 		13B07FAE1A68108700A75B9A /* MasReferenceApp */ = {
 			isa = PBXGroup;
 			children = (
-				F8C561702C04B5ED00658ED5 /* NetworkUnencrypted.h */,
-				F8C5616D2C04B5ED00658ED5 /* NetworkUnencrypted.m */,
-				F8C5616C2C04B5ED00658ED5 /* ResilienceVerifySignature.h */,
-				F8C5616E2C04B5ED00658ED5 /* ResilienceVerifySignature.m */,
-				F8C5616F2C04B5ED00658ED5 /* StorageSQLite.h */,
-				F8C5616B2C04B5ED00658ED5 /* StorageSQLite.m */,
+				F8BEDA252CA200DB002A7E3A /* privacy */,
+				F8BEDA242CA200CD002A7E3A /* resilience */,
+				F8BEDA212CA2006E002A7E3A /* platform */,
+				F8BEDA202CA20062002A7E3A /* crypto */,
+				F8BEDA1F2CA20054002A7E3A /* auth */,
+				F8BEDA1E2CA2004E002A7E3A /* code */,
+				F8BEDA1D2CA20047002A7E3A /* storage */,
+				F8BEDA1C2CA20042002A7E3A /* network */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				F8F9509E2B75B6CC0006CBEC /* StorageLog.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				F8F9509F2B75B7B70006CBEC /* StorageLog.m */,
 				5081E81C4C175E9C3C8CB631 /* PrivacyInfo.xcprivacy */,
 			);
 			name = MasReferenceApp;
@@ -171,6 +161,63 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		F8BEDA1C2CA20042002A7E3A /* network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = network;
+			sourceTree = "<group>";
+		};
+		F8BEDA1D2CA20047002A7E3A /* storage */ = {
+			isa = PBXGroup;
+			children = (
+				F887C5042CA29C7D00864A7B /* StorageLog.swift */,
+			);
+			path = storage;
+			sourceTree = "<group>";
+		};
+		F8BEDA1E2CA2004E002A7E3A /* code */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = code;
+			sourceTree = "<group>";
+		};
+		F8BEDA1F2CA20054002A7E3A /* auth */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = auth;
+			sourceTree = "<group>";
+		};
+		F8BEDA202CA20062002A7E3A /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = crypto;
+			sourceTree = "<group>";
+		};
+		F8BEDA212CA2006E002A7E3A /* platform */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = platform;
+			sourceTree = "<group>";
+		};
+		F8BEDA242CA200CD002A7E3A /* resilience */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = resilience;
+			sourceTree = "<group>";
+		};
+		F8BEDA252CA200DB002A7E3A /* privacy */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = privacy;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -183,6 +230,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				B7ED7BECACD6C3E9E1F1FAF1 /* [CP] Copy Pods Resources */,
+				38D31C83E70255BFFE403AAE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -204,6 +252,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				319293D1FE3AA2978F9D8E6E /* [CP] Copy Pods Resources */,
+				FE5FA1730164E2601613B4B9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -304,6 +353,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MasReferenceApp/Pods-MasReferenceApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		38D31C83E70255BFFE403AAE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MasReferenceApp-MasReferenceAppTests/Pods-MasReferenceApp-MasReferenceAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MasReferenceApp-MasReferenceAppTests/Pods-MasReferenceApp-MasReferenceAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MasReferenceApp-MasReferenceAppTests/Pods-MasReferenceApp-MasReferenceAppTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		45A92B9780A682EABA32BEF0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -365,6 +431,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MasReferenceApp-MasReferenceAppTests/Pods-MasReferenceApp-MasReferenceAppTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		FE5FA1730164E2601613B4B9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MasReferenceApp/Pods-MasReferenceApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MasReferenceApp/Pods-MasReferenceApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MasReferenceApp/Pods-MasReferenceApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -381,11 +464,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
-				F8C561722C04B5ED00658ED5 /* NetworkUnencrypted.m in Sources */,
-				F8C561712C04B5ED00658ED5 /* StorageSQLite.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				F8C561732C04B5ED00658ED5 /* ResilienceVerifySignature.m in Sources */,
-				F8F950A02B75B7B70006CBEC /* StorageLog.m in Sources */,
+				F887C5052CA29C7D00864A7B /* StorageLog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +485,7 @@
 			baseConfigurationReference = 1F0CF631ECAA0CD5EF9A347C /* Pods-MasReferenceApp-MasReferenceAppTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = D63BQ5LV59;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -433,6 +514,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = D63BQ5LV59;
 				INFOPLIST_FILE = MasReferenceAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (

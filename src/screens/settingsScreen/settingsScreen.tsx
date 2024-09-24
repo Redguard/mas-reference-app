@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   Linking,
+  NativeModules,
 } from 'react-native';
 import styles from './style.tsx';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -14,12 +15,13 @@ import DialogInput from 'react-native-dialog-input';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {MasSettings} from '../../../App.tsx';
 
+const {MasSettingsSync} = NativeModules;
+
 function SettingsScreen(): React.JSX.Element {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [selectedSetting, setSelectedSetting] = useState(null);
   const [settings, setSettings] = useState({
-    httpTestDomain: '',
-    httpsTestDomain: '',
+    testDomain: '',
     canaryToken: '',
     androidApiKey: '',
   });
@@ -47,7 +49,7 @@ function SettingsScreen(): React.JSX.Element {
     setIsDialogVisible(true);
   };
 
-  const handleDialogSubmit = (inputText: string) => {
+  const handleDialogSubmit = (inputText: any) => {
     if (selectedSetting) {
       setSettings(prevSettings => {
         const updatedSettings = {
@@ -62,21 +64,20 @@ function SettingsScreen(): React.JSX.Element {
   };
 
   const updateGlobalSettings = (updatedSettings: typeof settings) => {
-    const {httpTestDomain, httpsTestDomain, canaryToken, androidApiKey} =
-      updatedSettings;
+    const {testDomain, canaryToken, androidApiKey} = updatedSettings;
 
     const masSettings: MasSettings = {
-      httpTestDomain: httpTestDomain,
-      httpsTestDomain: httpsTestDomain,
+      testDomain: testDomain,
       canaryToken: canaryToken,
       androidApiKey: androidApiKey,
     };
-
     try {
       EncryptedStorage.setItem(
         'MasReferenceAppSettings',
         JSON.stringify(masSettings),
       );
+      // sync settings to native app
+      MasSettingsSync.setSettings(JSON.stringify(masSettings));
     } catch (error) {
       console.log(error);
     }
@@ -87,11 +88,10 @@ function SettingsScreen(): React.JSX.Element {
   };
 
   const getSettingLabel = (
-    key: 'httpTestDomain' | 'httpsTestDomain' | 'canaryToken' | 'androidApiKey',
+    key: 'testDomain' | 'canaryToken' | 'androidApiKey',
   ) => {
     const labels = {
-      httpTestDomain: 'HTTP Test Domain',
-      httpsTestDomain: 'HTTPS Test Domain',
+      testDomain: 'Test Domain',
       canaryToken: 'Canary Token',
       androidApiKey: 'Android API Key',
     };
@@ -107,27 +107,13 @@ function SettingsScreen(): React.JSX.Element {
             <View style={[styles.rowWrapper, styles.rowFirst]}>
               <TouchableOpacity
                 onPress={() => {
-                  handleRowPress('httpTestDomain');
+                  handleRowPress('testDomain');
                 }}
                 style={styles.row}>
-                <Text style={styles.rowLabel}>HTTP Test Domain</Text>
+                <Text style={styles.rowLabel}>Test Domain</Text>
                 <View style={styles.rowSpacer} />
                 <Text numberOfLines={1} style={styles.rowValue}>
-                  {settings.httpTestDomain}
-                </Text>
-                <FeatherIcon color="#bcbcbc" name="chevron-right" size={19} />
-              </TouchableOpacity>
-            </View>
-            <View style={[styles.rowWrapper]}>
-              <TouchableOpacity
-                onPress={() => {
-                  handleRowPress('httpsTestDomain');
-                }}
-                style={styles.row}>
-                <Text style={styles.rowLabel}>HTTPS Test Domain</Text>
-                <View style={styles.rowSpacer} />
-                <Text numberOfLines={1} style={styles.rowValue}>
-                  {settings.httpsTestDomain}
+                  {settings.testDomain}
                 </Text>
                 <FeatherIcon color="#bcbcbc" name="chevron-right" size={19} />
               </TouchableOpacity>
@@ -215,27 +201,6 @@ function SettingsScreen(): React.JSX.Element {
             </View>
           </View>
         </View>
-        {/* <View style={styles.section}>
-          <View style={styles.sectionBody}>
-            <View
-              style={[
-                styles.rowWrapper,
-                styles.rowFirst,
-                styles.rowLast,
-                {alignItems: 'center'},
-              ]}>
-              <TouchableOpacity
-                onPress={() => {
-                  // handle onPress
-                }}
-                style={styles.row}>
-                <Text style={[styles.rowLabel, styles.rowLabelLogout]}>
-                  Log Out
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View> */}
         <Text style={styles.contentFooter}>App Version 0.10</Text>
 
         {/* Dynamic DialogInput */}
