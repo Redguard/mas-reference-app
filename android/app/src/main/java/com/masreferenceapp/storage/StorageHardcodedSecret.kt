@@ -5,10 +5,6 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.R
 import com.masreferenceapp.ReturnStatus
-import com.masreferenceapp.Status
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
 
 class StorageHardcodedSecret(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
     context

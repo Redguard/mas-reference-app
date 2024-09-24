@@ -5,7 +5,6 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.ReturnStatus
-import com.masreferenceapp.Status
 
 
 class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
@@ -200,4 +199,14 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
 
         return ReturnStatus("OK", "Access Token logged.").toJsonString()
     }
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun logCanaryToken(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
+    //@method
+
 }

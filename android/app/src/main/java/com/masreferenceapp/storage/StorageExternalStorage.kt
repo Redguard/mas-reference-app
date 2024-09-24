@@ -5,7 +5,6 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.ReturnStatus
-import com.masreferenceapp.Status
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
@@ -23,51 +22,7 @@ class StorageExternalStorage(private val context: ReactApplicationContext) : Rea
     fun checkState(): String {
         return ReturnStatus("OK", "State: " + Environment.getExternalStorageState()).toJsonString()
     }
-
-    @get:ReactMethod(isBlockingSynchronousMethod = true)
-    val externalFilesDirRoot: String
-        get() {
-            val externalFile = context.getExternalFilesDir(null)
-            val state = externalFile?.toString() ?: ""
-            return ReturnStatus("OK", "External files dir is : $state").toJsonString()
-        }
-
-    @get:ReactMethod(isBlockingSynchronousMethod = true)
-    val externalCacheDir: String
-        get() {
-            val externalFile = context.externalCacheDir
-            val message = externalFile?.toString() ?: ""
-            return ReturnStatus("OK", "External files dir is : $message").toJsonString()
-        }
-
-    @get:ReactMethod(isBlockingSynchronousMethod = true)
-    val differentExternalDirs: String
-        get() {
-            val types = listOf(
-                Environment.DIRECTORY_MUSIC,
-                Environment.DIRECTORY_PODCASTS,
-                Environment.DIRECTORY_RINGTONES,
-                Environment.DIRECTORY_ALARMS,
-                Environment.DIRECTORY_NOTIFICATIONS,
-                Environment.DIRECTORY_PICTURES,
-                Environment.DIRECTORY_MOVIES
-            )
-            val status = StringBuilder()
-            val message = StringBuilder()
-            val r = ReturnStatus()
-            for (type in types) {
-                val externalFile = context.getExternalFilesDir(type)
-                if (externalFile == null) {
-                    status.append("[FAIL]")
-                    r.addStatus("FAIL", "No external file.")
-                } else {
-                    status.append("[OK]")
-                    r.addStatus("OK", "External file: $externalFile" )
-
-                }
-            }
-            return r.toJsonString()
-        }
+    
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun writeFileOutput(): String {
@@ -118,6 +73,51 @@ class StorageExternalStorage(private val context: ReactApplicationContext) : Rea
         return r.toJsonString()
     }
 
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun getExternalFilesDirRoot(): String {
+        val externalFile = context.getExternalFilesDir(null)
+        val state = externalFile?.toString() ?: ""
+        return ReturnStatus("OK", "External files dir is : $state").toJsonString()
+    }
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun getExternalCacheDir(): String {
+        val externalFile = context.externalCacheDir
+        val message = externalFile?.toString() ?: ""
+        return ReturnStatus("OK", "External files dir is : $message").toJsonString()
+    }
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun getDifferentExternalDirs(): String {
+        val types = listOf(
+            Environment.DIRECTORY_MUSIC,
+            Environment.DIRECTORY_PODCASTS,
+            Environment.DIRECTORY_RINGTONES,
+            Environment.DIRECTORY_ALARMS,
+            Environment.DIRECTORY_NOTIFICATIONS,
+            Environment.DIRECTORY_PICTURES,
+            Environment.DIRECTORY_MOVIES
+        )
+        val status = StringBuilder()
+        val message = StringBuilder()
+        val r = ReturnStatus()
+        for (type in types) {
+            val externalFile = context.getExternalFilesDir(type)
+            if (externalFile == null) {
+                status.append("[FAIL]")
+                r.addStatus("FAIL", "No external file.")
+            } else {
+                status.append("[OK]")
+                r.addStatus("OK", "External file: $externalFile" )
+
+            }
+        }
+        return r.toJsonString()
+    }
 
     //@method
     

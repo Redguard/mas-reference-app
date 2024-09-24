@@ -60,6 +60,10 @@ export var generalTestCases: Dictionary<TestCases[]> = {
           title: 'Log Access Token',
           nativeFunction: StorageLog.locAccessToken,
         },
+        {
+          title: 'Log Canary Token',
+          nativeFunction: StorageLog.logCanaryToken,
+        },
       ],
     },
     {
@@ -91,10 +95,10 @@ export var generalTestCases: Dictionary<TestCases[]> = {
       description:
         'SQLite Database is a simple, local SQL-Database. The data is stored in plain text within the sandbox by default. Hence, the developer must take care of protecting sensitive data in nessecary.',
       testCases: [
-        {
-          title: 'Create SQLite DB',
-          nativeFunction: StorageSQLite.createSQLiteDB,
-        },
+        // {
+        //   title: 'Create SQLite DB',
+        //   nativeFunction: StorageSQLite.createSQLiteDB,
+        // },
         {
           title: 'Insert Into Table',
           nativeFunction: StorageSQLite.insertData,
@@ -119,7 +123,8 @@ export var generalTestCases: Dictionary<TestCases[]> = {
   ],
   NETWORK: [
     {
-      title: 'Unencrypted Connections',
+      title: 'Cleartext Traffic',
+      maswe: '0050',
       description:
         'Unencrypted HTTP connections on Android are an issue because they expose sensitive data to potential interception and tampering by malicious actors. These tests initiate such',
       testCases: [

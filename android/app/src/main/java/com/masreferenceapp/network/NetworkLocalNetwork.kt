@@ -4,7 +4,6 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.ReturnStatus
-import com.masreferenceapp.Status
 
 class NetworkLocalNetwork(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
     context
@@ -15,7 +14,8 @@ class NetworkLocalNetwork(var context: ReactApplicationContext) : ReactContextBa
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun putString(): String {
-        return Status.status("OK", "Message")
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
     }
 
         

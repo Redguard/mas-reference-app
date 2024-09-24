@@ -4,6 +4,7 @@ type TestCase = {
   title: string;
   description?: string;
   nativeFunction: any;
+  canaryToken?: string;
   maswe?: string;
 };
 

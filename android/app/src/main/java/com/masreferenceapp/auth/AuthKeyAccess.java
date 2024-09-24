@@ -9,7 +9,6 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.ReturnStatus;
-import com.masreferenceapp.Status;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

@@ -29,7 +29,6 @@ import com.masreferenceapp.network.NetworkTlsConfig
 import com.masreferenceapp.network.NetworkTlsPinning
 import com.masreferenceapp.network.NetworkUnencrypted
 import com.masreferenceapp.platform.PlatformIpc
-import com.masreferenceapp.platform.PlatformUiDisclosure
 import com.masreferenceapp.resilience.ResilienceAntiDebug
 import com.masreferenceapp.resilience.ResilienceAntiVm
 import com.masreferenceapp.resilience.ResilienceVerifySignature
@@ -50,6 +49,8 @@ class MyAppPackage : ReactPackage {
         reactContext: ReactApplicationContext
     ): List<NativeModule> {
         val modules = mutableListOf<NativeModule>()
+
+        modules.add(MasSettingsSync(reactContext));
 
         modules.add(StorageSharedPreferences(reactContext))
         modules.add(StorageLog(reactContext))
