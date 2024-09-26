@@ -115,4 +115,21 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
             return r.toJsonString()
         }
     }
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun openHTTP(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun sendHTTP(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
+    //@method
+
 }

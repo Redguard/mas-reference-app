@@ -77,6 +77,13 @@ class StorageSharedPreferences(var context: ReactApplicationContext) : ReactCont
         return r.toJsonString()
     }
 
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun getInsecureSharedPreferences(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
     //@method
 
     

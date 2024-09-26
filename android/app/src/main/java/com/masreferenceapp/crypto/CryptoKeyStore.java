@@ -15,6 +15,7 @@ import com.masreferenceapp.ReturnStatus;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
+import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -34,6 +35,7 @@ import android.security.keystore.KeyGenParameterSpec.Builder;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.RC2ParameterSpec;
 
 
 public class CryptoKeyStore extends ReactContextBaseJavaModule {

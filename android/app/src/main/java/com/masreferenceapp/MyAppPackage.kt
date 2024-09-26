@@ -94,6 +94,7 @@ class MyAppPackage : ReactPackage {
         modules.add(com.masreferenceapp.privacy.PrivacyAccessData(reactContext))
         modules.add(com.masreferenceapp.crypto.CryptoKeyChain(reactContext))
         modules.add(com.masreferenceapp.platform.PlatformUiDisclosure(reactContext))
+        modules.add(com.masreferenceapp.storage.StorageJavaFileIo(reactContext))
         //@modules
 
         return modules

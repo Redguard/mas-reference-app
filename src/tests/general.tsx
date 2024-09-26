@@ -2,7 +2,6 @@ import {NativeModules} from 'react-native';
 import {TestCases} from '../appContent';
 const {
   StorageLog,
-  StorageSQLite,
   StorageHardcodedSecret,
 
   NetworkUnencrypted,
@@ -66,6 +65,7 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+
     {
       title: 'Hardcoded Secrets',
       maswe: '0005',
@@ -90,29 +90,6 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-    {
-      title: 'SQLite Database',
-      description:
-        'SQLite Database is a simple, local SQL-Database. The data is stored in plain text within the sandbox by default. Hence, the developer must take care of protecting sensitive data in nessecary.',
-      testCases: [
-        // {
-        //   title: 'Create SQLite DB',
-        //   nativeFunction: StorageSQLite.createSQLiteDB,
-        // },
-        {
-          title: 'Insert Into Table',
-          nativeFunction: StorageSQLite.insertData,
-        },
-        {
-          title: 'Update Exisitng Table',
-          nativeFunction: StorageSQLite.updateData,
-        },
-        {
-          title: 'Delete Table Entry',
-          nativeFunction: StorageSQLite.deleteData,
-        },
-      ],
-    },
     // Define your general storage test cases here
   ],
   CRYPTO: [
@@ -126,29 +103,28 @@ export var generalTestCases: Dictionary<TestCases[]> = {
       title: 'Cleartext Traffic',
       maswe: '0050',
       description:
-        'Unencrypted HTTP connections on Android are an issue because they expose sensitive data to potential interception and tampering by malicious actors. These tests initiate such',
+        'Unencrypted connections are an issue because they expose sensitive data to potential interception and tampering by malicious actors.',
       testCases: [
         {
           title: 'Resolve Domainname',
-          description: 'Resolves domainname with DNS',
+          description: 'Resolve domainname using DNS',
           nativeFunction: NetworkUnencrypted.resolveDns,
         },
         {
           title: 'Open Standard HTTP Connection',
           description: 'Opens a standard HTTP connection.',
-          nativeFunction: NetworkUnencrypted.standardHTTP,
+          nativeFunction: NetworkUnencrypted.openHTTP,
         },
         {
-          title: 'Open HTTP Connection on Non-Standard Port',
-          description: 'Opens a standard HTTP connection.',
-          nativeFunction: NetworkUnencrypted.nonStandardHTTP,
+          title: 'Send sensitve Data using HTTP',
+          nativeFunction: NetworkUnencrypted.sendHTTP,
         },
         {
-          title: 'Open Raw TCP connection',
+          title: 'Send sensitve Data usign TCP',
           nativeFunction: NetworkUnencrypted.rawTcp,
         },
         {
-          title: 'Open Raw UDP connection',
+          title: 'Send sensitve Data using UDP',
           nativeFunction: NetworkUnencrypted.rawUdp,
         },
       ],
@@ -185,7 +161,7 @@ export var generalTestCases: Dictionary<TestCases[]> = {
           nativeFunction: PrivacyAccessData.getContacts,
         },
         {
-          title: 'Write Contacts',
+          title: 'Store senstive Date in Contacts',
           nativeFunction: PrivacyAccessData.writeContacts,
         },
         {
@@ -193,7 +169,7 @@ export var generalTestCases: Dictionary<TestCases[]> = {
           nativeFunction: PrivacyAccessData.getCalendarEvent,
         },
         {
-          title: 'Write Calendar Event',
+          title: 'Store senstive Date in Calendar Event',
           nativeFunction: PrivacyAccessData.writeCalendarEvent,
         },
         // {

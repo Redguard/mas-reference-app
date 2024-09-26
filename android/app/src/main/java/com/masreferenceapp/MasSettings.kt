@@ -2,10 +2,6 @@ package com.masreferenceapp
 
 object MasSettings {
     private val data = mutableMapOf<String, String>()
-//    private var remoteHttpDomain: String? = null
-//    private var remoteHttpsDomain: String? = null
-//    private var canaryToken: String = null
-//    private var remoteHttpPort: Int = null
 
 
     @JvmStatic
@@ -18,6 +14,10 @@ object MasSettings {
         return data[key]
     }
 
+    @JvmStatic
+    fun getCanaryToken(): String? {
+        return data["canaryToken"]
+    }
 
 }
 
