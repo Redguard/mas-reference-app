@@ -9,6 +9,7 @@ import androidx.room.Room;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.MasSettings;
 import com.masreferenceapp.ReturnStatus;
 import com.masreferenceapp.storage.room.AppDatabase;
 import com.masreferenceapp.storage.room.User;
@@ -54,7 +55,7 @@ public class StorageRoomDatabase extends ReactContextBaseJavaModule {
         user.uid = 1;
         user.firstName = "Maximilian";
         user.lastName = "Smith";
-        user.password = "qw3rty";
+        user.password = MasSettings.getCanaryToken();
 
         userDao.insert(user);
 

@@ -6,9 +6,10 @@ const {
   StorageSharedPreferences,
   StorageDataStore,
   StorageDataStoreProto,
-  StorageInternalStorage,
   StorageExternalStorage,
+  StorageJavaFileIo,
   StorageRoomDatabase,
+  StorageSQLite,
   
   CryptoKeyStore,
   CryptoKeyAttestation,
@@ -49,47 +50,29 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       title: 'SharedPreferences',
       maswe: '0006',
       description:
-        'This testcase stores sensitive data using unencrypted SharedPreferences.\n',
+        'This testcase stores sensitive data using unencrypted SharedPreferences.',
       testCases: [
         {
-          title: 'Write Boolean',
-          description:
-            'Write true into the sandbox using SharedPreferences.',
-          nativeFunction: StorageSharedPreferences.putBoolean,
-        },
-        {
-          title: 'Write Float',
-          description:
-          'Write 2.71828 into the sandbox using SharedPreferences.',
-          nativeFunction: StorageSharedPreferences.putFloat,
-        },
-        {
-          title: 'Write Int',
-          description:
-          'Write 43 into the sandbox using SharedPreferences.',
-          nativeFunction: StorageSharedPreferences.putInt,
-        },
-        {
-          title: 'Write Long',
-          description:
-          'Write 3.14159265359 into the sandbox using SharedPreferences.',
-          nativeFunction: StorageSharedPreferences.putString,
+          title: 'Init SharedPreferences',
+          description: 'Get an world read/writable SharedPreferenceInstance',
+          nativeFunction: StorageSharedPreferences.getInsecureSharedPreferences,
         },
 
         {
-          title: 'Write String',
+          title: 'Write sensitve String',
           description:
           'Write canary token into the sandbox using SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putString,
         },
         {
-          title: 'Write StringSet',
+          title: 'Write sensitve StringSet',
           description:
           'Write a stringset of canary tokens into the sandbox using SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putStringSet,
         },
       ],
     },
+
     {
       title: 'DataStore',
       maswe: '0006',
@@ -103,81 +86,71 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: StorageDataStore.initPreferenceDataStore,
         },
         {
-          title: 'Write String to Preferences DataStore',
+          title: 'Write sensitive String to Preferences DataStore',
           description:
             'Write String into the snadbox using Preferences DataStore',
           nativeFunction: StorageDataStore.writeStringPreferenceDataStore,
         },
         {
-          title: 'Write StringSet to Preferences DataStore',
+          title: 'Write sensitive StringSet to Preferences DataStore',
           description:
             'Write StringSet into the snadbox using Preferences DataStore',
           nativeFunction: StorageDataStore.writeStringSetPreferenceDataStore,
         },
         {
-          title: 'Write Data to Proto DataStore',
+          title: 'Write sensitve Data to Proto DataStore',
           description:
             'Write Data into the snadbox using Preferences DataStore',
           nativeFunction: StorageDataStoreProto.writeProtoDataStore,
-        }
+        },
       ],
     },
+
+
     {
-      title: 'Internal Sandboxed Storage',
+      title: 'java.file.io',
       description:
-        'These test cases write data into the internal storage (FilesDir and CacheDir). These files are not encrypted by default.',
+        'These test cases write data into the internal storage (FilesDir and CacheDir) using java.io.File. These files are not encrypted by default.',
       testCases: [
         {
-          title: 'Get internal location using getFilesDir',
-          description:
-            'Returns the absolute path to the directory on the filesystem where files created with openFileOutput(String, int) are stored.',
-          nativeFunction: StorageInternalStorage.getFilesDir,
-        },
-        {
-          title: 'Get cache location using getCacheDir',
-          description:
-            'Returns the absolute path to the application specific cache directory on the filesystem.',
-          nativeFunction: StorageInternalStorage.getCacheDir,
-        },
-        {
-          title: 'Write a internal text file',
+          title: 'Write senstive to internal sandbox',
+          maswe: '006',
           description:
             "Open a private file associated with this Context's application package for writing. Creates the file if it doesn't already exist. ",
-          nativeFunction: StorageInternalStorage.writeFileOutput,
+          nativeFunction: StorageJavaFileIo.writeFileSandbox,
         },
         {
-          title: 'Write an internal text file using different Modes',
-          description:
-            "Open a private file associated with this Context's application package for writing. Creates the file if it doesn't already exist. This test writes different modes such as MODE_WORLD_READABLE.",
-          nativeFunction: StorageInternalStorage.writeFileOutputModes,
+          title: 'Write senstive Data to external Storage',
+          maswe: '002',
+          description: 'Tries to write sensitive data into a file outside of the sandbox.',
+          nativeFunction: StorageJavaFileIo.writeExternal,
         },
+
         {
-          title: 'Read a internal text file',
-          description:
-            'Open a private text file and reads the content using InputStreamReader and BufferedReader.',
-          nativeFunction: StorageInternalStorage.readTextFile,
+          title: 'Write senstive, MODE_WORLD_WRITEABLE Data to external Storage',
+          maswe: '002',
+          description: 'Tries to write sensitive data into a file outside of the sandbox.',
+          nativeFunction: StorageJavaFileIo.writeExternalWorldWritable,
         },
+
         {
-          title: 'Get a list of internal files',
-          description:
-            "Returns an array of strings naming the private files associated with this Context's application package.",
-          nativeFunction: StorageInternalStorage.getInternalFileList,
-        },
-        {
-          title: 'Create a cache file',
-          description:
-            'Creates an empty file in the default temporary-file directory, using the given prefix and suffix to generate its name. Invoking this method is equivalent to invoking createTempFile(prefix, suffix, null). ',
-          nativeFunction: StorageInternalStorage.createCacheFile,
+          title: 'Write senstive, MODE_WORLD_READABLE Data to external Storage',
+          maswe: '002',
+          description: 'Tries to write sensitive data into a file outside of the sandbox.',
+          nativeFunction: StorageJavaFileIo.writeExternalWorldReadable,
         },
       ],
     },
+
+
     {
-      title: 'External Sandboxed Storage',
+      title: 'Querying External Storage',
+      maswe: '0002',
       description:
-        'These test cases write data into the extternal storage (ExternalFilesDir and ExternalCacheDir). An app can use these locations, if the internal storage is full for exmaple. They are still sandboxed form other applications. However, an attacker may remove the extenral storage and have easy access to this data. These files are not encrypted by default.',
+        'These test cases write data into the external storage (ExternalFilesDir and ExternalCacheDir). An app can use these locations, if the internal storage is full for exmaple. They are still sandboxed form other applications. However, an attacker may remove the extenral storage and have easy access to this data. These files are not encrypted by default.',
       testCases: [
         {
-          title: 'Check state of external storage',
+          title: 'Check state of external Storage',
           description:
             'Returns the current state of the primary shared/external storage media.',
           nativeFunction: StorageExternalStorage.checkState,
@@ -200,41 +173,49 @@ export var androidTestCases: Dictionary<TestCases[]> = {
             'Try to access different types of external locatios such as Environment.DIRECTORY_MUSIC or Environment.DIRECTORY_PICTURES',
           nativeFunction: StorageExternalStorage.getDifferentExternalDirs,
         },
+      ],
+    },
+
+    {
+      title: 'SQLite Database',
+      maswe: '006',
+      description:
+        'SQLite Database is a simple, local SQL-Database. The data is stored in plain text within the sandbox by default. Hence, the developer must take care of protecting sensitive data in nessecary.',
+      testCases: [
         {
-          title: 'Write a external text file',
-          description:
-            "Open a external file associated with this Context's application package for writing. Creates the file if it doesn't already exist. ",
-          nativeFunction: StorageExternalStorage.writeFileOutput,
+          title: 'Create SQLite DB',
+          nativeFunction: StorageSQLite.createSQLiteDB,
+        },
+
+        {
+          title: 'Store sensitve Data using execSQL',
+          nativeFunction: StorageSQLite.execSQL,
         },
         {
-          title: 'Read a external text file',
-          description:
-            'Open a external text file and reads the content using InputStreamReader and BufferedReader.',
-          nativeFunction: StorageExternalStorage.readTextFile,
+          title: 'Store sensitve Data using insert',
+          nativeFunction: StorageSQLite.insert,
+        },
+        {
+          title: 'Store sensitve Data using replace',
+          nativeFunction: StorageSQLite.replace,
+        },
+        {
+          title: 'Store sensitve Data using update',
+          nativeFunction: StorageSQLite.update,
         },
       ],
     },
 
     {
       title: 'Room API',
+      maswe: '006',
       description:
         'The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. The data ist not encrypted using this API.',
       testCases: [
         {
-          title: 'Init Room Database',
-          description:
-            'Creates a RoomDatabase.Builder for a persistent database. Once a database is built, you should keep a reference to it and re-use it.',
-          nativeFunction: StorageRoomDatabase.init,
-        },
-        {
-          title: 'Write Data to Room Database',
+          title: 'Write sensitve Data to Room Database',
           description: 'Writes a simple datastrucutre to the Room DB',
           nativeFunction: StorageRoomDatabase.writeToRoomDb,
-        },
-        {
-          title: 'Read Data from Room Database',
-          description: 'Reads a simple datastrucutre from the Room DB',
-          nativeFunction: StorageRoomDatabase.readFromRoomDb,
         },
       ],
     },
@@ -246,34 +227,50 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     },
     // Define your Android-specific storage test cases here
   ],
+
   CRYPTO: [
+
+
+
+
     {
       title: 'KeyStore',
       description:
         'This class represents a storage facility for cryptographic keys and certificates. The Android Keystore system lets you store cryptographic keys in a container to make them more difficult to extract from the device. Once keys are in the keystore, you can use them for cryptographic operations, with the key material remaining non-exportable. ',
       testCases: [
+        // {
+        //   title: 'Init KeyStores',
+        //   description:
+        //     'Intializes instances of the avialable KeyStores, they are: AndroidKeyStore, AndroidCAStore, BKS, BouncyCastle and PKCS12',
+        //   nativeFunction: CryptoKeyStore.init,
+        // },
+        // {
+        //   title: 'Get Aliases',
+        //   description:
+        //     'Retrieves all key aliases of the currently stored keys.',
+        //   nativeFunction: CryptoKeyStore.getKeyAliases,
+        // },
+        // {
+        //   title: 'Create Secure KeyGenParameterSpec',
+        //   description:
+        //     'Creates a RSA KeyGenParameterSpec which is considered as secure.',
+        //   nativeFunction: CryptoKeyStore.createSecureKeyGenParameterSpec,
+        // },
+
         {
-          title: 'Init KeyStores',
+          title: 'Create KeyGenParameterSpec',
           description:
-            'Intializes instances of the avialable KeyStores, they are: AndroidKeyStore, AndroidCAStore, BKS, BouncyCastle and PKCS12',
-          nativeFunction: CryptoKeyStore.init,
+            'Creates a KeyGenParameterSpec which are considered inseuce, such as small RSA keysize, insecure ciphers (RC4), or weak digest algorithms.',
+          nativeFunction: CryptoKeyStore.createInsecureKeyGenParameterSpec,
         },
+
+
+
+        
         {
-          title: 'Get Aliases',
+          title: 'Create Insecure KeyGenParameterSpec',
           description:
-            'Retrieves all key aliases of the currently stored keys.',
-          nativeFunction: CryptoKeyStore.getKeyAliases,
-        },
-        {
-          title: 'Create Secure KeyGenParameterSpec',
-          description:
-            'Creates a RSA KeyGenParameterSpec which is considered as secure.',
-          nativeFunction: CryptoKeyStore.createSecureKeyGenParameterSpec,
-        },
-        {
-          title: "Create Insecure KeyGenParameterSpec's",
-          description:
-            'Creates a few KeyGenParameterSpec which are considered inseuce, such as small RSA keysize, insecure ciphers (RC4), or weak digest algorithms.',
+            'Creates a KeyGenParameterSpec which are considered inseuce, such as small RSA keysize, insecure ciphers (RC4), or weak digest algorithms.',
           nativeFunction: CryptoKeyStore.createInsecureKeyGenParameterSpec,
         },
         {
@@ -295,6 +292,8 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+
+
     {
       title: 'Key Attestation',
       description:
@@ -308,6 +307,9 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+
+
+
     {
       title: 'Cipher',
       description:
@@ -373,63 +375,67 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+
+
     {
       title: 'EncryptedSharedPreferences',
       description:
-        'This testcase stores data using secure, encrypted SharedPreferences provided by androidx.security.crypto',
+        'This testcase stores data using secure, encrypted SharedPreferences provided by androidx.security.crypto. Currently, there are only secure ways of using this function.',
       testCases: [
         {
           title: 'Create EncryptedSharedPreferences Instance',
           description: 'Create EncryptedSharedPreferences.',
           nativeFunction: CryptoEncryptedSharedPreferences.createEncryptedSharedPreferences,
         },
-        {
-          title: 'Write String to EncryptedSharedPreferences',
-          description:
-            'Write string into the snadbox using putString method of EncryptedSharedPreferences.',
-          nativeFunction: CryptoEncryptedSharedPreferences.putString,
-        },
-        {
-          title: 'Write StringSet to EncryptedSharedPreferences',
-          description:
-            'Write stringSet into the snadbox using putStringSet method of EncryptedSharedPreferences.',
-          nativeFunction: CryptoEncryptedSharedPreferences.putStringSet,
-        },
-        {
-          title: 'Read String from EncryptedSharedPreferences',
-          description:
-            'Read a String from the unencrypted EncryptedSharedPreferences',
-          nativeFunction: CryptoEncryptedSharedPreferences.readString,
-        },
-        {
-          title: 'Read StringSet from EncryptedSharedPreferences',
-          description:
-            'Read a StringSet from the unencrypted EncryptedSharedPreferences',
-          nativeFunction: CryptoEncryptedSharedPreferences.readStringSet,
-        },
+        // {
+        //   title: 'Write String to EncryptedSharedPreferences',
+        //   description:
+        //     'Write string into the snadbox using putString method of EncryptedSharedPreferences.',
+        //   nativeFunction: CryptoEncryptedSharedPreferences.putString,
+        // },
+        // {
+        //   title: 'Write StringSet to EncryptedSharedPreferences',
+        //   description:
+        //     'Write stringSet into the snadbox using putStringSet method of EncryptedSharedPreferences.',
+        //   nativeFunction: CryptoEncryptedSharedPreferences.putStringSet,
+        // },
+        // {
+        //   title: 'Read String from EncryptedSharedPreferences',
+        //   description:
+        //     'Read a String from the unencrypted EncryptedSharedPreferences',
+        //   nativeFunction: CryptoEncryptedSharedPreferences.readString,
+        // },
+        // {
+        //   title: 'Read StringSet from EncryptedSharedPreferences',
+        //   description:
+        //     'Read a StringSet from the unencrypted EncryptedSharedPreferences',
+        //   nativeFunction: CryptoEncryptedSharedPreferences.readStringSet,
+        // },
       ],
     },
 
+    
     {
       title: 'EncryptedFile',
       description:
-        'Class used to create and read encrypted files using androidx.security.crypto',
+        'Class used to create and read encrypted files using androidx.security.crypto. Currently, there are only secure ways of using this function. If an application does not use this to store files, this may be an option.',
       testCases: [
         {
           title: 'Write Encrypted File',
           description:
-            'Encrypts a file using the Builder class to configure EncryptedFile',
+            'Encrypts a file using the Builder class to configure EncryptedFile.',
           nativeFunction: CryptoEncryptedFile.writeFile,
         },
 
-        {
-          title: 'Read Encrypted File',
-          description:
-            'Decrypts a file using the Builder class to configure EncryptedFile',
-          nativeFunction: CryptoEncryptedFile.readFile,
-        },
+        // {
+        //   title: 'Read Encrypted File',
+        //   description:
+        //     'Decrypts a file using the Builder class to configure EncryptedFile',
+        //   nativeFunction: CryptoEncryptedFile.readFile,
+        // },
       ],
     },
+
 
     {
       title: 'MasterKey',
@@ -459,6 +465,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       ],
     },
 
+
     {
       title: 'Random Numbers',
       description:
@@ -475,20 +482,14 @@ export var androidTestCases: Dictionary<TestCases[]> = {
             'Creates a new random number generator using a single long seed.',
           nativeFunction: CryptoRandom.insecureRandomSeed,
         },
-        {
-          title: 'Create SecureRandom',
-          description:
-            'Constructs a secure random number generator (RNG) implementing the default random number algorithm.',
-          nativeFunction: CryptoRandom.secureRandom,
-        },
         // {
-        //   title: 'Create SecureRandom with Seed',
+        //   title: 'Create SecureRandom',
         //   description:
         //     'Constructs a secure random number generator (RNG) implementing the default random number algorithm.',
-        //   nativeFunction: CryptoRandom.secureRandomSeed,
+        //   nativeFunction: CryptoRandom.secureRandom,
         // },
         {
-          title: 'Create SecureRandom Deprecated',
+          title: 'Create Deprecated SecureRandom.',
           description:
             'Constructs a secure random number generator using a getInstance().',
           nativeFunction: CryptoRandom.secureRandomInstance,
@@ -498,6 +499,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     // Define your Android-specific crypto test cases here
   ],
   AUTH: [
+
     {
       title: 'BiometricManager',
       description:
@@ -528,7 +530,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Create a Simple Prompt',
-          description: 'Simply requires biometric authentication.',
+          description: 'Simply requires biometric authentication. This can method of authentcation can usually be bypassed easily.',
           nativeFunction: AuthBiometricPrompt.simplePrompt,
         },
         {
@@ -536,13 +538,16 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           description: 'Create a Prompt only for PINs.',
           nativeFunction: AuthBiometricPrompt.devicePinOnlyPrompt,
         },
-        {
-          title: 'Create a Crypto Object Prompt',
-          description: 'Unlocks a key which requires biometric authentication',
-          nativeFunction: AuthBiometricPrompt.cryptoOperationPrompt,
-        },
+        // {
+        //   title: 'Create a Crypto Object Prompt',
+        //   description: 'Unlocks a key which requires biometric authentication',
+        //   nativeFunction: AuthBiometricPrompt.cryptoOperationPrompt,
+        // },
       ],
     },
+
+
+
 
     {
       title: 'Acccess To Keys',
@@ -662,6 +667,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+
     {
       title: 'TLS Pinning',
       description:

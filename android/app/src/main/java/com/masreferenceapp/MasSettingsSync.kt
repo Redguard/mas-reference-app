@@ -20,7 +20,7 @@ class MasSettingsSync(var context: ReactApplicationContext) : ReactContextBaseJa
         MasSettings.setData("canaryToken", settingsObject.get("canaryToken").toString())
         MasSettings.setData("androidApiKey", settingsObject.get("androidApiKey").toString())
 
-        return "MAS Settings updated: " +  MasSettings.getData("testDomain");
+        return "MAS Settings updated."
     }
 
 }

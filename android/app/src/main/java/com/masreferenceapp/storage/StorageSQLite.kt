@@ -84,4 +84,34 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
         deleteDb()
         return ReturnStatus("OK", "Data deleted.").toJsonString()
     }
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun execSQL(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun insert(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun replace(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun update(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
+    //@method
 }
