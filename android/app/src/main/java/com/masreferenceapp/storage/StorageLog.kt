@@ -4,7 +4,10 @@ import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.masreferenceapp.MasSettings
 import com.masreferenceapp.ReturnStatus
+import com.masreferenceapp.SensitiveData
+import kotlinx.coroutines.MainScope
 
 
 class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
@@ -74,49 +77,6 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         return r.toJsonString()
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun logSecrets(): String {
-        val r = ReturnStatus()
-        val messages: MutableList<String> = ArrayList()
-        messages.add("Private Key: test")
-        messages.add("PrivateKey: test")
-        messages.add("Secret Key: test")
-        messages.add("SecretKey: test")
-        for (m in messages) {
-            logToAll(m)
-            r.addStatus("OK", "Logged the following message:$m")
-
-        }
-        return r.toJsonString()
-    }
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun logPEM(): String {
-        val r = ReturnStatus()
-        val messages: MutableList<String> = ArrayList()
-        messages.add("-----BEGIN CERTIFICATE-----")
-        messages.add("-----BEGIN RSA PRIVATE KEY-----")
-        messages.add("-----BEGIN RSA PRIVATE KEY-----")
-        messages.add("-----BEGIN DSA PRIVATE KEY-----")
-        messages.add("-----BEGIN DSA PUBLIC KEY-----")
-        messages.add("-----BEGIN EC PRIVATE KEY-----")
-        messages.add("-----BEGIN EC PUBLIC KEY-----")
-        messages.add("-----BEGIN DH PARAMETERS-----")
-        messages.add("-----BEGIN PRIVATE KEY-----")
-        messages.add("-----BEGIN PUBLIC KEY-----")
-        messages.add("-----BEGIN EC PRIVATE KEY-----")
-        messages.add("-----BEGIN ENCRYPTED PRIVATE KEY-----")
-        messages.add("-----END RSA PRIVATE KEY-----")
-        messages.add("-----END EC PRIVATE KEY-----")
-        messages.add("Proc-Type: 4,ENCRYPTED")
-        messages.add("DEK-Info: AES-256-CBC,F6F1F37584D8189C97F23F9DCD431B42")
-        for (m in messages) {
-            logToAll(m)
-            r.addStatus("OK", "Logged the following message:$m")
-
-        }
-        return r.toJsonString()
-    }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logPhoneNumber(): String {
@@ -191,20 +151,24 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         return r.toJsonString()
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun locAccessToken(): String {
-        val r = ReturnStatus()
-        logToAll("Access Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MTQxMTg5MjksImV4cCI6MTc0NTY1NDkyOSwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.gbjDeNkm_XLkdEZu0Nqa57PbC8eURw8WdX3to8rYt8Q")
-        logToAll("Refresh Token: MIOf-U1zQbyfa3MUfJHhvnUqIut9ClH0xjlDXGJAyqo")
 
-        return ReturnStatus("OK", "Access Token logged.").toJsonString()
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun logCanaryToken(): String {
+        val r = ReturnStatus()
+        logToAll(MasSettings.getCanaryToken())
+
+        return ReturnStatus("OK", "Canary Token logged: " + MasSettings.getCanaryToken()).toJsonString()
+
     }
 
         
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun logCanaryToken(): String {
-        val r = ReturnStatus("OK", "Android code stub.")
-        return r.toJsonString()
+    fun logSensitiveData(): String {
+        val r = ReturnStatus()
+        logToAll(SensitiveData.data)
+
+        return ReturnStatus("OK", "Sensitive Data logged: " + SensitiveData.data).toJsonString()
     }
 
     //@method

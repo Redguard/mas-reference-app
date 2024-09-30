@@ -10,7 +10,9 @@ import androidx.datastore.rxjava3.RxDataStore;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.masreferenceapp.MasSettings;
 import com.masreferenceapp.ReturnStatus;
+import com.masreferenceapp.SensitiveData;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -47,29 +49,40 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String writeStringPreferenceDataStore(){
 
-        Preferences.Key<String> EXAMPLE_STRING = PreferencesKeys.stringKey("example_string");
+        Preferences.Key<String> EXAMPLE_STRING = PreferencesKeys.stringKey("sensitive_data_STR");
 
         Single<Preferences> updateResult =  prefDataStore.updateDataAsync(prefsIn -> {
             MutablePreferences mutablePreferences = prefsIn.toMutablePreferences();
-            mutablePreferences.set(EXAMPLE_STRING, "Password: Passw0rd!");
+            mutablePreferences.set(EXAMPLE_STRING, SensitiveData.INSTANCE.getData());
             return Single.just(mutablePreferences);
 
         });
-
-        return new ReturnStatus("OK", "String written to DataStore.").toJsonString();
-
-
+        return new ReturnStatus("OK", "Sensitive String written to DataStore: " + SensitiveData.INSTANCE.getData()).toJsonString();
     }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String writeCanaryTokenStringPreferenceDataStore(){
+
+        Preferences.Key<String> EXAMPLE_STRING = PreferencesKeys.stringKey("sensitive_data_STR");
+
+        Single<Preferences> updateResult =  prefDataStore.updateDataAsync(prefsIn -> {
+            MutablePreferences mutablePreferences = prefsIn.toMutablePreferences();
+            mutablePreferences.set(EXAMPLE_STRING, MasSettings.getCanaryToken());
+            return Single.just(mutablePreferences);
+
+        });
+        return new ReturnStatus("OK", "Canary Token written to DataStore: " +  MasSettings.getCanaryToken()).toJsonString();
+    }
+
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String writeStringSetPreferenceDataStore(){
 
-        Preferences.Key<Set<String>> EXAMPLE_STRING_SET = PreferencesKeys.stringSetKey ("example_string_set");
+        Preferences.Key<Set<String>> EXAMPLE_STRING_SET = PreferencesKeys.stringSetKey ("sensitive_data_STRSET");
 
 
         Set<String> stringSet = new HashSet<String>();
-        stringSet.add("Password123!");
-        stringSet.add("HelloWorld!");
+        stringSet.add(SensitiveData.INSTANCE.getData());
 
         Single<Preferences> updateResult =  prefDataStore.updateDataAsync(prefsIn -> {
             MutablePreferences mutablePreferences = prefsIn.toMutablePreferences();
@@ -77,15 +90,29 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
             return Single.just(mutablePreferences);
         });
 
-        return new ReturnStatus("OK", "StringSet Written to Datastore.").toJsonString();
+        return new ReturnStatus("OK", "Sensitive StringSet written to Datastore:" + SensitiveData.INSTANCE.getData()).toJsonString();
 
     }
 
-//    @ReactMethod(isBlockingSynchronousMethod = true)
-//    public String writeStringSetPreferenceDataStore(){
-//
-//
-//    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String writeCanaryTokenStringSetPreferenceDataStore(){
+
+        Preferences.Key<Set<String>> EXAMPLE_STRING_SET = PreferencesKeys.stringSetKey ("sensitive_data_STRSET");
+
+
+        Set<String> stringSet = new HashSet<String>();
+        stringSet.add(MasSettings.getCanaryToken());
+
+        Single<Preferences> updateResult =  prefDataStore.updateDataAsync(prefsIn -> {
+            MutablePreferences mutablePreferences = prefsIn.toMutablePreferences();
+            mutablePreferences.set(EXAMPLE_STRING_SET, stringSet);
+            return Single.just(mutablePreferences);
+        });
+
+        return new ReturnStatus("OK", "Canary Token written to Datastore:" + MasSettings.getCanaryToken()).toJsonString();
+
+    }
 
 
 
@@ -118,5 +145,7 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
         return new ReturnStatus("OK", "StringSet read: " + storedStringSet.toString()).toJsonString();
 
     }
+
+    //@method
 
 }

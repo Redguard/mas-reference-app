@@ -24,20 +24,12 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         'This test cases will write the following sensitive data to the application log.',
       testCases: [
         {
-          title: 'Log Name',
-          nativeFunction: StorageLog.logName,
+          title: 'Log Sensitive Data',
+          nativeFunction: StorageLog.logSensitiveData,
         },
         {
-          title: 'Log Password',
-          nativeFunction: StorageLog.logPassword,
-        },
-        {
-          title: 'Log Secrets',
-          nativeFunction: StorageLog.logSecrets,
-        },
-        {
-          title: 'Log PEM Headers',
-          nativeFunction: StorageLog.logPEM,
+          title: 'Log Canary Token',
+          nativeFunction: StorageLog.logCanaryToken,
         },
         {
           title: 'Log Phone Number',
@@ -54,14 +46,6 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Log Location',
           nativeFunction: StorageLog.logLocation,
-        },
-        {
-          title: 'Log Access Token',
-          nativeFunction: StorageLog.locAccessToken,
-        },
-        {
-          title: 'Log Canary Token',
-          nativeFunction: StorageLog.logCanaryToken,
         },
       ],
     },
@@ -90,6 +74,19 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+
     // Define your general storage test cases here
   ],
   CRYPTO: [

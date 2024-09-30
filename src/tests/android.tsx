@@ -53,38 +53,48 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'This testcase stores sensitive data using unencrypted SharedPreferences.',
       testCases: [
         {
-          title: 'Init SharedPreferences',
+          title: 'Init WORLD_READABLE SharedPreferences',
           description: 'Get an world read/writable SharedPreferenceInstance',
-          nativeFunction: StorageSharedPreferences.getInsecureSharedPreferences,
+          nativeFunction: StorageSharedPreferences.getWorldReadableInstance,
         },
-
+        {
+          title: 'Init WORLD_WRITABLE SharedPreferences',
+          description: 'Get an world read/writable SharedPreferenceInstance',
+          nativeFunction: StorageSharedPreferences.getWorldWritableInstance,
+        },
         {
           title: 'Write sensitve String',
           description:
-          'Write canary token into the sandbox using SharedPreferences.',
-          nativeFunction: StorageSharedPreferences.putString,
+          'Write  senstive data  into the sandbox using SharedPreferences.',
+          nativeFunction: StorageSharedPreferences.putSensitiveString,
         },
         {
           title: 'Write sensitve StringSet',
           description:
-          'Write a stringset of canary tokens into the sandbox using SharedPreferences.',
-          nativeFunction: StorageSharedPreferences.putStringSet,
+          'Write a stringset of senstive data into the sandbox using SharedPreferences.',
+          nativeFunction: StorageSharedPreferences.putSensitiveStringSet,
+        },
+        {
+          title: 'Write Canary Token String',
+          description:
+          'Write canary token  into the sandbox using SharedPreferences.',
+          nativeFunction: StorageSharedPreferences.putCtString,
+        },
+        {
+          title: 'Write Canary Token StringSet',
+          description:
+          'Write a stringset of canary tokens token and other senstive data into the sandbox using SharedPreferences.',
+          nativeFunction: StorageSharedPreferences.putCtStringSet,
         },
       ],
     },
-
     {
       title: 'DataStore',
       maswe: '0006',
       description:
         'This testcase stores sensitve data using the DataStore. Data stored this way is not encrypted in the sandbox. An attacker may therefore be able to retrieve the data.',
       testCases: [
-        {
-          title: 'Init Preferences DataStore (RxDataStoreBuilder)',
-          description:
-            'Uses RxDataStoreBuilder to create a Preferences DataStore',
-          nativeFunction: StorageDataStore.initPreferenceDataStore,
-        },
+
         {
           title: 'Write sensitive String to Preferences DataStore',
           description:
@@ -103,46 +113,82 @@ export var androidTestCases: Dictionary<TestCases[]> = {
             'Write Data into the snadbox using Preferences DataStore',
           nativeFunction: StorageDataStoreProto.writeProtoDataStore,
         },
+        {
+          title: 'Write Canary Token to Preferences DataStore',
+          description:
+            'Write String into the snadbox using Preferences DataStore',
+          nativeFunction: StorageDataStore.writeCanaryTokenStringPreferenceDataStore,
+        },
+        {
+          title: 'Write Canary Token StringSet to Preferences DataStore',
+          description:
+            'Write StringSet into the snadbox using Preferences DataStore',
+          nativeFunction: StorageDataStore.writeCanaryTokenStringSetPreferenceDataStore,
+        },
+        {
+          title: 'Write Canary Token Data to Proto DataStore',
+          description:
+            'Write Data into the snadbox using Preferences DataStore',
+          nativeFunction: StorageDataStoreProto.writeCanaryTokenProtoDataStore,
+        },
       ],
     },
-
-
     {
       title: 'java.file.io',
       description:
         'These test cases write data into the internal storage (FilesDir and CacheDir) using java.io.File. These files are not encrypted by default.',
       testCases: [
         {
-          title: 'Write senstive to internal sandbox',
+          title: 'Write senstive Data into Sandbox (MODE_PRIVATE)',
           maswe: '006',
           description:
             "Open a private file associated with this Context's application package for writing. Creates the file if it doesn't already exist. ",
-          nativeFunction: StorageJavaFileIo.writeFileSandbox,
+          nativeFunction: StorageJavaFileIo.writeSensitiveFileSandbox,
+        },
+        { 
+          title: 'Write Canary Token into Sandbox (MODE_PRIVATE)',
+          maswe: '006',
+          description:
+            "Open a private file associated with this Context's application package for writing. Creates the file if it doesn't already exist. ",
+          nativeFunction: StorageJavaFileIo.writeCtFileSandbox,
         },
         {
-          title: 'Write senstive Data to external Storage',
+          title: 'Write senstive, Data into Sandbox (MODE_WORLD_READABLE)',
+          maswe: '002',
+          description: 'Tries to write sensitive data into a file outside of the sandbox.',
+          nativeFunction: StorageJavaFileIo.writeSandboxWorldReadable,
+        },
+
+        {
+          title: 'Write senstive, Data into Sandbox (MODE_WORLD_WRITABLE)',
+          maswe: '002',
+          description: 'Tries to write sensitive data into a file outside of the sandbox.',
+          nativeFunction: StorageJavaFileIo.writeSandboxWorldWritable,
+        },
+
+        {
+          title: 'Write senstive Data into external Storage (MODE_PRIVATE)',
           maswe: '002',
           description: 'Tries to write sensitive data into a file outside of the sandbox.',
           nativeFunction: StorageJavaFileIo.writeExternal,
         },
 
         {
-          title: 'Write senstive, MODE_WORLD_WRITEABLE Data to external Storage',
+          title: 'Write senstive Data into external Storage (MODE_WORLD_READABLE)',
+          maswe: '002',
+          description: 'Tries to write sensitive data into a file outside of the sandbox.',
+          nativeFunction: StorageJavaFileIo.writeExternalWorldReadable,
+        },
+
+        {
+          title: 'Write senstive Data into external Storage (MODE_WORLD_WRITABLE)',
           maswe: '002',
           description: 'Tries to write sensitive data into a file outside of the sandbox.',
           nativeFunction: StorageJavaFileIo.writeExternalWorldWritable,
         },
 
-        {
-          title: 'Write senstive, MODE_WORLD_READABLE Data to external Storage',
-          maswe: '002',
-          description: 'Tries to write sensitive data into a file outside of the sandbox.',
-          nativeFunction: StorageJavaFileIo.writeExternalWorldReadable,
-        },
       ],
     },
-
-
     {
       title: 'Querying External Storage',
       maswe: '0002',
@@ -176,6 +222,18 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       ],
     },
 
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+
     {
       title: 'SQLite Database',
       maswe: '006',
@@ -201,6 +259,23 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
         {
           title: 'Store sensitve Data using update',
+          nativeFunction: StorageSQLite.update,
+        },
+
+        {
+          title: 'Store Canary Token using execSQL',
+          nativeFunction: StorageSQLite.execSQL,
+        },
+        {
+          title: 'Store Canary Token Data using insert',
+          nativeFunction: StorageSQLite.insert,
+        },
+        {
+          title: 'Store Canary Token Data using replace',
+          nativeFunction: StorageSQLite.replace,
+        },
+        {
+          title: 'Store Canary Token Data using update',
           nativeFunction: StorageSQLite.update,
         },
       ],

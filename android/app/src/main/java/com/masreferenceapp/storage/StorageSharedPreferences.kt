@@ -4,7 +4,9 @@ import android.content.Context
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.masreferenceapp.MasSettings
 import com.masreferenceapp.ReturnStatus
+import com.masreferenceapp.SensitiveData
 
 class StorageSharedPreferences(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
     context
@@ -12,99 +14,80 @@ class StorageSharedPreferences(var context: ReactApplicationContext) : ReactCont
     override fun getName(): String {
         return "StorageSharedPreferences"
     }
-
-    //    @ReactMethod(isBlockingSynchronousMethod = true)
-    //    public String getInsecureSharedPreferences(){
-    //        SharedPreferences sharedPref;
-    //        ReturnStatus r = new ReturnStatus();
-    //
-    //        try {
-    //            sharedPref = context.getSharedPreferences("masRefAppKey", Context.MODE_WORLD_READABLE);
-    //            r.addStatus("OK", "SharedPreferences initialized.");
-    //
-    //        } catch (Exception e){
-    //            r.addStatus("FAIL", e.toString());
-    //        }
-    //        try {
-    //            sharedPref = context.getSharedPreferences("masRefAppKey", Context.MODE_WORLD_WRITEABLE);
-    //            r.addStatus("OK", "SharedPreferences initialized.");
-    //        } catch (Exception e) {
-    //            r.addStatus("FAIL", e.toString());
-    //        }
-    //
-    //        return r.toJsonString();
-    //
-    //    }
+        
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun putString(): String {
-        val sharedPref = context.getSharedPreferences("masRefAppKey", Context.MODE_PRIVATE)
+    fun putCtString(): String {
+        val sharedPref = context.getSharedPreferences("MasSharedPref_CT_String", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
-        editor.putString("masRefAppKeyPassword", "Password123!")
+        editor.putString("CanaryTokenString", MasSettings.getCanaryToken())
         editor.apply()
-        return ReturnStatus("OK", "Data written.").toJsonString()
+        return ReturnStatus("OK", "Data written: " + MasSettings.getCanaryToken() ).toJsonString()
     }
 
+        
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun putStringSet(): String {
-        val sharedPref = context.getSharedPreferences("masRefAppKey", Context.MODE_PRIVATE)
+    fun putCtStringSet(): String {
+        val sharedPref = context.getSharedPreferences("MasSharedPref_CT_StringSet", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
         val stringSet: MutableSet<String> = HashSet()
-        stringSet.add("Password123!")
-        stringSet.add("HelloWorld!")
-        editor.putStringSet("masRefAppKeyPasswords", stringSet)
+        stringSet.add(MasSettings.getCanaryToken())
+        editor.putStringSet("CanaryTokenStringSet", stringSet)
         editor.apply()
-        return ReturnStatus("OK", "Data written.").toJsonString()
+        return ReturnStatus("OK", "Data written: " + MasSettings.getCanaryToken() ).toJsonString()
     }
 
-
+        
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun putBoolean(): String {
-        val r = ReturnStatus("OK", "Android code stub.")
-        return r.toJsonString()
+    fun putSensitiveString(): String {
+        val sharedPref = context.getSharedPreferences("MasSharedPref_Sensitve_String", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putString("SensitiveData", SensitiveData.data)
+        editor.apply()
+        return ReturnStatus("OK", "Data written: " + SensitiveData.data ).toJsonString()
     }
 
-
+        
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun putFloat(): String {
-        val r = ReturnStatus("OK", "Android code stub.")
+    fun putSensitiveStringSet(): String {
+        val sharedPref = context.getSharedPreferences("MasSharedPref_Sensitive_StringSet", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        val stringSet: MutableSet<String> = HashSet()
+        stringSet.add(SensitiveData.data)
+        editor.putStringSet("SensitiveDataStringSet", stringSet)
+        editor.apply()
+        return ReturnStatus("OK", "Data written: " + SensitiveData.data ).toJsonString()
+    }
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun getWorldReadableInstance(): String {
+        val r = ReturnStatus()
+        try {
+            val sharedPref = context.getSharedPreferences("MasSharedPrefREADABLE", Context.MODE_WORLD_READABLE)
+            r.addStatus("OK", "WorldReadable Instance created.")
+        }
+        catch (e: Exception) {
+            r.addStatus("FAIL", e.toString())
+        }
+
         return r.toJsonString()
     }
 
         
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun putInt(): String {
-        val r = ReturnStatus("OK", "Android code stub.")
-        return r.toJsonString()
-    }
+    fun getWorldWritableInstance(): String {
+        val r = ReturnStatus()
+        try {
+            val sharedPref = context.getSharedPreferences("MasSharedPrefREADABLE", Context.MODE_WORLD_WRITEABLE)
+            r.addStatus("OK", "WorldWritable Instance created.")
+        }
+        catch (e: Exception) {
+            r.addStatus("FAIL", e.toString())
+        }
 
-        
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun getInsecureSharedPreferences(): String {
-        val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }
 
     //@method
 
-    
-    //    @ReactMethod(isBlockingSynchronousMethod = true)
-    //    public String readString(){
-    //        this.putString();
-    //
-    //        SharedPreferences sharedPref = context.getSharedPreferences("masRefAppKey", MODE_PRIVATE);
-    //        String readValue = sharedPref.getString("masRefAppKeyPassword", "");
-    //
-    //        return new ReturnStatus("OK", "Data read: " + readValue).toJsonString();
-    //
-    //    }
-    //
-    //    @ReactMethod(isBlockingSynchronousMethod = true)
-    //    public String readStringSet(){
-    //        this.putStringSet();
-    //
-    //        SharedPreferences sharedPref = context.getSharedPreferences("masRefAppKey", MODE_PRIVATE);
-    //        Set<String> readValue = sharedPref.getStringSet("masRefAppKeyPasswords", new HashSet<>());
-    //
-    //        return new ReturnStatus("OK", "Data read: " + readValue).toJsonString();
-    //    }
 }

@@ -5,7 +5,9 @@ import androidx.datastore.dataStore
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.masreferenceapp.MasSettings
 import com.masreferenceapp.ReturnStatus
+import com.masreferenceapp.SensitiveData
 import com.masreferenceapp.storage.proto.User
 import com.masreferenceapp.storage.proto.UserSerializer
 import com.msareferenceapp.UserPreference
@@ -38,31 +40,45 @@ class StorageDataStoreProto(context: ReactApplicationContext) : ReactContextBase
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun writeProtoDataStore(): String {
-        val user = User(firstName = "Hans", lastName = "Meier", password = "Passw0rd!")
+        val user = User(firstName = "Hans", lastName = "Meier", password = SensitiveData.data)
 
         myPluginScope.launch {
             saveUserToProtoStore(user)
         }
-        return ReturnStatus("OK", "Stored User Object in Proto DataStore.").toJsonString()
+        return ReturnStatus("OK", "Sensitive Data stored in Proto DataStore: " + SensitiveData.data).toJsonString()
     }
 
 
+//    @ReactMethod(isBlockingSynchronousMethod = true)
+//    fun readProtoDataStore(): String {
+//        val user = User(firstName = "Barbara", lastName = "Meier", password = "Passw0rd!")
+//
+//        myPluginScope.launch {
+//            saveUserToProtoStore(user)
+//            reactApplicationContext.userProtoDataStore.data.map { user ->
+//                User(
+//                    firstName = user.firstName,
+//                    lastName = user.lastName,
+//                    password = user.password
+//                )
+//            }
+//        }
+//        return ReturnStatus("OK", "Read User Object in Proto DataStore.").toJsonString()
+//    }
+
+        
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun readProtoDataStore(): String {
-        val user = User(firstName = "Barbara", lastName = "Meier", password = "Passw0rd!")
+    fun writeCanaryTokenProtoDataStore(): String {
+        val user = User(firstName = "Canary", lastName = "Token", password = MasSettings.getCanaryToken())
 
         myPluginScope.launch {
             saveUserToProtoStore(user)
-            reactApplicationContext.userProtoDataStore.data.map { user ->
-                User(
-                    firstName = user.firstName,
-                    lastName = user.lastName,
-                    password = user.password
-                )
-            }
         }
-        return ReturnStatus("OK", "Read User Object in Proto DataStore.").toJsonString()
+        return ReturnStatus("OK", "Sensitive Data stored in Proto DataStore: " + MasSettings.getCanaryToken()).toJsonString()
+
     }
+
+    //@method
 
 }
 
