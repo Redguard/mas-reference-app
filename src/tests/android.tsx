@@ -10,7 +10,8 @@ const {
   StorageJavaFileIo,
   StorageRoomDatabase,
   StorageSQLite,
-  
+  StorageMediaStoreAPI,
+
   CryptoKeyStore,
   CryptoKeyAttestation,
   CryptoKeyChain,
@@ -200,6 +201,44 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+    {
+      title: 'Room API',
+      maswe: '006',
+      description:
+        'The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. The data ist not encrypted using this API.',
+      testCases: [
+        {
+          title: 'Initialise Room Database',
+          description: 'Initialise a Room Database which stores data unencrypted within the sandbox.',
+          nativeFunction: StorageRoomDatabase.initRoomDb,
+        },
+        {
+          title: 'Write sensitivie Data to Room Database',
+          description: 'Writes a simple datastrucutre to the Room DB',
+          nativeFunction: StorageRoomDatabase.writeToRoomDb,
+        },
+      ],
+    },
+
+
+
+    {
+      title: 'MediaStore API',
+      description:
+        "To provide a more enriched user experience, many apps let users contribute and access media that's available on an external storage volume. These files remain outside the apps sandbox and may therefore be accessed from other apps.",
+      testCases: [
+        {
+          title: 'Write sensitivie Data to external Document Storage',
+          description: 'Writes a Document to the Document Folder in the external storage',
+          nativeFunction: StorageMediaStoreAPI.writeDocument,
+        },
+      ],
+    },
+
+
+
+
+
 
     ////////////////////REFACTOR//////////////////////
     ////////////////////REFACTOR///////////////////////
@@ -212,26 +251,6 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     ////////////////////REFACTOR///////////////////////
     ////////////////////REFACTOR///////////////////////
     ////////////////////REFACTOR///////////////////////
-
-    {
-      title: 'Room API',
-      maswe: '006',
-      description:
-        'The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. The data ist not encrypted using this API.',
-      testCases: [
-        {
-          title: 'Write sensitivie Data to Room Database',
-          description: 'Writes a simple datastrucutre to the Room DB',
-          nativeFunction: StorageRoomDatabase.writeToRoomDb,
-        },
-      ],
-    },
-    {
-      title: 'MediaStore API',
-      description:
-        "To provide a more enriched user experience, many apps let users contribute and access media that's available on an external storage volume. The framework provides an optimized index into media collections, called the media store, that lets users retrieve and update these media files more easily. Even after your app is uninstalled, these files remain on the user's device. These files remain outside the app sandbox.",
-      testCases: [],
-    },
     // Define your Android-specific storage test cases here
   ],
 
