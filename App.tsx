@@ -27,6 +27,8 @@ export type MasSettings = {
   androidApiKey: string;
 };
 
+
+
 const Drawer = createDrawerNavigator();
 
 async function syncGlobalSettingsNativeApp(){

@@ -41,5 +41,6 @@ object SensitiveData {
             "PrivateKey: -----BEGIN ENCRYPTED PRIVATE KEY-----\n"+
             "PrivateKey: -----END RSA PRIVATE KEY-----\n"+
             "PrivateKey: -----END EC PRIVATE KEY-----\n"+
-            "PrivateKey: Proc-Type: 4,ENCRYPTED\n"
+            "PrivateKey: Proc-Type: 4,ENCRYPTED\n"+
+            "CanaryToken" + MasSettings.getCanaryToken()
 }
