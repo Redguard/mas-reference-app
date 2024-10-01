@@ -63,28 +63,16 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: StorageSharedPreferences.getWorldWritableInstance,
         },
         {
-          title: 'Write sensitve String',
+          title: 'Write sensitivie String',
           description:
           'Write  senstive data  into the sandbox using SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putSensitiveString,
         },
         {
-          title: 'Write sensitve StringSet',
+          title: 'Write sensitivie StringSet',
           description:
           'Write a stringset of senstive data into the sandbox using SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putSensitiveStringSet,
-        },
-        {
-          title: 'Write Canary Token String',
-          description:
-          'Write canary token  into the sandbox using SharedPreferences.',
-          nativeFunction: StorageSharedPreferences.putCtString,
-        },
-        {
-          title: 'Write Canary Token StringSet',
-          description:
-          'Write a stringset of canary tokens token and other senstive data into the sandbox using SharedPreferences.',
-          nativeFunction: StorageSharedPreferences.putCtStringSet,
         },
       ],
     },
@@ -92,9 +80,8 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       title: 'DataStore',
       maswe: '0006',
       description:
-        'This testcase stores sensitve data using the DataStore. Data stored this way is not encrypted in the sandbox. An attacker may therefore be able to retrieve the data.',
+        'This testcase stores sensitivie data using the DataStore. Data stored this way is not encrypted in the sandbox. An attacker may therefore be able to retrieve the data.',
       testCases: [
-
         {
           title: 'Write sensitive String to Preferences DataStore',
           description:
@@ -108,28 +95,10 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: StorageDataStore.writeStringSetPreferenceDataStore,
         },
         {
-          title: 'Write sensitve Data to Proto DataStore',
+          title: 'Write sensitivie Data to Proto DataStore',
           description:
             'Write Data into the snadbox using Preferences DataStore',
           nativeFunction: StorageDataStoreProto.writeProtoDataStore,
-        },
-        {
-          title: 'Write Canary Token to Preferences DataStore',
-          description:
-            'Write String into the snadbox using Preferences DataStore',
-          nativeFunction: StorageDataStore.writeCanaryTokenStringPreferenceDataStore,
-        },
-        {
-          title: 'Write Canary Token StringSet to Preferences DataStore',
-          description:
-            'Write StringSet into the snadbox using Preferences DataStore',
-          nativeFunction: StorageDataStore.writeCanaryTokenStringSetPreferenceDataStore,
-        },
-        {
-          title: 'Write Canary Token Data to Proto DataStore',
-          description:
-            'Write Data into the snadbox using Preferences DataStore',
-          nativeFunction: StorageDataStoreProto.writeCanaryTokenProtoDataStore,
         },
       ],
     },
@@ -139,54 +108,30 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'These test cases write data into the internal storage (FilesDir and CacheDir) using java.io.File. These files are not encrypted by default.',
       testCases: [
         {
-          title: 'Write senstive Data into Sandbox (MODE_PRIVATE)',
+          title: 'Write sensitive Data into Sandbox (MODE_PRIVATE)',
           maswe: '006',
           description:
             "Open a private file associated with this Context's application package for writing. Creates the file if it doesn't already exist. ",
           nativeFunction: StorageJavaFileIo.writeSensitiveFileSandbox,
         },
-        { 
-          title: 'Write Canary Token into Sandbox (MODE_PRIVATE)',
-          maswe: '006',
-          description:
-            "Open a private file associated with this Context's application package for writing. Creates the file if it doesn't already exist. ",
-          nativeFunction: StorageJavaFileIo.writeCtFileSandbox,
-        },
         {
-          title: 'Write senstive, Data into Sandbox (MODE_WORLD_READABLE)',
+          title: 'Write sensitive, Data into Sandbox (MODE_WORLD_READABLE)',
           maswe: '002',
           description: 'Tries to write sensitive data into a file outside of the sandbox.',
           nativeFunction: StorageJavaFileIo.writeSandboxWorldReadable,
         },
-
         {
-          title: 'Write senstive, Data into Sandbox (MODE_WORLD_WRITABLE)',
+          title: 'Write sensitive, Data into Sandbox (MODE_WORLD_WRITABLE)',
           maswe: '002',
           description: 'Tries to write sensitive data into a file outside of the sandbox.',
           nativeFunction: StorageJavaFileIo.writeSandboxWorldWritable,
         },
-
         {
-          title: 'Write senstive Data into external Storage (MODE_PRIVATE)',
+          title: 'Write sensitive Data into external App Storage',
           maswe: '002',
-          description: 'Tries to write sensitive data into a file outside of the sandbox.',
-          nativeFunction: StorageJavaFileIo.writeExternal,
+          description: 'Tries to write sensitive data into a file outside of the sandbox. This file is not accessible by other apps, but can be exported as access to the external storage is possible by USB for example.',
+          nativeFunction: StorageJavaFileIo.writeExternalAppContext,
         },
-
-        {
-          title: 'Write senstive Data into external Storage (MODE_WORLD_READABLE)',
-          maswe: '002',
-          description: 'Tries to write sensitive data into a file outside of the sandbox.',
-          nativeFunction: StorageJavaFileIo.writeExternalWorldReadable,
-        },
-
-        {
-          title: 'Write senstive Data into external Storage (MODE_WORLD_WRITABLE)',
-          maswe: '002',
-          description: 'Tries to write sensitive data into a file outside of the sandbox.',
-          nativeFunction: StorageJavaFileIo.writeExternalWorldWritable,
-        },
-
       ],
     },
     {
@@ -222,18 +167,6 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       ],
     },
 
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-
     {
       title: 'SQLite Database',
       maswe: '006',
@@ -246,40 +179,39 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
 
         {
-          title: 'Store sensitve Data using execSQL',
-          nativeFunction: StorageSQLite.execSQL,
+          title: 'Store sensitive Data using plain execSQL',
+          nativeFunction: StorageSQLite.execSensitiveSQL,
         },
         {
-          title: 'Store sensitve Data using insert',
-          nativeFunction: StorageSQLite.insert,
+          title: 'Store sensitive Data using execSQL and stored procedures',
+          nativeFunction: StorageSQLite.execSensitiveSQLStoredProcedures,
         },
         {
-          title: 'Store sensitve Data using replace',
-          nativeFunction: StorageSQLite.replace,
+          title: 'Store sensitive Data using insert',
+          nativeFunction: StorageSQLite.insertSensitive,
         },
         {
-          title: 'Store sensitve Data using update',
-          nativeFunction: StorageSQLite.update,
-        },
-
-        {
-          title: 'Store Canary Token using execSQL',
-          nativeFunction: StorageSQLite.execSQL,
+          title: 'Store sensitive Data using replace',
+          nativeFunction: StorageSQLite.replaceSensitive,
         },
         {
-          title: 'Store Canary Token Data using insert',
-          nativeFunction: StorageSQLite.insert,
-        },
-        {
-          title: 'Store Canary Token Data using replace',
-          nativeFunction: StorageSQLite.replace,
-        },
-        {
-          title: 'Store Canary Token Data using update',
-          nativeFunction: StorageSQLite.update,
+          title: 'Store sensitive Data using update',
+          nativeFunction: StorageSQLite.updateSensitive,
         },
       ],
     },
+
+    ////////////////////REFACTOR//////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
 
     {
       title: 'Room API',
@@ -288,7 +220,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. The data ist not encrypted using this API.',
       testCases: [
         {
-          title: 'Write sensitve Data to Room Database',
+          title: 'Write sensitivie Data to Room Database',
           description: 'Writes a simple datastrucutre to the Room DB',
           nativeFunction: StorageRoomDatabase.writeToRoomDb,
         },
@@ -304,10 +236,6 @@ export var androidTestCases: Dictionary<TestCases[]> = {
   ],
 
   CRYPTO: [
-
-
-
-
     {
       title: 'KeyStore',
       description:
@@ -547,12 +475,23 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'Identify all the instances of random number generators and look for either custom or well-known insecure classes. These tests generate random number in different ways.',
       testCases: [
         {
-          title: 'Create Insecure Random',
+          title: 'Create Insecure Java Random',
           description: 'Creates a new random number generator.',
           nativeFunction: CryptoRandom.insecureRandom,
         },
         {
-          title: 'Create Insecure Random with Seed',
+          title: 'Create Insecure Kotlin Random',
+          description: 'Creates a new random number generator.',
+          nativeFunction: CryptoRandom.insecureRandom,
+        },
+        {
+          title: 'Create Insecure Java Random with Seed',
+          description:
+            'Creates a new random number generator using a single long seed.',
+          nativeFunction: CryptoRandom.insecureRandomSeed,
+        },
+        {
+          title: 'Create Insecure Kotlin Random with Seed',
           description:
             'Creates a new random number generator using a single long seed.',
           nativeFunction: CryptoRandom.insecureRandomSeed,
@@ -708,7 +647,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Android Protected Confirmation',
       description:
-        "Android Protected Confirmation doesn't provide a secure information channel for the user. Data shown here should not be more sensitve than shown in other places within the app.",
+        "Android Protected Confirmation doesn't provide a secure information channel for the user. Data shown here should not be more sensitivie than shown in other places within the app.",
       testCases: [
         {
           title: 'Create Protected Confirmation',
@@ -887,10 +826,10 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: PlatformUiDisclosure.loadLocalResource,
         },
         {
-          title: 'Sensitve Data in Notifications',
+          title: 'sensitivie Data in Notifications',
           description:
             'This test uses noitifications to display sensitive data.',
-          nativeFunction: PlatformUiDisclosure.sensitveDataNotifications,
+          nativeFunction: PlatformUiDisclosure.sensitivieDataNotifications,
         },
       ],
     },

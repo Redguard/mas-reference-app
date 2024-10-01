@@ -24,12 +24,8 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         'This test cases will write the following sensitive data to the application log.',
       testCases: [
         {
-          title: 'Log Sensitive Data',
+          title: 'Log sensitive Data',
           nativeFunction: StorageLog.logSensitiveData,
-        },
-        {
-          title: 'Log Canary Token',
-          nativeFunction: StorageLog.logCanaryToken,
         },
         {
           title: 'Log Phone Number',

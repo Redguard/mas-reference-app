@@ -28,5 +28,12 @@ class PlatformUiDisclosure(var context: ReactApplicationContext) : ReactContextB
         return r.toJsonString()
     }
 
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun sensitivieDataNotifications(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
     //@method
 }
