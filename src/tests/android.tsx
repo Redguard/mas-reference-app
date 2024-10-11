@@ -12,14 +12,10 @@ const {
   StorageSQLite,
   StorageMediaStoreAPI,
 
-  CryptoKeyStore,
   CryptoKeyAttestation,
-  CryptoKeyChain,
   CryptoCipher,
-  CryptoEncryptedFile,
-  CryptoEncryptedSharedPreferences,
-  CryptoMasterKey,
   CryptoRandom,
+  CryptoKeyGenParameterSpec,
 
   AuthBiometricManager,
   AuthBiometricPrompt,
@@ -55,18 +51,18 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Init WORLD_READABLE SharedPreferences',
-          description: 'Get an world read/writable SharedPreferenceInstance',
+          description: 'Get an world readable SharedPreferenceInstance',
           nativeFunction: StorageSharedPreferences.getWorldReadableInstance,
         },
         {
           title: 'Init WORLD_WRITABLE SharedPreferences',
-          description: 'Get an world read/writable SharedPreferenceInstance',
+          description: 'Get an world writable SharedPreferenceInstance',
           nativeFunction: StorageSharedPreferences.getWorldWritableInstance,
         },
         {
           title: 'Write sensitivie String',
           description:
-          'Write  senstive data  into the sandbox using SharedPreferences.',
+          'Write  senstive data into the sandbox using SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putSensitiveString,
         },
         {
@@ -86,19 +82,19 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Write sensitive String to Preferences DataStore',
           description:
-            'Write String into the snadbox using Preferences DataStore',
+            'Write sensitive String into the sandbox using Preferences DataStore',
           nativeFunction: StorageDataStore.writeStringPreferenceDataStore,
         },
         {
           title: 'Write sensitive StringSet to Preferences DataStore',
           description:
-            'Write StringSet into the snadbox using Preferences DataStore',
+            'Write StringSet into the sandbox using Preferences DataStore',
           nativeFunction: StorageDataStore.writeStringSetPreferenceDataStore,
         },
         {
           title: 'Write sensitivie Data to Proto DataStore',
           description:
-            'Write Data into the snadbox using Preferences DataStore',
+            'Write sensitive data into the sandbox using Proto DataStore',
           nativeFunction: StorageDataStoreProto.writeProtoDataStore,
         },
       ],
@@ -118,13 +114,13 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Write sensitive, Data into Sandbox (MODE_WORLD_READABLE)',
           maswe: '002',
-          description: 'Tries to write sensitive data into a file outside of the sandbox.',
+          description: 'Tries to write senstive, world readable data into the sandbox.',
           nativeFunction: StorageJavaFileIo.writeSandboxWorldReadable,
         },
         {
           title: 'Write sensitive, Data into Sandbox (MODE_WORLD_WRITABLE)',
           maswe: '002',
-          description: 'Tries to write sensitive data into a file outside of the sandbox.',
+          description: 'Tries to write senstive, world writable data into the sandbox.',
           nativeFunction: StorageJavaFileIo.writeSandboxWorldWritable,
         },
         {
@@ -167,7 +163,6 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
     {
       title: 'SQLite Database',
       maswe: '006',
@@ -176,15 +171,18 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Create SQLite DB',
+          description: 'Creates a plain text SQLite DB within the app sandbox.',
           nativeFunction: StorageSQLite.createSQLiteDB,
         },
 
         {
           title: 'Store sensitive Data using plain execSQL',
+          description: 'Writes sensitve data to the SQLite DB using execSQL with a string query.',
           nativeFunction: StorageSQLite.execSensitiveSQL,
         },
         {
           title: 'Store sensitive Data using execSQL and stored procedures',
+          description: 'Writes sensitve data to the SQLite DB using execSQL with a prepared statement.',
           nativeFunction: StorageSQLite.execSensitiveSQLStoredProcedures,
         },
         {
@@ -214,14 +212,11 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
         {
           title: 'Write sensitivie Data to Room Database',
-          description: 'Writes a simple datastrucutre to the Room DB',
+          description: 'Writes sensitive data as a simple datastrucutre to the Room DB',
           nativeFunction: StorageRoomDatabase.writeToRoomDb,
         },
       ],
     },
-
-
-
     {
       title: 'MediaStore API',
       description:
@@ -234,92 +229,100 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
-
-
-
-
-
-    ////////////////////REFACTOR//////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
     // Define your Android-specific storage test cases here
   ],
 
   CRYPTO: [
     {
-      title: 'KeyStore',
+      title: 'KeyGenParameterSpec',
       description:
-        'This class represents a storage facility for cryptographic keys and certificates. The Android Keystore system lets you store cryptographic keys in a container to make them more difficult to extract from the device. Once keys are in the keystore, you can use them for cryptographic operations, with the key material remaining non-exportable. ',
+        'This class represents properties for cryptographic keys. The are used when creating keys within the Android KeyStore for example.',
       testCases: [
-        // {
-        //   title: 'Init KeyStores',
-        //   description:
-        //     'Intializes instances of the avialable KeyStores, they are: AndroidKeyStore, AndroidCAStore, BKS, BouncyCastle and PKCS12',
-        //   nativeFunction: CryptoKeyStore.init,
-        // },
-        // {
-        //   title: 'Get Aliases',
-        //   description:
-        //     'Retrieves all key aliases of the currently stored keys.',
-        //   nativeFunction: CryptoKeyStore.getKeyAliases,
-        // },
-        // {
-        //   title: 'Create Secure KeyGenParameterSpec',
-        //   description:
-        //     'Creates a RSA KeyGenParameterSpec which is considered as secure.',
-        //   nativeFunction: CryptoKeyStore.createSecureKeyGenParameterSpec,
-        // },
-
         {
-          title: 'Create KeyGenParameterSpec',
+          title: 'Set Attesation Challenge',
           description:
-            'Creates a KeyGenParameterSpec which are considered inseuce, such as small RSA keysize, insecure ciphers (RC4), or weak digest algorithms.',
-          nativeFunction: CryptoKeyStore.createInsecureKeyGenParameterSpec,
-        },
-
-
-
-        
-        {
-          title: 'Create Insecure KeyGenParameterSpec',
-          description:
-            'Creates a KeyGenParameterSpec which are considered inseuce, such as small RSA keysize, insecure ciphers (RC4), or weak digest algorithms.',
-          nativeFunction: CryptoKeyStore.createInsecureKeyGenParameterSpec,
+            'Sets whether an attestation certificate will be generated for this key pair, and what challenge value will be placed in the certificate. The attestation certificate chain can be retrieved with with KeyStore.getCertificateChain(String)',
+          nativeFunction: CryptoKeyGenParameterSpec.setAttestationChallenge,
         },
         {
-          title: 'Create Asymmetric Key',
-          description: 'Create RSA and EC keys using the KeyPairGenerator.',
-          nativeFunction: CryptoKeyStore.generateAsymmetricKeys,
+          title: 'Set insecure Block Modes',
+          description:
+            'Sets insecure block modes with which the key can be used when encrypting/decrypting.',
+          nativeFunction: CryptoKeyGenParameterSpec.setInsecureBlockMode,
         },
         {
-          title: 'Access Private Key',
+          title: 'Set insecure Digests',
           description:
-            'Creates an asymmetric EC key pair and tries to access the private key.',
-          nativeFunction: CryptoKeyStore.accessPrivateKey,
+            'Sets insecure digests algorithms with which the key can be used.',
+          nativeFunction: CryptoKeyGenParameterSpec.setInsecureDigest,
         },
         {
-          title: 'Read KeyInfo',
+          title: 'Set insecure Encryptoion Padding',
           description:
-            'Gets the KeyInfo object of a key and reads information about the key.',
-          nativeFunction: CryptoKeyStore.readKeyInfo,
+            'Sets insecure padding schemes (e.g., PKCS7Padding, OAEPPadding, PKCS1Padding, NoPadding) with which the key can be used when encrypting/decrypting.',
+          nativeFunction: CryptoKeyGenParameterSpec.setInsecureEncryptionPadding,
+        },
+        {
+          title: 'Set insecure Signature Padding',
+          description:
+            'Sets insecure padding schemes (e.g., PKCS7Padding, OAEPPadding, PKCS1Padding, NoPadding) with which the key can be used when signing.',
+          nativeFunction: CryptoKeyGenParameterSpec.setInsecureSignaturePadding,
+        },
+        {
+          title: 'Set weak Key Size',
+          description:
+            'Sets a weak size (in bits) of the key to be generated. ',
+          nativeFunction: CryptoKeyGenParameterSpec.setWeakKey,
+        },
+        {
+          title: 'Set long Certificate Validity',
+          description:
+            'Sets a long end of the validity period for the certificate of the generated key pair.',
+          nativeFunction: CryptoKeyGenParameterSpec.setLongCertValidity,
+        },
+        {
+          title: 'Set long Key Validity',
+          description:
+            'Sets a long end of the validity period for the keyr.',
+          nativeFunction: CryptoKeyGenParameterSpec.setLongKeyValidity,
+        },
+        {
+          title: 'Don\'t invalidate at Biometric Enrollment ',
+          description:
+            'By default, the key is invalidated when a new biometric pattern is enrolled, this settings bypasses this.',
+          nativeFunction: CryptoKeyGenParameterSpec.dontInvalidateBioEnrollment,
+        },
+        {
+          title: 'Set to Exportable',
+          description:
+            'Sets whether this key should be protected by a StrongBox security chip to False.',
+          nativeFunction: CryptoKeyGenParameterSpec.setExportable,
+        },
+        {
+          title: 'Don\'t require randomized encryption',
+          description:
+            'Sets whether encryption using this key must be sufficiently randomized to produce different ciphertexts for the same plaintext every time to False.',
+          nativeFunction: CryptoKeyGenParameterSpec.setRandomizedEncryptionRequiredFalse,
+        },
+        {
+          title: 'Don\'t require unlocked device',
+          description:
+            'Sets this key is authorized to be used only while the device is unlocked to false',
+          nativeFunction: CryptoKeyGenParameterSpec.setUnlockedDeviceRequiredFalse,
+        },
+        {
+          title: 'Don\'t require user authentication',
+          description:
+            'Sets this key is authorized to be used only if the user has been authenticated to false',
+          nativeFunction: CryptoKeyGenParameterSpec.setUserAuthenticationRequiredFalse,
         },
       ],
     },
 
-
     {
       title: 'Key Attestation',
       description:
-        " Key Attestation gives you more confidence that the keys you use in your app are stored in a device's hardware-backed keystore. The following sections describe how to verify the properties of hardware-backed keys and how to interpret the attestation certificates' extension data. ",
+        "Key Attestation gives you more confidence that the keys you use in your app are stored in a device's hardware-backed keystore. The following sections describe how to verify the properties of hardware-backed keys and how to interpret the attestation certificates' extension data. ",
       testCases: [
         {
           title: 'Get Certificate Chain',
@@ -329,8 +332,6 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
-
 
     {
       title: 'Cipher',
@@ -359,11 +360,6 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: CryptoCipher.bouncyCastle,
         },
         {
-          title: 'Password-Based Ciphers',
-          description: 'Initializes an Cipher with PBE',
-          nativeFunction: CryptoCipher.pbeCipher,
-        },
-        {
           title: 'Password-Based Cipher with Low Iteration Count',
           description:
             'Initializes an Cipher with PBE with 1 iteration when creating the Cipher Spec.',
@@ -375,119 +371,8 @@ export var androidTestCases: Dictionary<TestCases[]> = {
             "Password-based encryption (PBE) ciphers that require an initialization vector (IV) can obtain it from the key, if it's suitably constructed, or from an explicitly passed IV. If you pass a PBE key that doesn't contain an IV and don't pass an explicit IV, the PBE ciphers on Android currently assume an IV of zero.",
           nativeFunction: CryptoCipher.pbeCipherZeroIV,
         },
-        {
-          title: 'Encrypt',
-          description: 'Ueses AES in CBC mode to encrypt a Text',
-          nativeFunction: CryptoCipher.encrypt,
-        },
-        {
-          title: 'Decrypt',
-          description: 'Ueses AES in CBC mode to encrypt a Text',
-          nativeFunction: CryptoCipher.decrypt,
-        },
-        {
-          title: 'Sign Document',
-          description: 'Uses Cipher to sign a document.',
-          nativeFunction: CryptoCipher.sign,
-        },
-        {
-          title: 'Verify Document',
-          description: 'Uses Cipher to verify a document.',
-          nativeFunction: CryptoCipher.verify,
-        },
       ],
     },
-
-
-    {
-      title: 'EncryptedSharedPreferences',
-      description:
-        'This testcase stores data using secure, encrypted SharedPreferences provided by androidx.security.crypto. Currently, there are only secure ways of using this function.',
-      testCases: [
-        {
-          title: 'Create EncryptedSharedPreferences Instance',
-          description: 'Create EncryptedSharedPreferences.',
-          nativeFunction: CryptoEncryptedSharedPreferences.createEncryptedSharedPreferences,
-        },
-        // {
-        //   title: 'Write String to EncryptedSharedPreferences',
-        //   description:
-        //     'Write string into the snadbox using putString method of EncryptedSharedPreferences.',
-        //   nativeFunction: CryptoEncryptedSharedPreferences.putString,
-        // },
-        // {
-        //   title: 'Write StringSet to EncryptedSharedPreferences',
-        //   description:
-        //     'Write stringSet into the snadbox using putStringSet method of EncryptedSharedPreferences.',
-        //   nativeFunction: CryptoEncryptedSharedPreferences.putStringSet,
-        // },
-        // {
-        //   title: 'Read String from EncryptedSharedPreferences',
-        //   description:
-        //     'Read a String from the unencrypted EncryptedSharedPreferences',
-        //   nativeFunction: CryptoEncryptedSharedPreferences.readString,
-        // },
-        // {
-        //   title: 'Read StringSet from EncryptedSharedPreferences',
-        //   description:
-        //     'Read a StringSet from the unencrypted EncryptedSharedPreferences',
-        //   nativeFunction: CryptoEncryptedSharedPreferences.readStringSet,
-        // },
-      ],
-    },
-
-    
-    {
-      title: 'EncryptedFile',
-      description:
-        'Class used to create and read encrypted files using androidx.security.crypto. Currently, there are only secure ways of using this function. If an application does not use this to store files, this may be an option.',
-      testCases: [
-        {
-          title: 'Write Encrypted File',
-          description:
-            'Encrypts a file using the Builder class to configure EncryptedFile.',
-          nativeFunction: CryptoEncryptedFile.writeFile,
-        },
-
-        // {
-        //   title: 'Read Encrypted File',
-        //   description:
-        //     'Decrypts a file using the Builder class to configure EncryptedFile',
-        //   nativeFunction: CryptoEncryptedFile.readFile,
-        // },
-      ],
-    },
-
-
-    {
-      title: 'MasterKey',
-      description:
-        "Wrapper for a master key used in the library. On Android M (API 23) and above, this is class references a key that's stored in the Android Keystore. On Android L (API 21, 22), there isn't a master key.",
-      testCases: [
-        {
-          title: 'Create a MasterKey',
-          description:
-            'Decrypts a file using the Builder class to configure EncryptedFile',
-          nativeFunction: CryptoMasterKey.createMasterKey,
-        },
-      ],
-    },
-
-
-    {
-      title: 'KeyChain',
-      description:
-        'The KeyChain class provides access to private keys and their corresponding certificate chains in credential storage.',
-      testCases: [
-        {
-          title: 'Create a KeyChain',
-          description: 'Creates a KeyChain',
-          nativeFunction: CryptoKeyChain.createKeyChain,
-        },
-      ],
-    },
-
-
     {
       title: 'Random Numbers',
       description:
@@ -515,12 +400,6 @@ export var androidTestCases: Dictionary<TestCases[]> = {
             'Creates a new random number generator using a single long seed.',
           nativeFunction: CryptoRandom.insecureRandomSeed,
         },
-        // {
-        //   title: 'Create SecureRandom',
-        //   description:
-        //     'Constructs a secure random number generator (RNG) implementing the default random number algorithm.',
-        //   nativeFunction: CryptoRandom.secureRandom,
-        // },
         {
           title: 'Create Deprecated SecureRandom.',
           description:
@@ -531,7 +410,35 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     },
     // Define your Android-specific crypto test cases here
   ],
+
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+
   AUTH: [
+
+
+    {
+      title: 'Acess to KeyStore',
+      description: 'BLA',
+      testCases: [
+          // add tests for : 
+          //    Not Defining Key Validity Period
+          //    7. Allowing Key Export
+          //4. Omitting User Authentication
+
+      ],
+    },
+
+
 
     {
       title: 'BiometricManager',

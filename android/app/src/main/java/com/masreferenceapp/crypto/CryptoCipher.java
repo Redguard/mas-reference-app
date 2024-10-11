@@ -92,7 +92,7 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
         for (String t : transformation) {
             try {
                 Cipher cipher = Cipher.getInstance(t);
-                r.addStatus("OK", "Cipher init with tranformation: " + t);
+                r.addStatus("OK", "Cipher init with transformation: " + t);
             } catch (Exception e) {
                 r.addStatus("FAIL", e.toString());
             }
@@ -195,30 +195,6 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String pbeCipher(){
-
-        StringBuilder status = new StringBuilder();
-        StringBuilder message = new StringBuilder();
-
-
-        char[] password = "MySecretPassword".toCharArray();
-        int iterationCount = 1000000;
-        int keyLength = 256;
-        int saltLength = keyLength / 8; // same size as key output
-
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[saltLength];
-        random.nextBytes(salt);
-
-        KeySpec keySpec = new PBEKeySpec(password, salt, iterationCount, keyLength);
-
-        ReturnStatus r = new ReturnStatus("OK", "Password Based Encryption Cipher instance created.");
-        return r.toJsonString();
-
-    }
-
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
     public String pbeCipherLowIteration(){
 
         StringBuilder status = new StringBuilder();
@@ -274,125 +250,125 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
 
 
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String encrypt(){
-        ReturnStatus r = new ReturnStatus();
-
-        try {
-            String partOne = "Fist secret Text: Passw0rd! \n";
-            byte[] plaintextOne = partOne.getBytes();
-            String inputString = "Let's encrypt this S3CR3T!";
-            byte[] plaintext = inputString.getBytes();
-
-            KeyGenerator keygen = KeyGenerator.getInstance("AES");
-            keygen.init(256);
-            SecretKey key = keygen.generateKey();
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            cipher.update(plaintextOne);
-            byte[] ciphertext = cipher.doFinal(plaintext);
-
-
-            r.addStatus("OK", "Encryption done. Ciphertext: " +  bytesToHex(ciphertext));
-            return r.toJsonString();
-        }
-        catch (Exception e) {
-            r.addStatus("FAIL", e.toString());
-            return r.toJsonString();
-        }
-    }
-
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String decrypt(){
-        ReturnStatus r = new ReturnStatus();
-
-        try {
-
-            String inputString = "Let's DECRYPT this S3CR3T!";
-            byte[] plaintext = inputString.getBytes();
-
-            KeyGenerator keygen = KeyGenerator.getInstance("AES");
-            keygen.init(256);
-            SecretKey key = keygen.generateKey();
-            Cipher encryptor = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-            encryptor.init(Cipher.ENCRYPT_MODE, key);
-            byte[] ciphertext = encryptor.doFinal(plaintext);
-            byte[] iv = encryptor.getIV();
+//    @ReactMethod(isBlockingSynchronousMethod = true)
+//    public String encrypt(){
+//        ReturnStatus r = new ReturnStatus();
+//
+//        try {
+//            String partOne = "Fist secret Text: Passw0rd! \n";
+//            byte[] plaintextOne = partOne.getBytes();
+//            String inputString = "Let's encrypt this S3CR3T!";
+//            byte[] plaintext = inputString.getBytes();
+//
+//            KeyGenerator keygen = KeyGenerator.getInstance("AES");
+//            keygen.init(256);
+//            SecretKey key = keygen.generateKey();
+//            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+//            cipher.init(Cipher.ENCRYPT_MODE, key);
+//            cipher.update(plaintextOne);
+//            byte[] ciphertext = cipher.doFinal(plaintext);
+//
+//
+//            r.addStatus("OK", "Encryption done. Ciphertext: " +  bytesToHex(ciphertext));
+//            return r.toJsonString();
+//        }
+//        catch (Exception e) {
+//            r.addStatus("FAIL", e.toString());
+//            return r.toJsonString();
+//        }
+//    }
 
 
-            // decrypt
-            Cipher decrypt = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-            IvParameterSpec iVector = new IvParameterSpec(iv);
-            decrypt.init(Cipher.DECRYPT_MODE, key, iVector);
-            String plainText = new String( decrypt.doFinal(ciphertext), StandardCharsets.UTF_8);
-
-            r.addStatus("OK", "Encryption done. Plaintext: " + plainText);
-            return r.toJsonString();
-
-        }
-        catch (Exception e) {
-            r.addStatus("FAIL", e.toString());
-            return r.toJsonString();
-        }
-    }
-
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String sign(){
-        ReturnStatus r = new ReturnStatus();
-
-        try {
-            String inputString = "Document to sign.";
-            byte[] doc = inputString.getBytes();
-
-            KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA);
-            kpg.initialize(1024);
-            KeyPair kp = kpg.generateKeyPair();
-
-            Signature s = Signature.getInstance("SHA512withRSA");
-            s.initSign(kp.getPrivate());
-            s.update(doc);
-            byte[] signature = s.sign();
-            r.addStatus("OK", "Document signed.");
-            return r.toJsonString();
-        }
-        catch (Exception e) {
-            r.addStatus("FAIL", e.toString());
-            return r.toJsonString();
-        }
-    }
+//    @ReactMethod(isBlockingSynchronousMethod = true)
+//    public String decrypt(){
+//        ReturnStatus r = new ReturnStatus();
+//
+//        try {
+//
+//            String inputString = "Let's DECRYPT this S3CR3T!";
+//            byte[] plaintext = inputString.getBytes();
+//
+//            KeyGenerator keygen = KeyGenerator.getInstance("AES");
+//            keygen.init(256);
+//            SecretKey key = keygen.generateKey();
+//            Cipher encryptor = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+//            encryptor.init(Cipher.ENCRYPT_MODE, key);
+//            byte[] ciphertext = encryptor.doFinal(plaintext);
+//            byte[] iv = encryptor.getIV();
+//
+//
+//            // decrypt
+//            Cipher decrypt = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+//            IvParameterSpec iVector = new IvParameterSpec(iv);
+//            decrypt.init(Cipher.DECRYPT_MODE, key, iVector);
+//            String plainText = new String( decrypt.doFinal(ciphertext), StandardCharsets.UTF_8);
+//
+//            r.addStatus("OK", "Encryption done. Plaintext: " + plainText);
+//            return r.toJsonString();
+//
+//        }
+//        catch (Exception e) {
+//            r.addStatus("FAIL", e.toString());
+//            return r.toJsonString();
+//        }
+//    }
 
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String verify(){
-        ReturnStatus r = new ReturnStatus();
+//    @ReactMethod(isBlockingSynchronousMethod = true)
+//    public String sign(){
+//        ReturnStatus r = new ReturnStatus();
+//
+//        try {
+//            String inputString = "Document to sign.";
+//            byte[] doc = inputString.getBytes();
+//
+//            KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA);
+//            kpg.initialize(1024);
+//            KeyPair kp = kpg.generateKeyPair();
+//
+//            Signature s = Signature.getInstance("SHA512withRSA");
+//            s.initSign(kp.getPrivate());
+//            s.update(doc);
+//            byte[] signature = s.sign();
+//            r.addStatus("OK", "Document signed.");
+//            return r.toJsonString();
+//        }
+//        catch (Exception e) {
+//            r.addStatus("FAIL", e.toString());
+//            return r.toJsonString();
+//        }
+//    }
 
-        try {
-            String inputString = "Document to sign.";
-            byte[] doc = inputString.getBytes();
 
-            KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA);
-            kpg.initialize(1024);
-            KeyPair kp = kpg.generateKeyPair();
-
-            Signature s = Signature.getInstance("SHA512withRSA");
-            s.initSign(kp.getPrivate());
-            s.update(doc);
-            byte[] signature = s.sign();
-
-            Signature v = Signature.getInstance("SHA512withRSA");
-            v.initVerify(kp.getPublic());
-            v.update(doc);
-            boolean valid = v.verify(signature);
-
-            r.addStatus("OK", "Document validity:  " + valid);
-            return r.toJsonString();
-        }
-        catch (Exception e) {
-            r.addStatus("FAIL", e.toString());
-            return r.toJsonString();
-        }
-    }
+//    @ReactMethod(isBlockingSynchronousMethod = true)
+//    public String verify(){
+//        ReturnStatus r = new ReturnStatus();
+//
+//        try {
+//            String inputString = "Document to sign.";
+//            byte[] doc = inputString.getBytes();
+//
+//            KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA);
+//            kpg.initialize(1024);
+//            KeyPair kp = kpg.generateKeyPair();
+//
+//            Signature s = Signature.getInstance("SHA512withRSA");
+//            s.initSign(kp.getPrivate());
+//            s.update(doc);
+//            byte[] signature = s.sign();
+//
+//            Signature v = Signature.getInstance("SHA512withRSA");
+//            v.initVerify(kp.getPublic());
+//            v.update(doc);
+//            boolean valid = v.verify(signature);
+//
+//            r.addStatus("OK", "Document validity:  " + valid);
+//            return r.toJsonString();
+//        }
+//        catch (Exception e) {
+//            r.addStatus("FAIL", e.toString());
+//            return r.toJsonString();
+//        }
+//    }
 
 }

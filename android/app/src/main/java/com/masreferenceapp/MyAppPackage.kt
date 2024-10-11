@@ -15,7 +15,6 @@ import com.masreferenceapp.auth.AuthProtectedConfirmation
 import com.masreferenceapp.crypto.CryptoCipher
 import com.masreferenceapp.crypto.CryptoEncryptedFile
 import com.masreferenceapp.crypto.CryptoKeyAttestation
-import com.masreferenceapp.crypto.CryptoKeyStore
 import com.masreferenceapp.crypto.CryptoRandom
 import com.masreferenceapp.platform.PlatformWebView
 import com.masreferenceapp.resilience.ResilienceFileIntegrityManager
@@ -70,7 +69,6 @@ class MyAppPackage : ReactPackage {
         modules.add(AuthKeyguardManager(reactContext))
         modules.add(AuthProtectedConfirmation(reactContext))
 
-        modules.add(CryptoKeyStore(reactContext))
         modules.add(CryptoKeyAttestation(reactContext))
         modules.add(CryptoCipher(reactContext))
         modules.add(CryptoRandom(reactContext))
@@ -96,6 +94,7 @@ class MyAppPackage : ReactPackage {
         modules.add(com.masreferenceapp.platform.PlatformUiDisclosure(reactContext))
         modules.add(com.masreferenceapp.storage.StorageJavaFileIo(reactContext))
         modules.add(com.masreferenceapp.storage.StorageMediaStoreAPI(reactContext))
+        modules.add(com.masreferenceapp.crypto.CryptoKeyGenParameterSpec(reactContext))
         //@modules
 
         return modules
