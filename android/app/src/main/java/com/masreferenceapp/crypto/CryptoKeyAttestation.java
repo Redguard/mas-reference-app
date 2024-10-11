@@ -73,9 +73,9 @@ public class CryptoKeyAttestation extends ReactContextBaseJavaModule {
             StringBuilder chain = new StringBuilder();
 
 
-            for (int i = 0; i < attestationCerts.length; i++) {
+            for (Certificate attestationCert : attestationCerts) {
 
-                chain.append(formatCrtFileContents(attestationCerts[i])).append("\n");
+                chain.append(formatCrtFileContents(attestationCert)).append("\n");
             }
 
             ReturnStatus r = new ReturnStatus("OK", "Certificate Chain: " + chain.substring(0, 100) + "...");
