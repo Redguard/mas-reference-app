@@ -35,24 +35,6 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun standardHTTP(): String {
-        val testDomain = MasSettings.getData("testDomain")
-        val r = ReturnStatus()
-
-        return try {
-            val url = URL("http://$testDomain")
-            val urlConnection = url.openConnection() as HttpURLConnection
-            val response = StringBuilder()
-            urlConnection.disconnect()
-            val r = ReturnStatus("OK", "Connection established. Status code was: " + urlConnection.responseCode)
-            r.toJsonString()
-        } catch (e: Exception) {
-            val r = ReturnStatus("FAIL", e.toString())
-            return r.toJsonString()
-        }
-    }
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
     fun nonStandardHTTP(): String {
         val testDomain = MasSettings.getData("testDomain")
 
@@ -119,7 +101,18 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
         
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun openHTTP(): String {
-        val r = ReturnStatus("OK", "Android code stub.")
+        val testDomain = MasSettings.getData("testDomain")
+        val r = ReturnStatus()
+
+        try {
+            val url = URL("http://$testDomain")
+            val urlConnection = url.openConnection() as HttpURLConnection
+            val response = StringBuilder()
+            urlConnection.disconnect()
+            r.addStatus("OK", "Connection established. Status code was: " + urlConnection.responseCode)
+        } catch (e: Exception) {
+            r.addStatus("FAIL", e.toString())
+        }
         return r.toJsonString()
     }
 

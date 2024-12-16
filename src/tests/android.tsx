@@ -16,15 +16,14 @@ const {
   CryptoCipher,
   CryptoRandom,
   CryptoKeyGenParameterSpec,
+  CryptoSecretKeyFactory,
 
   AuthBiometricManager,
   AuthBiometricPrompt,
-  AuthKeyAccess,
   AuthFingerprintManager,
   AuthKeyguardManager,
   AuthProtectedConfirmation,
 
-  NetworkTlsConfig,
   NetworkTlsPinning,
   NetworkLocalNetwork,
 
@@ -108,7 +107,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           title: 'Write sensitive Data into Sandbox (MODE_PRIVATE)',
           maswe: '006',
           description:
-            "Open a private file associated with this Context's application package for writing. Creates the file if it doesn't already exist. ",
+            'Open a private file associated with this Context\'s application package for writing. Creates the file if it doesn\'t already exist. ',
           nativeFunction: StorageJavaFileIo.writeSensitiveFileSandbox,
         },
         {
@@ -220,7 +219,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'MediaStore API',
       description:
-        "To provide a more enriched user experience, many apps let users contribute and access media that's available on an external storage volume. These files remain outside the apps sandbox and may therefore be accessed from other apps.",
+        'To provide a more enriched user experience, many apps let users contribute and access media that\'s available on an external storage volume. These files remain outside the apps sandbox and may therefore be accessed from other apps.',
       testCases: [
         {
           title: 'Write sensitivie Data to external Document Storage',
@@ -318,21 +317,37 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
+    {
+      title: 'SecretKeyFactory',
+      description:
+        'Key factories are used to convert keys (opaque cryptographic keys of type Key) into key specifications (transparent representations of the underlying key material), and vice versa.',
+      testCases: [
+        {
+          title: 'Use Insecure SecretKeyFactory Algorithms',
+          description: 'Use DES, DESede and PBEWithMD5AndDES as Algorithm.',
+          nativeFunction: CryptoSecretKeyFactory.insecureSecretKeyFactoryAlgorithms,
+        },
+        {
+          title: 'Use Low-Iteration PBKDF2',
+          maswe: '0010',
+          description: 'Use insecure number of iterations when deriving a password using PBKDF2.',
+          nativeFunction: CryptoSecretKeyFactory.lowIterationPBKDF2,
+        },
+      ],
+    },
     {
       title: 'Key Attestation',
       description:
-        "Key Attestation gives you more confidence that the keys you use in your app are stored in a device's hardware-backed keystore. The following sections describe how to verify the properties of hardware-backed keys and how to interpret the attestation certificates' extension data. ",
+        'Key Attestation gives you more confidence that the keys you use in your app are stored in a device\'s hardware-backed keystore. The following sections describe how to verify the properties of hardware-backed keys and how to interpret the attestation certificates\' extension data.',
       testCases: [
         {
           title: 'Get Certificate Chain',
           description:
-            "Use a KeyStore object's getCertificateChain() method to get a reference to the chain of X.509 certificates associated with the hardware-backed keystore.",
+            'Use a KeyStore object\'s getCertificateChain() method to get a reference to the chain of X.509 certificates associated with the hardware-backed keystore.',
           nativeFunction: CryptoKeyAttestation.getCertificateChain,
         },
       ],
-    },
-
+    },    
     {
       title: 'Cipher',
       description:
@@ -368,8 +383,15 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Password-Based Ciphers with Zero-IV',
           description:
-            "Password-based encryption (PBE) ciphers that require an initialization vector (IV) can obtain it from the key, if it's suitably constructed, or from an explicitly passed IV. If you pass a PBE key that doesn't contain an IV and don't pass an explicit IV, the PBE ciphers on Android currently assume an IV of zero.",
+            'Password-based encryption (PBE) ciphers that require an initialization vector (IV) can obtain it from the key, if it\'s suitably constructed, or from an explicitly passed IV. If you pass a PBE key that doesn\'t contain an IV and don\'t pass an explicit IV, the PBE ciphers on Android currently assume an IV of zero.',
           nativeFunction: CryptoCipher.pbeCipherZeroIV,
+        },
+        {
+          title: 'Null-IV',
+          maswe:'0022',
+          description:
+            'The use of predictable IVs (hardcoded, null, reused) in a security sensitive context can weaken data encryption strength and potentially compromise confidentiality.',
+          nativeFunction: CryptoCipher.nullIv,
         },
       ],
     },
@@ -411,34 +433,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     // Define your Android-specific crypto test cases here
   ],
 
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-
   AUTH: [
-
-
-    {
-      title: 'Acess to KeyStore',
-      description: 'BLA',
-      testCases: [
-          // add tests for : 
-          //    Not Defining Key Validity Period
-          //    7. Allowing Key Export
-          //4. Omitting User Authentication
-
-      ],
-    },
-
-
 
     {
       title: 'BiometricManager',
@@ -466,7 +461,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'BiometricPrompt',
       description:
-        "A class that manages a system-provided biometric prompt. On devices running Android 9.0 (API 28) and above, this will show a system-provided authentication prompt, using one of the device's supported biometric modalities (fingerprint, iris, face, etc). Prior to Android 9.0, this will instead show a custom fingerprint authentication dialog. The prompt will persist across configuration changes unless explicitly canceled. For security reasons, the prompt will be dismissed when the client application is no longer in the foreground. ",
+        'A class that manages a system-provided biometric prompt. On devices running Android 9.0 (API 28) and above, this will show a system-provided authentication prompt, using one of the device\'s supported biometric modalities (fingerprint, iris, face, etc). Prior to Android 9.0, this will instead show a custom fingerprint authentication dialog. The prompt will persist across configuration changes unless explicitly canceled. For security reasons, the prompt will be dismissed when the client application is no longer in the foreground.',
       testCases: [
         {
           title: 'Create a Simple Prompt',
@@ -475,42 +470,8 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
         {
           title: 'Create Device PIN Only Prompt',
-          description: 'Create a Prompt only for PINs.',
+          description: 'Create a Prompt only for PINs. This can method of authentcation can usually be bypassed easily.',
           nativeFunction: AuthBiometricPrompt.devicePinOnlyPrompt,
-        },
-        // {
-        //   title: 'Create a Crypto Object Prompt',
-        //   description: 'Unlocks a key which requires biometric authentication',
-        //   nativeFunction: AuthBiometricPrompt.cryptoOperationPrompt,
-        // },
-      ],
-    },
-
-
-
-
-    {
-      title: 'Acccess To Keys',
-      description:
-        'These Tests create Keys setUserAuthenticationRequired set to true.',
-      testCases: [
-        {
-          title: 'Device Auth Required',
-          description:
-            'Creates a new key wich requires a device authentication such as PIN, Password or Pattern.',
-          nativeFunction: AuthKeyAccess.deviceCredentialsRequired,
-        },
-        {
-          title: 'Biometric Auth Required',
-          description:
-            'Creates a new key wich requires a strong biometric authentication.',
-          nativeFunction: AuthKeyAccess.biometryRequired,
-        },
-        {
-          title: 'Long Key Validity',
-          description:
-            'Creates a new key wich setUserAuthenticationRequired is set to true, but it has a very long validity.',
-          nativeFunction: AuthKeyAccess.longValidity,
         },
       ],
     },
@@ -522,19 +483,18 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Query Fingerprint Hardware',
+          description: 'Ask the device if fingerprint hardware is available.',
           nativeFunction: AuthFingerprintManager.isHardwareDetected,
         },
         {
           title: 'Query Fingerprints',
+          description: 'Ask the device if fingerprints are enrolled.',
           nativeFunction: AuthFingerprintManager.hasEnrolledFingerprints,
         },
         {
           title: 'Simple Authenticate',
+          description: 'Does a simple fingerpint auht. Not considered secure because it is easily bypassable. Better use biomentry protected CryptoObjects. ',
           nativeFunction: AuthFingerprintManager.authenticateSimple,
-        },
-        {
-          title: 'Crypto Object Authenticate',
-          nativeFunction: AuthFingerprintManager.authenticateCryptoObject,
         },
       ],
     },
@@ -561,6 +521,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
         {
           title: 'Disable KeyguardLock',
+          description: 'Tries to disable Keyguard Lock.',
           nativeFunction: AuthKeyguardManager.disableKeyguardLock,
         },
         {
@@ -573,7 +534,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Android Protected Confirmation',
       description:
-        "Android Protected Confirmation doesn't provide a secure information channel for the user. Data shown here should not be more sensitivie than shown in other places within the app.",
+        'Android Protected Confirmation doesn\'t provide a secure information channel for the user. Data shown here should not be more sensitivie than shown in other places within the app.',
       testCases: [
         {
           title: 'Create Protected Confirmation',
@@ -583,35 +544,27 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       ],
     },
 
-    // Define your Android-specific authentication test cases here
   ],
-  NETWORK: [
-    {
-      title: 'TLS Client Settings',
-      description:
-        'These tests change the default TLS client configuration. They can result in insecure settings.',
-      testCases: [
-        {
-          title: 'Use Old TLS-Protocol',
-          nativeFunction: NetworkTlsConfig.oldTlsConfig,
-        },
-        {
-          title: 'Use Insecure Cipher-Suites',
-          description:
-            'These tests configure the client to use insecure cipher suites, such as ones with insecure algorithms or disabled forward secrecy-property.',
-          nativeFunction: NetworkTlsConfig.insecureCipherSuties,
-        },
-        {
-          title: 'TLS Client-Certifitates',
-          nativeFunction: NetworkTlsConfig.clientCertificate,
-        },
-      ],
-    },
 
+
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+    ////////////////////REFACTOR///////////////////////
+
+
+  NETWORK: [
     {
       title: 'TLS Pinning',
       description:
-        "By hardcoding or 'pinning' specific TLS certificates or public keys within the application's code, TLS pinning ensures that only trusted servers are communicated with, preventing attackers from intercepting and tampering with sensitive data exchanged between the mobile app and the server.  These tests implement this.",
+        'By hardcoding or \'pinning\' specific TLS certificates or public keys within the application\'s code, TLS pinning ensures that only trusted servers are communicated with, preventing attackers from intercepting and tampering with sensitive data exchanged between the mobile app and the server.  These tests implement this.',
       testCases: [
         {
           title: 'Use Custom TrustStore',
@@ -634,7 +587,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Local Network',
       description:
-        "By hardcoding or 'pinning' specific TLS certificates or public keys within the application's code, TLS pinning ensures that only trusted servers are communicated with, preventing attackers from intercepting and tampering with sensitive data exchanged between the mobile app and the server.  These tests implement this.",
+        'By hardcoding or \'pinning\' specific TLS certificates or public keys within the application\'s code, TLS pinning ensures that only trusted servers are communicated with, preventing attackers from intercepting and tampering with sensitive data exchanged between the mobile app and the server.  These tests implement this.',
       testCases: [
         {
           title: 'Access Local Network',
@@ -815,7 +768,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         // {
         //   title: 'setupFsVerity',
         //   description:
-        //     "Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ",
+        //     'Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ',
         //   nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
         // },
       ],
@@ -828,7 +781,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         // {
         //   title: 'setupFsVerity',
         //   description:
-        //     "Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ",
+        //     'Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ',
         //   nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
         // },
       ],
@@ -841,7 +794,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'setupFsVerity',
           description:
-            "Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ",
+            'Enables fs-verity to the owned file under the calling app\'s private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ',
           nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
         },
       ],

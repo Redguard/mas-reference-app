@@ -56,8 +56,6 @@ public class AuthProtectedConfirmation extends ReactContextBaseJavaModule {
         }
     }
 
-
-
     ReactApplicationContext context;
 
     public AuthProtectedConfirmation(ReactApplicationContext context) {
@@ -81,7 +79,7 @@ public class AuthProtectedConfirmation extends ReactContextBaseJavaModule {
             Executor threadReceivingCallback = Runnable::run;
             MyConfirmationCallback callback = new MyConfirmationCallback();
             ConfirmationPrompt dialog = (new ConfirmationPrompt.Builder(context))
-                    .setPromptText("${myDialogData.sender}, send ${myDialogData.amount} to ${myDialogData.receiver}?")
+                    .setPromptText(myDialogData.sender +", send " + myDialogData.amount + " to "  + myDialogData.receiver + "?")
                     .setExtraData(myExtraData)
                     .build();
             dialog.presentPrompt(threadReceivingCallback, callback);

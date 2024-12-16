@@ -29,7 +29,12 @@ public class AuthBiometricManager extends ReactContextBaseJavaModule {
         BiometricManager bm = BiometricManager.from(context);
         int canAuth = bm.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG);
 
-        ReturnStatus r = new ReturnStatus("OK", "Value of canAuth: " + canAuth);
+        String test = "False";
+        if (canAuth == 0){
+            test = "True";
+        }
+
+        ReturnStatus r = new ReturnStatus("OK", "Can device strong auth (Class 3)?: " + test);
         return r.toJsonString();
     }
 
@@ -38,15 +43,25 @@ public class AuthBiometricManager extends ReactContextBaseJavaModule {
         BiometricManager bm = BiometricManager.from(context);
         int canAuth = bm.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK);
 
-        ReturnStatus r = new ReturnStatus("OK", "Value of canAuth: " + canAuth);
+        String test = "False";
+        if (canAuth == 0){
+            test = "True";
+        }
+
+        ReturnStatus r = new ReturnStatus("OK", "Can device weak auth (Class 2)?:  " + test);
         return r.toJsonString();    }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String testDeviceCrerdentialsAuth(){
+    public String testDeviceCredentialsAuth(){
         BiometricManager bm = BiometricManager.from(context);
         int canAuth = bm.canAuthenticate(BiometricManager.Authenticators.DEVICE_CREDENTIAL);
 
-        ReturnStatus r = new ReturnStatus("OK", "Value of canAuth: " + canAuth);
+        String test = "False";
+        if (canAuth == 0){
+            test = "True";
+        }
+
+        ReturnStatus r = new ReturnStatus("OK", "Can non-biometric credential be used to secure the device?: " + test);
         return r.toJsonString();
     }
 }
