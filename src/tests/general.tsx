@@ -2,11 +2,15 @@ import {NativeModules} from 'react-native';
 import {TestCases} from '../appContent';
 const {
   StorageLog,
-  StorageHardcodedSecret,
+  StorageHardcodedApiKey,
 
   NetworkUnencrypted,
 
   ResilienceVerifySignature,
+
+  NetworkTlsConfig,
+
+  CryptoHardcodedSecret,
 
   PrivacyAccessData,
 } = NativeModules;
@@ -47,26 +51,14 @@ export var generalTestCases: Dictionary<TestCases[]> = {
     },
 
     {
-      title: 'Hardcoded Secrets',
+      title: 'Hardcoded API Keys',
       maswe: '0005',
       description:
-        'Sensitive data, including cryptographic keys and authentication material, hardcoded in the app package, source code, or compiled binaries, poses significant security risks, as attackers can easily extract this data through reverse engineering. These test simulate sensitve date within code and stored within the binary as embedded files.',
+        'API keys hardcoded in the app package, source code, or compiled binaries, can be easily extracted through reverse engineering.',
       testCases: [
         {
-          title: 'Hardcoded Local Private Key',
-          nativeFunction: StorageHardcodedSecret.privateLocalKeys,
-        },
-        {
-          title: 'Hardcoded Embedded Private Key',
-          nativeFunction: StorageHardcodedSecret.privateEmbeddedKeys,
-        },
-        {
           title: 'Hardcoded API Keys',
-          nativeFunction: StorageHardcodedSecret.apiKeys,
-        },
-        {
-          title: 'Hardcoded Passwords',
-          nativeFunction: StorageHardcodedSecret.passwords,
+          nativeFunction: StorageHardcodedApiKey.apiKeys,
         },
       ],
     },
@@ -86,7 +78,26 @@ export var generalTestCases: Dictionary<TestCases[]> = {
     // Define your general storage test cases here
   ],
   CRYPTO: [
-    // Define your general crypto test cases here
+    {
+      title: 'Hardcoded Crytographic Keys',
+      maswe: '0014',
+      description:
+        'This weakness involves storing cryptographic keys in insecure locations, such as unencrypted SharedPreferences, unprotected files, hardcoding them within the application code, or including them in source control and versioning systems which may end in the final application package in production.',
+      testCases: [
+        {
+          title: 'Hardcoded Local Asymmetric Private Key',
+          nativeFunction: CryptoHardcodedSecret.privateLocalKeys,
+        },
+        {
+          title: 'Hardcoded Embedded Asymmetric Private Key',
+          nativeFunction: CryptoHardcodedSecret.privateEmbeddedKeys,
+        },
+        {
+          title: 'Hardcoded Symmetric Key',
+          nativeFunction: CryptoHardcodedSecret.passwords,
+        },
+      ],
+    },
   ],
   AUTH: [
     // Define your general authentication test cases here
@@ -100,25 +111,43 @@ export var generalTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Resolve Domainname',
-          description: 'Resolve domainname using DNS',
+          description: 'Resolve domainname using plaintext DNS',
           nativeFunction: NetworkUnencrypted.resolveDns,
         },
         {
-          title: 'Open Standard HTTP Connection',
-          description: 'Opens a standard HTTP connection.',
-          nativeFunction: NetworkUnencrypted.openHTTP,
-        },
-        {
-          title: 'Send sensitve Data using HTTP',
+          title: 'Send sensitive Data using HTTP',
           nativeFunction: NetworkUnencrypted.sendHTTP,
         },
         {
-          title: 'Send sensitve Data usign TCP',
+          title: 'Send plaintext Data using raw TCP',
           nativeFunction: NetworkUnencrypted.rawTcp,
         },
         {
-          title: 'Send sensitve Data using UDP',
+          title: 'Send plaintext Data using raw UDP',
           nativeFunction: NetworkUnencrypted.rawUdp,
+        },
+      ],
+    },
+    {
+      title: 'TLS Client Settings',
+      description:
+        'These tests change the default TLS client configuration. They can result in insecure settings.',
+      testCases: [
+        {
+          title: 'Use Old TLS-Protocol',
+          nativeFunction: NetworkTlsConfig.oldTlsConfig,
+        },
+        {
+          title: 'Use Insecure Cipher-Suites',
+          description:
+            'These tests configure the client to use insecure cipher suites, such as ones with insecure algorithms or disabled forward secrecy-property.',
+          nativeFunction: NetworkTlsConfig.insecureCipherSuties,
+        },
+        {
+          title: 'Usage of TLS Client Certifitates',
+          description:
+            'The fact, that a TLS client certificate are used, may mean, that the app contians the private keys hard coded.',
+          nativeFunction: NetworkTlsConfig.clientCertificate,
         },
       ],
     },

@@ -249,6 +249,19 @@ public class CryptoCipher extends ReactContextBaseJavaModule {
     }
 
 
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String nullIv(){
+
+        // Use a NULL IV (all zeros)
+        byte[] nullIV = new byte[16]; // 16 bytes for AES block size
+        IvParameterSpec ivSpec = new IvParameterSpec(nullIV);
+
+        ReturnStatus r = new ReturnStatus();
+        r.addStatus("OK", "Created a IV with all nulls." );
+
+        return r.toJsonString();
+    }
+
 
 //    @ReactMethod(isBlockingSynchronousMethod = true)
 //    public String encrypt(){

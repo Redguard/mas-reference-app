@@ -9,7 +9,6 @@ import com.facebook.react.uimanager.ViewManager
 import com.masreferenceapp.auth.AuthBiometricManager
 import com.masreferenceapp.auth.AuthBiometricPrompt
 import com.masreferenceapp.auth.AuthFingerprintManager
-import com.masreferenceapp.auth.AuthKeyAccess
 import com.masreferenceapp.auth.AuthKeyguardManager
 import com.masreferenceapp.auth.AuthProtectedConfirmation
 import com.masreferenceapp.crypto.CryptoCipher
@@ -36,7 +35,7 @@ import com.masreferenceapp.storage.StorageLog
 import com.masreferenceapp.storage.StorageRoomDatabase
 import com.masreferenceapp.storage.StorageSQLite
 import com.masreferenceapp.storage.StorageSharedPreferences
-import com.masreferenceapp.storage.StorageHardcodedSecret
+import com.masreferenceapp.storage.StorageHardcodedApiKey
 
 class MyAppPackage : ReactPackage {
 
@@ -59,12 +58,10 @@ class MyAppPackage : ReactPackage {
         modules.add(StorageExternalStorage(reactContext))
         modules.add(StorageRoomDatabase(reactContext))
         modules.add(StorageSQLite(reactContext))
-        modules.add(StorageHardcodedSecret(reactContext))
-
+        modules.add(StorageHardcodedApiKey(reactContext))
 
         modules.add(AuthBiometricManager(reactContext))
         modules.add(AuthBiometricPrompt(reactContext))
-        modules.add(AuthKeyAccess(reactContext))
         modules.add(AuthFingerprintManager(reactContext))
         modules.add(AuthKeyguardManager(reactContext))
         modules.add(AuthProtectedConfirmation(reactContext))
@@ -95,6 +92,8 @@ class MyAppPackage : ReactPackage {
         modules.add(com.masreferenceapp.storage.StorageJavaFileIo(reactContext))
         modules.add(com.masreferenceapp.storage.StorageMediaStoreAPI(reactContext))
         modules.add(com.masreferenceapp.crypto.CryptoKeyGenParameterSpec(reactContext))
+        modules.add(com.masreferenceapp.crypto.CryptoSecretKeyFactory(reactContext))
+        modules.add(com.masreferenceapp.crypto.CryptoHardcodedSecret(reactContext))
         //@modules
 
         return modules
