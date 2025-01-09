@@ -17,12 +17,14 @@ const {
   CryptoRandom,
   CryptoKeyGenParameterSpec,
   CryptoSecretKeyFactory,
+  CryptoDeprecated,
 
   AuthBiometricManager,
   AuthBiometricPrompt,
   AuthFingerprintManager,
   AuthKeyguardManager,
   AuthProtectedConfirmation,
+  AuthHttpBasicAuth,
 
   NetworkTlsPinning,
   NetworkLocalNetwork,
@@ -31,9 +33,18 @@ const {
   PlatformIpc,
   PlatformUiDisclosure,
 
+  CodeUpdate,
+  CodeDependencies,
+  CodeInsecureSoftware,
+
   ResilienceFileIntegrityManager,
   ResilienceAntiDebug,
   ResilienceAntiVm,
+  ResiliencObfuscation,
+  ResilienceDynamicAnalysisDetechion,
+  ResilienceRootDetection,
+
+
 } = NativeModules;
 
 interface Dictionary<Type> {
@@ -228,9 +239,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-    // Define your Android-specific storage test cases here
   ],
-
   CRYPTO: [
     {
       title: 'KeyGenParameterSpec',
@@ -430,11 +439,28 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+    {
+      title: 'Deprected Implementation',
+      description:
+        'The usage of deprecated cryptographic implementation can intoduce risks.',
+      testCases: [
+        {
+          title: 'Load BouncyCastle using SecurityProvider',
+          description:
+            'BouncyCastle (or SpongyCastle) is deprecated and shoudl be avoided.',
+          nativeFunction: CryptoDeprecated.bouncyCastleProvider,
+        },
+        {
+          title: 'Direct usage of BouncyCastle',
+          description:
+            'BouncyCastle (or SpongyCastle) is deprecated and shoudl be avoided.',
+          nativeFunction: CryptoDeprecated.bouncyCastleDirect,
+        },
+      ],
+    },   
     // Define your Android-specific crypto test cases here
   ],
-
   AUTH: [
-
     {
       title: 'BiometricManager',
       description:
@@ -530,7 +556,6 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
     {
       title: 'Android Protected Confirmation',
       description:
@@ -543,23 +568,24 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
+    {
+      title: 'HTTP Basic Authentication',
+      description:
+        'The usage of HTTP Basic Authentication is not recommended anymore, since it comes with some inherint security flaws.',
+      testCases: [
+        {
+          title: 'java.net',
+          description: 'Using java.net with HTTP Basic Authentication.',
+          nativeFunction: AuthHttpBasicAuth.javaNet,
+        },
+        {
+          title: 'WebView',
+          description: 'Using WebView with HTTP Basic Authentication.',
+          nativeFunction: AuthHttpBasicAuth.webView,
+        },
+      ],
+    },
   ],
-
-
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-
-
   NETWORK: [
     {
       title: 'TLS Pinning',
@@ -645,6 +671,16 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           description: '',
           nativeFunction: PlatformIpc.deepLinks,
         },
+        {
+          title: 'Listen on Localhost',
+          description: '',
+          nativeFunction: PlatformIpc.listenLocalhost,
+        },
+        {
+          title: 'Send Data to Localhost',
+          description: '',
+          nativeFunction: PlatformIpc.sendlocalhost,
+        },
       ],
     },
     {
@@ -692,6 +728,11 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           description: '',
           nativeFunction: PlatformWebView.allowMixedContent,
         },
+        {
+          title: 'Enabel Remote Web Content Debugging',
+          description: '',
+          nativeFunction: PlatformWebView.remoteDebugging,
+        },
       ],
     },
     {
@@ -705,10 +746,16 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: PlatformUiDisclosure.loadLocalResource,
         },
         {
-          title: 'sensitivie Data in Notifications',
+          title: 'Sensitivie Data in Notifications',
           description:
             'This test uses noitifications to display sensitive data.',
           nativeFunction: PlatformUiDisclosure.sensitivieDataNotifications,
+        },
+        {
+          title: 'Prohibit Screenshot',
+          description:
+            'This test creates an activity of which the user cannot take a screenshot.',
+          nativeFunction: PlatformUiDisclosure.prohibitScreenshot,
         },
       ],
     },
@@ -716,8 +763,79 @@ export var androidTestCases: Dictionary<TestCases[]> = {
   ],
   CODE: [
     // Define your Android-specific code-related test cases here
+    {
+      title: 'Current Software Version',
+      description:
+        'Check if the app enforces updates e.g. via AppUpdateManager on Android. However, the backend would be enforcing this and not only the app locally.',
+      testCases: [
+        {
+          title: 'Check if App Update is availabe',
+          description: 'Use AppUpdateManager.getAppUpdateInfo to query, if there is a new version available.',
+          nativeFunction: CodeUpdate.checkUpdateAvailable,
+        },
+        {
+          title: 'Check OS Version',
+          description: 'Checks the OS SDK Version in order to spot an insecure plattform.',
+          nativeFunction: CodeUpdate.checkOs,
+        },
+      ],
+    },
+    {
+      title: 'Insecure Dependency',
+      description:
+        'Insecure dependencies can introduce vulnerabilities into the app.',
+      testCases: [
+        {
+          title: 'Vulnerable Native SDK',
+          description: 'Test Case which uses insecure native SKD function.',
+          nativeFunction: CodeDependencies.vulnerableNativeSDK,
+        },
+        {
+          title: 'Vulnerable Web SDK',
+          description: 'Test Case which uses insecure web SKD function.',
+          nativeFunction: CodeDependencies.vulnerableWebSDK,
+        },
+      ],
+    },
+    {
+      title: 'Insecure Software',
+      description:
+        'These use case implement common software vulnerabilities which put the app at risk.',
+      testCases: [
+        {
+          title: 'SQL Injection',
+          description: 'This uses case implements an insecure SQL query with an injection point.',
+          nativeFunction: CodeInsecureSoftware.sqlInjection,
+        },
+        {
+          title: 'XML External Entity ',
+          description: 'This uses case implements an insecure XEE vulnerability.',
+          nativeFunction: CodeInsecureSoftware.XmlExternalEntity,
+        },
+        {
+          title: 'Insecure Java Deserialisation',
+          description: 'This uses case implements an insecure Java Deserialisation.',
+          nativeFunction: CodeInsecureSoftware.insecureDeserialisation,
+        },
+      ],
+    },
   ],
   RESILIENCE: [
+    {
+      title: 'Obfuscation',
+      description:
+        'Obfuscation can increase the amount of work attackers have to put into reverse-engineering or attacking the app. It therefore may be used alongside other seucre development techniques in order to better protect sensitve parts of the app.',
+      testCases: [
+        {
+          title: 'Obfuscated Android Class',
+          nativeFunction: ResiliencObfuscation.obfuscatedAndroidClass,
+        },
+        {
+          title: 'Native Library whit Debug Symbols',
+          nativeFunction: ResiliencObfuscation.nativeDebugSymbols,
+        },
+      ],
+    },
     {
       title: 'Anti-Debug',
       description:
@@ -755,8 +873,34 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: ResilienceAntiVm.getInstallerPackageName,
         },
         {
-          title: 'Get Sendor',
+          title: 'Get Sensor',
           nativeFunction: ResilienceAntiVm.getSensor,
+        },
+      ],
+    },
+    {
+      title: 'Simple Root Detection',
+      description:
+        'The app uses common root detection libraries in order to do a simple root detection check.',
+      testCases: [
+        {
+          title: 'RootBeer Check',
+          description:
+            'Use the RootBeer Library to do the check.',
+          nativeFunction: ResilienceRootDetection.rootBeer,
+        },
+      ],
+    },
+    {
+      title: 'Simple Dynamic Analysis Tools Detection',
+      description:
+        'The app uses common Dynamic Analysis Tools Detection detection libraries in order to do a simple check if tools are avilable.',
+      testCases: [
+        {
+          title: 'DetectFrida Check',
+          description:
+            'Use the DetectFrida Library to do the check.',
+          nativeFunction: ResilienceDynamicAnalysisDetechion.detectFrida,
         },
       ],
     },

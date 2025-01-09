@@ -1,4 +1,4 @@
-package com.masreferenceapp.code
+package com.masreferenceapp.privacy
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -7,22 +7,16 @@ import com.masreferenceapp.ReturnStatus
 
 
 
-class CodeUpdate(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
+class PrivacyAccessGeolocation(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
     context
 ) {
     override fun getName(): String {
-        return "CodeUpdate"
-    }
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun checkUpdateAvailable(): String {
-        val r = ReturnStatus("OK", "Android code stub.")
-        return r.toJsonString()
+        return "PrivacyAccessGeolocation"
     }
 
         
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun checkOs(): String {
+    fun getGeolocation(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }

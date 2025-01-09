@@ -13,6 +13,7 @@ import com.masreferenceapp.platform.helpers.WebViewJavaScriptBridge
 class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
     private val localWebViewDomain = "file:///android_asset/masTestPage.html"
     private val localWebViewJavaScriptBridge = "file:///android_asset/masJavaScriptBridge.html"
+
     override fun getName(): String {
         return "PlatformWebView"
     }
@@ -112,4 +113,15 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
             "MixedContent allowed. URL of the WebView: " + wv.url
         ).toJsonString()
     }
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun remoteDebugging(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
+    //@method
+
+
 }

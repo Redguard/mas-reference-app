@@ -35,5 +35,12 @@ class PlatformUiDisclosure(var context: ReactApplicationContext) : ReactContextB
         return r.toJsonString()
     }
 
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun prohibitScreenshot(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
     //@method
 }
