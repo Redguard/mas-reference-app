@@ -1,4 +1,4 @@
-package com.masreferenceapp.code
+package com.masreferenceapp.privacy
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -7,22 +7,23 @@ import com.masreferenceapp.ReturnStatus
 
 
 
-class CodeUpdate(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
+class PrivacySMS(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
     context
 ) {
     override fun getName(): String {
-        return "CodeUpdate"
+        return "PrivacySMS"
     }
 
+        
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun checkUpdateAvailable(): String {
+    fun getSMS(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }
 
         
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun checkOs(): String {
+    fun sendSMS(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }

@@ -94,6 +94,18 @@ class MyAppPackage : ReactPackage {
         modules.add(com.masreferenceapp.crypto.CryptoKeyGenParameterSpec(reactContext))
         modules.add(com.masreferenceapp.crypto.CryptoSecretKeyFactory(reactContext))
         modules.add(com.masreferenceapp.crypto.CryptoHardcodedSecret(reactContext))
+        modules.add(com.masreferenceapp.crypto.CryptoDeprecated(reactContext))
+        modules.add(com.masreferenceapp.auth.AuthHttpBasicAuth(reactContext))
+
+        modules.add(com.masreferenceapp.code.CodeUpdate(reactContext))
+        modules.add(com.masreferenceapp.code.CodeDependencies(reactContext))
+        modules.add(com.masreferenceapp.code.CodeInsecureSoftware(reactContext))
+        modules.add(com.masreferenceapp.resilience.ResiliencObfuscation(reactContext))
+        modules.add(com.masreferenceapp.resilience.ResilienceDynamicAnalysisDetechion(reactContext))
+        modules.add(com.masreferenceapp.resilience.ResilienceRootDetection(reactContext))
+        modules.add(com.masreferenceapp.privacy.PrivacyAccessGeolocation(reactContext))
+        modules.add(com.masreferenceapp.privacy.PrivacySMS(reactContext))
+        modules.add(com.masreferenceapp.privacy.PrivacyMarketingUUID(reactContext))
         //@modules
 
         return modules

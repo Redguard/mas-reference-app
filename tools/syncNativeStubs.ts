@@ -107,8 +107,6 @@ function createClass(masDomain:string, classname:string, target:string){
       console.log('[+] Created new Kotlin Class: ' + kotlinClass);
     }
   }
-
-
 }
 
 

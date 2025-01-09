@@ -12,6 +12,9 @@ const {
 
   CryptoHardcodedSecret,
 
+  PrivacySMS,
+  PrivacyAccessGeolocation,
+  PrivacyMarketingUUID,
   PrivacyAccessData,
 } = NativeModules;
 
@@ -62,19 +65,6 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-    ////////////////////REFACTOR///////////////////////
-
     // Define your general storage test cases here
   ],
   CRYPTO: [
@@ -126,6 +116,10 @@ export var generalTestCases: Dictionary<TestCases[]> = {
           title: 'Send plaintext Data using raw UDP',
           nativeFunction: NetworkUnencrypted.rawUdp,
         },
+        {
+          title: 'Send plaintext Data using RTP',
+          nativeFunction: NetworkUnencrypted.rtp,
+        },
       ],
     },
     {
@@ -149,13 +143,17 @@ export var generalTestCases: Dictionary<TestCases[]> = {
             'The fact, that a TLS client certificate are used, may mean, that the app contians the private keys hard coded.',
           nativeFunction: NetworkTlsConfig.clientCertificate,
         },
+        {
+          title: 'Accept Bad TLS Servers',
+          description:
+            'Use BadSSL as TLS Server. The Client should not accept the connections.',
+          nativeFunction: NetworkTlsConfig.acceptBadTLS,
+        },
       ],
     },
     // Define your general network test cases here
   ],
-  PLATFORM: [
-    // Define your general platform-related test cases here
-  ],
+  PLATFORM: [],
   CODE: [
     // Define your general code-related test cases here
   ],
@@ -176,14 +174,15 @@ export var generalTestCases: Dictionary<TestCases[]> = {
   PRIVACY: [
     {
       title: 'Access Phone Data',
-      description: 'e.G. Calendar, Contacts,',
+      description:
+        'Access to private data may raise concerns about app privay. Furhtermore, if the app is given the permission to access private data, SDK may also be able to access them in bulk. It is therefore vital to understand what data the app access it during runtime.',
       testCases: [
         {
           title: 'Get Contacts',
           nativeFunction: PrivacyAccessData.getContacts,
         },
         {
-          title: 'Store senstive Date in Contacts',
+          title: 'Store senstive Data in Contacts',
           nativeFunction: PrivacyAccessData.writeContacts,
         },
         {
@@ -191,24 +190,44 @@ export var generalTestCases: Dictionary<TestCases[]> = {
           nativeFunction: PrivacyAccessData.getCalendarEvent,
         },
         {
-          title: 'Store senstive Date in Calendar Event',
+          title: 'Store senstive Data in Calendar Event',
           nativeFunction: PrivacyAccessData.writeCalendarEvent,
         },
-        // {
-        //   title: 'Get WIFI',
-        //   nativeFunction: PrivacyAccessData.getWifi,
-        // },
       ],
     },
     {
       title: 'Access Geolocation',
       description: '',
-      testCases: [],
+      testCases: [
+        {
+          title: 'Get Geolocation',
+          nativeFunction: PrivacyAccessGeolocation.getGeolocation,
+        },
+      ],
     },
     {
       title: 'SMS',
       description: '',
-      testCases: [],
+      testCases: [
+        {
+          title: 'Get SMS',
+          nativeFunction: PrivacySMS.getSMS,
+        },
+        {
+          title: 'Send SMS',
+          nativeFunction: PrivacySMS.sendSMS,
+        },
+      ],
+    },
+    {
+      title: 'Marketing UUID',
+      description: '',
+      testCases: [
+        {
+          title: 'Get UUID',
+          nativeFunction: PrivacyMarketingUUID.getUUID,
+        },
+      ],
     },
     // Define your general privacy-related test cases here
   ],

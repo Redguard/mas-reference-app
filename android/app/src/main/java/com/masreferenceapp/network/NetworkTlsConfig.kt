@@ -101,4 +101,14 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
         val r = ReturnStatus("OK", "Android code stub")
         return r.toJsonString()
     }
+
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun acceptBadTLS(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
+    //@method
+
 }
