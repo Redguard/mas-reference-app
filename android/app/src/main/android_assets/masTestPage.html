@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test HTML Document with a JavaScript Bridge</title>
+    <title>Test HTML Document</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,19 +23,8 @@
             color: #333;
         }
     </style>
-
-    <script type="text/javascript">
-        function sendDataToAndroid() {
-           javascriptBridge.customJsBridge("Hello from the JavaScript Sandbox.");
-        }
-
-        function receiveCallFromAndroid() {
-           return "This is the Sandbox responding";
-        }
-    </script>
 </head>
-
-<body onload="sendDataToAndroid()">
+<body>
 <div class="container">
     <h1>Test HTML Document for the MAS Reference App</h1>
     <p>This is a simple HTML document for testing purposes.</p>
