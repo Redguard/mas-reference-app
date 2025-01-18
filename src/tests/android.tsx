@@ -18,6 +18,7 @@ const {
   CryptoKeyGenParameterSpec,
   CryptoSecretKeyFactory,
   CryptoDeprecated,
+  CryptoKeyInfo,
 
   AuthBiometricManager,
   AuthBiometricPrompt,
@@ -327,6 +328,25 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       ],
     },
     {
+      title: 'KeyInfo',
+      description:
+        'KeyInfo Object can be used to verify key attributes. ',
+      testCases: [
+        {
+          title: 'Get Security Level',
+          description:
+            'Get information about where a Key is stored.',
+          nativeFunction: CryptoKeyInfo.getSecurityLevel,
+        },
+        {
+          title: 'Use isInsideSecureHardware (deprecated)',
+          description:
+            'Get information about where the key is stored.',
+          nativeFunction: CryptoKeyInfo.isInsideSecureHardware,
+        },
+      ],
+    },   
+    {
       title: 'SecretKeyFactory',
       description:
         'Key factories are used to convert keys (opaque cryptographic keys of type Key) into key specifications (transparent representations of the underlying key material), and vice versa.',
@@ -490,9 +510,14 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'A class that manages a system-provided biometric prompt. On devices running Android 9.0 (API 28) and above, this will show a system-provided authentication prompt, using one of the device\'s supported biometric modalities (fingerprint, iris, face, etc). Prior to Android 9.0, this will instead show a custom fingerprint authentication dialog. The prompt will persist across configuration changes unless explicitly canceled. For security reasons, the prompt will be dismissed when the client application is no longer in the foreground.',
       testCases: [
         {
-          title: 'Create a Simple Prompt',
+          title: 'Create a Simple Biometry Prompt',
           description: 'Simply requires biometric authentication. This can method of authentcation can usually be bypassed easily.',
           nativeFunction: AuthBiometricPrompt.simplePrompt,
+        },
+        {
+          title: 'Create a Biometry Prompt to access a CryptoObject',
+          description: 'Access a crypto object using biometry.',
+          nativeFunction: AuthBiometricPrompt.cryptoOperationPrompt,
         },
         {
           title: 'Create Device PIN Only Prompt',

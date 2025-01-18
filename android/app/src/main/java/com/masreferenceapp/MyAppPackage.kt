@@ -106,6 +106,7 @@ class MyAppPackage : ReactPackage {
         modules.add(com.masreferenceapp.privacy.PrivacyAccessGeolocation(reactContext))
         modules.add(com.masreferenceapp.privacy.PrivacySMS(reactContext))
         modules.add(com.masreferenceapp.privacy.PrivacyMarketingUUID(reactContext))
+        modules.add(com.masreferenceapp.crypto.CryptoKeyInfo(reactContext))
         //@modules
 
         return modules
