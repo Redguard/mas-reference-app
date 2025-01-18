@@ -113,11 +113,11 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
             "MixedContent allowed. URL of the WebView: " + wv.url
         ).toJsonString()
     }
-
         
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun remoteDebugging(): String {
-        val r = ReturnStatus("OK", "Android code stub.")
+        WebView.setWebContentsDebuggingEnabled(true);
+        val r = ReturnStatus("OK", "WebView set to debuggable.")
         return r.toJsonString()
     }
 

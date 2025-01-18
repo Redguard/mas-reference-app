@@ -26,7 +26,6 @@ if (Platform.OS === 'android') {
   /*
     iOS Use-Cases
   */
-
   testCases.STORAGE = testCases.STORAGE.concat(iosTestCases.STORAGE);
   testCases.CRYPTO = testCases.CRYPTO.concat(iosTestCases.CRYPTO);
   testCases.AUTH = testCases.AUTH.concat(iosTestCases.AUTH);
