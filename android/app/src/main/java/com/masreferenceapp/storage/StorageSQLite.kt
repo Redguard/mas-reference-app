@@ -11,6 +11,7 @@ import com.masreferenceapp.SensitiveData
 
 
 class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
+
     private fun initDb(db: SQLiteDatabase) {
         // Table name and column names
         val TABLE_NAME = "myTable"
@@ -78,15 +79,6 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
 //    }
 
 
-
-
-
-
-
-
-
-
-
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun execSensitiveSQL(): String {
         val dbpath = context.getDatabasePath("MasSqlite_"+(0..1000000).random()+".db")
@@ -114,7 +106,7 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
 
         plainTextDb.close()
 
-        val r = ReturnStatus("OK", "Using execSQ()L to insert sensitive data into DB stored at: $dbpath")
+        val r = ReturnStatus("OK", "Using execSQL() to insert sensitive data into DB stored at: $dbpath")
         return r.toJsonString()
     }
         

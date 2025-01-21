@@ -31,6 +31,14 @@ class ReturnStatus {
         return statuses
     }
 
+    fun success(message: String){
+        this.addStatus("OK", message)
+    }
+
+    fun fail(exception: Exception){
+        this.addStatus("FAIL", exception.toString())
+    }
+
     fun toJsonString(): String {
         return try {
             val array = JSONArray()
