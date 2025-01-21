@@ -14,9 +14,9 @@ class ExecuteTestButton extends Component<any, any> {
     this.terminalRef = props.terminalRef;
   }
 
-  onPress() {
+  async onPress() {
     // execute the native function
-    const ret: string = this.nativeFunction();
+    const ret: string = await this.nativeFunction();
 
     const retJson = JSON.parse(ret);
 

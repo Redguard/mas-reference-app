@@ -45,6 +45,7 @@ const {
   ResilienceDynamicAnalysisDetechion,
   ResilienceRootDetection,
 
+  PrivacyMarketingUUID,
 
 } = NativeModules;
 
@@ -704,7 +705,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Send Data to Localhost',
           description: '',
-          nativeFunction: PlatformIpc.sendlocalhost,
+          nativeFunction: PlatformIpc.sendLocalhost,
         },
       ],
     },
@@ -768,13 +769,13 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Passwords in Text-Fields',
           description: '',
-          nativeFunction: PlatformUiDisclosure.loadLocalResource,
+          nativeFunction: PlatformUiDisclosure.passwordPlaintextUi,
         },
         {
           title: 'Sensitivie Data in Notifications',
           description:
             'This test uses noitifications to display sensitive data.',
-          nativeFunction: PlatformUiDisclosure.sensitivieDataNotifications,
+          nativeFunction: PlatformUiDisclosure.sensitiveDataNotifications,
         },
         {
           title: 'Prohibit Screenshot',
@@ -930,28 +931,19 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       ],
     },
     {
-      title: 'Play Integrity API',
+      title: 'Device Integrity Checks',
       description:
-        'The app tries to validate the integrity of the platform using Play Integrity API',
+        'The app tries to validate the integrity of the platform using OS-API',
       testCases: [
         // {
-        //   title: 'setupFsVerity',
+        //   title: 'Play Integrity API',
         //   description:
-        //     'Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ',
-        //   nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
+        //     'The app tries to validate the integrity of the platform using Play Integrity API',
         // },
-      ],
-    },
-    {
-      title: 'SafetyNet API',
-      description:
-        'The app tries to validate the integrity of the platform using the deprecated SafetyNet API',
-      testCases: [
         // {
-        //   title: 'setupFsVerity',
+        //   title: 'SafetyNet API'',
         //   description:
-        //     'Enables fs-verity to the owned file under the calling app's private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ',
-        //   nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
+        //     'The app tries to validate the integrity of the platform using the deprecated SafetyNet API,
         // },
       ],
     },
@@ -970,7 +962,30 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     },
     // Define your Android-specific resilience test cases here
   ],
-  PRIVACY: [],
+  PRIVACY: [    
+    {
+      title: 'Advertisemnt',
+      description: 'User tracking in mobile applications involves collecting and analyzing data to monitor user behavior, preferences, and movements. This enables companies to recognize and follow users over time and across different apps, devices, and services. Such tracking often occurs without the user\'s explicit knowledge or consent, leading to significant privacy concerns.',
+      testCases: [
+        {
+          title: 'Get AAID',
+          nativeFunction: PrivacyMarketingUUID.getAAID,
+        },
+        {
+          title: 'Get Android ID',
+          nativeFunction: PrivacyMarketingUUID.getAndroidID,
+        },
+        {
+          title: 'Get IMEI',
+          nativeFunction: PrivacyMarketingUUID.getImei,
+        },
+        {
+          title: 'Get MAC Address',
+          nativeFunction: PrivacyMarketingUUID.getMAC,
+        },
+      ],
+    },
+  ],
 };
 
 export default androidTestCases;

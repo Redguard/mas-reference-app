@@ -12,9 +12,6 @@ const {
 
   CryptoHardcodedSecret,
 
-  PrivacySMS,
-  PrivacyAccessGeolocation,
-  PrivacyMarketingUUID,
   PrivacyAccessData,
 } = NativeModules;
 
@@ -65,7 +62,6 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-    // Define your general storage test cases here
   ],
   CRYPTO: [
     {
@@ -89,9 +85,7 @@ export var generalTestCases: Dictionary<TestCases[]> = {
       ],
     },
   ],
-  AUTH: [
-    // Define your general authentication test cases here
-  ],
+  AUTH: [],
   NETWORK: [
     {
       title: 'Cleartext Traffic',
@@ -151,12 +145,9 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-    // Define your general network test cases here
   ],
   PLATFORM: [],
-  CODE: [
-    // Define your general code-related test cases here
-  ],
+  CODE: [],
   RESILIENCE: [
     {
       title: 'Verify Signature',
@@ -169,67 +160,35 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-    // Define your general resilience test cases here
   ],
   PRIVACY: [
     {
-      title: 'Access Phone Data',
+      title: 'Access Personal Data',
       description:
         'Access to private data may raise concerns about app privay. Furhtermore, if the app is given the permission to access private data, SDK may also be able to access them in bulk. It is therefore vital to understand what data the app access it during runtime.',
       testCases: [
         {
-          title: 'Get Contacts',
+          title: 'Access Contacts',
           nativeFunction: PrivacyAccessData.getContacts,
         },
         {
-          title: 'Store senstive Data in Contacts',
-          nativeFunction: PrivacyAccessData.writeContacts,
-        },
-        {
-          title: 'Get Calendar Event',
+          title: 'Access Calendar',
           nativeFunction: PrivacyAccessData.getCalendarEvent,
         },
         {
-          title: 'Store senstive Data in Calendar Event',
-          nativeFunction: PrivacyAccessData.writeCalendarEvent,
+          title: 'Access Location',
+          nativeFunction: PrivacyAccessData.getLocation,
+        },
+        {
+          title: 'Access SMS',
+          nativeFunction: PrivacyAccessData.getSMS,
+        },
+        {
+          title: 'Attempt so send SMS',
+          nativeFunction: PrivacyAccessData.sendSMS,
         },
       ],
     },
-    {
-      title: 'Access Geolocation',
-      description: '',
-      testCases: [
-        {
-          title: 'Get Geolocation',
-          nativeFunction: PrivacyAccessGeolocation.getGeolocation,
-        },
-      ],
-    },
-    {
-      title: 'SMS',
-      description: '',
-      testCases: [
-        {
-          title: 'Get SMS',
-          nativeFunction: PrivacySMS.getSMS,
-        },
-        {
-          title: 'Send SMS',
-          nativeFunction: PrivacySMS.sendSMS,
-        },
-      ],
-    },
-    {
-      title: 'Marketing UUID',
-      description: '',
-      testCases: [
-        {
-          title: 'Get UUID',
-          nativeFunction: PrivacyMarketingUUID.getUUID,
-        },
-      ],
-    },
-    // Define your general privacy-related test cases here
   ],
 };
 
