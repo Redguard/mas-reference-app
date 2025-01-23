@@ -35,8 +35,8 @@ class ReturnStatus {
         this.addStatus("OK", message)
     }
 
-    fun fail(exception: Exception){
-        this.addStatus("FAIL", exception.toString())
+    fun fail(message: String){
+        this.addStatus("FAIL", message)
     }
 
     fun toJsonString(): String {

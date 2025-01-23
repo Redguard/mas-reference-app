@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import android.provider.Settings
 import android.telephony.TelephonyManager
-import androidx.core.content.ContextCompat.getSystemService
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
@@ -21,7 +20,6 @@ class PrivacyMarketingUUID(var context: ReactApplicationContext) : ReactContextB
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getAAID(): String {
-
         val r = ReturnStatus()
         try{
             val adInfo: AdvertisingIdClient.Info =
@@ -37,7 +35,7 @@ class PrivacyMarketingUUID(var context: ReactApplicationContext) : ReactContextB
             r.success("Advertising Id is : $adId")
         }
         catch(e:Exception){
-            r.fail(e)
+            r.fail(e.toString())
         }
         return r.toJsonString()
     }
@@ -51,7 +49,7 @@ class PrivacyMarketingUUID(var context: ReactApplicationContext) : ReactContextB
             r.success("Android ID is $androidId")
         }
         catch(e:Exception){
-            r.fail(e)
+            r.fail(e.toString())
         }
         return r.toJsonString()
     }
@@ -61,15 +59,13 @@ class PrivacyMarketingUUID(var context: ReactApplicationContext) : ReactContextB
     fun getImei(): String {
         val r = ReturnStatus()
         try{
-
             val telephonyManager =
                 context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
             val imei = telephonyManager.deviceId
-
             r.success("IMEI is $imei")
         }
         catch(e:Exception){
-            r.fail(e)
+            r.fail(e.toString())
         }
         return r.toJsonString()
     }
@@ -87,7 +83,7 @@ class PrivacyMarketingUUID(var context: ReactApplicationContext) : ReactContextB
             r.success("MAC Address is $address")
         }
         catch(e:Exception){
-            r.fail(e)
+            r.fail(e.toString())
         }
         return r.toJsonString()
     }
