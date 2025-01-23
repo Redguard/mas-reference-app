@@ -18,5 +18,10 @@ object MasSettings {
         return data["canaryToken"].toString()
     }
 
+    @JvmStatic
+    fun getAndroidCloudProjectNumber(): Long {
+        return data["androidCloudProjectNumber"]?.toLong() ?: 0
+    }
+
 }
 

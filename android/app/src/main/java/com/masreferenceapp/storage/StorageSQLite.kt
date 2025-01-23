@@ -40,60 +40,6 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
         return ReturnStatus("OK", "Database created at: $dbpath").toJsonString()
     }
 
-//    @ReactMethod(isBlockingSynchronousMethod = true)
-//    fun insertData(): String {
-//        val dbpath = context.getDatabasePath("insecureSQLite.db")
-//        val plainTextDb = SQLiteDatabase.openOrCreateDatabase(dbpath, null)
-//        initDb(plainTextDb)
-//        val values = ContentValues()
-//        values.put("password", "SuperSecret")
-//        plainTextDb.insert("myTable", null, values)
-//        plainTextDb.close()
-//        return ReturnStatus("OK", "Data inserted.").toJsonString()
-//    }
-//
-//    @ReactMethod(isBlockingSynchronousMethod = true)
-//    fun updateData(): String {
-//        val dbpath = context.getDatabasePath("insecureSQLite.db")
-//        val plainTextDb = SQLiteDatabase.openOrCreateDatabase(dbpath, null)
-//        initDb(plainTextDb)
-//        val values = ContentValues()
-//        values.put("password", "SuperSecret")
-//        val id = plainTextDb.insert("myTable", null, values)
-//        values.put("password", "newSecretPW")
-//        plainTextDb.update("myTable", values, "id" + " = ?", arrayOf(id.toString()))
-//        return ReturnStatus("OK", "Data updated.").toJsonString()
-//    }
-//
-//    @ReactMethod(isBlockingSynchronousMethod = true)
-//    fun deleteData(): String {
-//        val dbpath = context.getDatabasePath("insecureSQLite.db")
-//        val plainTextDb = SQLiteDatabase.openOrCreateDatabase(dbpath, null)
-//        initDb(plainTextDb)
-//        val values = ContentValues()
-//        values.put("password", "SuperSecret")
-//        val id = plainTextDb.insert("myTable", null, values)
-//        plainTextDb.delete("myTable", "id" + " = ?", arrayOf(id.toString()))
-//        plainTextDb.close()
-//        return ReturnStatus("OK", "Data deleted.").toJsonString()
-//    }
-
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun execSensitiveSQL(): String {
-        val dbpath = context.getDatabasePath("MasSqlite_"+(0..1000000).random()+".db")
-        val plainTextDb = SQLiteDatabase.openOrCreateDatabase(dbpath, null)
-        initDb(plainTextDb)
-
-        plainTextDb.execSQL("INSERT INTO myTable (password) VALUES (\"" + SensitiveData.data + "\")")
-
-        plainTextDb.close()
-
-        val r = ReturnStatus("OK", "Using execSQ()L to insert sensitive data into DB stored at: $dbpath")
-        return r.toJsonString()
-    }
-
-
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun execSensitiveSQLStoredProcedures(): String {
         val dbpath = context.getDatabasePath("MasSqlite_"+(0..1000000).random()+".db")
@@ -109,7 +55,7 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
         val r = ReturnStatus("OK", "Using execSQL() to insert sensitive data into DB stored at: $dbpath")
         return r.toJsonString()
     }
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun insertSensitive(): String {
         val dbpath = context.getDatabasePath("MasSqlite_"+(0..1000000).random()+".db")

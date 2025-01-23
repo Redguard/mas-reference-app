@@ -13,9 +13,11 @@ object SensitiveData {
             "HexHighEntropyString: 4a1d2c1f9f835c82d15694e445f7cd9f1db7f6a7\n" +
             "IbmCloudIam: eyJraWQiOiI2Nzg5eCIsImFsZyI6IkhTMjU2In0\n" +
             "IbmCosHmac: OUnS6XcBYLArEtyHPtH8/Sdgr7EjIUhe7gZtnrZj\n" +
-            "IPPublic: 192.168.1.1\n" +
+            "IPPrivate: 192.168.1.1\n" +
+            "IPPrivate: 172.16.4.5.0\n" +
+            "IPPrivate: 10.0.2.5\n" +
+            "IPLocalHost: 127.0.0.1\n" +
             "JwtToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTYxNzA1NjgwMCwiZXhwIjoxNjE3MDU3MDAwfQ.sJgFhsr5d2JG1hKOnwzzd8qzNx56Z76pRVKkJVGmPAI\n" +
-            "Keyword: samplekeyword\n" +
             "Mailchimp: 9d7c1b4fd8bbddad8ecf841d-us20\n" +
             "Npm: npm_AZ4D3XFUGYD2HC3YBWLNLFIE\n" +
             "OpenAI: sk-2t1HcLdKzRrn0pOI5GwIaRn8Z2Xgf9\n" +
@@ -42,5 +44,5 @@ object SensitiveData {
             "PrivateKey: -----END RSA PRIVATE KEY-----\n"+
             "PrivateKey: -----END EC PRIVATE KEY-----\n"+
             "PrivateKey: Proc-Type: 4,ENCRYPTED\n"+
-            "CanaryToken" + MasSettings.getCanaryToken()
+            "CanaryToken " + MasSettings.getCanaryToken()
 }

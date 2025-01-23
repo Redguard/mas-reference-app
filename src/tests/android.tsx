@@ -38,11 +38,10 @@ const {
   CodeDependencies,
   CodeInsecureSoftware,
 
-  ResilienceFileIntegrityManager,
   ResilienceAntiDebug,
   ResilienceAntiVm,
   ResiliencObfuscation,
-  ResilienceDynamicAnalysisDetechion,
+  ResilienceDeviceIntegrity,
   ResilienceRootDetection,
 
   PrivacyMarketingUUID,
@@ -185,12 +184,6 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           title: 'Create SQLite DB',
           description: 'Creates a plain text SQLite DB within the app sandbox.',
           nativeFunction: StorageSQLite.createSQLiteDB,
-        },
-
-        {
-          title: 'Store sensitive Data using plain execSQL',
-          description: 'Writes sensitve data to the SQLite DB using execSQL with a string query.',
-          nativeFunction: StorageSQLite.execSensitiveSQL,
         },
         {
           title: 'Store sensitive Data using execSQL and stored procedures',
@@ -834,8 +827,8 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: CodeInsecureSoftware.sqlInjection,
         },
         {
-          title: 'XML External Entity ',
-          description: 'This uses case implements an insecure XEE vulnerability.',
+          title: 'Protect against XEE ',
+          description: 'It is recommended to harden the DocumentBuilder used when parsing XML in order to protect agians possible XEE.',
           nativeFunction: CodeInsecureSoftware.XmlExternalEntity,
         },
         {
@@ -917,50 +910,50 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-    {
-      title: 'Simple Dynamic Analysis Tools Detection',
-      description:
-        'The app uses common Dynamic Analysis Tools Detection detection libraries in order to do a simple check if tools are avilable.',
-      testCases: [
-        {
-          title: 'DetectFrida Check',
-          description:
-            'Use the DetectFrida Library to do the check.',
-          nativeFunction: ResilienceDynamicAnalysisDetechion.detectFrida,
-        },
-      ],
-    },
+    // {
+    //   title: 'Simple Dynamic Analysis Tools Detection',
+    //   description:
+    //     'The app uses common Dynamic Analysis Tools Detection detection libraries in order to do a simple check if tools are avilable.',
+    //   testCases: [
+    //     {
+    //       title: 'DetectFrida Check',
+    //       description:
+    //         'Use the DetectFrida Library to do the check.',
+    //       nativeFunction: ResilienceDynamicAnalysisDetechion.detectFrida,
+    //     },
+    //   ],
+    // },
     {
       title: 'Device Integrity Checks',
       description:
         'The app tries to validate the integrity of the platform using OS-API',
       testCases: [
-        // {
-        //   title: 'Play Integrity API',
-        //   description:
-        //     'The app tries to validate the integrity of the platform using Play Integrity API',
-        // },
-        // {
-        //   title: 'SafetyNet API'',
-        //   description:
-        //     'The app tries to validate the integrity of the platform using the deprecated SafetyNet API,
-        // },
-      ],
-    },
-    {
-      title: 'FileIntegrityManager',
-      description:
-        'This class provides access to file integrity related operations.',
-      testCases: [
         {
-          title: 'setupFsVerity',
+          title: 'Play Integrity API',
+          description: 'The app tries to validate the integrity of the platform using Play Integrity API',
+          nativeFunction: ResilienceDeviceIntegrity.playIntegrity,
+        },
+        {
+          title: 'SafetyNet API',
           description:
-            'Enables fs-verity to the owned file under the calling app\'s private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ',
-          nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
+            'The app tries to validate the integrity of the platform using the deprecated SafetyNet API',
+            nativeFunction: ResilienceDeviceIntegrity.safetyNet,
         },
       ],
     },
-    // Define your Android-specific resilience test cases here
+    // {
+    //   title: 'FileIntegrityManager',
+    //   description:
+    //     'This class provides access to file integrity related operations.',
+    //   testCases: [
+    //     {
+    //       title: 'setupFsVerity',
+    //       description:
+    //         'Enables fs-verity to the owned file under the calling app\'s private directory. It always uses the common configuration, i.e. SHA-256 digest algorithm, 4K block size, and without salt. ',
+    //       nativeFunction: ResilienceFileIntegrityManager.setupFsVerify,
+    //     },
+    //   ],
+    // },
   ],
   PRIVACY: [    
     {

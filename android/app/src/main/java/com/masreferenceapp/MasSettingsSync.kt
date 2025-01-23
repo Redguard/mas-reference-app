@@ -18,7 +18,7 @@ class MasSettingsSync(var context: ReactApplicationContext) : ReactContextBaseJa
 
         MasSettings.setData("testDomain", settingsObject.get("testDomain").toString())
         MasSettings.setData("canaryToken", settingsObject.get("canaryToken").toString())
-        MasSettings.setData("androidApiKey", settingsObject.get("androidApiKey").toString())
+        MasSettings.setData("androidCloudProjectNumber", settingsObject.get("androidCloudProjectNumber").toString())
 
         return "MAS Settings updated."
     }

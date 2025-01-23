@@ -168,7 +168,7 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
             r.success("Tried to access $count SMS.")
         }
         catch(e:Exception){
-            r.fail(e)
+            r.fail(e.toString())
         }
         return r.toJsonString()
     }
@@ -192,12 +192,12 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
             r.success("Send a test message to 1234567890.")
         }
         catch(e:Exception){
-            r.fail(e)
+            r.fail(e.toString())
         }
         return r.toJsonString()
     }
         
-    @ReactMethod(isBlockingSynchronousMethod = false)
+    @ReactMethod()
     fun getLocation(promise: Promise){
         val r = ReturnStatus()
         try{
@@ -222,7 +222,7 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
 
         }
         catch(e:Exception){
-            r.fail(e)
+            r.fail(e.toString())
             promise.resolve(r.toJsonString())
         }
     }
