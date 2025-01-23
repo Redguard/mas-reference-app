@@ -1,7 +1,8 @@
-import {ScrollView, Text, TouchableOpacity} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles.tsx';
 import React, {Component, useLayoutEffect} from 'react';
 import {TestCases} from '../../appContent.tsx';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 class ExecuteTestButton extends Component<any, any> {
   nativeFunction: any;
@@ -38,13 +39,20 @@ class ExecuteTestButton extends Component<any, any> {
 
   render() {
     return (
-      <TouchableOpacity
-        style={
-          this.state.successful === true ? styles.buttonPressed : styles.button
-        }
-        onPress={() => this.onPress()}>
-        <Text>{this.props.title}</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonRow}>
+        <View style={styles.circle}>
+          <FeatherIcon style={styles.icon} name="?" />
+        </View>
+        <TouchableOpacity
+          style={
+            this.state.successful === true
+              ? styles.buttonPressed
+              : styles.button
+          }
+          onPress={() => this.onPress()}>
+          <Text>{this.props.title}</Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 }
