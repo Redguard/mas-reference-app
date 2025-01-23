@@ -64,3 +64,10 @@ yarn-error.log
 
 # testing
 /coverage
+
+
+# Gemfile.lock
+Gemfile.lock
+
+# vscode
+.vscode
