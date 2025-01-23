@@ -117,8 +117,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 12,
   },
   rowLabel: {
-    fontSize: 16,
-    letterSpacing: 0.24,
     color: '#000',
   },
   rowSpacer: {
@@ -127,23 +125,15 @@ const styles = StyleSheet.create({
     flexBasis: 0,
   },
   rowValue: {
-    fontSize: 16,
     fontWeight: '500',
     color: '#ababab',
-    marginRight: 4,
-    width: '50%',
-    textAlign: 'right',
-    overflow: 'hidden',
+    marginRight: 5,
+    marginLeft: 10,
+    flexShrink: 1,
   },
   rowLast: {
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
-  },
-  rowLabelLogout: {
-    width: '100%',
-    textAlign: 'center',
-    fontWeight: '600',
-    color: '#dc2626',
   },
 });
 

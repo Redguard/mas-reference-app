@@ -5,7 +5,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TextInput,
   Linking,
   NativeModules,
 } from 'react-native';
@@ -23,7 +22,7 @@ function SettingsScreen(): React.JSX.Element {
   const [settings, setSettings] = useState({
     testDomain: '',
     canaryToken: '',
-    androidApiKey: '',
+    androidCloudProjectNumber: '',
   });
 
   useEffect(() => {
@@ -64,12 +63,13 @@ function SettingsScreen(): React.JSX.Element {
   };
 
   const updateGlobalSettings = (updatedSettings: typeof settings) => {
-    const {testDomain, canaryToken, androidApiKey} = updatedSettings;
+    const {testDomain, canaryToken, androidCloudProjectNumber} =
+      updatedSettings;
 
     const masSettings: MasSettings = {
       testDomain: testDomain,
       canaryToken: canaryToken,
-      androidApiKey: androidApiKey,
+      androidCloudProjectNumber: androidCloudProjectNumber,
     };
     try {
       EncryptedStorage.setItem(
@@ -88,12 +88,12 @@ function SettingsScreen(): React.JSX.Element {
   };
 
   const getSettingLabel = (
-    key: 'testDomain' | 'canaryToken' | 'androidApiKey',
+    key: 'testDomain' | 'canaryToken' | 'androidCloudProjectNumber',
   ) => {
     const labels = {
       testDomain: 'Test Domain',
       canaryToken: 'Canary Token',
-      androidApiKey: 'Android API Key',
+      androidCloudProjectNumber: 'Android Cloud Project Number',
     };
     return labels[key];
   };
@@ -112,7 +112,10 @@ function SettingsScreen(): React.JSX.Element {
                 style={styles.row}>
                 <Text style={styles.rowLabel}>Test Domain</Text>
                 <View style={styles.rowSpacer} />
-                <Text numberOfLines={1} style={styles.rowValue}>
+                <Text
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={styles.rowValue}>
                   {settings.testDomain}
                 </Text>
                 <FeatherIcon color="#bcbcbc" name="chevron-right" size={19} />
@@ -126,7 +129,10 @@ function SettingsScreen(): React.JSX.Element {
                 style={styles.row}>
                 <Text style={styles.rowLabel}>Canary Token</Text>
                 <View style={styles.rowSpacer} />
-                <Text numberOfLines={1} style={styles.rowValue}>
+                <Text
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={styles.rowValue}>
                   {settings.canaryToken}
                 </Text>
                 <FeatherIcon color="#bcbcbc" name="chevron-right" size={19} />
@@ -135,18 +141,19 @@ function SettingsScreen(): React.JSX.Element {
             <View style={[styles.rowWrapper, styles.rowLast]}>
               <TouchableOpacity
                 onPress={() => {
-                  handleRowPress('androidApiKey');
+                  handleRowPress('androidCloudProjectNumber');
                 }}
                 style={styles.row}>
-                <Text style={styles.rowLabel}>Android API-Key</Text>
+                <Text style={styles.rowLabel}>
+                  Android Cloud Project Number
+                </Text>
                 <View style={styles.rowSpacer} />
-                <TextInput
-                  editable={false}
-                  secureTextEntry={true}
+                <Text
+                  ellipsizeMode="tail"
                   numberOfLines={1}
                   style={styles.rowValue}>
-                  {settings.androidApiKey}
-                </TextInput>
+                  {settings.androidCloudProjectNumber}
+                </Text>
                 <FeatherIcon color="#bcbcbc" name="chevron-right" size={19} />
               </TouchableOpacity>
             </View>

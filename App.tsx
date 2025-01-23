@@ -24,10 +24,8 @@ const {MasSettingsSync} = NativeModules;
 export type MasSettings = {
   testDomain: string;
   canaryToken: string;
-  androidApiKey: string;
+  androidCloudProjectNumber: string;
 };
-
-
 
 const Drawer = createDrawerNavigator();
 
@@ -46,9 +44,9 @@ async function initGlobalSettings(){
     var settings = await EncryptedStorage.getItem('MasReferenceAppSettings');
     if (settings === null) {
       const masSettings: MasSettings = {
-        testDomain: 'mas.owasp.org',
-        canaryToken: '__MAS.D34!3.MAS__',
-        androidApiKey: '',
+        testDomain: 'mas-reference-app.org',
+        canaryToken: '__MAS.OWASP.MAS__',
+        androidCloudProjectNumber: '0',
       };
       try {
         await EncryptedStorage.setItem(
