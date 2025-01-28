@@ -2,7 +2,12 @@ import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles.tsx';
 import React, {Component, useLayoutEffect} from 'react';
 import {TestCases} from '../../appContent.tsx';
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 
 class ExecuteTestButton extends Component<any, any> {
   nativeFunction: any;
@@ -40,9 +45,20 @@ class ExecuteTestButton extends Component<any, any> {
   render() {
     return (
       <View style={styles.buttonRow}>
-        <View style={styles.circle}>
-          <FeatherIcon style={styles.icon} name="?" />
-        </View>
+        <Menu>
+          <MenuTrigger>
+            <View style={styles.circle}>
+              <Text>?</Text>
+            </View>
+          </MenuTrigger>
+          <MenuOptions>
+            <View style={styles.arrow} />
+            <View style={styles.popupBox}>
+              <Text>Hello worldworldworldwor  ldworldworldHello worldworldworldwor worldworldworldwor worldworldworldwor worldworldworldwor worldworldworldwor  ldworldworldHello worldworldworldwor  ldworldworldHello worldworldworldwor  ldworldworldHello worldworldworldwor  ldworldworld!</Text>
+            </View>
+          </MenuOptions>
+        </Menu>
+
         <TouchableOpacity
           style={
             this.state.successful === true
@@ -85,6 +101,7 @@ function TestScreen({route, navigation}: any): React.JSX.Element {
             key={testCase.title.replace(' ', '_')}
             nativeFunction={testCase.nativeFunction}
             title={title}
+            description={testCase.description}
             terminalRef={terminalRef}
           />
         );
