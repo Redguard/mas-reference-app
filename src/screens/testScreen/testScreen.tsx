@@ -54,7 +54,7 @@ class ExecuteTestButton extends Component<any, any> {
           <MenuOptions>
             <View style={styles.arrow} />
             <View style={styles.popupBox}>
-              <Text>Hello worldworldworldwor  ldworldworldHello worldworldworldwor worldworldworldwor worldworldworldwor worldworldworldwor worldworldworldwor  ldworldworldHello worldworldworldwor  ldworldworldHello worldworldworldwor  ldworldworldHello worldworldworldwor  ldworldworld!</Text>
+              <Text>{this.props.description}</Text>
             </View>
           </MenuOptions>
         </Menu>
