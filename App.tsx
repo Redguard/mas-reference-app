@@ -19,6 +19,7 @@ import SettingsScreen from './src/screens/settingsScreen/settingsScreen.tsx';
 import appContent from './src/appContent.tsx';
 import HeaderBackground from './src/screens/header/headerBackground.tsx';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import { MenuProvider } from 'react-native-popup-menu';
 const {MasSettingsSync} = NativeModules;
 
 export type MasSettings = {
@@ -68,41 +69,43 @@ function App(): React.JSX.Element {
   initGlobalSettings();
 
   return (
-    <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            headerBackground: () => <HeaderBackground />,
-          }}/>
-        {appContent.map(item => {
-          return (
-            <Drawer.Screen
-              key={item.key}
-              name={'MASVS-' + item.key}
-              component={CategoryStackScreen}
-              initialParams={{
-                description: item.description,
-                tests: item.tests,
-              }}
-              options={{
-                headerStyle: {backgroundColor: item.color},
-                drawerItemStyle: {backgroundColor: item.color},
-                drawerLabelStyle: {color: 'white'},
-                headerTitleStyle: {color: 'white'},
-              }}
-            />
-          );
-        })}
-        <Drawer.Screen
-          name="Settings"
-          component={SettingsScreen}
-          options={{
-            headerBackground: () => <HeaderBackground />,
-          }}/>
-      </Drawer.Navigator>
-    </NavigationContainer>
+    <MenuProvider>
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              headerBackground: () => <HeaderBackground />,
+            }}/>
+          {appContent.map(item => {
+            return (
+              <Drawer.Screen
+                key={item.key}
+                name={'MASVS-' + item.key}
+                component={CategoryStackScreen}
+                initialParams={{
+                  description: item.description,
+                  tests: item.tests,
+                }}
+                options={{
+                  headerStyle: {backgroundColor: item.color},
+                  drawerItemStyle: {backgroundColor: item.color},
+                  drawerLabelStyle: {color: 'white'},
+                  headerTitleStyle: {color: 'white'},
+                }}
+              />
+            );
+          })}
+          <Drawer.Screen
+            name="Settings"
+            component={SettingsScreen}
+            options={{
+              headerBackground: () => <HeaderBackground />,
+            }}/>
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </MenuProvider>
   );
 }
 
