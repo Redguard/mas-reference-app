@@ -132,9 +132,9 @@ export var generalTestCases: Dictionary<TestCases[]> = {
           nativeFunction: NetworkTlsConfig.insecureCipherSuties,
         },
         {
-          title: 'Usage of TLS Client Certifitates',
+          title: 'Usage of TLS Client Certificates',
           description:
-            'The fact, that a TLS client certificate are used, may mean, that the app contians the private keys hard coded.',
+            'The fact, that a TLS client certificate are used, may mean, that the app contains the private keys hard coded.',
           nativeFunction: NetworkTlsConfig.clientCertificate,
         },
         {

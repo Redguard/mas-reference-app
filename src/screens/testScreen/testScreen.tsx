@@ -2,12 +2,7 @@ import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles.tsx';
 import React, {Component, useLayoutEffect} from 'react';
 import {TestCases} from '../../appContent.tsx';
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger,
-} from 'react-native-popup-menu';
+import {Menu, MenuOptions, MenuTrigger} from 'react-native-popup-menu';
 
 class ExecuteTestButton extends Component<any, any> {
   nativeFunction: any;

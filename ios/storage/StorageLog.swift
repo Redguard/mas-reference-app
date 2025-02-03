@@ -7,4 +7,8 @@
 
 import Foundation
 
+class StorageLog : NSObject {
+  
+  
+}
 
