@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   button: {
+    width: '100%',
     alignItems: 'center',
     backgroundColor: '#DDDDDD',
     borderColor: '#70706f',
@@ -56,16 +57,15 @@ const styles = StyleSheet.create({
     borderBottomColor: 'gray',
   },
   popupBox: {
-    width: '186%',
     position: 'absolute',
+    width: '100%',
     backgroundColor: 'white',
     marginTop: 50,
     padding: 10,
     borderRadius: 8,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 4,
+    alignSelf: 'center', // This helps with centering
+    borderWidth: 1,
+    borderColor: '#70706f',
   },
 });
 

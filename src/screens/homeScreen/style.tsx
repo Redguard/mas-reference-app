@@ -6,24 +6,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 300,
-    height: 300,
-    margin: '20%',
+    width: 250,
+    height: 250,
+    margin: '5%',
   },
   homeStyle: {
     flex: 1,
     alignItems: 'center',
-    // justifyContent: 'center',
   },
   title: {
     fontSize: 30,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   text: {
     margin: '5%',
-    textAlign: 'center',
+    textAlign: 'justify',
     fontSize: 15,
   },
+  stats: {},
 });
 
 export default styles;

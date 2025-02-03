@@ -49,7 +49,7 @@ class StorageMediaStoreAPI(var context: ReactApplicationContext) : ReactContextB
                 outputStream?.close()
             }
         }
-        r.addStatus("OK", "Data written to External Public Document. URI-Path is: " + (uri?.path
+        r.addStatus("OK", "Data written to external, public document folder. URI-Path is: " + (uri?.path
             ?: ""))
 
         return r.toJsonString()

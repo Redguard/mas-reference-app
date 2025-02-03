@@ -58,28 +58,28 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       title: 'SharedPreferences',
       maswe: '0006',
       description:
-        'This testcase stores sensitive data using unencrypted SharedPreferences.',
+        'These testcase stores sensitive data using unencrypted SharedPreferences.',
       testCases: [
         {
           title: 'Init WORLD_READABLE SharedPreferences',
-          description: 'Get an world readable SharedPreferenceInstance',
+          description: 'Get a world readable SharedPreferenceInstance. This mode is deprecated on modern versions of Android.',
           nativeFunction: StorageSharedPreferences.getWorldReadableInstance,
         },
         {
           title: 'Init WORLD_WRITABLE SharedPreferences',
-          description: 'Get an world writable SharedPreferenceInstance',
+          description: 'Get an world writable SharedPreferenceInstance. This mode is deprecated on modern versions of Android.',
           nativeFunction: StorageSharedPreferences.getWorldWritableInstance,
         },
         {
-          title: 'Write sensitivie String',
+          title: 'Write sensitive String',
           description:
-          'Write  senstive data into the sandbox using SharedPreferences.',
+          'Write sensitive data as String into the sandbox using SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putSensitiveString,
         },
         {
-          title: 'Write sensitivie StringSet',
+          title: 'Write sensitive StringSet',
           description:
-          'Write a stringset of senstive data into the sandbox using SharedPreferences.',
+          'Write sensitive data as StringSet into the sandbox using SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putSensitiveStringSet,
         },
       ],
@@ -88,24 +88,24 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       title: 'DataStore',
       maswe: '0006',
       description:
-        'This testcase stores sensitivie data using the DataStore. Data stored this way is not encrypted in the sandbox. An attacker may therefore be able to retrieve the data.',
+        'This testcase stores sensitive data using the DataStore. Data stored this way is not encrypted in the sandbox. An attacker may therefore be able to retrieve the data.',
       testCases: [
         {
           title: 'Write sensitive String to Preferences DataStore',
           description:
-            'Write sensitive String into the sandbox using Preferences DataStore',
+            'Write sensitive data as String using Preferences DataStore.',
           nativeFunction: StorageDataStore.writeStringPreferenceDataStore,
         },
         {
           title: 'Write sensitive StringSet to Preferences DataStore',
           description:
-            'Write StringSet into the sandbox using Preferences DataStore',
+            'Write sensitive data as StringSet using Preferences DataStore.',
           nativeFunction: StorageDataStore.writeStringSetPreferenceDataStore,
         },
         {
-          title: 'Write sensitivie Data to Proto DataStore',
+          title: 'Write sensitive Data to Proto DataStore',
           description:
-            'Write sensitive data into the sandbox using Proto DataStore',
+            'Write sensitive data using Proto DataStore. The data is a simple User-Object with some String data. ',
           nativeFunction: StorageDataStoreProto.writeProtoDataStore,
         },
       ],
@@ -119,25 +119,25 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           title: 'Write sensitive Data into Sandbox (MODE_PRIVATE)',
           maswe: '006',
           description:
-            'Open a private file associated with this Context\'s application package for writing. Creates the file if it doesn\'t already exist. ',
+            'Creates a file within the sandbox using the java.io.File API. The file is MODE_PRIVATE which limits the accessibility only to the app.',
           nativeFunction: StorageJavaFileIo.writeSensitiveFileSandbox,
         },
         {
           title: 'Write sensitive, Data into Sandbox (MODE_WORLD_READABLE)',
           maswe: '002',
-          description: 'Tries to write senstive, world readable data into the sandbox.',
+          description: 'Creates a file within the sandbox using the java.io.File API. The file is MODE_WORLD_READABLE. This mode is deprecated on newer versions of Android. ',
           nativeFunction: StorageJavaFileIo.writeSandboxWorldReadable,
         },
         {
           title: 'Write sensitive, Data into Sandbox (MODE_WORLD_WRITABLE)',
           maswe: '002',
-          description: 'Tries to write senstive, world writable data into the sandbox.',
+          description: 'Creates a file within the sandbox using the java.io.File API. The file is MODE_WORLD_WRITABLE. This mode is deprecated on newer versions of Android. ',
           nativeFunction: StorageJavaFileIo.writeSandboxWorldWritable,
         },
         {
           title: 'Write sensitive Data into external App Storage',
           maswe: '002',
-          description: 'Tries to write sensitive data into a file outside of the sandbox. This file is not accessible by other apps, but can be exported as access to the external storage is possible by USB for example.',
+          description: 'Tries to write sensitive data into a file outside of the sandbox. This file is not accessible by other apps, but can be exported as access to the external storage is possible by the USB interface for example.',
           nativeFunction: StorageJavaFileIo.writeExternalAppContext,
         },
       ],
@@ -146,7 +146,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       title: 'Querying External Storage',
       maswe: '0002',
       description:
-        'These test cases write data into the external storage (ExternalFilesDir and ExternalCacheDir). An app can use these locations, if the internal storage is full for exmaple. They are still sandboxed form other applications. However, an attacker may remove the extenral storage and have easy access to this data. These files are not encrypted by default.',
+        'These test cases write data into the external storage (ExternalFilesDir and ExternalCacheDir). An app can use these locations, if the internal storage is full for example. They are still sandboxed form other applications. However, an attacker may remove the external storage and have easy access to this data. These files are not encrypted by default.',
       testCases: [
         {
           title: 'Check state of external Storage',
@@ -169,7 +169,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Get different external file location',
           description:
-            'Try to access different types of external locatios such as Environment.DIRECTORY_MUSIC or Environment.DIRECTORY_PICTURES',
+            'Try to access different types of external location such as Environment.DIRECTORY_MUSIC or Environment.DIRECTORY_PICTURES',
           nativeFunction: StorageExternalStorage.getDifferentExternalDirs,
         },
       ],
@@ -187,19 +187,22 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
         {
           title: 'Store sensitive Data using execSQL and stored procedures',
-          description: 'Writes sensitve data to the SQLite DB using execSQL with a prepared statement.',
+          description: 'Writes sensitive data to the SQLite DB using execSQL with a prepared statement.',
           nativeFunction: StorageSQLite.execSensitiveSQLStoredProcedures,
         },
         {
           title: 'Store sensitive Data using insert',
+          description: 'Inserts sensitive data into an existing SQLite database using insert().',
           nativeFunction: StorageSQLite.insertSensitive,
         },
         {
           title: 'Store sensitive Data using replace',
+          description: 'Replaces data with sensitive data of an existing SQLite database using replace().',
           nativeFunction: StorageSQLite.replaceSensitive,
         },
         {
           title: 'Store sensitive Data using update',
+          description: 'Updates data with sensitive data of an existing SQLite database using update().',
           nativeFunction: StorageSQLite.updateSensitive,
         },
       ],
@@ -211,13 +214,13 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. The data ist not encrypted using this API.',
       testCases: [
         {
-          title: 'Initialise Room Database',
-          description: 'Initialise a Room Database which stores data unencrypted within the sandbox.',
+          title: 'Initialize Room Database',
+          description: 'Initialize a Room Database which stores data unencrypted within the sandbox.',
           nativeFunction: StorageRoomDatabase.initRoomDb,
         },
         {
-          title: 'Write sensitivie Data to Room Database',
-          description: 'Writes sensitive data as a simple datastrucutre to the Room DB',
+          title: 'Write sensitive Data to Room Database',
+          description: 'Writes sensitive data as a simple data structure to the Room DB.',
           nativeFunction: StorageRoomDatabase.writeToRoomDb,
         },
       ],
@@ -228,8 +231,8 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'To provide a more enriched user experience, many apps let users contribute and access media that\'s available on an external storage volume. These files remain outside the apps sandbox and may therefore be accessed from other apps.',
       testCases: [
         {
-          title: 'Write sensitivie Data to external Document Storage',
-          description: 'Writes a Document to the Document Folder in the external storage',
+          title: 'Write sensitive Data to external Document Storage',
+          description: 'Writes a document to the document folder in the external storage using the MediaStore API.',
           nativeFunction: StorageMediaStoreAPI.writeDocument,
         },
       ],
@@ -286,7 +289,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Set long Key Validity',
           description:
-            'Sets a long end of the validity period for the keyr.',
+            'Sets a long end of the validity period for the key.',
           nativeFunction: CryptoKeyGenParameterSpec.setLongKeyValidity,
         },
         {
