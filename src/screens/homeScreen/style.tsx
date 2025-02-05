@@ -24,7 +24,20 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     fontSize: 15,
   },
-  stats: {},
+  statsContainer: {
+    width: '80%',
+    position: 'relative',
+    flex: 1,
+    padding: 5,
+  },
+  statsText: {
+    margin: 5,
+    textAlign: 'center',
+    alignItems: 'center',
+  },
+  statsTextHeader: {
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;
