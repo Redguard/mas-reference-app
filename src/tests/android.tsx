@@ -185,7 +185,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       title: 'SQLite Database',
       maswe: '006',
       description:
-        'SQLite Database is a simple, local SQL-Database. The data is stored in plain text within the sandbox by default. Hence, the developer must take care of protecting sensitive data in nessecary.',
+        'SQLite Database is a simple, local SQL-Database. The data is stored in plain text within the sandbox by default. Hence, the developer must take care of protecting sensitive data in necessary.',
       testCases: [
         {
           title: 'Create SQLite DB',
