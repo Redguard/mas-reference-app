@@ -130,9 +130,6 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-    /////////////
-    /////////////   UP - DONE
-    /////////////
     {
       title: 'TLS Client Settings',
       description:
@@ -140,6 +137,8 @@ export var generalTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Use Old TLS-Protocol',
+          description:
+            'Configures the client to use outdated TLS protocols, which are considered insecure and vulnerable to attacks.',
           nativeFunction: NetworkTlsConfig.oldTlsConfig,
         },
         {
@@ -151,7 +150,7 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Usage of TLS Client Certificates',
           description:
-            'The fact, that a TLS client certificate are used, may mean, that the app contains the private keys hard coded.',
+            'Uses TLS with client authentication. This means, that the client must store a private key. Developers often hardcode client keys which is an issue.',
           nativeFunction: NetworkTlsConfig.clientCertificate,
         },
         {
@@ -173,6 +172,8 @@ export var generalTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Get Package Signatures',
+          description:
+            'Retrieves the package signatures to verify the integrity and authenticity of the application.',
           nativeFunction: ResilienceVerifySignature.getPackageSignatures,
         },
       ],
@@ -182,26 +183,36 @@ export var generalTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Access Personal Data',
       description:
-        'Access to private data may raise concerns about app privay. Furhtermore, if the app is given the permission to access private data, SDK may also be able to access them in bulk. It is therefore vital to understand what data the app access it during runtime.',
+        'Access to private data may raise concerns about app privacy. Furthermore, if the app is given the permission to access private data, SDK may also be able to access them in bulk. It is therefore vital to understand what data the app access it during runtime.',
       testCases: [
         {
           title: 'Access Contacts',
+          description:
+            "Attempts to access the user's contact list, which may contain sensitive personal information. The test does not really access the data, but only count the number of records retrieved.",
           nativeFunction: PrivacyAccessData.getContacts,
         },
         {
           title: 'Access Calendar',
+          description:
+            "Attempts to access the user's calendar events, which may reveal private information. The test does not really access the data, but only count the number of records retrieved.",
           nativeFunction: PrivacyAccessData.getCalendarEvent,
         },
         {
           title: 'Access Location',
+          description:
+            "Attempts to access the user's location data, which may expose sensitive geographic information.",
           nativeFunction: PrivacyAccessData.getLocation,
         },
         {
           title: 'Access SMS',
+          description:
+            "Attempts to access the user's SMS messages, which may contain private communication data. The test does not really access the data, but only count the number of records retrieved.",
           nativeFunction: PrivacyAccessData.getSMS,
         },
         {
           title: 'Attempt so send SMS',
+          description:
+            'This test will send a SMS to the number 000000000. As the number is invalid, the SMS will not be sent to anyone, but it will show up in the messaging app.',
           nativeFunction: PrivacyAccessData.sendSMS,
         },
       ],

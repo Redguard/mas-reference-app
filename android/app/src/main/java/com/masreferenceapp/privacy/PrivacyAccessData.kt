@@ -187,9 +187,9 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
             }
 
             val smsManager: SmsManager = SmsManager.getDefault()
-            smsManager.sendTextMessage("1234567890", null, "TestMessage", null, null)
+            smsManager.sendTextMessage("000000000", null, "TestMessage", null, null)
 
-            r.success("Send a test message to 1234567890.")
+            r.success("Send a test message to 000000000.")
         }
         catch(e:Exception){
             r.fail(e.toString())
