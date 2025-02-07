@@ -24,59 +24,6 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         return "StorageLog"
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun logName(): String {
-        val r = ReturnStatus()
-        val messages: MutableList<String> = ArrayList()
-        messages.add("Name: test")
-        messages.add("Name:test")
-        messages.add("name: test")
-        messages.add("name:   test")
-        messages.add("First Name: test")
-        messages.add("Last Name: test")
-        messages.add("Vorname: test")
-        messages.add("Vorname:test")
-        messages.add("Nachname: test")
-        for (m in messages) {
-            logToAll(m)
-            r.addStatus("OK", "Logged the following message:$m")
-
-        }
-        return r.toJsonString()
-    }
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun logPassword(): String {
-        val r = ReturnStatus()
-        val messages: MutableList<String> = ArrayList()
-        messages.add("Password: test")
-        messages.add("password: test")
-        messages.add("Passwd: test")
-        messages.add("passwd: test")
-        messages.add("pwd: test")
-        messages.add("Pwd: test")
-        messages.add("PWD: test")
-        messages.add("Secret: test")
-        messages.add("secret: test")
-        messages.add("PIN: test")
-        messages.add("pin: test")
-        messages.add("Passphrase: test")
-        messages.add("passphrase: test")
-        messages.add("passphrase:   test")
-        messages.add("PassPhrase: test")
-        messages.add("Pass Phrase: test")
-        messages.add("Pass Phrase:test")
-        messages.add("Private Key: test")
-        messages.add("PrivateKey: test")
-        messages.add("Secret Key: test")
-        messages.add("SecretKey: test")
-        for (m in messages) {
-            logToAll(m)
-            r.addStatus("OK", "Logged the following message:$m")
-        }
-        return r.toJsonString()
-    }
-
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logPhoneNumber(): String {
@@ -100,18 +47,18 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
     fun logEmail(): String {
         val r = ReturnStatus()
         val messages: MutableList<String> = ArrayList()
-        messages.add("eMail: fakeuser1@gmail.com")
-        messages.add("e-Mail: fakeuser1@gmail.com")
-        messages.add("e Mail: fakeuser1@gmail.com")
-        messages.add("e mail: fakeuser1@gmail.com")
-        messages.add("EMail: fakeuser1@gmail.com")
-        messages.add("EMAIL:fakeuser1@gmail.com")
-        messages.add("EMAIL:    fakeuser1@gmail.com")
-        messages.add("EMAIL: fakeuser1@gmail.com")
-        messages.add("fakeuser2@yahoo.com")
-        messages.add("fakeuser4@hotmail.com")
-        messages.add("fakeuser_11@bluewin.ch")
-        messages.add("fakeuser16@protonmail.ch")
+        messages.add("eMail: someuser1@gmail.com")
+        messages.add("e-Mail: someuser1@gmail.com")
+        messages.add("e Mail: someuser1@gmail.com")
+        messages.add("e mail: someuser1@gmail.com")
+        messages.add("EMail: someuser1@gmail.com")
+        messages.add("EMAIL:someuser1@gmail.com")
+        messages.add("EMAIL:    someuser1@gmail.com")
+        messages.add("EMAIL: someuser1@gmail.com")
+        messages.add("someuser2@yahoo.com")
+        messages.add("someuser4@hotmail.com")
+        messages.add("someuser_11@bluewin.ch")
+        messages.add("someuser16@protonmail.ch")
         for (m in messages) {
             logToAll(m)
             r.addStatus("OK", "Logged the following message:$m")
@@ -147,22 +94,24 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logLocation(): String {
-        val r = ReturnStatus("OK", "Android Stub")
+        val r = ReturnStatus()
+        val messages: MutableList<String> = ArrayList()
+        messages.add("37.7749, -122.4194")
+        messages.add("lat=37.200508")
+        messages.add("long=-122.507294")
+        messages.add("37°46'29.64\"N, 122°25'9.84\"W")
+        messages.add("37°46.494'N, 122°25.164'W ")
+        messages.add("Zone 10S, 551502mE, 4182635mN")
+        messages.add("10SEG5515024182635")
+        for (m in messages) {
+            logToAll(m)
+            r.addStatus("OK", "Logged the following message:$m")
+
+        }
         return r.toJsonString()
     }
 
-
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun logCanaryToken(): String {
-        val r = ReturnStatus()
-        logToAll(MasSettings.getCanaryToken())
-
-        return ReturnStatus("OK", "Canary Token logged: " + MasSettings.getCanaryToken()).toJsonString()
-
-    }
-
-        
+    
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logSensitiveData(): String {
         val r = ReturnStatus()
