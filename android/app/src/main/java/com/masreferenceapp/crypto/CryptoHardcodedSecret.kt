@@ -31,7 +31,8 @@ class CryptoHardcodedSecret(var context: ReactApplicationContext) : ReactContext
         val dsaPrivateKeyPassword = readRawTextFile(R.raw.dsa_2048_with_passphrase)
         val ecPrivateKeyPassword = readRawTextFile(R.raw.ec_secp256k1_with_passphrase)
         val rsaPrivateKeyPassword = readRawTextFile(R.raw.rsa_2048_with_passphrase)
-        return ReturnStatus("OK", "Dummy-Method with Private Keys").toJsonString()
+
+        return ReturnStatus("OK", "Dummy-Method with private keys").toJsonString()
     }
 
 
@@ -174,7 +175,7 @@ class CryptoHardcodedSecret(var context: ReactApplicationContext) : ReactContext
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun passwords(): String {
+    fun hardcodedSymmetricKeys(): String {
 
         // Dummy passwords
         val password1 = "dummyPassword123!"
@@ -184,7 +185,8 @@ class CryptoHardcodedSecret(var context: ReactApplicationContext) : ReactContext
         val dbConnectionString1 =
             "jdbc:mysql://localhost:3306/mydatabase?user=root&password=rootpassword"
         val dbConnectionString2 = "mongodb://myUser:myPassword@localhost:27017/mydatabase"
-        return ReturnStatus("OK", "Dummy-Method with Passwords Keys").toJsonString()
+
+        return ReturnStatus("OK", "Dummy-Method with symmetric keys.").toJsonString()
     }
     //@method
 }

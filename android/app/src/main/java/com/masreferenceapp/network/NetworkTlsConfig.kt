@@ -52,7 +52,7 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun insecureCipherSuties(): String {
+    fun insecureCipherSuites(): String {
         val testDomain = MasSettings.getData("testDomain")
 
         val ciphers = arrayOf(
@@ -86,7 +86,7 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
             socket!!.startHandshake()
             socket.close()
 
-            r.addStatus("[OK]", "TLS socket with insecure ciphersuite created.")
+            r.addStatus("[OK]", "TLS socket with insecure cipher suites created.")
 
             status.append("[OK]")
         } catch (e: Exception) {

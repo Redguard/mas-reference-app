@@ -61,23 +61,23 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'These testcase stores sensitive data using unencrypted SharedPreferences.',
       testCases: [
         {
-          title: 'Init WORLD_READABLE SharedPreferences',
-          description: 'Get a world readable SharedPreferenceInstance. This mode is deprecated on modern versions of Android.',
+          title: 'Init WORLD_READABLE',
+          description: 'Initializes a world readable SharedPreferenceInstance. This mode is deprecated on modern versions of Android.',
           nativeFunction: StorageSharedPreferences.getWorldReadableInstance,
         },
         {
-          title: 'Init WORLD_WRITABLE SharedPreferences',
-          description: 'Get an world writable SharedPreferenceInstance. This mode is deprecated on modern versions of Android.',
+          title: 'Init WORLD_WRITABLE',
+          description: 'Initializes an world writable SharedPreferenceInstance. This mode is deprecated on modern versions of Android.',
           nativeFunction: StorageSharedPreferences.getWorldWritableInstance,
         },
         {
-          title: 'Write sensitive String',
+          title: 'Write String',
           description:
           'Write sensitive data as String into the sandbox using SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putSensitiveString,
         },
         {
-          title: 'Write sensitive StringSet',
+          title: 'Write StringSet',
           description:
           'Write sensitive data as StringSet into the sandbox using SharedPreferences.',
           nativeFunction: StorageSharedPreferences.putSensitiveStringSet,
@@ -91,21 +91,21 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'This testcase stores sensitive data using the DataStore. Data stored this way is not encrypted in the sandbox. An attacker may therefore be able to retrieve the data.',
       testCases: [
         {
-          title: 'Write sensitive String to Preferences DataStore',
+          title: 'Write String to Preferences DataStore',
           description:
             'Write sensitive data as String using Preferences DataStore.',
           nativeFunction: StorageDataStore.writeStringPreferenceDataStore,
         },
         {
-          title: 'Write sensitive StringSet to Preferences DataStore',
+          title: 'Write StringSet to Preferences DataStore',
           description:
             'Write sensitive data as StringSet using Preferences DataStore.',
           nativeFunction: StorageDataStore.writeStringSetPreferenceDataStore,
         },
         {
-          title: 'Write sensitive Data to Proto DataStore',
+          title: 'Write Proto DataStore',
           description:
-            'Write sensitive data using Proto DataStore. The data is a simple User-Object with some String data. ',
+            'Write sensitive data using Proto DataStore. The data is a simple User-Object with some String data.',
           nativeFunction: StorageDataStoreProto.writeProtoDataStore,
         },
       ],
@@ -116,26 +116,26 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'These test cases write data into the internal storage (FilesDir and CacheDir) using java.io.File. These files are not encrypted by default.',
       testCases: [
         {
-          title: 'Write sensitive Data into Sandbox (MODE_PRIVATE)',
+          title: 'Write MODE_PRIVATE',
           maswe: '006',
           description:
             'Creates a file within the sandbox using the java.io.File API. The file is MODE_PRIVATE which limits the accessibility only to the app.',
           nativeFunction: StorageJavaFileIo.writeSensitiveFileSandbox,
         },
         {
-          title: 'Write sensitive, Data into Sandbox (MODE_WORLD_READABLE)',
+          title: 'Write MODE_WORLD_READABLE',
           maswe: '002',
           description: 'Creates a file within the sandbox using the java.io.File API. The file is MODE_WORLD_READABLE. This mode is deprecated on newer versions of Android. ',
           nativeFunction: StorageJavaFileIo.writeSandboxWorldReadable,
         },
         {
-          title: 'Write sensitive, Data into Sandbox (MODE_WORLD_WRITABLE)',
+          title: 'Write MODE_WORLD_WRITABLE',
           maswe: '002',
           description: 'Creates a file within the sandbox using the java.io.File API. The file is MODE_WORLD_WRITABLE. This mode is deprecated on newer versions of Android. ',
           nativeFunction: StorageJavaFileIo.writeSandboxWorldWritable,
         },
         {
-          title: 'Write sensitive Data into external App Storage',
+          title: 'Write to External App Storage',
           maswe: '002',
           description: 'Tries to write sensitive data into a file outside of the sandbox. This file is not accessible by other apps, but can be exported as access to the external storage is possible by the USB interface for example.',
           nativeFunction: StorageJavaFileIo.writeExternalAppContext,
@@ -146,34 +146,41 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       title: 'Querying External Storage',
       maswe: '0002',
       description:
-        'These test cases write data into the external storage (ExternalFilesDir and ExternalCacheDir). An app can use these locations, if the internal storage is full for example. They are still sandboxed form other applications. However, an attacker may remove the external storage and have easy access to this data. These files are not encrypted by default.',
+        'These test cases write data into the external storage (ExternalFilesDir and ExternalCacheDir). An app can use these locations, if the internal storage is full for example. They are still sandboxed form other applications. However, they could be accessed, using USB or by removing a physical SD-Card. These files are not encrypted by default.',
       testCases: [
         {
-          title: 'Check state of external Storage',
+          title: 'Check State of External Storage',
           description:
             'Returns the current state of the primary shared/external storage media.',
           nativeFunction: StorageExternalStorage.checkState,
         },
         {
-          title: 'Get root location using getExternalFilesDir',
+          title: 'Get External Root Location',
           description:
-            'Returns the absolute path to the directory on the primary shared/external storage device where the application can place persistent files it owns. These files are internal to the applications, and not typically visible to the user as media. ',
+            'Uses getExternalFilesDir. The function returns the absolute path to the directory on the primary shared/external storage device where the application can place persistent files it owns.',
           nativeFunction: StorageExternalStorage.getExternalFilesDirRoot,
         },
         {
-          title: 'Get external cache location using getExternalCacheDir',
+          title: 'Get External File Locations',
           description:
-            'Returns absolute path to application-specific directory on the primary shared/external storage device where the application can place cache files it owns. These files are internal to the application, and not typically visible to the user as media. ',
-          nativeFunction: StorageExternalStorage.getExternalCacheDir,
+            'Uses getExternalFilesDir in order to get different types of external locations such as Environment.DIRECTORY_MUSIC,  Environment.DIRECTORY_PODCASTS or Environment.DIRECTORY_PICTURES.',
+          nativeFunction: StorageExternalStorage.getDifferentExternalDirs,
         },
         {
-          title: 'Get different external file location',
+          title: 'Get External Cache Location',
           description:
-            'Try to access different types of external location such as Environment.DIRECTORY_MUSIC or Environment.DIRECTORY_PICTURES',
-          nativeFunction: StorageExternalStorage.getDifferentExternalDirs,
+            'Uses getExternalCacheDir. The function returns absolute path to application-specific directory on the primary shared/external storage device where the application can place cache files it owns.',
+          nativeFunction: StorageExternalStorage.getExternalCacheDir,
         },
       ],
     },
+
+
+/////////////    
+/////////////   UP - DONE
+/////////////
+
+
     {
       title: 'SQLite Database',
       maswe: '006',
