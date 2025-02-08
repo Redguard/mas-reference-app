@@ -186,24 +186,49 @@ class CryptoKeyGenParameterSpec(var context: ReactApplicationContext) : ReactCon
 
         
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun setUnlockedDeviceRequiredFalse(): String {
+    fun setUnlockedDeviceRequiredTrue(): String {
         val b = KeyGenParameterSpec.Builder(
             "testKeyGenParameter",
             KeyProperties.PURPOSE_ENCRYPT
         )
-        b.setUnlockedDeviceRequired(false)
-        return ReturnStatus("OK", "Unlocked device required set to false.").toJsonString()
+        b.setUnlockedDeviceRequired(true)
+        return ReturnStatus("OK", "Unlocked device required set to true.").toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun setUserAuthenticationRequiredFalse(): String {
+    fun requireUserAuthentication(): String {
         val b = KeyGenParameterSpec.Builder(
             "testKeyGenParameter",
             KeyProperties.PURPOSE_ENCRYPT
         )
-        b.setUserAuthenticationRequired(false)
-        return ReturnStatus("OK", "Authentication required set to false.").toJsonString()
+        b.setUserAuthenticationRequired(true)
+        return ReturnStatus("OK", "Authentication required set to true.").toJsonString()
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun configureUserAuth(): String {
+        val b = KeyGenParameterSpec.Builder(
+            "testKeyGenParameter",
+            KeyProperties.PURPOSE_ENCRYPT
+        )
+        val r = ReturnStatus();
+        b.setUserAuthenticationParameters(0, KeyProperties.AUTH_BIOMETRIC_STRONG)
+        r.success("Configured that user must authenticate each time before accessing the key and STRONG BIOMETRY is required.")
+
+        b.setUserAuthenticationParameters(0, KeyProperties.AUTH_DEVICE_CREDENTIAL)
+        r.success("Configured that user must authenticate each time before accessing the key and DEVICE CREDENTIAL is required.")
+        return r.toJsonString()
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun configureUserAuthLegacy(): String {
+        val b = KeyGenParameterSpec.Builder(
+            "testKeyGenParameter",
+            KeyProperties.PURPOSE_ENCRYPT
+        )
+        b.setUserAuthenticationValidityDurationSeconds(-1)
+        return ReturnStatus("OK", "Configured that user must authenticate each time before accessing the key.").toJsonString()
     }
 
     //@method
