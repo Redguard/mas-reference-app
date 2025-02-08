@@ -1,7 +1,8 @@
 package com.masreferenceapp
 
 object SensitiveData {
-    val data: String = "Artifactory: AKCp73pL4kpx91TSG1v2J5sLz6rHbHCVF5S3A\n" +
+    val data: String = "These are some strings which are considered sensitive data. They should not be stored insecurely: \n" +
+            "Artifactory: AKCp73pL4kpx91TSG1v2J5sLz6rHbHCVF5S3A\n" +
             "AWSKey: AKIAIOSFODNN7EXAMPLE\n" +
             "AzureStorageKey: Eby8vdM02xNO+G6CZDtl/JlEt2k='ExAmPlEkEy\n" +
             "BasicAuth: dXNlcm5hbWU6cGFzc3dvcmQ=\n" +

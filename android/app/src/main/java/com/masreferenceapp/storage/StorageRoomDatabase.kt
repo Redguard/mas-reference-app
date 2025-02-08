@@ -43,7 +43,7 @@ class StorageRoomDatabase(var context: ReactApplicationContext) : ReactContextBa
         user.password = SensitiveData.data
         userDao.insert(user)
         db.close()
-        return ReturnStatus("OK", "Sensitive data saved to Room Database.").toJsonString()
+        return ReturnStatus("OK", "Sensitive data saved to Room database.").toJsonString()
     }
 
 }
