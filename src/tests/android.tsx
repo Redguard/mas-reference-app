@@ -243,19 +243,16 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       ],
     },
   ],
-    /////////////    
-    /////////////   UP - DONE
-    /////////////
   CRYPTO: [
     {
       title: 'KeyGenParameterSpec',
       description:
-        'This class represents properties for cryptographic keys. The are used when creating keys within the Android KeyStore for example. XXXXXX ',
+        'This class represents properties for cryptographic keys. It is used when creating keys within the Android KeyStore for example. Since the security of the cryptography is also depending on secure key properties, a misconfigured KeyGenParameterSpec may be the source of a it security risk.',
       testCases: [
         {
           title: 'Set Attestation Challenge',
           description:
-            'Sets whether an attestation certificate will be generated for this key pair, and what challenge value will be placed in the certificate. The attestation certificate chain can be retrieved with with KeyStore.getCertificateChain(String)',
+            'Sets whether an attestation certificate will be generated for this key pair, and what challenge value will be placed in the certificate.',
           nativeFunction: CryptoKeyGenParameterSpec.setAttestationChallenge,
         },
         {
@@ -265,73 +262,88 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: CryptoKeyGenParameterSpec.setInsecureBlockMode,
         },
         {
-          title: 'Set insecure Digests',
+          title: 'Set Insecure Digests',
           description:
             'Sets insecure digests algorithms with which the key can be used.',
           nativeFunction: CryptoKeyGenParameterSpec.setInsecureDigest,
         },
         {
-          title: 'Set insecure Encryptoion Padding',
+          title: 'Set Insecure Encryption Padding',
           description:
             'Sets insecure padding schemes (e.g., PKCS7Padding, OAEPPadding, PKCS1Padding, NoPadding) with which the key can be used when encrypting/decrypting.',
           nativeFunction: CryptoKeyGenParameterSpec.setInsecureEncryptionPadding,
         },
         {
-          title: 'Set insecure Signature Padding',
+          title: 'Set Insecure Signature Padding',
           description:
             'Sets insecure padding schemes (e.g., PKCS7Padding, OAEPPadding, PKCS1Padding, NoPadding) with which the key can be used when signing.',
           nativeFunction: CryptoKeyGenParameterSpec.setInsecureSignaturePadding,
         },
         {
-          title: 'Set weak Key Size',
+          title: 'Set Weak Key Size',
           description:
             'Sets a weak size (in bits) of the key to be generated. ',
           nativeFunction: CryptoKeyGenParameterSpec.setWeakKey,
         },
         {
-          title: 'Set long Certificate Validity',
+          title: 'Set Long Certificate Validity',
           description:
             'Sets a long end of the validity period for the certificate of the generated key pair.',
           nativeFunction: CryptoKeyGenParameterSpec.setLongCertValidity,
         },
         {
-          title: 'Set long Key Validity',
+          title: 'Set Long Key Validity',
           description:
             'Sets a long end of the validity period for the key.',
           nativeFunction: CryptoKeyGenParameterSpec.setLongKeyValidity,
         },
         {
-          title: 'Don\'t invalidate at Biometric Enrollment ',
+          title: 'Don\'t Invalidate at Biometric Enrollment ',
           description:
-            'By default, the key is invalidated when a new biometric pattern is enrolled, this settings bypasses this.',
+            'By default, the key is invalidated when a new biometric pattern is enrolled. If this key property is set to false, the key remains valid in this case.',
           nativeFunction: CryptoKeyGenParameterSpec.dontInvalidateBioEnrollment,
         },
         {
           title: 'Set to Exportable',
           description:
-            'Sets whether this key should be protected by a StrongBox security chip to False.',
+            'Forces the key not to be stored in the StrongBox HSM using setIsStrongBoxBacked(false). Such a key can now be accessed form within the application.',
           nativeFunction: CryptoKeyGenParameterSpec.setExportable,
         },
         {
-          title: 'Don\'t require randomized encryption',
+          title: 'Don\'t Require Randomized Encryption',
           description:
-            'Sets whether encryption using this key must be sufficiently randomized to produce different ciphertexts for the same plaintext every time to False.',
+            'Sets whether encryption using this key must be sufficiently randomized to produce different cipher texts for the same plaintext every time to false.',
           nativeFunction: CryptoKeyGenParameterSpec.setRandomizedEncryptionRequiredFalse,
         },
         {
-          title: 'Don\'t require unlocked device',
+          title: 'Require Unlocked Device',
           description:
-            'Sets this key is authorized to be used only while the device is unlocked to false',
-          nativeFunction: CryptoKeyGenParameterSpec.setUnlockedDeviceRequiredFalse,
+            'By default, the setUnlockedDeviceRequired is set to false. By changing it to true, the key can only be accessed if the device is unlocked.',
+          nativeFunction: CryptoKeyGenParameterSpec.setUnlockedDeviceRequiredTrue,
         },
         {
-          title: 'Don\'t require user authentication',
+          title: 'Require User Authentication',
           description:
-            'Sets this key is authorized to be used only if the user has been authenticated to false',
-          nativeFunction: CryptoKeyGenParameterSpec.setUserAuthenticationRequiredFalse,
+            'By default, the setUserAuthenticationRequired is set to false. By changing it to true, the user is authenticated by Android before the key can be accessed.',
+          nativeFunction: CryptoKeyGenParameterSpec.requireUserAuthentication,
+        },
+        {
+          title: 'Configure User Authorization',
+          description:
+            'By default, there is no timeout on how long a key can be accessed if user authentication is required. This use case configures this using setUserAuthenticationParameters (int timeout, int type).',
+          nativeFunction: CryptoKeyGenParameterSpec.configureUserAuth,
+        },
+        {
+          title: 'Configure User Authorization (legacy)',
+          description:
+            'By default, there is no timeout on how long a key can be accessed if user authentication is required. This use case configures this using setUserAuthenticationValidityDurationSeconds (int seconds).',
+          nativeFunction: CryptoKeyGenParameterSpec.configureUserAuthLegacy,
         },
       ],
     },
+    /////////////    
+    /////////////   UP - DONE
+    /////////////
     {
       title: 'KeyInfo',
       description:
