@@ -16,12 +16,10 @@ class ExecuteTestButton extends Component<any, any> {
   }
 
   async onPress() {
-    // execute the native function
     const ret: string = await this.nativeFunction();
 
     const retJson = JSON.parse(ret);
 
-    // Send result to terminal
     if (this.terminalRef && this.terminalRef.current) {
       retJson.map((item: any, _: any) => {
         console.log(item);
@@ -81,7 +79,7 @@ function TestScreen({route, navigation}: any): React.JSX.Element {
 
   return (
     <ScrollView style={styles.categoryDescription}>
-      <Text>{testCases.description}</Text>
+      <Text style={styles.testDescription}>{testCases.description}</Text>
       {testCases.testCases.map(testCase => {
         var title = testCase.title;
 

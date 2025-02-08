@@ -174,13 +174,6 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
-
-/////////////    
-/////////////   UP - DONE
-/////////////
-
-
     {
       title: 'SQLite Database',
       maswe: '006',
@@ -193,22 +186,22 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: StorageSQLite.createSQLiteDB,
         },
         {
-          title: 'Store sensitive Data using execSQL and stored procedures',
-          description: 'Writes sensitive data to the SQLite DB using execSQL with a prepared statement.',
+          title: 'Use execSQL',
+          description: 'Writes sensitive data to an existing SQLite database using execSQL() with a prepared statement.',
           nativeFunction: StorageSQLite.execSensitiveSQLStoredProcedures,
         },
         {
-          title: 'Store sensitive Data using insert',
+          title: 'Use insert',
           description: 'Inserts sensitive data into an existing SQLite database using insert().',
           nativeFunction: StorageSQLite.insertSensitive,
         },
         {
-          title: 'Store sensitive Data using replace',
+          title: 'Use replace',
           description: 'Replaces data with sensitive data of an existing SQLite database using replace().',
           nativeFunction: StorageSQLite.replaceSensitive,
         },
         {
-          title: 'Store sensitive Data using update',
+          title: 'Use update',
           description: 'Updates data with sensitive data of an existing SQLite database using update().',
           nativeFunction: StorageSQLite.updateSensitive,
         },
@@ -222,12 +215,12 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Initialize Room Database',
-          description: 'Initialize a Room Database which stores data unencrypted within the sandbox.',
+          description: 'Initialize a Room database which stores data unencrypted within the sandbox.',
           nativeFunction: StorageRoomDatabase.initRoomDb,
         },
         {
-          title: 'Write sensitive Data to Room Database',
-          description: 'Writes sensitive data as a simple data structure to the Room DB.',
+          title: 'Write Data to Room Database',
+          description: 'Writes sensitive data in the form of a simple User-DAO data structure to the Room database.',
           nativeFunction: StorageRoomDatabase.writeToRoomDb,
         },
       ],
@@ -235,30 +228,38 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'MediaStore API',
       description:
-        'To provide a more enriched user experience, many apps let users contribute and access media that\'s available on an external storage volume. These files remain outside the apps sandbox and may therefore be accessed from other apps.',
+        'To provide a more enriched user experience, many apps let users contribute and access media that\'s available on an external storage volume. These files remain outside the apps sandbox, are world read- and writable and may therefore be accessed from other apps.',
       testCases: [
         {
-          title: 'Write sensitive Data to external Document Storage',
-          description: 'Writes a document to the document folder in the external storage using the MediaStore API.',
+          title: 'Write Data to Document Storage',
+          description: 'Writes text file to the document folder in the world writable external document storage.',
           nativeFunction: StorageMediaStoreAPI.writeDocument,
+        },
+        {
+          title: 'Read Data to Download Storage',
+          description: 'First writes a file into the world readable external download storage. Then tries to access it again.',
+          nativeFunction: StorageMediaStoreAPI.readDownload,
         },
       ],
     },
   ],
+    /////////////    
+    /////////////   UP - DONE
+    /////////////
   CRYPTO: [
     {
       title: 'KeyGenParameterSpec',
       description:
-        'This class represents properties for cryptographic keys. The are used when creating keys within the Android KeyStore for example.',
+        'This class represents properties for cryptographic keys. The are used when creating keys within the Android KeyStore for example. XXXXXX ',
       testCases: [
         {
-          title: 'Set Attesation Challenge',
+          title: 'Set Attestation Challenge',
           description:
             'Sets whether an attestation certificate will be generated for this key pair, and what challenge value will be placed in the certificate. The attestation certificate chain can be retrieved with with KeyStore.getCertificateChain(String)',
           nativeFunction: CryptoKeyGenParameterSpec.setAttestationChallenge,
         },
         {
-          title: 'Set insecure Block Modes',
+          title: 'Set Insecure Block Modes',
           description:
             'Sets insecure block modes with which the key can be used when encrypting/decrypting.',
           nativeFunction: CryptoKeyGenParameterSpec.setInsecureBlockMode,

@@ -7,9 +7,6 @@ const styles = StyleSheet.create({
   content: {
     flex: 4,
   },
-  // terminal: {
-  //   flex: 1,
-  // },
   categoryDescription: {
     flex: 1,
     margin: 20,

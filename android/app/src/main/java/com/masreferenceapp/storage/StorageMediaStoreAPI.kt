@@ -1,15 +1,18 @@
 package com.masreferenceapp.storage
 
 import android.content.ContentValues
+import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import java.io.OutputStream
-
 import com.masreferenceapp.ReturnStatus
 import com.masreferenceapp.SensitiveData
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.OutputStream
 
 
 class StorageMediaStoreAPI(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
@@ -19,22 +22,18 @@ class StorageMediaStoreAPI(var context: ReactApplicationContext) : ReactContextB
         return "StorageMediaStoreAPI"
     }
 
-        
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun writeDocument(): String {
+    private fun writeFile(location: String, r: ReturnStatus): Uri? {
 
+        val fileName =  "MAS_Test_File_" + (0..1000000).random() + ".txt"
         val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, "MAS_Test_File_" + (0..1000000).random() + ".txt")
+            put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
             put(MediaStore.MediaColumns.MIME_TYPE, "text/plain")
-            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOCUMENTS)
+            put(MediaStore.MediaColumns.RELATIVE_PATH, location)
         }
 
         val contentResolver = context.contentResolver
 
-        // This line indicates if the file is stored internally or externally
         val uri = contentResolver.insert(MediaStore.Files.getContentUri("external"), contentValues)
-
-        val r = ReturnStatus()
 
         uri?.let {
             var outputStream: OutputStream? = null
@@ -49,9 +48,41 @@ class StorageMediaStoreAPI(var context: ReactApplicationContext) : ReactContextB
                 outputStream?.close()
             }
         }
-        r.addStatus("OK", "Data written to external, public document folder. URI-Path is: " + (uri?.path
-            ?: ""))
+        r.success("Data written to external, public document folder. URI-Path is: " + (uri?.path ?: ""))
 
+        return uri
+    }
+        
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun writeDocument(): String {
+        val r = ReturnStatus()
+        writeFile(Environment.DIRECTORY_DOCUMENTS,  r)
+        return r.toJsonString()
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun readDownload(): String {
+
+        val r = ReturnStatus()
+
+        val uri = writeFile(Environment.DIRECTORY_DOWNLOADS, r)
+
+        val contentResolver = context.contentResolver
+
+        uri?.let {
+            var inputStream: InputStream? = null
+            try {
+                inputStream = contentResolver.openInputStream(uri)
+                val inputAsString = inputStream?.reader()?.readText()
+                r.success("File successfully read. Content: $inputAsString")
+                inputStream?.close()
+
+            } catch (e: Exception) {
+                r.fail(e.toString())
+            } finally {
+                inputStream?.close()
+            }
+        }
         return r.toJsonString()
     }
 
