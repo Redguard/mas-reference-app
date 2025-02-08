@@ -25,7 +25,19 @@ class CryptoDeprecated(var context: ReactApplicationContext) : ReactContextBaseJ
         return "CryptoDeprecated"
     }
 
-        
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun enumerateSecurityProviders(): String {
+        val p = Security.getProviders()
+
+        val r = ReturnStatus()
+
+        for (item in p){
+            r.success("SecurityProvider found: $item")
+        }
+        return r.toJsonString()
+    }
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun bouncyCastleProvider(): String {
 

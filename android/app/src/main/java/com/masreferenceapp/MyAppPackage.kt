@@ -11,7 +11,7 @@ import com.masreferenceapp.auth.AuthBiometricPrompt
 import com.masreferenceapp.auth.AuthFingerprintManager
 import com.masreferenceapp.auth.AuthKeyguardManager
 import com.masreferenceapp.auth.AuthProtectedConfirmation
-import com.masreferenceapp.crypto.CryptoCipher
+import com.masreferenceapp.crypto.CryptoJava
 import com.masreferenceapp.crypto.CryptoEncryptedFile
 import com.masreferenceapp.crypto.CryptoKeyAttestation
 import com.masreferenceapp.crypto.CryptoRandom
@@ -67,7 +67,7 @@ class MyAppPackage : ReactPackage {
         modules.add(AuthProtectedConfirmation(reactContext))
 
         modules.add(CryptoKeyAttestation(reactContext))
-        modules.add(CryptoCipher(reactContext))
+        modules.add(CryptoJava(reactContext))
         modules.add(CryptoRandom(reactContext))
         modules.add(CryptoEncryptedSharedPreferences(reactContext))
         modules.add(CryptoEncryptedFile(reactContext))

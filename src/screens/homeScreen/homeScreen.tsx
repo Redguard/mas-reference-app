@@ -6,15 +6,11 @@ import appContent from '../../appContent.tsx';
 import {Table, Rows} from 'react-native-table-component';
 
 function Stats({}: any): React.JSX.Element {
-  console.log(testCases);
-
   const stats: {[id: string]: number} = {};
 
   for (const c in appContent) {
     const category = appContent[c].key;
-    // const categoryColor = appContent[c].color;
     var i = 0;
-
     for (const tc in testCases[category]) {
       i += Object.keys(testCases[category][tc].testCases).length;
     }
