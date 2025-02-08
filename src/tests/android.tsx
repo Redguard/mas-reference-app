@@ -13,7 +13,7 @@ const {
   StorageMediaStoreAPI,
 
   CryptoKeyAttestation,
-  CryptoCipher,
+  CryptoJava,
   CryptoRandom,
   CryptoKeyGenParameterSpec,
   CryptoSecretKeyFactory,
@@ -341,24 +341,21 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-    /////////////    
-    /////////////   UP - DONE
-    /////////////
     {
       title: 'KeyInfo',
       description:
-        'KeyInfo Object can be used to verify key attributes. ',
+        'Android devices can be very different in features with an impact on the security. The can for example have a Trusted Execution Environment (TEE), a StrongBox HSM-Chip or none of them. This KeyInfo can be used to verify the properties of the key. Developers should use them in order to be informed about the security of the key material.',
       testCases: [
         {
           title: 'Get Security Level',
           description:
-            'Get information about where a Key is stored.',
+            'Depending on the device, the key can be stored in software, the TEE or the StrongBox HSM. This use case gets information about where a Key is stored using getSecurityLevel().',
           nativeFunction: CryptoKeyInfo.getSecurityLevel,
         },
         {
-          title: 'Use isInsideSecureHardware (deprecated)',
+          title: 'Verify if Key is in Secure Hardware (deprecated)',
           description:
-            'Get information about where the key is stored.',
+            'Depending on the device, the key can be stored in software, the TEE or the StrongBox HSM. This use case gets information about where a Key is stored using isInsideSecureHardware(). ',
           nativeFunction: CryptoKeyInfo.isInsideSecureHardware,
         },
       ],
@@ -366,17 +363,17 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'SecretKeyFactory',
       description:
-        'Key factories are used to convert keys (opaque cryptographic keys of type Key) into key specifications (transparent representations of the underlying key material), and vice versa.',
+        'SecretKeyFactory is commonly used to derive a cryptographic key from a user-provided password using algorithms like PBKDF2 (Password-Based Key Derivation Function 2) or when using custom cryptography which does not rely on the Android KeyStore System. This by itself can be a risk, as this key material may be stored more insecurely compared to keys within the KeyStore as they can be stored in dedicated hardware (TEE or StrongBox HSM).',
       testCases: [
         {
-          title: 'Use Insecure SecretKeyFactory Algorithms',
-          description: 'Use DES, DESede and PBEWithMD5AndDES as Algorithm.',
-          nativeFunction: CryptoSecretKeyFactory.insecureSecretKeyFactoryAlgorithms,
+          title: 'Weak Algorithms',
+          description: 'Create a SecretKeyFactory for weak algorithms such as DES, RC4, SHA1 etc.',
+          nativeFunction: CryptoSecretKeyFactory.weakSecretKeyFactoryAlgorithms,
         },
         {
           title: 'Use Low-Iteration PBKDF2',
           maswe: '0010',
-          description: 'Use insecure number of iterations when deriving a password using PBKDF2.',
+          description: 'Creates a key which is stretched using PBKDF2 with an low amount of iterations.',
           nativeFunction: CryptoSecretKeyFactory.lowIterationPBKDF2,
         },
       ],
@@ -384,7 +381,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Key Attestation',
       description:
-        'Key Attestation gives you more confidence that the keys you use in your app are stored in a device\'s hardware-backed keystore. The following sections describe how to verify the properties of hardware-backed keys and how to interpret the attestation certificates\' extension data.',
+        'Key attestation gives you more confidence that the keys you use in your app are stored in a device\'s hardware-backed keystore.',
       testCases: [
         {
           title: 'Get Certificate Chain',
@@ -392,55 +389,55 @@ export var androidTestCases: Dictionary<TestCases[]> = {
             'Use a KeyStore object\'s getCertificateChain() method to get a reference to the chain of X.509 certificates associated with the hardware-backed keystore.',
           nativeFunction: CryptoKeyAttestation.getCertificateChain,
         },
+
       ],
     },    
     {
-      title: 'Cipher',
+      title: 'Java Cryptography',
       description:
-        'These tests use the Cipher class for basic cryptographic operations such as encrypyt, or sign.',
+        'Android can access cryptographic libraries provided by the Java Runtime Environment. They are for example  javax.crypto.Cipher or java.security.Signature. These classes can be used to encrypt, and sign data. When using Java libraries, it is important to use secure parameters.',
       testCases: [
         {
-          title: 'Init Insecure Ciphers',
-          description: 'Initializes insecure ciphers, such as AES/ECB or RC4',
-          nativeFunction: CryptoCipher.initInsecureCiphers,
-        },
-        {
-          title: 'Init Insecure KeyGenerators',
+          title: 'Init Weak KeyGenerators',
           description:
-            'Creates KeyGenerators for all available Algorithms, also insecure one such as RC4',
-          nativeFunction: CryptoCipher.initInsecureKeyGenerators,
+            'Creates KeyGenerators weak Algorithms such as AES/ECB or RC4.',
+          nativeFunction: CryptoJava.initInsecureKeyGenerators,
         },
         {
-          title: 'Init Insecure Signatures',
+          title: 'Init Weak Ciphers',
+          description: 'Initializes insecure ciphers, such as AES/ECB or RC4.',
+          nativeFunction: CryptoJava.initInsecureCiphers,
+        },
+        {
+          title: 'Init Weak Signatures',
           description: 'Initializes insecure Signatures.',
-          nativeFunction: CryptoCipher.initInsecureSignatures,
+          nativeFunction: CryptoJava.initInsecureSignatures,
         },
         {
-          title: 'Deprecated Bouncy Castle',
-          description: 'Initializes an Cipher object with deprecated BC',
-          nativeFunction: CryptoCipher.bouncyCastle,
-        },
-        {
-          title: 'Password-Based Cipher with Low Iteration Count',
-          description:
-            'Initializes an Cipher with PBE with 1 iteration when creating the Cipher Spec.',
-          nativeFunction: CryptoCipher.pbeCipherLowIteration,
+          title: 'Deprecated Bouncy Castle Security Provider',
+          description: 'Initializes an Cipher object with deprecated Bouncy Castle Security Provider.',
+          nativeFunction: CryptoJava.bouncyCastle,
         },
         {
           title: 'Password-Based Ciphers with Zero-IV',
           description:
-            'Password-based encryption (PBE) ciphers that require an initialization vector (IV) can obtain it from the key, if it\'s suitably constructed, or from an explicitly passed IV. If you pass a PBE key that doesn\'t contain an IV and don\'t pass an explicit IV, the PBE ciphers on Android currently assume an IV of zero.',
-          nativeFunction: CryptoCipher.pbeCipherZeroIV,
+            'Password-based encryption (PBE) ciphers that require an initialization vector (IV) can obtain it from the key, if it\'s suitably constructed, or from an explicitly passed IV. This use case creates a Cipher object for a PBE cipher which does not explicity state the IV. This means, a null IV is used implicitly.',
+          nativeFunction: CryptoJava.pbeCipherZeroIV,
         },
         {
           title: 'Null-IV',
           maswe:'0022',
           description:
             'The use of predictable IVs (hardcoded, null, reused) in a security sensitive context can weaken data encryption strength and potentially compromise confidentiality.',
-          nativeFunction: CryptoCipher.nullIv,
+          nativeFunction: CryptoJava.nullIv,
         },
       ],
     },
+
+    /////////////    
+    /////////////   UP - DONE
+    /////////////
+
     {
       title: 'Random Numbers',
       description:
@@ -481,6 +478,12 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       description:
         'The usage of deprecated cryptographic implementation can intoduce risks.',
       testCases: [
+        {
+          title: 'Enumerate SecurityProvider',
+          description:
+            'XXXXX',
+          nativeFunction: CryptoDeprecated.enumerateSecurityProviders,
+        },
         {
           title: 'Load BouncyCastle using SecurityProvider',
           description:
