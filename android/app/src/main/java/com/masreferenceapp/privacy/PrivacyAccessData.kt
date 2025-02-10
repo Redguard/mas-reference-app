@@ -232,6 +232,13 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
         promise.resolve(r.toJsonString())
     }
 
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun getLocation(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
     //@method
 }
 

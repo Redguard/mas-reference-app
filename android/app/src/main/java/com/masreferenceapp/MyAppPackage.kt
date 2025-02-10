@@ -11,31 +11,31 @@ import com.masreferenceapp.auth.AuthBiometricPrompt
 import com.masreferenceapp.auth.AuthFingerprintManager
 import com.masreferenceapp.auth.AuthKeyguardManager
 import com.masreferenceapp.auth.AuthProtectedConfirmation
-import com.masreferenceapp.crypto.CryptoJava
 import com.masreferenceapp.crypto.CryptoEncryptedFile
-import com.masreferenceapp.crypto.CryptoKeyAttestation
-import com.masreferenceapp.crypto.CryptoRandom
-import com.masreferenceapp.platform.PlatformWebView
-import com.masreferenceapp.resilience.ResilienceFileIntegrityManager
-import com.masreferenceapp.storage.StorageInternalStorage
-import com.masreferenceapp.storage.StorageDataStore
-import com.masreferenceapp.storage.StorageDataStoreProto
 import com.masreferenceapp.crypto.CryptoEncryptedSharedPreferences
+import com.masreferenceapp.crypto.CryptoJava
+import com.masreferenceapp.crypto.CryptoKeyAttestation
 import com.masreferenceapp.crypto.CryptoMasterKey
+import com.masreferenceapp.crypto.CryptoRandomJava
 import com.masreferenceapp.network.NetworkLocalNetwork
 import com.masreferenceapp.network.NetworkTlsConfig
 import com.masreferenceapp.network.NetworkTlsPinning
 import com.masreferenceapp.network.NetworkUnencrypted
 import com.masreferenceapp.platform.PlatformIpc
+import com.masreferenceapp.platform.PlatformWebView
 import com.masreferenceapp.resilience.ResilienceAntiDebug
 import com.masreferenceapp.resilience.ResilienceAntiVm
+import com.masreferenceapp.resilience.ResilienceFileIntegrityManager
 import com.masreferenceapp.resilience.ResilienceVerifySignature
+import com.masreferenceapp.storage.StorageDataStore
+import com.masreferenceapp.storage.StorageDataStoreProto
 import com.masreferenceapp.storage.StorageExternalStorage
+import com.masreferenceapp.storage.StorageHardcodedApiKey
+import com.masreferenceapp.storage.StorageInternalStorage
 import com.masreferenceapp.storage.StorageLog
 import com.masreferenceapp.storage.StorageRoomDatabase
 import com.masreferenceapp.storage.StorageSQLite
 import com.masreferenceapp.storage.StorageSharedPreferences
-import com.masreferenceapp.storage.StorageHardcodedApiKey
 
 class MyAppPackage : ReactPackage {
 
@@ -68,7 +68,7 @@ class MyAppPackage : ReactPackage {
 
         modules.add(CryptoKeyAttestation(reactContext))
         modules.add(CryptoJava(reactContext))
-        modules.add(CryptoRandom(reactContext))
+        modules.add(CryptoRandomJava(reactContext))
         modules.add(CryptoEncryptedSharedPreferences(reactContext))
         modules.add(CryptoEncryptedFile(reactContext))
         modules.add(CryptoMasterKey(reactContext))
@@ -105,6 +105,7 @@ class MyAppPackage : ReactPackage {
         modules.add(com.masreferenceapp.privacy.PrivacyMarketingUUID(reactContext))
         modules.add(com.masreferenceapp.crypto.CryptoKeyInfo(reactContext))
         modules.add(com.masreferenceapp.resilience.ResilienceDeviceIntegrity(reactContext))
+        modules.add(com.masreferenceapp.crypto.CryptoRandomKotlin(reactContext))
         //@modules
 
         return modules
