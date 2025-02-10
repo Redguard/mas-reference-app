@@ -9,10 +9,10 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.ReturnStatus;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -36,17 +36,17 @@ public class StorageInternalStorage extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getFilesDir(){
+    public String getFilesDir() {
         return new ReturnStatus("OK", "Files directory: " + context.getFilesDir().toString()).toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getCacheDir(){
+    public String getCacheDir() {
         return new ReturnStatus("OK", "Cache directory: " + context.getCacheDir().toString()).toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String writeFileOutput(){
+    public String writeFileOutput() {
 
         ReturnStatus r = new ReturnStatus();
 
@@ -57,7 +57,7 @@ public class StorageInternalStorage extends ReactContextBaseJavaModule {
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String writeFileOutputModes(){
+    public String writeFileOutputModes() {
 
         List<Number> modes = new ArrayList<>();
         modes.add(Context.MODE_PRIVATE);
@@ -70,15 +70,14 @@ public class StorageInternalStorage extends ReactContextBaseJavaModule {
 
         ReturnStatus r = new ReturnStatus();
         for (Number mode : modes) {
-            writeFileOutputMODE((int)mode, r);
+            writeFileOutputMODE((int) mode, r);
         }
         return r.toJsonString();
     }
 
 
-
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String readTextFile(){
+    public String readTextFile() {
         String[] returnValues = new String[2];
         returnValues[0] = "OK";
         returnValues[1] = "";
@@ -99,9 +98,9 @@ public class StorageInternalStorage extends ReactContextBaseJavaModule {
                 stringBuilder.append(line).append('\n');
                 line = reader.readLine();
             }
-            r.addStatus("OK", "File with following content read: " + stringBuilder.toString());
+            r.addStatus("OK", "File with following content read: " + stringBuilder);
 
-        } catch (Exception e){
+        } catch (Exception e) {
             r.addStatus("FAIL", r.toJsonString());
         }
 
@@ -109,13 +108,13 @@ public class StorageInternalStorage extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getInternalFileList(){
-        String[] file =  context.fileList();
-        return new ReturnStatus("OK",  "Internal File List: " + Arrays.toString(file)).toJsonString();
+    public String getInternalFileList() {
+        String[] file = context.fileList();
+        return new ReturnStatus("OK", "Internal File List: " + Arrays.toString(file)).toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String createCacheFile(){
+    public String createCacheFile() {
         String statuscode = "OK";
         String message = "";
         File file;
@@ -127,11 +126,11 @@ public class StorageInternalStorage extends ReactContextBaseJavaModule {
             statuscode = "FAIL";
         }
 
-        return new ReturnStatus(statuscode,  "Cache file created: " + message).toJsonString();
+        return new ReturnStatus(statuscode, "Cache file created: " + message).toJsonString();
     }
 
 
-    private void writeFileOutputMODE(int mode, ReturnStatus r){
+    private void writeFileOutputMODE(int mode, ReturnStatus r) {
         String filename = "masTestFile";
         String fileContents = "Some secret Message in the internal sandbox!";
         try (FileOutputStream fos = context.openFileOutput(filename, mode)) {

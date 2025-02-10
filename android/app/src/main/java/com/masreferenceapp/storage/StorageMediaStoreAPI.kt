@@ -9,9 +9,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.ReturnStatus
 import com.masreferenceapp.SensitiveData
-import java.io.BufferedReader
 import java.io.InputStream
-import java.io.InputStreamReader
 import java.io.OutputStream
 
 
@@ -24,7 +22,7 @@ class StorageMediaStoreAPI(var context: ReactApplicationContext) : ReactContextB
 
     private fun writeFile(location: String, r: ReturnStatus): Uri? {
 
-        val fileName =  "MAS_Test_File_" + (0..1000000).random() + ".txt"
+        val fileName = "MAS_Test_File_" + (0..1000000).random() + ".txt"
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
             put(MediaStore.MediaColumns.MIME_TYPE, "text/plain")
@@ -48,15 +46,17 @@ class StorageMediaStoreAPI(var context: ReactApplicationContext) : ReactContextB
                 outputStream?.close()
             }
         }
-        r.success("Data written to external, public document folder. URI-Path is: " + (uri?.path ?: ""))
+        r.success(
+            "Data written to external, public document folder. URI-Path is: " + (uri?.path ?: "")
+        )
 
         return uri
     }
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun writeDocument(): String {
         val r = ReturnStatus()
-        writeFile(Environment.DIRECTORY_DOCUMENTS,  r)
+        writeFile(Environment.DIRECTORY_DOCUMENTS, r)
         return r.toJsonString()
     }
 

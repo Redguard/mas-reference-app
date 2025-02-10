@@ -24,13 +24,20 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
     override fun getName(): String {
         return "PrivacyAccessData"
     }
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getContacts(): String {
 
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)
-            != PackageManager.PERMISSION_GRANTED) {
-            currentActivity?.let { ActivityCompat.requestPermissions(it, arrayOf(Manifest.permission.READ_CONTACTS), 1) }
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            currentActivity?.let {
+                ActivityCompat.requestPermissions(
+                    it,
+                    arrayOf(Manifest.permission.READ_CONTACTS),
+                    1
+                )
+            }
         }
 
         val cursor = context.contentResolver.query(
@@ -55,12 +62,19 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getCalendarEvent(): String {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR)
-            != PackageManager.PERMISSION_GRANTED) {
-            currentActivity?.let { ActivityCompat.requestPermissions(it, arrayOf(Manifest.permission.READ_CALENDAR), 1) }
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            currentActivity?.let {
+                ActivityCompat.requestPermissions(
+                    it,
+                    arrayOf(Manifest.permission.READ_CALENDAR),
+                    1
+                )
+            }
         }
 
         val r = ReturnStatus()
@@ -76,7 +90,7 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
 
         if (calendarCursor != null) {
             r.addStatus("OK", "Tried to access ${calendarCursor.count} calendars.")
-        } else{
+        } else {
             r.addStatus("OK", "Tried to access 0 calendars.")
         }
 
@@ -90,7 +104,7 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
 
         if (eventsCursor != null) {
             r.addStatus("OK", "Tried to access ${eventsCursor.count} events.")
-        } else{
+        } else {
             r.addStatus("OK", "Tried to access 0 events.")
         }
 
@@ -104,7 +118,7 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
 
         if (attendeesCursor != null) {
             r.addStatus("OK", "Tried to access ${attendeesCursor.count} attendees.")
-        } else{
+        } else {
             r.addStatus("OK", "Tried to access 0 attendees.")
         }
 
@@ -134,17 +148,24 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getSMS(): String {
         val r = ReturnStatus()
-        try{
+        try {
 
             val SMS_PERMISSION_CODE = 101
 
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_SMS)
-                != PackageManager.PERMISSION_GRANTED) {
-                currentActivity?.let { ActivityCompat.requestPermissions(it, arrayOf(Manifest.permission.READ_SMS), SMS_PERMISSION_CODE) }
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                currentActivity?.let {
+                    ActivityCompat.requestPermissions(
+                        it,
+                        arrayOf(Manifest.permission.READ_SMS),
+                        SMS_PERMISSION_CODE
+                    )
+                }
             }
 
             val cursor = context.contentResolver.query(
@@ -166,8 +187,7 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
             }
 
             r.success("Tried to access $count SMS.")
-        }
-        catch(e:Exception){
+        } catch (e: Exception) {
             r.fail(e.toString())
         }
         return r.toJsonString()
@@ -177,38 +197,52 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun sendSMS(): String {
         val r = ReturnStatus()
-        try{
+        try {
 
             val SMS_PERMISSION_CODE = 102
 
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS)
-                != PackageManager.PERMISSION_GRANTED) {
-                currentActivity?.let { ActivityCompat.requestPermissions(it, arrayOf(Manifest.permission.SEND_SMS), SMS_PERMISSION_CODE) }
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                currentActivity?.let {
+                    ActivityCompat.requestPermissions(
+                        it,
+                        arrayOf(Manifest.permission.SEND_SMS),
+                        SMS_PERMISSION_CODE
+                    )
+                }
             }
 
             val smsManager: SmsManager = SmsManager.getDefault()
             smsManager.sendTextMessage("000000000", null, "TestMessage", null, null)
 
             r.success("Send a test message to 000000000.")
-        }
-        catch(e:Exception){
+        } catch (e: Exception) {
             r.fail(e.toString())
         }
         return r.toJsonString()
     }
-        
+
     @ReactMethod()
-    fun getLocation(promise: Promise){
+    fun getLocation(promise: Promise) {
         val r = ReturnStatus()
-        try{
+        try {
             val LOCATION_PERMISSION_REQUEST_CODE = 100
 
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-                currentActivity?.let { ActivityCompat.requestPermissions(it, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE) }
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                currentActivity?.let {
+                    ActivityCompat.requestPermissions(
+                        it,
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                        LOCATION_PERMISSION_REQUEST_CODE
+                    )
+                }
             }
 
-            val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val locationManager =
+                context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
             val providers = locationManager.getProviders(false)
             r.success("Location providers: $providers")
@@ -216,18 +250,21 @@ class PrivacyAccessData(var context: ReactApplicationContext) : ReactContextBase
             val lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             r.success("Last location: $lastLocation")
 
-            locationManager.getCurrentLocation(LocationManager.GPS_PROVIDER, null, ContextCompat.getMainExecutor(context)) { location ->
+            locationManager.getCurrentLocation(
+                LocationManager.GPS_PROVIDER,
+                null,
+                ContextCompat.getMainExecutor(context)
+            ) { location ->
                 callback(location, promise, r)
             }
 
-        }
-        catch(e:Exception){
+        } catch (e: Exception) {
             r.fail(e.toString())
             promise.resolve(r.toJsonString())
         }
     }
 
-    private fun callback(location: Location?, promise: Promise, r: ReturnStatus){
+    private fun callback(location: Location?, promise: Promise, r: ReturnStatus) {
         r.success("Current location: $location")
         promise.resolve(r.toJsonString())
     }

@@ -39,7 +39,7 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String isHardwareDetected(){
+    public String isHardwareDetected() {
         FingerprintManager fpm = context.getSystemService(FingerprintManager.class);
         ReturnStatus r = new ReturnStatus("OK", "Hardware detected: " + fpm.isHardwareDetected());
         return r.toJsonString();
@@ -47,7 +47,7 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String hasEnrolledFingerprints(){
+    public String hasEnrolledFingerprints() {
 
         FingerprintManager fpm = context.getSystemService(FingerprintManager.class);
         ReturnStatus r = new ReturnStatus("OK", "Has enrolled Fingerprint: " + fpm.hasEnrolledFingerprints());
@@ -56,7 +56,7 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String authenticateSimple(){
+    public String authenticateSimple() {
         FingerprintManager fpm = context.getSystemService(FingerprintManager.class);
 
         final CancellationSignal cancellationSignal = new CancellationSignal();
@@ -99,7 +99,7 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String authenticateCryptoObject(){
+    public String authenticateCryptoObject() {
 
         try {
             final CancellationSignal cancellationSignal = new CancellationSignal();

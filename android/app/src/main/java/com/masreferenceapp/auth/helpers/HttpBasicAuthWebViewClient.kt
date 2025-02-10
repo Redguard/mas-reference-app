@@ -4,7 +4,7 @@ import android.webkit.HttpAuthHandler
 import android.webkit.WebView
 import android.webkit.WebViewClient
 
-class HttpBasicAuthWebViewClient: WebViewClient(){
+class HttpBasicAuthWebViewClient : WebViewClient() {
     override fun onReceivedHttpAuthRequest(
         view: WebView?,
         handler: HttpAuthHandler?,

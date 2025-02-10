@@ -104,7 +104,7 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun acceptBadTLS(): String {
 
@@ -127,18 +127,21 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
             "https://sha1-2017.badssl.com/",
             "https://sha1-intermediate.badssl.com/",
             "https://invalid-expected-sct.badssl.com/"
-            )
+        )
 
         val r = ReturnStatus()
 
-        for (domain in badDomains){
-            try{
+        for (domain in badDomains) {
+            try {
                 val url = URL(domain)
                 val connection = url.openConnection() as HttpURLConnection
                 val responseCode = connection.responseCode
-                r.addStatus("FAIL", "App established connection to $domain . Response Code is $responseCode")
+                r.addStatus(
+                    "FAIL",
+                    "App established connection to $domain . Response Code is $responseCode"
+                )
 
-            } catch (e : Exception) {
+            } catch (e: Exception) {
                 r.addStatus("OK", "App did not established connection to $domain. Error: $e")
             }
         }

@@ -14,17 +14,6 @@ public class IpcExportedService extends Service {
     // Random number generator.
     private final Random mGenerator = new Random();
 
-    /**
-     * Class used for the client Binder.  Because we know this service always
-     * runs in the same process as its clients, we don't need to deal with IPC.
-     */
-    public class IpcExportedBinder extends Binder {
-        IpcExportedService getService() {
-            // Return this instance of LocalService so clients can call public methods.
-            return IpcExportedService.this;
-        }
-    }
-
     @Override
     public IBinder onBind(Intent intent) {
         System.out.println("A client connected to this service.");
@@ -35,9 +24,22 @@ public class IpcExportedService extends Service {
         return binder;
     }
 
-    /** Method for clients. */
+    /**
+     * Method for clients.
+     */
     public int getRandomNumber() {
         return mGenerator.nextInt(100);
+    }
+
+    /**
+     * Class used for the client Binder.  Because we know this service always
+     * runs in the same process as its clients, we don't need to deal with IPC.
+     */
+    public class IpcExportedBinder extends Binder {
+        IpcExportedService getService() {
+            // Return this instance of LocalService so clients can call public methods.
+            return IpcExportedService.this;
+        }
     }
 
 }

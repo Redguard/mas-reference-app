@@ -139,7 +139,6 @@ public class CryptoJava extends ReactContextBaseJavaModule {
     }
 
 
-
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String bouncyCastle() {
         ReturnStatus r = new ReturnStatus();
@@ -186,8 +185,8 @@ public class CryptoJava extends ReactContextBaseJavaModule {
             r.success("PBE Cipher with Zero IV created. ");
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                r.success("IV is : "  + HexFormat.of().formatHex(cipher.getIV()));
-            };
+                r.success("IV is : " + HexFormat.of().formatHex(cipher.getIV()));
+            }
             return r.toJsonString();
 
         } catch (Exception e) {

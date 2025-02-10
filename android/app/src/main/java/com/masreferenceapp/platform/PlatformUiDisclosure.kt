@@ -6,10 +6,10 @@ import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import androidx.core.app.NotificationCompat
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -29,10 +29,19 @@ class PlatformUiDisclosure(var context: ReactApplicationContext) : ReactContextB
     fun sensitiveDataNotifications(): String {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS)
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                )
                 != PackageManager.PERMISSION_GRANTED
             ) {
-                currentActivity?.let { ActivityCompat.requestPermissions(it, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1) }
+                currentActivity?.let {
+                    ActivityCompat.requestPermissions(
+                        it,
+                        arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                        1
+                    )
+                }
             }
         }
 
@@ -80,7 +89,7 @@ class PlatformUiDisclosure(var context: ReactApplicationContext) : ReactContextB
         ).toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun prohibitScreenshot(): String {
         val myIntent = Intent()
@@ -99,7 +108,7 @@ class PlatformUiDisclosure(var context: ReactApplicationContext) : ReactContextB
         ).toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun passwordPlaintextUi(): String {
 

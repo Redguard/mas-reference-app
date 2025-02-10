@@ -20,7 +20,6 @@ import java.util.Set;
 import io.reactivex.rxjava3.core.Single;
 
 
-
 public class StorageDataStore extends ReactContextBaseJavaModule {
 
     ReactApplicationContext context;
@@ -30,7 +29,7 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
     public StorageDataStore(ReactApplicationContext context) {
         super(context);
         this.context = context;
-        this.prefDataStore =  new RxPreferenceDataStoreBuilder(context, /*name=*/ "masDataStoreSettings").build();
+        this.prefDataStore = new RxPreferenceDataStoreBuilder(context, /*name=*/ "masDataStoreSettings").build();
     }
 
     @NonNull
@@ -40,18 +39,18 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String initPreferenceDataStore(){
+    public String initPreferenceDataStore() {
 
         return new ReturnStatus("OK", "DataStore initialized.").toJsonString();
     }
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String writeStringPreferenceDataStore(){
+    public String writeStringPreferenceDataStore() {
 
         Preferences.Key<String> EXAMPLE_STRING = PreferencesKeys.stringKey("sensitive_data_STR");
 
-        Single<Preferences> updateResult =  prefDataStore.updateDataAsync(prefsIn -> {
+        Single<Preferences> updateResult = prefDataStore.updateDataAsync(prefsIn -> {
             MutablePreferences mutablePreferences = prefsIn.toMutablePreferences();
             mutablePreferences.set(EXAMPLE_STRING, SensitiveData.INSTANCE.getData());
             return Single.just(mutablePreferences);
@@ -61,30 +60,30 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String writeCanaryTokenStringPreferenceDataStore(){
+    public String writeCanaryTokenStringPreferenceDataStore() {
 
         Preferences.Key<String> EXAMPLE_STRING = PreferencesKeys.stringKey("sensitive_data_STR");
 
-        Single<Preferences> updateResult =  prefDataStore.updateDataAsync(prefsIn -> {
+        Single<Preferences> updateResult = prefDataStore.updateDataAsync(prefsIn -> {
             MutablePreferences mutablePreferences = prefsIn.toMutablePreferences();
             mutablePreferences.set(EXAMPLE_STRING, MasSettings.getCanaryToken());
             return Single.just(mutablePreferences);
 
         });
-        return new ReturnStatus("OK", "Canary Token written to DataStore: " +  MasSettings.getCanaryToken()).toJsonString();
+        return new ReturnStatus("OK", "Canary Token written to DataStore: " + MasSettings.getCanaryToken()).toJsonString();
     }
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String writeStringSetPreferenceDataStore(){
+    public String writeStringSetPreferenceDataStore() {
 
-        Preferences.Key<Set<String>> EXAMPLE_STRING_SET = PreferencesKeys.stringSetKey ("sensitive_data_STRSET");
+        Preferences.Key<Set<String>> EXAMPLE_STRING_SET = PreferencesKeys.stringSetKey("sensitive_data_STRSET");
 
 
         Set<String> stringSet = new HashSet<String>();
         stringSet.add(SensitiveData.INSTANCE.getData());
 
-        Single<Preferences> updateResult =  prefDataStore.updateDataAsync(prefsIn -> {
+        Single<Preferences> updateResult = prefDataStore.updateDataAsync(prefsIn -> {
             MutablePreferences mutablePreferences = prefsIn.toMutablePreferences();
             mutablePreferences.set(EXAMPLE_STRING_SET, stringSet);
             return Single.just(mutablePreferences);
@@ -96,15 +95,15 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String writeCanaryTokenStringSetPreferenceDataStore(){
+    public String writeCanaryTokenStringSetPreferenceDataStore() {
 
-        Preferences.Key<Set<String>> EXAMPLE_STRING_SET = PreferencesKeys.stringSetKey ("sensitive_data_STRSET");
+        Preferences.Key<Set<String>> EXAMPLE_STRING_SET = PreferencesKeys.stringSetKey("sensitive_data_STRSET");
 
 
         Set<String> stringSet = new HashSet<String>();
         stringSet.add(MasSettings.getCanaryToken());
 
-        Single<Preferences> updateResult =  prefDataStore.updateDataAsync(prefsIn -> {
+        Single<Preferences> updateResult = prefDataStore.updateDataAsync(prefsIn -> {
             MutablePreferences mutablePreferences = prefsIn.toMutablePreferences();
             mutablePreferences.set(EXAMPLE_STRING_SET, stringSet);
             return Single.just(mutablePreferences);
@@ -115,9 +114,8 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
     }
 
 
-
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String readStringPreferenceDataStore(){
+    public String readStringPreferenceDataStore() {
 
         this.writeStringPreferenceDataStore();
 
@@ -132,7 +130,7 @@ public class StorageDataStore extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String readStringSetPreferenceDataStore(){
+    public String readStringSetPreferenceDataStore() {
 
         this.writeStringSetPreferenceDataStore();
 

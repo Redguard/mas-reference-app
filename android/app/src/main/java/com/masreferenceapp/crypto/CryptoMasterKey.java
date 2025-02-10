@@ -8,9 +8,6 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.ReturnStatus;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
 
 public class CryptoMasterKey extends ReactContextBaseJavaModule {
     ReactApplicationContext context;
@@ -27,8 +24,7 @@ public class CryptoMasterKey extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String createMasterKey()
-    {
+    public String createMasterKey() {
         String masterKeyAlias = null;
         try {
             masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);

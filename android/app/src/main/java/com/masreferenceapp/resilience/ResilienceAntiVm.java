@@ -1,12 +1,10 @@
 package com.masreferenceapp.resilience;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.InstallSourceInfo;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.os.Debug;
 import android.telephony.TelephonyManager;
 
 import androidx.annotation.NonNull;
@@ -38,33 +36,32 @@ public class ResilienceAntiVm extends ReactContextBaseJavaModule {
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getImsi(){
-        try{
+    public String getImsi() {
+        try {
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             String imsi = telephonyManager.getSubscriberId();
 
             return new ReturnStatus("OK", "IMSI: " + imsi).toJsonString();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getBuild(){
-            String BOARD = android.os.Build.BOARD;
-            String BRAND = android.os.Build.BRAND;
-            String DEVICE = android.os.Build.DEVICE;
-            String MODEL = android.os.Build.MODEL;
-            String PRODUCT = android.os.Build.PRODUCT;
+    public String getBuild() {
+        String BOARD = android.os.Build.BOARD;
+        String BRAND = android.os.Build.BRAND;
+        String DEVICE = android.os.Build.DEVICE;
+        String MODEL = android.os.Build.MODEL;
+        String PRODUCT = android.os.Build.PRODUCT;
 
-            return new ReturnStatus("OK", "Information about the build: " + BOARD + ", " + BRAND + ", " + DEVICE + ", " + MODEL + ", " + PRODUCT ).toJsonString();
+        return new ReturnStatus("OK", "Information about the build: " + BOARD + ", " + BRAND + ", " + DEVICE + ", " + MODEL + ", " + PRODUCT).toJsonString();
 
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getNetworkInterface(){
+    public String getNetworkInterface() {
 
         StringBuilder status = new StringBuilder();
         ReturnStatus r = new ReturnStatus();
@@ -85,7 +82,7 @@ public class ResilienceAntiVm extends ReactContextBaseJavaModule {
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getInstallerPackageName(){
+    public String getInstallerPackageName() {
 
         ReturnStatus r = new ReturnStatus();
 
@@ -117,16 +114,15 @@ public class ResilienceAntiVm extends ReactContextBaseJavaModule {
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getSensor(){
-        try{
-             SensorManager smanger = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-             Sensor sensor = smanger.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-             List<Sensor> sensor2 = smanger.getSensorList(Sensor.TYPE_ALL);
+    public String getSensor() {
+        try {
+            SensorManager smanger = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+            Sensor sensor = smanger.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+            List<Sensor> sensor2 = smanger.getSensorList(Sensor.TYPE_ALL);
 
             return new ReturnStatus("OK", "Sensor queried. Sensor info: " + sensor.getName() + ", " + Arrays.toString(sensor2.toArray())).toJsonString();
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return new ReturnStatus("FAIL", "Exception: " + e).toJsonString();
         }
     }

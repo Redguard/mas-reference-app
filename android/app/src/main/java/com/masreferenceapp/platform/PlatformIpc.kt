@@ -135,9 +135,11 @@ class PlatformIpc(var context: ReactApplicationContext) : ReactContextBaseJavaMo
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.applicationContext.startActivity(intent)
 
-        return ReturnStatus("OK", "Dummy Activity which is accessible by deep link started. Since the Activity finishes immediately, you should not see it.").toJsonString()
+        return ReturnStatus(
+            "OK",
+            "Dummy Activity which is accessible by deep link started. Since the Activity finishes immediately, you should not see it."
+        ).toJsonString()
     }
-
 
 
     private fun startServerSocket(port: Int) {
@@ -170,7 +172,6 @@ class PlatformIpc(var context: ReactApplicationContext) : ReactContextBaseJavaMo
     }
 
 
-
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun listenLocalhost(): String {
 
@@ -192,7 +193,7 @@ class PlatformIpc(var context: ReactApplicationContext) : ReactContextBaseJavaMo
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun sendLocalhost(): String {
 
@@ -207,10 +208,13 @@ class PlatformIpc(var context: ReactApplicationContext) : ReactContextBaseJavaMo
         try {
             var rawSocket = Socket("localhost", 8080)
             rawSocket = Socket("127.0.0.1", 8080)
+        } catch (_: Exception) {
         }
-        catch (_: Exception){ }
 
-        val r = ReturnStatus("OK", "Created URLs and raw sockets with the intention to connect to localhost")
+        val r = ReturnStatus(
+            "OK",
+            "Created URLs and raw sockets with the intention to connect to localhost"
+        )
         return r.toJsonString()
     }
 

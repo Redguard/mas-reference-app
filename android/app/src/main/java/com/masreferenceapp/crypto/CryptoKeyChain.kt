@@ -6,7 +6,6 @@ import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.ReturnStatus
 
 
-
 class CryptoKeyChain(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
     context
 ) {
@@ -14,7 +13,7 @@ class CryptoKeyChain(var context: ReactApplicationContext) : ReactContextBaseJav
         return "CryptoKeyChain"
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun createKeyChain(): String {
         val r = ReturnStatus("OK", "Android code stub.")

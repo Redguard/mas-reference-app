@@ -1,4 +1,5 @@
 package com.masreferenceapp.storage
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
@@ -14,11 +15,11 @@ import com.msareferenceapp.UserPreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 
-class StorageDataStoreProto(context: ReactApplicationContext) : ReactContextBaseJavaModule(context){
+class StorageDataStoreProto(context: ReactApplicationContext) :
+    ReactContextBaseJavaModule(context) {
     override fun getName() = "StorageDataStoreProto"
 
     private val Context.userProtoDataStore: DataStore<UserPreference> by dataStore(
@@ -45,7 +46,10 @@ class StorageDataStoreProto(context: ReactApplicationContext) : ReactContextBase
         myPluginScope.launch {
             saveUserToProtoStore(user)
         }
-        return ReturnStatus("OK", "Sensitive Data stored in Proto DataStore: " + SensitiveData.data).toJsonString()
+        return ReturnStatus(
+            "OK",
+            "Sensitive Data stored in Proto DataStore: " + SensitiveData.data
+        ).toJsonString()
     }
 
 
@@ -66,15 +70,19 @@ class StorageDataStoreProto(context: ReactApplicationContext) : ReactContextBase
 //        return ReturnStatus("OK", "Read User Object in Proto DataStore.").toJsonString()
 //    }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun writeCanaryTokenProtoDataStore(): String {
-        val user = User(firstName = "Canary", lastName = "Token", password = MasSettings.getCanaryToken())
+        val user =
+            User(firstName = "Canary", lastName = "Token", password = MasSettings.getCanaryToken())
 
         myPluginScope.launch {
             saveUserToProtoStore(user)
         }
-        return ReturnStatus("OK", "Sensitive Data stored in Proto DataStore: " + MasSettings.getCanaryToken()).toJsonString()
+        return ReturnStatus(
+            "OK",
+            "Sensitive Data stored in Proto DataStore: " + MasSettings.getCanaryToken()
+        ).toJsonString()
 
     }
 

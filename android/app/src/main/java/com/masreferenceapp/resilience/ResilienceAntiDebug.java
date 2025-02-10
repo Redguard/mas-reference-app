@@ -27,21 +27,20 @@ public class ResilienceAntiDebug extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String debuggable(){
-        try{
+    public String debuggable() {
+        try {
             PackageManager pm = context.getPackageManager();
             ApplicationInfo appInfo = pm.getApplicationInfo(context.getPackageName(), 0);
             boolean debuggable = (0 != (appInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE));
             return new ReturnStatus("OK", "Is app debuggable: " + debuggable).toJsonString();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String debuggerConnected(){
+    public String debuggerConnected() {
         ReturnStatus r = new ReturnStatus("OK", "Is debugger connected:: " + Debug.isDebuggerConnected());
         return r.toJsonString();
     }

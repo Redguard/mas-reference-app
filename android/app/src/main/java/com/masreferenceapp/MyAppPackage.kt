@@ -48,7 +48,7 @@ class MyAppPackage : ReactPackage {
     ): List<NativeModule> {
         val modules = mutableListOf<NativeModule>()
 
-        modules.add(MasSettingsSync(reactContext));
+        modules.add(MasSettingsSync(reactContext))
 
         modules.add(StorageSharedPreferences(reactContext))
         modules.add(StorageLog(reactContext))

@@ -18,7 +18,7 @@ class CryptoSecretKeyFactory(var context: ReactApplicationContext) : ReactContex
     override fun getName(): String {
         return "CryptoSecretKeyFactory"
     }
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun weakSecretKeyFactoryAlgorithms(): String {
         val r = ReturnStatus()
@@ -42,18 +42,18 @@ class CryptoSecretKeyFactory(var context: ReactApplicationContext) : ReactContex
             "PBEwithSHAANDTWOFISH-CBC",
         )
 
-        for (a in algorithms){
+        for (a in algorithms) {
             try {
                 val secretKeyFactory = SecretKeyFactory.getInstance(a)
                 r.success("Created SecretKeyFactory:  " + secretKeyFactory.algorithm)
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 r.fail(e.toString())
             }
         }
         return r.toJsonString()
     }
 
-        
+
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun lowIterationPBKDF2(): String {
@@ -68,7 +68,7 @@ class CryptoSecretKeyFactory(var context: ReactApplicationContext) : ReactContex
         val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
         val spec = PBEKeySpec(password, salt, iterations, keyLength)
 
-        val key =  HexFormat.of().formatHex(factory.generateSecret(spec).encoded)
+        val key = HexFormat.of().formatHex(factory.generateSecret(spec).encoded)
 
         val r = ReturnStatus()
         r.success("Created a PBKDF2 stretched key with 1 iteration. Key is : ${key}")

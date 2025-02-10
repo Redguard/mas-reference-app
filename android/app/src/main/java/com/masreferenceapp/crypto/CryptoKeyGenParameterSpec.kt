@@ -19,7 +19,7 @@ class CryptoKeyGenParameterSpec(var context: ReactApplicationContext) : ReactCon
         return "CryptoKeyGenParameterSpec"
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun setAttestationChallenge(): String {
         val b = KeyGenParameterSpec.Builder(
@@ -30,7 +30,7 @@ class CryptoKeyGenParameterSpec(var context: ReactApplicationContext) : ReactCon
         return ReturnStatus("OK", "Attestation challenge set.").toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun setInsecureBlockMode(): String {
         val b = KeyGenParameterSpec.Builder(
@@ -41,7 +41,7 @@ class CryptoKeyGenParameterSpec(var context: ReactApplicationContext) : ReactCon
         return ReturnStatus("OK", "Block mode ECB set.").toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun setInsecureDigest(): String {
         val b = KeyGenParameterSpec.Builder(
@@ -124,7 +124,7 @@ class CryptoKeyGenParameterSpec(var context: ReactApplicationContext) : ReactCon
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun setLongCertValidity(): String {
         val b = KeyGenParameterSpec.Builder(
@@ -138,7 +138,7 @@ class CryptoKeyGenParameterSpec(var context: ReactApplicationContext) : ReactCon
         return ReturnStatus("OK", "Set cert validity to not valid after 2100-10-10.").toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun setLongKeyValidity(): String {
         val b = KeyGenParameterSpec.Builder(
@@ -152,7 +152,7 @@ class CryptoKeyGenParameterSpec(var context: ReactApplicationContext) : ReactCon
         return ReturnStatus("OK", "Set key validity to not valid after 2100-10-10.").toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun dontInvalidateBioEnrollment(): String {
         val b = KeyGenParameterSpec.Builder(
@@ -160,10 +160,13 @@ class CryptoKeyGenParameterSpec(var context: ReactApplicationContext) : ReactCon
             KeyProperties.PURPOSE_ENCRYPT
         )
         b.setInvalidatedByBiometricEnrollment(false)
-        return ReturnStatus("OK", "Key will not be invalidated if new biometric is enrolled.").toJsonString()
+        return ReturnStatus(
+            "OK",
+            "Key will not be invalidated if new biometric is enrolled."
+        ).toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun setExportable(): String {
         val b = KeyGenParameterSpec.Builder(
@@ -171,7 +174,10 @@ class CryptoKeyGenParameterSpec(var context: ReactApplicationContext) : ReactCon
             KeyProperties.PURPOSE_ENCRYPT
         )
         b.setIsStrongBoxBacked(false)
-        return ReturnStatus("OK", "Key can be exported, as it is not backed by StrongBox.").toJsonString()
+        return ReturnStatus(
+            "OK",
+            "Key can be exported, as it is not backed by StrongBox."
+        ).toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -184,7 +190,7 @@ class CryptoKeyGenParameterSpec(var context: ReactApplicationContext) : ReactCon
         return ReturnStatus("OK", "Randomized encryption required set to false.").toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun setUnlockedDeviceRequiredTrue(): String {
         val b = KeyGenParameterSpec.Builder(
@@ -212,7 +218,7 @@ class CryptoKeyGenParameterSpec(var context: ReactApplicationContext) : ReactCon
             "testKeyGenParameter",
             KeyProperties.PURPOSE_ENCRYPT
         )
-        val r = ReturnStatus();
+        val r = ReturnStatus()
         b.setUserAuthenticationParameters(0, KeyProperties.AUTH_BIOMETRIC_STRONG)
         r.success("Configured that user must authenticate each time before accessing the key and STRONG BIOMETRY is required.")
 
@@ -228,7 +234,10 @@ class CryptoKeyGenParameterSpec(var context: ReactApplicationContext) : ReactCon
             KeyProperties.PURPOSE_ENCRYPT
         )
         b.setUserAuthenticationValidityDurationSeconds(-1)
-        return ReturnStatus("OK", "Configured that user must authenticate each time before accessing the key.").toJsonString()
+        return ReturnStatus(
+            "OK",
+            "Configured that user must authenticate each time before accessing the key."
+        ).toJsonString()
     }
 
     //@method

@@ -4,14 +4,13 @@ package com.masreferenceapp.crypto;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.ReturnStatus;
-
-import androidx.security.crypto.EncryptedSharedPreferences;
-import androidx.security.crypto.MasterKeys;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,9 +30,9 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String createEncryptedSharedPreferences(){
+    public String createEncryptedSharedPreferences() {
         SharedPreferences sharedPref;
-        String message= "";
+        String message = "";
         try {
             // a the moment, this is the only way of creating encrypted preferences
             // a developer is not able to create an _insecure_ instances of EncryptedSharedPreferences
@@ -52,14 +51,14 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
             ReturnStatus r = new ReturnStatus("OK", "Encrypted Shared Preferences Created");
             return r.toJsonString();
 
-        } catch (Exception e){
+        } catch (Exception e) {
             ReturnStatus r = new ReturnStatus("FAIL", e.toString());
             return r.toJsonString();
         }
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String putString(){
+    public String putString() {
         SharedPreferences sharedPref;
         try {
             // a the moment, this is the only way of creating encrypted preferences
@@ -83,14 +82,14 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
             ReturnStatus r = new ReturnStatus("OK", "String added.");
             return r.toJsonString();
 
-        } catch (Exception e){
+        } catch (Exception e) {
             ReturnStatus r = new ReturnStatus("FAIL", e.toString());
             return r.toJsonString();
         }
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String putStringSet(){
+    public String putStringSet() {
         SharedPreferences sharedPref;
         try {
             // a the moment, this is the only way of creating encrypted preferences
@@ -116,14 +115,14 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
 
             ReturnStatus r = new ReturnStatus("OK", "StringSet added.");
             return r.toJsonString();
-        } catch (Exception e){
+        } catch (Exception e) {
             ReturnStatus r = new ReturnStatus("FAIL", e.toString());
             return r.toJsonString();
         }
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String readString(){
+    public String readString() {
         SharedPreferences sharedPref;
         ReturnStatus r = new ReturnStatus();
         try {
@@ -145,9 +144,9 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
             this.putString();
 
             String readValue = sharedPreferences.getString("masRefAppKeyPassword", "");
-            r.addStatus("OK", "Read values: "  + readValue);
+            r.addStatus("OK", "Read values: " + readValue);
 
-        } catch (Exception e){
+        } catch (Exception e) {
             r.addStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
@@ -155,7 +154,7 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String readStringSet(){
+    public String readStringSet() {
         SharedPreferences sharedPref;
         ReturnStatus r = new ReturnStatus();
         try {
@@ -180,8 +179,8 @@ public class CryptoEncryptedSharedPreferences extends ReactContextBaseJavaModule
             Set<String> readValue = sharedPreferences.getStringSet("masRefAppKeyPasswords", new HashSet<>());
 
 
-            r.addStatus("OK", "Read values: "  + readValue.toString());
-        } catch (Exception e){
+            r.addStatus("OK", "Read values: " + readValue);
+        } catch (Exception e) {
             r.addStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }

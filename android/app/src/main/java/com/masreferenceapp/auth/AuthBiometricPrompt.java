@@ -1,5 +1,4 @@
 package com.masreferenceapp.auth;
-import androidx.annotation.NonNull;
 
 import android.content.DialogInterface;
 import android.hardware.biometrics.BiometricManager;
@@ -8,6 +7,7 @@ import android.os.CancellationSignal;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 
+import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -64,7 +64,7 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
 
         CancellationSignal mcancellationSignal = new CancellationSignal();
 
-        prompt.authenticate(mcancellationSignal, mExecutor, mAuthenticationCallback );
+        prompt.authenticate(mcancellationSignal, mExecutor, mAuthenticationCallback);
 
         ReturnStatus r = new ReturnStatus("OK", "Simple biometry prompt executed.");
         return r.toJsonString();
@@ -92,7 +92,7 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
                 .setAllowedAuthenticators(BiometricManager.Authenticators.DEVICE_CREDENTIAL)
                 .build();
 
-        prompt.authenticate(mcancellationSignal, mExecutor, mAuthenticationCallback );
+        prompt.authenticate(mcancellationSignal, mExecutor, mAuthenticationCallback);
 
         ReturnStatus r = new ReturnStatus("OK", "Simple device PIN prompt executed.");
         return r.toJsonString();
@@ -134,7 +134,7 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
                         byte[] plaintext = inputString.getBytes();
                         byte[] ciphertext = c.doFinal(plaintext);
                     } catch (Exception e) {
-                        System.out.println(e.toString());
+                        System.out.println(e);
                     }
                 }
 
