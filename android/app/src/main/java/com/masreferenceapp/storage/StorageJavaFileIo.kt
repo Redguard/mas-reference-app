@@ -46,7 +46,11 @@ class StorageJavaFileIo(var context: ReactApplicationContext) : ReactContextBase
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun writeExternalAppContext(): String {
         val r = ReturnStatus()
-        writeExternalFile(r, context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), SensitiveData.data)
+        writeExternalFile(
+            r,
+            context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+            SensitiveData.data
+        )
         return r.toJsonString()
     }
 
@@ -60,7 +64,10 @@ class StorageJavaFileIo(var context: ReactApplicationContext) : ReactContextBase
 
             context.openFileOutput(filename, mode).use { fos ->
                 fos.write(content.toByteArray(StandardCharsets.UTF_8))
-                r.addStatus("OK", "File successfully written: ${File(sandboxRootPath, filename).absoluteFile}")
+                r.addStatus(
+                    "OK",
+                    "File successfully written: ${File(sandboxRootPath, filename).absoluteFile}"
+                )
             }
         } catch (e: Exception) {
             r.addStatus("FAIL", e.toString())

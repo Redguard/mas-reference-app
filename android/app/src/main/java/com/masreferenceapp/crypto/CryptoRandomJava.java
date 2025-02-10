@@ -26,7 +26,7 @@ public class CryptoRandomJava extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String insecureRandom(){
+    public String insecureRandom() {
 
         Random random = new Random();
 
@@ -35,7 +35,7 @@ public class CryptoRandomJava extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String insecureRandomSeed(){
+    public String insecureRandomSeed() {
 
         Random r1 = new Random(123456);
         Random r2 = new Random(123456);
@@ -45,7 +45,7 @@ public class CryptoRandomJava extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String secureRandom(){
+    public String secureRandom() {
         SecureRandom random = new SecureRandom();
 
         ReturnStatus r = new ReturnStatus("OK", "Secure random number generated using java.util.SecureRandom(): " + random.nextInt());
@@ -68,14 +68,13 @@ public class CryptoRandomJava extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String secureRandomInstance(){
+    public String secureRandomInstance() {
 
         try {
             SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "Crypto");
             ReturnStatus r = new ReturnStatus("OK", "Created a SecureRandom Instance with 'SHA1PRNG'-Algorithm.");
             return r.toJsonString();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }

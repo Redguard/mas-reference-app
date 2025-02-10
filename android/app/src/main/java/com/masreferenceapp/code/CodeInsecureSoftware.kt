@@ -42,8 +42,8 @@ class CodeInsecureSoftware(var context: ReactApplicationContext) : ReactContextB
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun sqlInjection(): String {
         val r = ReturnStatus()
-        try{
-            val dbpath = context.getDatabasePath("MasSqlite_"+(0..1000000).random()+".db")
+        try {
+            val dbpath = context.getDatabasePath("MasSqlite_" + (0..1000000).random() + ".db")
             val plainTextDb = SQLiteDatabase.openOrCreateDatabase(dbpath, null)
             initDb(plainTextDb)
 
@@ -52,28 +52,28 @@ class CodeInsecureSoftware(var context: ReactApplicationContext) : ReactContextB
             plainTextDb.close()
 
             r.success("Using execSQL(sql: String) to insert sensitive data into DB stored at: $dbpath")
-        }
-        catch(e:Exception){
+        } catch (e: Exception) {
             r.fail(e.toString())
         }
         return r.toJsonString()
     }
 
 
-        
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun XmlExternalEntity(): String {
         val r = ReturnStatus()
-        try{
+        try {
             val factory = XmlPullParserFactory.newInstance()
             factory.isNamespaceAware = true
-            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
-            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-            factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false)
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false)
+            factory.setFeature(
+                "http://apache.org/xml/features/nonvalidating/load-external-dtd",
+                false
+            )
 
             r.success("XML PullParser hardened to make it resilient against XEE attacks.")
-        }
-        catch(e:Exception){
+        } catch (e: Exception) {
             r.fail(e.toString())
         }
         return r.toJsonString()
@@ -84,7 +84,7 @@ class CodeInsecureSoftware(var context: ReactApplicationContext) : ReactContextB
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun insecureDeserialisation(): String {
         val r = ReturnStatus()
-        try{
+        try {
             var user = User(id = 1, name = "John Doe", email = "john.doe@mas.owasp.org")
 
             val byteArrayOutputStream = ByteArrayOutputStream()
@@ -97,8 +97,7 @@ class CodeInsecureSoftware(var context: ReactApplicationContext) : ReactContextB
             user = ObjectInputStream(byteArrayInputStream).use { it.readObject() as User }
 
             r.success("Serialized and deserialized an object using ObjectInputStream")
-        }
-        catch(e:Exception){
+        } catch (e: Exception) {
             r.fail(e.toString())
         }
         return r.toJsonString()

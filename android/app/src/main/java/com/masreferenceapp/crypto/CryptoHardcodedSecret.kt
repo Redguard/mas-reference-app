@@ -7,7 +7,6 @@ import com.masreferenceapp.R
 import com.masreferenceapp.ReturnStatus
 
 
-
 class CryptoHardcodedSecret(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
     context
 ) {

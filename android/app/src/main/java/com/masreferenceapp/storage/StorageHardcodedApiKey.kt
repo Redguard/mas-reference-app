@@ -3,7 +3,6 @@ package com.masreferenceapp.storage
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.masreferenceapp.R
 import com.masreferenceapp.ReturnStatus
 
 class StorageHardcodedApiKey(var context: ReactApplicationContext) : ReactContextBaseJavaModule(

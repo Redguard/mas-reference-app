@@ -4,10 +4,8 @@ import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.masreferenceapp.MasSettings
 import com.masreferenceapp.ReturnStatus
 import com.masreferenceapp.SensitiveData
-import kotlinx.coroutines.MainScope
 
 
 class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
@@ -111,7 +109,7 @@ class StorageLog(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         return r.toJsonString()
     }
 
-    
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun logSensitiveData(): String {
         val r = ReturnStatus()

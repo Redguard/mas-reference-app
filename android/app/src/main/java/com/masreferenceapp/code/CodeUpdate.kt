@@ -9,7 +9,6 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.masreferenceapp.ReturnStatus
 
 
-
 class CodeUpdate(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
     context
 ) {
@@ -33,8 +32,7 @@ class CodeUpdate(var context: ReactApplicationContext) : ReactContextBaseJavaMod
             ) {
                 // Request the update.
                 print("Update available.")
-            }
-            else{
+            } else {
                 print("No update available.")
             }
         }
@@ -43,7 +41,7 @@ class CodeUpdate(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun checkOs(): String {
 
@@ -53,7 +51,10 @@ class CodeUpdate(var context: ReactApplicationContext) : ReactContextBaseJavaMod
         val codeName = android.os.Build.VERSION.CODENAME
         val release = android.os.Build.VERSION.RELEASE
 
-        val r = ReturnStatus("OK", "Android Release is $release. Android code name is $codeName. Android SDK INT is $sdkInt. Android SDK String is $sdkString. Android Security Patch is $securityPatch.")
+        val r = ReturnStatus(
+            "OK",
+            "Android Release is $release. Android code name is $codeName. Android SDK INT is $sdkInt. Android SDK String is $sdkString. Android Security Patch is $securityPatch."
+        )
         return r.toJsonString()
     }
 

@@ -2,12 +2,12 @@ package com.masreferenceapp.crypto;
 
 import androidx.annotation.NonNull;
 import androidx.security.crypto.EncryptedFile;
+import androidx.security.crypto.MasterKeys;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.ReturnStatus;
-import androidx.security.crypto.MasterKeys;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,7 +23,6 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
     }
 
 
-
     @NonNull
     @Override
     public String getName() {
@@ -31,14 +30,14 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String writeFile(){
+    public String writeFile() {
         try {
             String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
 
             File file = new File(context.getFilesDir(), "masReferenceApp_secret_data");
 
-            if (file.exists()){
-               file.delete();
+            if (file.exists()) {
+                file.delete();
             }
 
             EncryptedFile encryptedFile = new EncryptedFile.Builder(
@@ -51,7 +50,6 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
             FileOutputStream encryptedOutputStream = encryptedFile.openFileOutput();
             encryptedOutputStream.write("Some s3cr3t text".getBytes());
             encryptedOutputStream.close();
-
 
 
             StringBuilder hexString = new StringBuilder();
@@ -68,7 +66,7 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
                 }
             }
 
-            ReturnStatus r = new ReturnStatus("OK", "Encrypted file content: " +  hexString);
+            ReturnStatus r = new ReturnStatus("OK", "Encrypted file content: " + hexString);
             return r.toJsonString();
 
         } catch (Exception e) {
@@ -79,13 +77,13 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String readFile(){
+    public String readFile() {
         try {
             String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
 
             File file = new File(context.getFilesDir(), "masReferenceApp_read_secret");
 
-            if (file.exists()){
+            if (file.exists()) {
                 file.delete();
             }
 
@@ -101,7 +99,6 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
             encryptedOutputStream.close();
 
 
-
             FileInputStream encryptedInputStream = encryptedFile.openFileInput();
             StringBuilder outString = new StringBuilder();
 
@@ -110,10 +107,10 @@ public class CryptoEncryptedFile extends ReactContextBaseJavaModule {
             // read() function return int between 0 and 255.
 
             while ((character = encryptedInputStream.read()) != -1) {
-                outString.append((char)character);
+                outString.append((char) character);
             }
 
-            ReturnStatus r = new ReturnStatus("OK", "Decrypted file content: " +  outString);
+            ReturnStatus r = new ReturnStatus("OK", "Decrypted file content: " + outString);
             return r.toJsonString();
 
         } catch (Exception e) {

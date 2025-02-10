@@ -44,14 +44,14 @@ class CryptoKeyInfo(var context: ReactApplicationContext) : ReactContextBaseJava
         return factory.getKeySpec(secretKey, KeyInfo::class.java) as KeyInfo
     }
 
-    private fun deleteKey(){
+    private fun deleteKey() {
         val keyAlias = "testAesKey"
         val keyStore = KeyStore.getInstance("AndroidKeyStore").apply {
             load(null)
         }
         keyStore.deleteEntry(keyAlias)
     }
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getSecurityLevel(): String {
         val ki = createKey()
@@ -64,7 +64,7 @@ class CryptoKeyInfo(var context: ReactApplicationContext) : ReactContextBaseJava
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun isInsideSecureHardware(): String {
         val ki = createKey()

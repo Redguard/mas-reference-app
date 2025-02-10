@@ -6,7 +6,6 @@ import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.ReturnStatus
 
 
-
 class CodeDependencies(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
     context
 ) {
@@ -14,14 +13,14 @@ class CodeDependencies(var context: ReactApplicationContext) : ReactContextBaseJ
         return "CodeDependencies"
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun vulnerableNativeSDK(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun vulnerableWebSDK(): String {
         val r = ReturnStatus("OK", "Android code stub.")

@@ -18,28 +18,28 @@ class NetworkLocalNetwork(var context: ReactApplicationContext) : ReactContextBa
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun access(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun hostHttpServer(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun hostTcpServer(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun hostUDPServer(): String {
         val r = ReturnStatus("OK", "Android code stub.")

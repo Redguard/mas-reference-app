@@ -6,7 +6,6 @@ import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.ReturnStatus
 
 
-
 class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
     context
 ) {
@@ -14,28 +13,28 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
         return "NetworkTlsPinning"
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun customTruststore(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun okHttpCertificatePinner(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun webViewPinning(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun programmaticallyVerify(): String {
         val r = ReturnStatus("OK", "Android code stub.")

@@ -4,7 +4,6 @@ import androidx.room.Room.databaseBuilder
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.masreferenceapp.MasSettings.getCanaryToken
 import com.masreferenceapp.ReturnStatus
 import com.masreferenceapp.SensitiveData
 import com.masreferenceapp.storage.room.AppDatabase
@@ -21,7 +20,7 @@ class StorageRoomDatabase(var context: ReactApplicationContext) : ReactContextBa
     fun initRoomDb(): String {
         val db = databaseBuilder(
             context,
-            AppDatabase::class.java, "Mas_RoomDb_"+(0..1000000).random()
+            AppDatabase::class.java, "Mas_RoomDb_" + (0..1000000).random()
         ).build()
         db.close()
         return ReturnStatus("OK", "Room Database created.").toJsonString()
@@ -31,7 +30,7 @@ class StorageRoomDatabase(var context: ReactApplicationContext) : ReactContextBa
     fun writeToRoomDb(): String {
         val db = databaseBuilder(
             context,
-            AppDatabase::class.java, "Mas_RoomDb_"+(0..1000000).random()
+            AppDatabase::class.java, "Mas_RoomDb_" + (0..1000000).random()
         ).build()
 
         val userDao = db.userDao()

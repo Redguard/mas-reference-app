@@ -3,7 +3,6 @@ package com.masreferenceapp.auth;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.app.KeyguardManager;
-import android.content.ContentResolver;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
@@ -29,37 +28,37 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String checkKeyguardState(){
+    public String checkKeyguardState() {
         KeyguardManager kgm = getSystemService(context, KeyguardManager.class);
 
         boolean isKeyguardSecure = kgm.isKeyguardSecure();
         boolean isKeyguardLocked = kgm.isKeyguardLocked();
 
-        ReturnStatus r = new ReturnStatus("OK", "isKeyguardSecure: "+ isKeyguardSecure +", isKeyguardLocked:" +  isKeyguardLocked);
+        ReturnStatus r = new ReturnStatus("OK", "isKeyguardSecure: " + isKeyguardSecure + ", isKeyguardLocked:" + isKeyguardLocked);
         return r.toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String checkDeviceState(){
+    public String checkDeviceState() {
         KeyguardManager kgm = getSystemService(context, KeyguardManager.class);
 
         boolean isDeviceSecure = kgm.isDeviceSecure();
         boolean isDeviceLocked = kgm.isDeviceLocked();
 
-        ReturnStatus r = new ReturnStatus("OK", "isDeviceSecure: " +  isDeviceSecure+", isDeviceLocked:" +  isDeviceLocked);
+        ReturnStatus r = new ReturnStatus("OK", "isDeviceSecure: " + isDeviceSecure + ", isDeviceLocked:" + isDeviceLocked);
         return r.toJsonString();
     }
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String checkPattern(){
+    public String checkPattern() {
 
-        try{
-            int patternEnabled = Settings.System.getInt(context.getContentResolver(), Settings.Secure.LOCK_PATTERN_ENABLED , 0);
-            ReturnStatus r = new ReturnStatus("OK", "Pattern Enabled: "+ patternEnabled);
+        try {
+            int patternEnabled = Settings.System.getInt(context.getContentResolver(), Settings.Secure.LOCK_PATTERN_ENABLED, 0);
+            ReturnStatus r = new ReturnStatus("OK", "Pattern Enabled: " + patternEnabled);
             return r.toJsonString();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
             return r.toJsonString();
         }
@@ -67,7 +66,7 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String disableKeyguardLock(){
+    public String disableKeyguardLock() {
 
         KeyguardManager kgm = getSystemService(context, KeyguardManager.class);
         KeyguardManager.KeyguardLock keyguardLock = kgm.newKeyguardLock("Tag");
@@ -79,7 +78,7 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String requestDismissKeyguard(){
+    public String requestDismissKeyguard() {
 
         KeyguardManager kgm = getSystemService(context, KeyguardManager.class);
 

@@ -13,7 +13,7 @@ class CryptoRandomKotlin(var context: ReactApplicationContext) : ReactContextBas
         return "CryptoRandomKotlin"
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun insecureRandom(): String {
 
@@ -26,7 +26,7 @@ class CryptoRandomKotlin(var context: ReactApplicationContext) : ReactContextBas
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun insecureSeed(): String {
 

@@ -14,16 +14,15 @@ class ResilienceRootDetection(var context: ReactApplicationContext) : ReactConte
         return "ResilienceRootDetection"
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun rootBeer(): String {
         val r = ReturnStatus()
-        try{
+        try {
             val rootBeer = RootBeer(context)
             r.success("Used RoodBeer to test if device is rooted. Is it rooted: ${rootBeer.isRooted}")
             return r.toJsonString()
-        }
-        catch(e:Exception){
+        } catch (e: Exception) {
             r.fail(e.toString())
         }
         return r.toJsonString()

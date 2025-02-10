@@ -19,10 +19,10 @@ open class AuthHttpBasicAuth(var context: ReactApplicationContext) : ReactContex
         return "AuthHttpBasicAuth"
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun javaNet(): String {
-        try{
+        try {
             val url = URL("https://" + MasSettings.getData("testDomain") + "/basicAuth.html")
 
             Authenticator.setDefault(object : Authenticator() {
@@ -34,17 +34,18 @@ open class AuthHttpBasicAuth(var context: ReactApplicationContext) : ReactContex
             val c = url.openConnection() as HttpURLConnection
             c.connect()
 
-            val r = ReturnStatus("OK", "Successfully connected to the URL $url. Response code was: ${c.responseCode}")
+            val r = ReturnStatus(
+                "OK",
+                "Successfully connected to the URL $url. Response code was: ${c.responseCode}"
+            )
             return r.toJsonString()
-        }
-
-        catch (e: Exception) {
+        } catch (e: Exception) {
             val r = ReturnStatus("FAIL", "Exception: $e")
             return r.toJsonString()
         }
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun webView(): String {
 

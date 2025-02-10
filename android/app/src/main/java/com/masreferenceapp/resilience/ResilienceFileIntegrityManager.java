@@ -1,7 +1,5 @@
 package com.masreferenceapp.resilience;
 
-import android.security.FileIntegrityManager;
-
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -27,7 +25,7 @@ public class ResilienceFileIntegrityManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String setupFsVerify(){
+    public String setupFsVerify() {
 
         File appSpecificExternalFile = new File(context.getExternalFilesDir(null), "masFileIntegrityCheck");
 

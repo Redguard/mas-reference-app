@@ -31,7 +31,7 @@ class CryptoDeprecated(var context: ReactApplicationContext) : ReactContextBaseJ
 
         val r = ReturnStatus()
 
-        for (item in p){
+        for (item in p) {
             r.success("SecurityProvider found: $item")
         }
         return r.toJsonString()
@@ -67,15 +67,18 @@ class CryptoDeprecated(var context: ReactApplicationContext) : ReactContextBaseJ
         val inputString = "Hello World"
         val inputBytes = inputString.toByteArray(charset("UTF-8"))
 
-        pbbc.init(true, newParamIV);
+        pbbc.init(true, newParamIV)
         val output = ByteArray(pbbc.getOutputSize(inputBytes.size))
         val bytesWrittenOut = pbbc.processBytes(
             inputBytes, 0, inputBytes.size, output, 0
         )
-        pbbc.doFinal(output, bytesWrittenOut);
+        pbbc.doFinal(output, bytesWrittenOut)
 
 
-        val r = ReturnStatus("OK", "Encrypted a text using the BouncyCastle Implementation of AES/CBC directly.")
+        val r = ReturnStatus(
+            "OK",
+            "Encrypted a text using the BouncyCastle Implementation of AES/CBC directly."
+        )
         return r.toJsonString()
     }
 

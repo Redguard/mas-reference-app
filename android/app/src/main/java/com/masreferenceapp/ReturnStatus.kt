@@ -31,11 +31,11 @@ class ReturnStatus {
         return statuses
     }
 
-    fun success(message: String){
+    fun success(message: String) {
         this.addStatus("OK", message)
     }
 
-    fun fail(message: String){
+    fun fail(message: String) {
         this.addStatus("FAIL", message)
     }
 

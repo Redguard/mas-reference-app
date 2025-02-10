@@ -27,7 +27,10 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
         val r = ReturnStatus()
         try {
             val inetAddress = InetAddress.getByName(testDomain)
-            r.addStatus("OK", "Address for the domain '" + testDomain + "' is: " + inetAddress.hostAddress)
+            r.addStatus(
+                "OK",
+                "Address for the domain '" + testDomain + "' is: " + inetAddress.hostAddress
+            )
         } catch (e: Exception) {
             r.addStatus("FAIL", e.toString())
         }
@@ -45,7 +48,10 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
             urlConnection.readTimeout = 5000 // Set a timeout for reading data from the server
 
             urlConnection.disconnect()
-            val r = ReturnStatus("OK", "Connection established. Status code was: " + urlConnection.responseCode)
+            val r = ReturnStatus(
+                "OK",
+                "Connection established. Status code was: " + urlConnection.responseCode
+            )
             r.toJsonString()
         } catch (e: Exception) {
             val r = ReturnStatus("FAIL", e.toString())
@@ -98,7 +104,7 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
         }
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun openHTTP(): String {
         val testDomain = MasSettings.getData("testDomain")
@@ -109,21 +115,24 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
             val urlConnection = url.openConnection() as HttpURLConnection
             val response = StringBuilder()
             urlConnection.disconnect()
-            r.addStatus("OK", "Connection established. Status code was: " + urlConnection.responseCode)
+            r.addStatus(
+                "OK",
+                "Connection established. Status code was: " + urlConnection.responseCode
+            )
         } catch (e: Exception) {
             r.addStatus("FAIL", e.toString())
         }
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun sendHTTP(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun rtp(): String {
         val r = ReturnStatus("OK", "Android code stub.")

@@ -1,7 +1,7 @@
 package com.masreferenceapp.platform.helpers
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.masreferenceapp.R
 
 class UIPlainTextPassword : AppCompatActivity() {

@@ -34,7 +34,7 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun createSQLiteDB(): String {
-        val dbpath = context.getDatabasePath("MasSqlite_"+(0..1000000).random()+".db")
+        val dbpath = context.getDatabasePath("MasSqlite_" + (0..1000000).random() + ".db")
         val plainTextDb = SQLiteDatabase.openOrCreateDatabase(dbpath, null)
         initDb(plainTextDb)
         return ReturnStatus("OK", "Database created at: $dbpath").toJsonString()
@@ -42,23 +42,26 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun execSensitiveSQLStoredProcedures(): String {
-        val dbpath = context.getDatabasePath("MasSqlite_"+(0..1000000).random()+".db")
+        val dbpath = context.getDatabasePath("MasSqlite_" + (0..1000000).random() + ".db")
         val plainTextDb = SQLiteDatabase.openOrCreateDatabase(dbpath, null)
         initDb(plainTextDb)
 
-        val insertQuery ="INSERT INTO myTable (password) VALUES (?)"
+        val insertQuery = "INSERT INTO myTable (password) VALUES (?)"
 
         plainTextDb.execSQL(insertQuery, arrayOf(SensitiveData.data))
 
         plainTextDb.close()
 
-        val r = ReturnStatus("OK", "Using execSQL() to insert sensitive data into DB stored at: $dbpath")
+        val r = ReturnStatus(
+            "OK",
+            "Using execSQL() to insert sensitive data into DB stored at: $dbpath"
+        )
         return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun insertSensitive(): String {
-        val dbpath = context.getDatabasePath("MasSqlite_"+(0..1000000).random()+".db")
+        val dbpath = context.getDatabasePath("MasSqlite_" + (0..1000000).random() + ".db")
         val plainTextDb = SQLiteDatabase.openOrCreateDatabase(dbpath, null)
         initDb(plainTextDb)
 
@@ -69,14 +72,15 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
 
         plainTextDb.close()
 
-        val r = ReturnStatus("OK", "Using insert() to insert sensitive data into DB stored at: $dbpath")
+        val r =
+            ReturnStatus("OK", "Using insert() to insert sensitive data into DB stored at: $dbpath")
         return r.toJsonString()
     }
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun replaceSensitive(): String {
-        val dbpath = context.getDatabasePath("MasSqlite_"+(0..1000000).random()+".db")
+        val dbpath = context.getDatabasePath("MasSqlite_" + (0..1000000).random() + ".db")
         val plainTextDb = SQLiteDatabase.openOrCreateDatabase(dbpath, null)
         initDb(plainTextDb)
 
@@ -88,14 +92,17 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
 
         plainTextDb.close()
 
-        val r = ReturnStatus("OK", "Using replace() to insert sensitive data into DB stored at: $dbpath")
+        val r = ReturnStatus(
+            "OK",
+            "Using replace() to insert sensitive data into DB stored at: $dbpath"
+        )
         return r.toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun updateSensitive(): String {
-        val dbpath = context.getDatabasePath("MasSqlite_"+(0..1000000).random()+".db")
+        val dbpath = context.getDatabasePath("MasSqlite_" + (0..1000000).random() + ".db")
         val plainTextDb = SQLiteDatabase.openOrCreateDatabase(dbpath, null)
         initDb(plainTextDb)
 
@@ -111,11 +118,10 @@ class StorageSQLite(var context: ReactApplicationContext) : ReactContextBaseJava
 
         plainTextDb.close()
 
-        val r = ReturnStatus("OK", "Using update() to insert sensitive data into DB stored at: $dbpath")
+        val r =
+            ReturnStatus("OK", "Using update() to insert sensitive data into DB stored at: $dbpath")
         return r.toJsonString()
     }
-
-        
 
 
     //@method

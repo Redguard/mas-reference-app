@@ -17,8 +17,45 @@ import java.util.concurrent.Executor;
 
 public class AuthProtectedConfirmation extends ReactContextBaseJavaModule {
 
+    ReactApplicationContext context;
+
+    public AuthProtectedConfirmation(ReactApplicationContext context) {
+        super(context);
+        this.context = context;
+    }
+
+    @NonNull
+    @Override
+    public String getName() {
+        return "AuthProtectedConfirmation";
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String create() throws ConfirmationAlreadyPresentingException, ConfirmationNotAvailableException {
+
+        try {
+            final int MY_EXTRA_DATA_LENGTH = 100;
+            byte[] myExtraData = new byte[MY_EXTRA_DATA_LENGTH];
+            ConfirmationPromptData myDialogData = new ConfirmationPromptData("Max", "Moritz", "500");
+            Executor threadReceivingCallback = Runnable::run;
+            MyConfirmationCallback callback = new MyConfirmationCallback();
+            ConfirmationPrompt dialog = (new ConfirmationPrompt.Builder(context))
+                    .setPromptText(myDialogData.sender + ", send " + myDialogData.amount + " to " + myDialogData.receiver + "?")
+                    .setExtraData(myExtraData)
+                    .build();
+            dialog.presentPrompt(threadReceivingCallback, callback);
+        } catch (ConfirmationNotAvailableException e) {
+            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
+            return r.toJsonString();
+        }
+
+        ReturnStatus r = new ReturnStatus("OK", "Protected confirmation created.");
+        return r.toJsonString();
+    }
+
     private static class ConfirmationPromptData {
         String sender, receiver, amount;
+
         ConfirmationPromptData(String sender, String receiver, String amount) {
             this.sender = sender;
             this.receiver = receiver;
@@ -55,39 +92,4 @@ public class AuthProtectedConfirmation extends ReactContextBaseJavaModule {
             // Handle the exception that the callback captured.
         }
     }
-
-    ReactApplicationContext context;
-
-    public AuthProtectedConfirmation(ReactApplicationContext context) {
-        super(context);
-        this.context = context;
-    }
-
-    @NonNull
-    @Override
-    public String getName() {
-        return "AuthProtectedConfirmation";
-    }
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String create() throws ConfirmationAlreadyPresentingException, ConfirmationNotAvailableException {
-
-        try {
-            final int MY_EXTRA_DATA_LENGTH = 100;
-            byte[] myExtraData = new byte[MY_EXTRA_DATA_LENGTH];
-            ConfirmationPromptData myDialogData = new ConfirmationPromptData("Max", "Moritz", "500");
-            Executor threadReceivingCallback = Runnable::run;
-            MyConfirmationCallback callback = new MyConfirmationCallback();
-            ConfirmationPrompt dialog = (new ConfirmationPrompt.Builder(context))
-                    .setPromptText(myDialogData.sender +", send " + myDialogData.amount + " to "  + myDialogData.receiver + "?")
-                    .setExtraData(myExtraData)
-                    .build();
-            dialog.presentPrompt(threadReceivingCallback, callback);
-        } catch (ConfirmationNotAvailableException e){
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
-            return r.toJsonString();
-        }
-
-        ReturnStatus r = new ReturnStatus("OK", "Protected confirmation created.");
-        return r.toJsonString();    }
 }

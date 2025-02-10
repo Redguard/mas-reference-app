@@ -11,7 +11,6 @@ import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.ReturnStatus;
 
 
-
 public class ResilienceVerifySignature extends ReactContextBaseJavaModule {
     ReactApplicationContext context;
 
@@ -27,17 +26,16 @@ public class ResilienceVerifySignature extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getPackageSignatures(){
+    public String getPackageSignatures() {
 
         StringBuilder message = new StringBuilder();
         try {
             Signature[] sigs = new Signature[0];
             sigs = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES).signatures;
-            for (Signature sig : sigs)
-            {
+            for (Signature sig : sigs) {
                 message.append(sig.hashCode() + "\n");
             }
-            return new ReturnStatus("OK", "Package signatures: "+message).toJsonString();
+            return new ReturnStatus("OK", "Package signatures: " + message).toJsonString();
 
         } catch (Exception e) {
             return new ReturnStatus("FAIL", e.toString()).toJsonString();

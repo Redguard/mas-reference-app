@@ -5,15 +5,10 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.ReturnStatus
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.InputStreamReader
-import java.nio.charset.StandardCharsets
 
 
-class StorageExternalStorage(private val context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
+class StorageExternalStorage(private val context: ReactApplicationContext) :
+    ReactContextBaseJavaModule(context) {
     override fun getName(): String {
         return "StorageExternalStorage"
     }
@@ -22,7 +17,7 @@ class StorageExternalStorage(private val context: ReactApplicationContext) : Rea
     fun checkState(): String {
         return ReturnStatus("OK", "State: " + Environment.getExternalStorageState()).toJsonString()
     }
-    
+
 
 //    @ReactMethod(isBlockingSynchronousMethod = true)
 //    fun writeFileOutput(): String {
@@ -74,7 +69,6 @@ class StorageExternalStorage(private val context: ReactApplicationContext) : Rea
 //    }
 
 
-        
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getExternalFilesDirRoot(): String {
         val externalFile = context.getExternalFilesDir(null)
@@ -82,7 +76,7 @@ class StorageExternalStorage(private val context: ReactApplicationContext) : Rea
         return ReturnStatus("OK", "External files dir is : $state").toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getExternalCacheDir(): String {
         val externalFile = context.externalCacheDir
@@ -90,7 +84,7 @@ class StorageExternalStorage(private val context: ReactApplicationContext) : Rea
         return ReturnStatus("OK", "External files dir is : $message").toJsonString()
     }
 
-        
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getDifferentExternalDirs(): String {
         val types = listOf(
@@ -112,7 +106,7 @@ class StorageExternalStorage(private val context: ReactApplicationContext) : Rea
                 r.addStatus("FAIL", "No external Dir.")
             } else {
                 status.append("[OK]")
-                r.addStatus("OK", "External dir is: $externalFile" )
+                r.addStatus("OK", "External dir is: $externalFile")
 
             }
         }
@@ -120,8 +114,6 @@ class StorageExternalStorage(private val context: ReactApplicationContext) : Rea
     }
 
     //@method
-    
-    
-    
+
 
 }
