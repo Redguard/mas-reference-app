@@ -33,7 +33,7 @@ public class AuthBiometricManager extends ReactContextBaseJavaModule {
             test = "True";
         }
 
-        ReturnStatus r = new ReturnStatus("OK", "Can device strong auth (Class 3)?: " + test);
+        ReturnStatus r = new ReturnStatus("OK", "Can device strong authenticate (Class 3)?: " + test);
         return r.toJsonString();
     }
 
@@ -47,7 +47,7 @@ public class AuthBiometricManager extends ReactContextBaseJavaModule {
             test = "True";
         }
 
-        ReturnStatus r = new ReturnStatus("OK", "Can device weak auth (Class 2)?:  " + test);
+        ReturnStatus r = new ReturnStatus("OK", "Can device weak authenticate (Class 2)?:  " + test);
         return r.toJsonString();
     }
 

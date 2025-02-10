@@ -27,7 +27,7 @@ var appContent: MASCategory[] = [
     key: 'STORAGE',
     color: '#df5c8c',
     description:
-      'This test case focuses on identifying potentially sensitive data stored by an application and verifying if it is securely stored.',
+      'These test cases focus on identifying potentially sensitive data stored by an application and verifying if it is securely stored.',
     tests: [],
   },
   {
