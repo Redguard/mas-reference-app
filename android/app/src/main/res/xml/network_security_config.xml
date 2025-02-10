@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+    <domain-config>
+        <domain includeSubdomains="false">mas-reference-app.org</domain>
+        <pin-set>
+            <!--These are the valid pins of the two Let's Encrypt root ca's-->
+            <pin digest="SHA-256">C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=</pin>
+            <pin digest="SHA-256">diGVwiVYbubAI3RW4hB9xU8e/CH2GnkuvVFZE8zmgzI=</pin>
+        </pin-set>
+    </domain-config>
+    <domain-config>
+        <domain includeSubdomains="false">invalidpin.mas-reference-app.org</domain>
+        <pin-set>
+            <!--This is the invalid pin of the SwissSign ca-->
+            <pin digest="SHA-256">NDirQI6weuLiefh9EFjP0Rg8F7iLvBQE7fdD2e+j5r8=</pin>
+        </pin-set>
+    </domain-config>
+</network-security-config>

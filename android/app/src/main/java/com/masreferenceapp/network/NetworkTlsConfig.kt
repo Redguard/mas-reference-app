@@ -148,6 +148,13 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
         return r.toJsonString()
     }
 
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun userTrustStore(): String {
+        val r = ReturnStatus()
+        r.success("This app also trusts the CAs from the user trust store.")
+        return r.toJsonString();
+    }
+
     //@method
 
 }

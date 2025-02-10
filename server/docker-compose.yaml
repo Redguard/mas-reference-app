@@ -1,13 +1,22 @@
 services:
-  webserver:
+  webserver_http:
     image: nginx:latest
     ports:
       - 80:80
+    restart: always
+    volumes:
+      - ./nginx/conf_http/:/etc/nginx/conf.d/:ro
+      - ./nginx/html/:/etc/nginx/html/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+  webserver_https:
+    image: nginx:latest
+    ports:
       - 443:443
     restart: always
     volumes:
-      - ./nginx/conf/:/etc/nginx/conf.d/:ro
-      - ./nginx/html/:/etc/nginx/html/
+      - ./nginx/conf_https/:/etc/nginx/conf.d/:ro
+      - ./nginx/html/:/etc/nginx/html/:ro
       - ./certbot/www:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/nginx/ssl/:ro
   certbot:
