@@ -1,6 +1,5 @@
 package com.masreferenceapp.crypto
 
-import android.R.id.input
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod

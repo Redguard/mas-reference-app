@@ -9,7 +9,6 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.ReturnStatus;
 
-import java.security.SecureRandom;
 import java.security.Security;
 import java.security.Signature;
 import java.util.ArrayList;
@@ -53,13 +52,12 @@ public class CryptoJava extends ReactContextBaseJavaModule {
         StringBuilder status = new StringBuilder();
         StringBuilder message = new StringBuilder();
 
-
         ReturnStatus r = new ReturnStatus();
 
         for (String algorithm : algorithms) {
             try {
                 KeyGenerator kg = KeyGenerator.getInstance(algorithm);
-                r.addStatus("OK", "Cipher init with algorithm: " + algorithm);
+                r.addStatus("OK", "Initialized KeyGenerator for algorithm: " + algorithm);
 
             } catch (Exception e) {
                 r.addStatus("FAIL", e.toString());
@@ -97,7 +95,7 @@ public class CryptoJava extends ReactContextBaseJavaModule {
         for (String t : transformation) {
             try {
                 Cipher cipher = Cipher.getInstance(t);
-                r.addStatus("OK", "Cipher init with transformation: " + t);
+                r.addStatus("OK", "Initialized Cipher for algorithm:  " + t);
             } catch (Exception e) {
                 r.addStatus("FAIL", e.toString());
             }
@@ -131,7 +129,7 @@ public class CryptoJava extends ReactContextBaseJavaModule {
         for (String s : signatures) {
             try {
                 Signature sig = Signature.getInstance(s);
-                r.addStatus("OK", "Signature init with algorithm: " + s);
+                r.addStatus("OK", "Initialized Singnature for algorithm: " + s);
             } catch (Exception e) {
                 r.addStatus("FAIL", e.toString());
             }
@@ -150,14 +148,14 @@ public class CryptoJava extends ReactContextBaseJavaModule {
         StringBuilder message = new StringBuilder();
         try {
             Cipher c = Cipher.getInstance("AES/CBC/PKCS7PADDING", "BC");
-            r.addStatus("OK", "BouncyCastle instance created.");
+            r.addStatus("OK", "Cipher instance with BouncyCastle as SecurityProvider created.");
         } catch (Exception e) {
             r.addStatus("Fail", e.toString());
         }
 
         try {
             Cipher c = Cipher.getInstance("AES/CBC/PKCS7PADDING", Security.getProvider("BC"));
-            r.addStatus("OK", "BouncyCastle instance created.");
+            r.addStatus("OK", "Cipher instance with BouncyCastle as SecurityProvider created.");
         } catch (Exception e) {
             r.addStatus("Fail", e.toString());
 

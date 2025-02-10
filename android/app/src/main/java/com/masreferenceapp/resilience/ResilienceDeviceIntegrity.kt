@@ -13,7 +13,6 @@ import com.google.android.play.core.integrity.IntegrityTokenRequest
 import com.masreferenceapp.MasSettings
 import com.masreferenceapp.ReturnStatus
 import java.security.SecureRandom
-import java.util.UUID
 
 
 class ResilienceDeviceIntegrity(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
@@ -67,6 +66,13 @@ class ResilienceDeviceIntegrity(var context: ReactApplicationContext) : ReactCon
             r.fail(e.toString())
             promise.resolve(r.toJsonString())
         }
+    }
+
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun safetyNet(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
     }
 
     //@method

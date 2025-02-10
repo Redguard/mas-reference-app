@@ -14,7 +14,8 @@ const {
 
   CryptoKeyAttestation,
   CryptoJava,
-  CryptoRandom,
+  CryptoRandomJava,
+  CryptoRandomKotlin,
   CryptoKeyGenParameterSpec,
   CryptoSecretKeyFactory,
   CryptoDeprecated,
@@ -433,50 +434,62 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
+    {
+      title: 'Random Numbers',
+      description:
+        'The quality of random numbers are essential when using them in cryptographic operations. These test use weak algorithms to create such numbers.',
+      testCases: [
+        {
+          title: 'Weak Java Random',
+          description: 'Creates a random number using the non-blocking java.util.Random class. These numbers should not be used for cryptographic operations.',
+          nativeFunction: CryptoRandomJava.insecureRandom,
+        },
+        {
+          title: 'Weak Java Random with Seed',
+          description:
+            'Creates a random number using the non-blocking java.util.Random class and a seed. These numbers should not be used for cryptographic operations.',
+          nativeFunction: CryptoRandomJava.insecureRandomSeed,
+        },
+        {
+          title: 'Secure Java Random',
+          description:
+            'Creates a random number using the blocking java.util.SecureRandom class and a seed. Two generators with the same seed will therefore not produce the same numbers.',
+          nativeFunction: CryptoRandomJava.secureRandom,
+        },
+        {
+          title: 'Secure Java Random with Seed',
+          description:
+            'Creates a random number using the blocking java.util.SecureRandom class and a seed. The seed is used to add entropy to the generator. Two generators with the same seed will therefore not produce the same numbers.',
+          nativeFunction: CryptoRandomJava.secureRandomSeed,
+        },
+        {
+          title: 'Weak Kotlin Random',
+          description: 'Creates a random number using the non-blocking kotlin.random.Random class. This class uses the java.util.Random class internally. These numbers should not be used for cryptographic operations.',
+          nativeFunction: CryptoRandomKotlin.insecureRandom,
+        },
+        {
+          title: 'Weak Kotlin Random with Seed',
+          description:
+            'Creates a random number using the non-blocking kotlin.random.Random class and a seed. This class uses the java.util.Random class internally. These numbers should not be used for cryptographic operations.',
+          nativeFunction: CryptoRandomKotlin.insecureSeed,
+        },
+        {
+          title: 'Deprecated SecureRandom',
+          description:
+            'Constructs a secure random number generator using a getInstance().',
+          nativeFunction: CryptoRandomJava.secureRandomInstance,
+        },
+      ],
+    },
 
     /////////////    
     /////////////   UP - DONE
     /////////////
 
     {
-      title: 'Random Numbers',
+      title: 'Usage of Deprecated Cryptography',
       description:
-        'Identify all the instances of random number generators and look for either custom or well-known insecure classes. These tests generate random number in different ways.',
-      testCases: [
-        {
-          title: 'Create Insecure Java Random',
-          description: 'Creates a new random number generator.',
-          nativeFunction: CryptoRandom.insecureRandom,
-        },
-        {
-          title: 'Create Insecure Kotlin Random',
-          description: 'Creates a new random number generator.',
-          nativeFunction: CryptoRandom.insecureRandom,
-        },
-        {
-          title: 'Create Insecure Java Random with Seed',
-          description:
-            'Creates a new random number generator using a single long seed.',
-          nativeFunction: CryptoRandom.insecureRandomSeed,
-        },
-        {
-          title: 'Create Insecure Kotlin Random with Seed',
-          description:
-            'Creates a new random number generator using a single long seed.',
-          nativeFunction: CryptoRandom.insecureRandomSeed,
-        },
-        {
-          title: 'Create Deprecated SecureRandom.',
-          description:
-            'Constructs a secure random number generator using a getInstance().',
-          nativeFunction: CryptoRandom.secureRandomInstance,
-        },
-      ],
-    },
-    {
-      title: 'Deprected Implementation',
-      description:
-        'The usage of deprecated cryptographic implementation can intoduce risks.',
+        'Developers ',
       testCases: [
         {
           title: 'Enumerate SecurityProvider',
