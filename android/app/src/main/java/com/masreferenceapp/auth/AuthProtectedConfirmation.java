@@ -7,6 +7,7 @@ import android.security.ConfirmationPrompt;
 
 import androidx.annotation.NonNull;
 
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -30,66 +31,60 @@ public class AuthProtectedConfirmation extends ReactContextBaseJavaModule {
         return "AuthProtectedConfirmation";
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String create() throws ConfirmationAlreadyPresentingException, ConfirmationNotAvailableException {
-
+    @ReactMethod
+    public void create(Promise promise) throws ConfirmationAlreadyPresentingException, ConfirmationNotAvailableException {
+        ReturnStatus r = new ReturnStatus();
         try {
-            final int MY_EXTRA_DATA_LENGTH = 100;
-            byte[] myExtraData = new byte[MY_EXTRA_DATA_LENGTH];
-            ConfirmationPromptData myDialogData = new ConfirmationPromptData("Max", "Moritz", "500");
             Executor threadReceivingCallback = Runnable::run;
-            MyConfirmationCallback callback = new MyConfirmationCallback();
+            MyConfirmationCallback callback = new MyConfirmationCallback(promise, r);
+            byte[] myExtraData = new byte[10];
             ConfirmationPrompt dialog = (new ConfirmationPrompt.Builder(context))
-                    .setPromptText(myDialogData.sender + ", send " + myDialogData.amount + " to " + myDialogData.receiver + "?")
+                    .setPromptText("Thank you for supporting OWASP MAS with a donation of 25$. Do you want to confirm this donation?")
                     .setExtraData(myExtraData)
                     .build();
             dialog.presentPrompt(threadReceivingCallback, callback);
-        } catch (ConfirmationNotAvailableException e) {
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
-            return r.toJsonString();
-        }
-
-        ReturnStatus r = new ReturnStatus("OK", "Protected confirmation created.");
-        return r.toJsonString();
-    }
-
-    private static class ConfirmationPromptData {
-        String sender, receiver, amount;
-
-        ConfirmationPromptData(String sender, String receiver, String amount) {
-            this.sender = sender;
-            this.receiver = receiver;
-            this.amount = amount;
+        } catch (Exception e) {
+            r.fail(e.toString());
+            promise.resolve(r.toJsonString());
         }
     }
 
     private static class MyConfirmationCallback extends ConfirmationCallback {
 
+        private final Promise promise;
+        private final ReturnStatus r;
+
+        public MyConfirmationCallback(Promise promise, ReturnStatus r){
+            this.promise = promise;
+            this.r = r;
+        }
+
         @Override
         public void onConfirmed(@NonNull byte[] dataThatWasConfirmed) {
             super.onConfirmed(dataThatWasConfirmed);
-            // Sign dataThatWasConfirmed using your generated signing key.
-            // By completing this process, you generate a signed statement.
+            r.success("Android Protected Confirmation has been successfully used to confirm a message.");
+            promise.resolve(r.toJsonString());
         }
 
         @Override
         public void onDismissed() {
             super.onDismissed();
-            // Handle case where user declined the prompt in the
-            // confirmation dialog.
+            r.fail("Android Protected Confirmation was dismissed.");
+            promise.resolve(r.toJsonString());
         }
 
         @Override
         public void onCanceled() {
             super.onCanceled();
-            // Handle case where your app closed the dialog before the user
-            // responded to the prompt.
+            r.fail("Android Protected Confirmation was canceled.");
+            promise.resolve(r.toJsonString());
         }
 
         @Override
         public void onError(Throwable e) {
             super.onError(e);
-            // Handle the exception that the callback captured.
+            r.fail(e.toString());
+            promise.resolve(r.toJsonString());
         }
     }
 }

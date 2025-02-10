@@ -6,11 +6,11 @@ import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.ReturnStatus
 
 
-class ResiliencObfuscation(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
+class ResilienceObfuscation(var context: ReactApplicationContext) : ReactContextBaseJavaModule(
     context
 ) {
     override fun getName(): String {
-        return "ResiliencObfuscation"
+        return "ResilienceObfuscation"
     }
 
 
