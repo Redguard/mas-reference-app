@@ -537,17 +537,17 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Biometric BiometricPrompt',
-          description: 'Simply requires biometric authentication. This can method of authentication can usually be bypassed easily.',
+          description: 'Opens a prompt which requires biometric authentication. This method of authentication can usually be bypassed easily.',
           nativeFunction: AuthBiometricPrompt.simplePrompt,
         },
         {
           title: 'Device Credential BiometricPrompt',
-          description: 'Create a prompt with the device credentials. This can method of authentication is considered weak and can usually be bypassed easily.',
+          description: 'Opens a prompt which requires device credentials. This method of authentication is considered weak and can usually be bypassed easily.',
           nativeFunction: AuthBiometricPrompt.devicePinOnlyPrompt,
         },
         {
-          title: 'BiometryPrompt Unlocking a CryptoObject',
-          description: 'This test case creates a CryptoObject which can only be accesses using a BiometricPrompt',
+          title: 'BiometricPrompt Unlocking a CryptoObject',
+          description: 'Opens a prompt which provides access to a CryptoObject.',
           nativeFunction: AuthBiometricPrompt.cryptoOperationPrompt,
         },
       ],
@@ -558,7 +558,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'FingerprintManager',
       description:
-        'FingerprintManager is deprectatd and should not be used anymore. The replacement is BiometryManger and BiometryPrompt.',
+        'FingerprintManager is deprecated and should not be used anymore. The replacement is BiometricManger and BiometricPrompt.',
       testCases: [
         {
           title: 'Query Fingerprint Hardware',
@@ -571,9 +571,14 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: AuthFingerprintManager.hasEnrolledFingerprints,
         },
         {
-          title: 'Simple Authenticate',
-          description: 'Does a simple fingerpint auht. Not considered secure because it is easily bypassable. Better use biomentry protected CryptoObjects. ',
+          title: 'FingerprintManager Prompt',
+          description: 'Opens a prompt which requires biometric authentication. This method of authentication can usually be bypassed easily.',
           nativeFunction: AuthFingerprintManager.authenticateSimple,
+        },
+        {
+          title: 'FingerprintManager Unlocking a CryptoObject',
+          description: 'Opens a prompt which provides access to a CryptoObject.',
+          nativeFunction: AuthFingerprintManager.authenticateCryptoObject,
         },
       ],
     },
