@@ -481,85 +481,80 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
-    /////////////    
-    /////////////   UP - DONE
-    /////////////
-
     {
       title: 'Usage of Deprecated Cryptography',
       description:
-        'Developers ',
+        'Android provides a fair amount of freedom when choosing cryptographic primitives and their implementation. These use cases implement the usage of BouncyCastle as one of the more common cryptographic library which should not be used anymore.',
       testCases: [
         {
           title: 'Enumerate SecurityProvider',
           description:
-            'XXXXX',
+            'This use case enumerates the available SecurityProviders. This in it self is not a risk, but it can be a hint that the app does not use the recommended default SecurityProvider.',
           nativeFunction: CryptoDeprecated.enumerateSecurityProviders,
         },
         {
-          title: 'Load BouncyCastle using SecurityProvider',
+          title: 'Load BouncyCastle as SecurityProvider',
           description:
-            'BouncyCastle (or SpongyCastle) is deprecated and shoudl be avoided.',
+            'This test adds BouncyCastle as SecurityProvider. While this is not an issue in any case, it is not recommended to use it aside form specific purposes.',
           nativeFunction: CryptoDeprecated.bouncyCastleProvider,
         },
         {
-          title: 'Direct usage of BouncyCastle',
+          title: 'Use BouncyCastle Directly',
           description:
-            'BouncyCastle (or SpongyCastle) is deprecated and shoudl be avoided.',
+            'In this use case, BouncyCastle is used directly in order to encrypt data. While this is not an issue in any case, it is not recommended to use it aside form specific purposes.',
           nativeFunction: CryptoDeprecated.bouncyCastleDirect,
         },
       ],
     },   
-    // Define your Android-specific crypto test cases here
   ],
   AUTH: [
     {
       title: 'BiometricManager',
       description:
-        'A class that provides system information related to biometrics (e.g. fingerprint, face, etc.). ',
+        'A class that provides system information related to biometrics (e.g. fingerprint, biometry, etc.). ',
       testCases: [
         {
-          title: 'Can Device STRONG Authenticate?',
-          description: '',
+          title: 'Query Strong Biometry Authentication',
+          description: 'Uses canAuthenticate() to query if the device can authenticate using the Class 3 method (formerly Strong), as defined by the Android CDD.',
           nativeFunction: AuthBiometricManager.testStrongAuth,
         },
         {
-          title: 'Can Device WEAK Authenticate?',
-          description: '',
+          title: 'Query Weak Biometry  Authentication',
+          description: 'Uses canAuthenticate() to query if the device can authenticate using the Class method 2 (formerly Weak), as defined by the Android CDD.',
           nativeFunction: AuthBiometricManager.testWeakAuth,
         },
         {
-          title: 'Can Device DEVICE_CREDENTIAL Authenticate?',
-          description: '',
+          title: 'Query Non-Biometry Authentication',
+          description: 'Uses canAuthenticate() to query if the device can authenticate using passwords, pins or patterns.',
           nativeFunction: AuthBiometricManager.testDeviceCredentialsAuth,
         },
       ],
     },
-
     {
       title: 'BiometricPrompt',
       description:
-        'A class that manages a system-provided biometric prompt. On devices running Android 9.0 (API 28) and above, this will show a system-provided authentication prompt, using one of the device\'s supported biometric modalities (fingerprint, iris, face, etc). Prior to Android 9.0, this will instead show a custom fingerprint authentication dialog. The prompt will persist across configuration changes unless explicitly canceled. For security reasons, the prompt will be dismissed when the client application is no longer in the foreground.',
+        'A class that manages a system-provided biometric prompt. The prompt can be used for a simple true/false authentication. This is considered insecure, as it can be easily bypassed using static or dynamic attacks. However, BiometricPrompt can also be used to unlock cryptographic keys. These test cases implement these use cases.',
       testCases: [
         {
-          title: 'Create a Simple Biometry Prompt',
-          description: 'Simply requires biometric authentication. This can method of authentcation can usually be bypassed easily.',
+          title: 'Biometric BiometricPrompt',
+          description: 'Simply requires biometric authentication. This can method of authentication can usually be bypassed easily.',
           nativeFunction: AuthBiometricPrompt.simplePrompt,
         },
         {
-          title: 'Create a Biometry Prompt to access a CryptoObject',
-          description: 'Access a crypto object using biometry.',
-          nativeFunction: AuthBiometricPrompt.cryptoOperationPrompt,
+          title: 'Device Credential BiometricPrompt',
+          description: 'Create a prompt with the device credentials. This can method of authentication is considered weak and can usually be bypassed easily.',
+          nativeFunction: AuthBiometricPrompt.devicePinOnlyPrompt,
         },
         {
-          title: 'Create Device PIN Only Prompt',
-          description: 'Create a Prompt only for PINs. This can method of authentcation can usually be bypassed easily.',
-          nativeFunction: AuthBiometricPrompt.devicePinOnlyPrompt,
+          title: 'BiometryPrompt Unlocking a CryptoObject',
+          description: 'This test case creates a CryptoObject which can only be accesses using a BiometricPrompt',
+          nativeFunction: AuthBiometricPrompt.cryptoOperationPrompt,
         },
       ],
     },
-
+    /////////////    
+    /////////////   UP - DONE
+    /////////////
     {
       title: 'FingerprintManager',
       description:
@@ -787,7 +782,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: PlatformWebView.allowMixedContent,
         },
         {
-          title: 'Enabel Remote Web Content Debugging',
+          title: 'Enable Remote Web Content Debugging',
           description: '',
           nativeFunction: PlatformWebView.remoteDebugging,
         },
@@ -996,7 +991,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
   ],
   PRIVACY: [    
     {
-      title: 'Advertisemnt',
+      title: 'Advertisement',
       description: 'User tracking in mobile applications involves collecting and analyzing data to monitor user behavior, preferences, and movements. This enables companies to recognize and follow users over time and across different apps, devices, and services. Such tracking often occurs without the user\'s explicit knowledge or consent, leading to significant privacy concerns.',
       testCases: [
         {

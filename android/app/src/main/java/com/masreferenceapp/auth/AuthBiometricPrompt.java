@@ -9,6 +9,7 @@ import android.security.keystore.KeyProperties;
 
 import androidx.annotation.NonNull;
 
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -36,19 +37,25 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
         return "AuthBiometricPrompt";
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String simplePrompt() {
+    @ReactMethod
+    public void simplePrompt(Promise promise) {
+
+        ReturnStatus r = new ReturnStatus();
 
         Executor mExecutor = Executors.newSingleThreadExecutor();
         BiometricPrompt.AuthenticationCallback mAuthenticationCallback = new BiometricPrompt.AuthenticationCallback() {
             @Override
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
+                r.success("Successfully authenticated using biometry.");
+                promise.resolve(r.toJsonString());
             }
 
             @Override
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
+                r.fail("Authenticated using biometry failed.");
+                promise.resolve(r.toJsonString());
             }
         };
 
@@ -58,20 +65,27 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
                 .setNegativeButton("Cancel", mExecutor, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Handle negative button click (e.g., user cancels authentication)
+                        r.success("Authentication canceled.");
+                        promise.resolve(r.toJsonString());
                     }
                 }).build();
 
-        CancellationSignal mcancellationSignal = new CancellationSignal();
+        androidx.biometric.BiometricManager bm = androidx.biometric.BiometricManager.from(context);
+        int canAuth = bm.canAuthenticate(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK);
 
-        prompt.authenticate(mcancellationSignal, mExecutor, mAuthenticationCallback);
+        if (canAuth == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS){
+            CancellationSignal mcancellationSignal = new CancellationSignal();
+            prompt.authenticate(mcancellationSignal, mExecutor, mAuthenticationCallback);
 
-        ReturnStatus r = new ReturnStatus("OK", "Simple biometry prompt executed.");
-        return r.toJsonString();
+        }else{
+            r.fail("Device does not support biometry, or biometry is not properly enrolled.");
+            promise.resolve(r.toJsonString());
+        }
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String devicePinOnlyPrompt() {
+    @ReactMethod
+    public void devicePinOnlyPrompt(Promise promise) {
+        ReturnStatus r = new ReturnStatus();
 
         Executor mExecutor = Executors.newSingleThreadExecutor();
         CancellationSignal mcancellationSignal = new CancellationSignal();
@@ -79,11 +93,15 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
             @Override
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
+                r.success("Successfully authenticated using local device credential.");
+                promise.resolve(r.toJsonString());
             }
 
             @Override
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
+                r.fail("Authenticated using local device credential failed.");
+                promise.resolve(r.toJsonString());
             }
         };
         BiometricPrompt prompt = new BiometricPrompt.Builder(context.getApplicationContext())
@@ -92,15 +110,23 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
                 .setAllowedAuthenticators(BiometricManager.Authenticators.DEVICE_CREDENTIAL)
                 .build();
 
-        prompt.authenticate(mcancellationSignal, mExecutor, mAuthenticationCallback);
 
-        ReturnStatus r = new ReturnStatus("OK", "Simple device PIN prompt executed.");
-        return r.toJsonString();
+        androidx.biometric.BiometricManager bm = androidx.biometric.BiometricManager.from(context);
+        int canAuth = bm.canAuthenticate(androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL);
+
+        if (canAuth == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS){
+            prompt.authenticate(mcancellationSignal, mExecutor, mAuthenticationCallback);
+        }else{
+            r.fail("Device does not support device credentials. Set up local authentication using PIN, password or pattern first.");
+            promise.resolve(r.toJsonString());
+        }
+
     }
 
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String cryptoOperationPrompt() {
+    @ReactMethod
+    public void cryptoOperationPrompt(Promise promise) {
+        ReturnStatus r = new ReturnStatus();
 
         try {
             KeyGenerator keygen = KeyGenerator.getInstance("AES");
@@ -133,8 +159,11 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
                         String inputString = "Let's encrypt this S3CR3T!";
                         byte[] plaintext = inputString.getBytes();
                         byte[] ciphertext = c.doFinal(plaintext);
+                        r.success("CryptoObject successfully accessed.");
+                        promise.resolve(r.toJsonString());
                     } catch (Exception e) {
-                        System.out.println(e);
+                        r.fail(e.toString());
+                        promise.resolve(r.toJsonString());
                     }
                 }
 
@@ -149,20 +178,24 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
                     .setNegativeButton("Cancel", mExecutor, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // Handle negative button click (e.g., user cancels authentication)
-                        }
+                            r.success("Authentication canceled.");
+                            promise.resolve(r.toJsonString());                        }
                     })
                     .build();
 
-            prompt.authenticate(cObject, mcancellationSignal, mExecutor, mAuthenticationCallback);
+            androidx.biometric.BiometricManager bm = androidx.biometric.BiometricManager.from(context);
+            int canAuth = bm.canAuthenticate(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK);
 
-
-            ReturnStatus r = new ReturnStatus("OK", cipher.toString());
-            return r.toJsonString();
+            if (canAuth == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS){
+                prompt.authenticate(cObject, mcancellationSignal, mExecutor, mAuthenticationCallback);
+            }else{
+                r.fail("Device does not support biometry, or biometry is not properly enrolled.");
+                promise.resolve(r.toJsonString());
+            }
 
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL", e.toString());
-            return r.toJsonString();
+            r.fail(e.toString());
+            promise.resolve(r.toJsonString());
         }
     }
 
