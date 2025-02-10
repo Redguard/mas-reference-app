@@ -30,6 +30,7 @@ const {
 
   NetworkTlsPinning,
   NetworkLocalNetwork,
+  NetworkTlsConfig,
 
   PlatformWebView,
   PlatformIpc,
@@ -624,24 +625,19 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
-    ///////
-    /////// DONE
-    ///////
-
     {
       title: 'HTTP Basic Authentication',
       description:
-        'The usage of HTTP Basic Authentication is not recommended anymore, since it comes with some inherint security flaws.',
+        'The usage of HTTP Basic Authentication is not recommended anymore, since it comes with some inherit security flaws. For example, there is no mechanism for session management in place, passwords are not sufficiently protected against brute force attacks, and the passwords is sent to the server in every request.',
       testCases: [
         {
-          title: 'java.net',
-          description: 'Using java.net with HTTP Basic Authentication.',
+          title: 'Java Network API',
+          description: 'This use case uses java.net API with HTTP Basic Authentication. You can set the target URL in the apps settings.',
           nativeFunction: AuthHttpBasicAuth.javaNet,
         },
         {
           title: 'WebView',
-          description: 'Using WebView with HTTP Basic Authentication.',
+          description: 'This use case creates a Android WebView API which loads a page with HTTP Basic Authentication. You can set the target URL in the apps settings.',
           nativeFunction: AuthHttpBasicAuth.webView,
         },
       ],
@@ -649,28 +645,84 @@ export var androidTestCases: Dictionary<TestCases[]> = {
   ],
   NETWORK: [
     {
-      title: 'TLS Pinning',
+      title: 'TLS Client Settings',
       description:
-        'By hardcoding or \'pinning\' specific TLS certificates or public keys within the application\'s code, TLS pinning ensures that only trusted servers are communicated with, preventing attackers from intercepting and tampering with sensitive data exchanged between the mobile app and the server.  These tests implement this.',
+        'These tests change the default TLS client configuration. They can result in insecure settings.',
       testCases: [
         {
-          title: 'Use Custom TrustStore',
-          nativeFunction: NetworkTlsPinning.customTruststore,
+          title: 'Use Old TLS-Protocol',
+          description:
+            'Configures the client to use outdated TLS protocols, which are considered insecure and vulnerable to attacks.',
+          nativeFunction: NetworkTlsConfig.oldTlsConfig,
         },
         {
-          title: 'Use OKHttp CertificatePinner',
-          nativeFunction: NetworkTlsPinning.okHttpCertificatePinner,
+          title: 'Use Insecure Cipher Suites',
+          description:
+            'These tests configure the client to use insecure cipher suites, such as ones with insecure algorithms or disabled forward secrecy-property.',
+          nativeFunction: NetworkTlsConfig.insecureCipherSuites,
         },
         {
-          title: 'Use WebView CertificatePinner',
-          nativeFunction: NetworkTlsPinning.webViewPinning,
+          title: 'Usage of TLS Client Certificates',
+          description:
+            'Uses TLS with client authentication. This means, that the client must store a private key. Developers often hardcode client keys which is an issue.',
+          nativeFunction: NetworkTlsConfig.clientCertificate,
         },
         {
-          title: 'Programmatically verify',
-          nativeFunction: NetworkTlsPinning.programmaticallyVerify,
+          title: 'Accept Bad TLS Servers',
+          description:
+            'Use BadSSL as TLS Server. The Client should not accept the connections.',
+          nativeFunction: NetworkTlsConfig.acceptBadTLS,
+        },
+        {
+          title: 'Android User TrustStore',
+          description:
+            'By default, the app uses the system trust store. Users cannot add new certificate authorities to this trust store. However, developers may weaken this setting by explicitly allowing the app to verify against the user trust store.',
+          nativeFunction: NetworkTlsConfig.userTrustStore,
         },
       ],
     },
+    {
+      title: 'TLS Pinning',
+      description:
+        'By hardcoding or \'pinning\' specific TLS certificates or public keys within the application\'s code, TLS pinning ensures that only trusted servers are communicated with, preventing attackers from intercepting and tampering with sensitive data exchanged between the mobile app and the server. These test implement TLS pinning.',
+      testCases: [
+        {
+          title: 'Android Pinning',
+          description: 'This test case uses the Java network API in order to connect to a TLS server who\'s certificate is pinned using the Android manifest. There the Let\'s Encrypt root certificate is pinned.', 
+          nativeFunction: NetworkTlsPinning.androidPinning,
+        },
+        {
+          title: 'Invalid Android Pinning',
+          description: 'This test case uses the Java network API in order to connect to a TLS server who\'s certificate is NOT pinned.', 
+          nativeFunction: NetworkTlsPinning.androidPinningInvalid,
+        },
+        {
+          title: 'OKHttp CertificatePinner',
+          description: 'This test case uses the OKHttp CertificatePinner in order to verify the to a TLS server certificate. There the Let\'s Encrypt root certificate is pinned.',
+          nativeFunction: NetworkTlsPinning.okHttpCertificatePinner,
+        },
+        {
+          title: 'Invalid OKHttp CertificatePinner',
+          description: 'This test case uses the OKHttp to connect to a TLS server who\'s certificate is NOT pinned.', 
+          nativeFunction: NetworkTlsPinning.okHttpCertificatePinnerInvalid,
+        },
+        {
+          title: 'WebView CertificatePinner',
+          description: 'This test case uses a custom implementation of shouldOverrideUrlLoading() in order to manually verify the TLS server certificate (Let\'s Encrypt Root CA).', 
+          nativeFunction: NetworkTlsPinning.webViewPinning,
+        },
+        {
+          title: 'Java X509TrustManager',
+          description: 'This test case verifies the TLS server certificate by implementing its own TrustManager in code. There the Let\'s Encrypt root certificate is pinned.', 
+          nativeFunction: NetworkTlsPinning.x509TrustManager,
+        },
+      ],
+    },
+
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+
     {
       title: 'Local Network',
       description:
@@ -694,7 +746,6 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-    // Define your Android-specific network test cases here
   ],
   PLATFORM: [
     {

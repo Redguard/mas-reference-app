@@ -8,8 +8,6 @@ const {
 
   ResilienceVerifySignature,
 
-  NetworkTlsConfig,
-
   CryptoHardcodedSecret,
 
   PrivacyAccessData,
@@ -127,37 +125,6 @@ export var generalTestCases: Dictionary<TestCases[]> = {
           description:
             'Opens a raw UDP socket. Usually, the app must not directly open a raw socket. Should the app transmit plain text data over this channel, this may therefore introduce a risk.',
           nativeFunction: NetworkUnencrypted.rawUdp,
-        },
-      ],
-    },
-    {
-      title: 'TLS Client Settings',
-      description:
-        'These tests change the default TLS client configuration. They can result in insecure settings.',
-      testCases: [
-        {
-          title: 'Use Old TLS-Protocol',
-          description:
-            'Configures the client to use outdated TLS protocols, which are considered insecure and vulnerable to attacks.',
-          nativeFunction: NetworkTlsConfig.oldTlsConfig,
-        },
-        {
-          title: 'Use Insecure Cipher Suites',
-          description:
-            'These tests configure the client to use insecure cipher suites, such as ones with insecure algorithms or disabled forward secrecy-property.',
-          nativeFunction: NetworkTlsConfig.insecureCipherSuites,
-        },
-        {
-          title: 'Usage of TLS Client Certificates',
-          description:
-            'Uses TLS with client authentication. This means, that the client must store a private key. Developers often hardcode client keys which is an issue.',
-          nativeFunction: NetworkTlsConfig.clientCertificate,
-        },
-        {
-          title: 'Accept Bad TLS Servers',
-          description:
-            'Use BadSSL as TLS Server. The Client should not accept the connections.',
-          nativeFunction: NetworkTlsConfig.acceptBadTLS,
         },
       ],
     },
