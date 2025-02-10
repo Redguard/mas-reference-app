@@ -100,7 +100,7 @@ class MyAppPackage : ReactPackage {
         modules.add(com.masreferenceapp.code.CodeUpdate(reactContext))
         modules.add(com.masreferenceapp.code.CodeDependencies(reactContext))
         modules.add(com.masreferenceapp.code.CodeInsecureSoftware(reactContext))
-        modules.add(com.masreferenceapp.resilience.ResiliencObfuscation(reactContext))
+        modules.add(com.masreferenceapp.resilience.ResilienceObfuscation(reactContext))
         modules.add(com.masreferenceapp.resilience.ResilienceRootDetection(reactContext))
         modules.add(com.masreferenceapp.privacy.PrivacyMarketingUUID(reactContext))
         modules.add(com.masreferenceapp.crypto.CryptoKeyInfo(reactContext))

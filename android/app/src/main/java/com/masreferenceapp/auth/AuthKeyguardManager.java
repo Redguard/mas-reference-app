@@ -30,22 +30,29 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String checkKeyguardState() {
         KeyguardManager kgm = getSystemService(context, KeyguardManager.class);
+        ReturnStatus r = new ReturnStatus();
 
         boolean isKeyguardSecure = kgm.isKeyguardSecure();
+        r.success("Does the device have a secure lock screen or is there a locked SIM card: " + isKeyguardSecure);
         boolean isKeyguardLocked = kgm.isKeyguardLocked();
+        r.success("Is lock screen (also known as KeyGuard) shown at the moment:  " + isKeyguardLocked);
 
-        ReturnStatus r = new ReturnStatus("OK", "isKeyguardSecure: " + isKeyguardSecure + ", isKeyguardLocked:" + isKeyguardLocked);
         return r.toJsonString();
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String checkDeviceState() {
+
+        ReturnStatus r = new ReturnStatus();
+
         KeyguardManager kgm = getSystemService(context, KeyguardManager.class);
 
         boolean isDeviceSecure = kgm.isDeviceSecure();
-        boolean isDeviceLocked = kgm.isDeviceLocked();
+        r.success("Does the device have a secure lock screen: " + isDeviceSecure);
 
-        ReturnStatus r = new ReturnStatus("OK", "isDeviceSecure: " + isDeviceSecure + ", isDeviceLocked:" + isDeviceLocked);
+        boolean isDeviceLocked = kgm.isDeviceLocked();
+        r.success("Is the device locked at the moment: " + isDeviceLocked);
+
         return r.toJsonString();
     }
 
@@ -55,11 +62,11 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
 
         try {
             int patternEnabled = Settings.System.getInt(context.getContentResolver(), Settings.Secure.LOCK_PATTERN_ENABLED, 0);
-            ReturnStatus r = new ReturnStatus("OK", "Pattern Enabled: " + patternEnabled);
+            ReturnStatus r = new ReturnStatus("OK", "Does the lock screen require a patter to unlock: " + patternEnabled);
             return r.toJsonString();
 
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL", "Exception: " + e);
+            ReturnStatus r = new ReturnStatus("FAIL",  e.toString());
             return r.toJsonString();
         }
     }
@@ -102,7 +109,7 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
         kgm.requestDismissKeyguard(context.getCurrentActivity(), callback);
 
 
-        ReturnStatus r = new ReturnStatus("OK", "KeyguardManager Request dismissed.");
+        ReturnStatus r = new ReturnStatus("OK", "KeyguardManager request dismissed.");
         return r.toJsonString();
     }
 

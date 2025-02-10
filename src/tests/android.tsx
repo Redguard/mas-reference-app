@@ -41,7 +41,7 @@ const {
 
   ResilienceAntiDebug,
   ResilienceAntiVm,
-  ResiliencObfuscation,
+  ResilienceObfuscation,
   ResilienceDeviceIntegrity,
   ResilienceRootDetection,
 
@@ -112,7 +112,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       ],
     },
     {
-      title: 'java.file.io',
+      title: 'Java File API',
       description:
         'These test cases write data into the internal storage (FilesDir and CacheDir) using java.io.File. These files are not encrypted by default.',
       testCases: [
@@ -394,9 +394,9 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       ],
     },    
     {
-      title: 'Java Cryptography',
+      title: 'Java Cryptography API',
       description:
-        'Android can access cryptographic libraries provided by the Java Runtime Environment. They are for example  javax.crypto.Cipher or java.security.Signature. These classes can be used to encrypt, and sign data. When using Java libraries, it is important to use secure parameters.',
+        'Android can access cryptographic libraries provided by the Java Runtime Environment. They are for example javax.crypto.Cipher or java.security.Signature. These classes can be used to encrypt, and sign data. When using Java libraries, it is important to use secure parameters.',
       testCases: [
         {
           title: 'Init Weak KeyGenerators',
@@ -552,13 +552,10 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-    /////////////    
-    /////////////   UP - DONE
-    /////////////
     {
       title: 'FingerprintManager',
       description:
-        'FingerprintManager is deprecated and should not be used anymore. The replacement is BiometricManger and BiometricPrompt.',
+        'XXX IS USED  FingerprintManager is deprecated and should not be used anymore. The replacement is BiometricManger and BiometricPrompt.',
       testCases: [
         {
           title: 'Query Fingerprint Hardware',
@@ -582,34 +579,35 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
     {
       title: 'KeyguardManager',
       description:
-        'The KeyguardManager class in Android is used to manage the keyguard (lock screen) functionality. It provides methods for determining the state of the keyguard, requesting its dismissal, and handling various events related to the keyguard.',
+        'The KeyguardManager class in Android is used to manage the KeyGuard (lock screen) functionality. It provides methods for determining the state of the KeyGuard, requesting its dismissal, ',
       testCases: [
         {
           title: 'Check Keyguard State',
-          description: 'Verifies the state of Keyguard (Secure/Locked?)',
+          description: 'Checks if the KeyGuard is enabled (isKeyguardSecure()) and if it is currently visible (isKeyguardLocked()).',
           nativeFunction: AuthKeyguardManager.checkKeyguardState,
         },
         {
           title: 'Check Device State',
-          description: 'Verifies the state of the device (Secure/Locked?)',
+          description: 'Checks if the device has a secure lock screen (isDeviceSecure()) and if it is locked at the moment (isDeviceLocked()).',
           nativeFunction: AuthKeyguardManager.checkDeviceState,
         },
         {
-          title: 'Check if Pattern is used',
-          description: 'Verifies if the lockscreen uses a pattern or not.',
+          title: 'Check Pattern',
+          description: 'Check if the lockscreen uses a pattern or not.',
           nativeFunction: AuthKeyguardManager.checkPattern,
         },
         {
           title: 'Disable KeyguardLock',
-          description: 'Tries to disable Keyguard Lock.',
+          description: 'Disable the KeyGuard from showing. If the keyguard is currently showing, hide it.',
           nativeFunction: AuthKeyguardManager.disableKeyguardLock,
         },
         {
           title: 'Request Dismiss Keyguard',
+          description: 
+            'Tries to dismiss the KeyGuard. If the Keyguard is not secure or the device is currently in a trusted state, calling this method will immediately dismiss the Keyguard without any user interaction.',
           nativeFunction: AuthKeyguardManager.requestDismissKeyguard,
         },
       ],
@@ -617,15 +615,20 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Android Protected Confirmation',
       description:
-        'Android Protected Confirmation doesn\'t provide a secure information channel for the user. Data shown here should not be more sensitivie than shown in other places within the app.',
+        'Android Protected Confirmation is a security feature available on devices running Android 9 (API level 28) or higher. It uses a hardware-protected user interface, known as Trusted UI, to ensure that users explicitly confirm critical transactions, such as payments or sensitive actions. However, sensitive data displayed in the confirmation prompt is not guaranteed to remain confidential beyond the standard Android platform protections.',
       testCases: [
         {
           title: 'Create Protected Confirmation',
-          description: '',
+          description: 'Creates a protected confirmation prompt, which can be used to confirm sensitive actions.',
           nativeFunction: AuthProtectedConfirmation.create,
         },
       ],
     },
+
+    ///////
+    /////// DONE
+    ///////
+
     {
       title: 'HTTP Basic Authentication',
       description:
@@ -886,11 +889,11 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Obfuscated Android Class',
-          nativeFunction: ResiliencObfuscation.obfuscatedAndroidClass,
+          nativeFunction: ResilienceObfuscation.obfuscatedAndroidClass,
         },
         {
           title: 'Native Library whit Debug Symbols',
-          nativeFunction: ResiliencObfuscation.nativeDebugSymbols,
+          nativeFunction: ResilienceObfuscation.nativeDebugSymbols,
         },
       ],
     },

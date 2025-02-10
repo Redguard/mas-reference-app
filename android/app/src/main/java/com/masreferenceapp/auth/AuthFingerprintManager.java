@@ -2,12 +2,10 @@ package com.masreferenceapp.auth;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.hardware.biometrics.BiometricPrompt;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.CancellationSignal;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -160,7 +158,7 @@ public class AuthFingerprintManager extends ReactContextBaseJavaModule {
                     public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
                         super.onAuthenticationSucceeded(result);
                         alertDialog.dismiss();
-                        FingerprintManager.CryptoObject cObject  = result.getCryptoObject();
+                        FingerprintManager.CryptoObject cObject = result.getCryptoObject();
                         r.success("Successfully authenticated using biometry. CryptoObject can now be accessed.");
                         promise.resolve(r.toJsonString());
                     }
