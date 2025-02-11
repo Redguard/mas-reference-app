@@ -34,7 +34,7 @@ class PinningWebViewClient(
                 .url("https://$testDomain")
                 .build()
             val response = okHttpClient.newCall(okRequest).execute()
-            r.success("Pin verification successful. Connection to https://$testDomain established.")
+            r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${response.code}.")
             promise.resolve(r.toJsonString())
 
             // Return valid response to WebView

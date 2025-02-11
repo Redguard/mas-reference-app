@@ -1,8 +1,18 @@
 services:
+  echoserver:
+    image: vhiribarren/echo-server
+    ports:
+      - 4001:4001/udp
+      - 5001:5001
+  websocket:
+    image: jmalloc/echo-server
+    ports:
+      - 2001:8080
   webserver_http:
     image: nginx:latest
     ports:
       - 80:80
+      - 3001:80
     restart: always
     volumes:
       - ./nginx/conf_http/:/etc/nginx/conf.d/:ro

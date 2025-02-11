@@ -597,7 +597,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
         {
           title: 'Check Pattern',
-          description: 'Check if the lockscreen uses a pattern or not.',
+          description: 'Check if the lock screen uses a pattern or not.',
           nativeFunction: AuthKeyguardManager.checkPattern,
         },
         {
@@ -736,7 +736,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Local Network',
       description:
-        'By hardcoding or \'pinning\' specific TLS certificates or public keys within the application\'s code, TLS pinning ensures that only trusted servers are communicated with, preventing attackers from intercepting and tampering with sensitive data exchanged between the mobile app and the server.  These tests implement this.',
+        'XXXXXXXXXXXX',
       testCases: [
         {
           title: 'Access Local Network',
