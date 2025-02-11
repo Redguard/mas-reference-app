@@ -23,7 +23,7 @@ open class AuthHttpBasicAuth(var context: ReactApplicationContext) : ReactContex
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun javaNet(): String {
         try {
-            val url = URL("https://" + MasSettings.getData("testDomain") + "/basicAuth.html")
+            val url = URL("https://" + MasSettings.getTestDomain() + "/basicAuth.html")
 
             Authenticator.setDefault(object : Authenticator() {
                 override fun getPasswordAuthentication(): PasswordAuthentication {
@@ -49,7 +49,7 @@ open class AuthHttpBasicAuth(var context: ReactApplicationContext) : ReactContex
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun webView(): String {
 
-        val testDomain = MasSettings.getData("testDomain")
+        val testDomain = MasSettings.getTestDomain()
         val wv = WebView(context)
         wv.webViewClient = HttpBasicAuthWebViewClient()
         wv.loadUrl("https://$testDomain/basicAuth.html")

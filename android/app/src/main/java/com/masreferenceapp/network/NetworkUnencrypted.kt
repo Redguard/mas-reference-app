@@ -1,10 +1,16 @@
 package com.masreferenceapp.network
 
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.MasSettings
 import com.masreferenceapp.ReturnStatus
+import com.masreferenceapp.network.helpers.WebViewJavaScriptBridge
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -22,121 +28,129 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun resolveDns(): String {
-        val testDomain = MasSettings.getData("testDomain")
+    fun openHTTP(): String {
+        val testDomain = MasSettings.getTestDomain()
         val r = ReturnStatus()
+
         try {
-            val inetAddress = InetAddress.getByName(testDomain)
-            r.addStatus(
-                "OK",
-                "Address for the domain '" + testDomain + "' is: " + inetAddress.hostAddress
-            )
+            val url = URL("http://$testDomain")
+            val connection = url.openConnection() as HttpURLConnection
+            connection.connectTimeout = 500
+            connection.readTimeout = 500
+            connection.connect()
+            r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${connection.responseCode}.")
+            connection.disconnect()
         } catch (e: Exception) {
-            r.addStatus("FAIL", e.toString())
+            r.fail(e.toString())
         }
         return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun nonStandardHTTP(): String {
-        val testDomain = MasSettings.getData("testDomain")
+        val testDomain = MasSettings.getTestDomain()
+        val port = 3001
 
-        return try {
-            val url = URL("http", testDomain, 8080, "/")
-            val urlConnection = url.openConnection() as HttpURLConnection
-            urlConnection.connectTimeout = 500 // Set a timeout for establishing the connection
-            urlConnection.readTimeout = 5000 // Set a timeout for reading data from the server
+        val r = ReturnStatus()
 
-            urlConnection.disconnect()
-            val r = ReturnStatus(
-                "OK",
-                "Connection established. Status code was: " + urlConnection.responseCode
-            )
-            r.toJsonString()
+        try {
+            val url = URL("http", testDomain, port, "/")
+            val connection = url.openConnection() as HttpURLConnection
+            connection.connectTimeout = 500
+            connection.readTimeout = 500
+
+            connection.connect()
+            r.success("Pin verification successful. Connection to http://$testDomain:$port established. Response code was: ${connection.responseCode}.")
+            connection.disconnect()
         } catch (e: Exception) {
-            val r = ReturnStatus("FAIL", e.toString())
-            return r.toJsonString()
+            r.fail(e.toString())
         }
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun rawTcp(): String {
-        val testDomain = MasSettings.getData("testDomain")
+        val testDomain = MasSettings.getTestDomain()
+        val port = 5001
+        val r = ReturnStatus()
 
         val socket: Socket
-        return try {
-            socket = Socket(testDomain, 80)
-            // Get output stream to send data
-            val outputStream = socket.getOutputStream()
-            val request =
-                "GET / HTTP/1.1\\nHost: " + MasSettings.getData("remoteHttpDomain") + "\\nX-A:msaTest\\n\\n"
+        try {
+            socket = Socket(testDomain, port)
+            socket.soTimeout = 500
+
+            val request = "This is the MAS app using TCP."
             val output = socket.getOutputStream()
-            val writer = PrintWriter(output, true)
+            val writer = PrintWriter(output)
             writer.print(request)
+            writer.flush()
+
+            //receive the message which the server sends back
+            val input = BufferedReader(InputStreamReader(socket.getInputStream()))
+            val message = input.readLine();
+
+            r.success("Raw TCP socket to $testDomain:$port successfully established. Received data: $message")
+
             socket.close()
-            ReturnStatus("OK", "Socket created established.").toJsonString()
+
 
         } catch (e: Exception) {
-            val r = ReturnStatus("FAIL", e.toString())
-            return r.toJsonString()
+            r.fail(e.toString())
         }
+        return r.toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun rawUdp(): String {
-        val testDomain = MasSettings.getData("testDomain")
-
-        return try {
-            // Create a new UDP socket
-            val socket = DatagramSocket()
-            val serverAddress = InetAddress.getByName(testDomain)
-            val sendData = "HelloUDP".toByteArray()
-            val sendPacket = DatagramPacket(sendData, sendData.size, serverAddress, 53)
-
-            // Send the UDP packet
-            socket.send(sendPacket)
-            socket.close()
-
-            ReturnStatus("OK", "Socket created established.").toJsonString()
-        } catch (e: Exception) {
-            val r = ReturnStatus("FAIL", e.toString())
-            return r.toJsonString()
-        }
-    }
-
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun openHTTP(): String {
-        val testDomain = MasSettings.getData("testDomain")
+        val testDomain = MasSettings.getTestDomain()
+        val port = 4001
         val r = ReturnStatus()
 
-        try {
-            val url = URL("http://$testDomain")
-            val urlConnection = url.openConnection() as HttpURLConnection
-            val response = StringBuilder()
-            urlConnection.disconnect()
-            r.addStatus(
-                "OK",
-                "Connection established. Status code was: " + urlConnection.responseCode
-            )
-        } catch (e: Exception) {
-            r.addStatus("FAIL", e.toString())
+         try {
+
+             val socket = DatagramSocket()
+             socket.soTimeout = 500
+             val serverAddress = InetAddress.getByName(testDomain)
+             val sendData = "This is the MAS app using UDP.".toByteArray()
+             val sendPacket = DatagramPacket(sendData, sendData.size, serverAddress, port)
+
+             // Send the UDP packet
+             socket.send(sendPacket)
+
+
+             val buffer = ByteArray(512)
+             val packet = DatagramPacket(buffer, buffer.size)
+             socket.receive(packet);
+             val receivedData = String(packet.data, 0, packet.length)
+
+             socket.close()
+
+             r.success("Raw UDP socket to $testDomain:$port successfully established. Received data: $receivedData")
+         } catch (e: Exception) {
+             r.fail(e.toString())
+         }
+        return r.toJsonString()
+    }
+
+
+    @ReactMethod()
+    fun webSocket(promise: Promise) {
+        val r = ReturnStatus()
+        val testDomain = "ws://"+MasSettings.getTestDomain()+":2001"
+
+        val wv = WebView(context)
+        wv.settings.javaScriptEnabled = true
+        wv.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView, url: String) {
+                view.evaluateJavascript("initWebSocket('$testDomain')") {
+                    r.success("WebView successfully loaded.")
+                }
+            }
         }
-        return r.toJsonString()
-    }
 
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun sendHTTP(): String {
-        val r = ReturnStatus("OK", "Android code stub.")
-        return r.toJsonString()
-    }
-
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun rtp(): String {
-        val r = ReturnStatus("OK", "Android code stub.")
-        return r.toJsonString()
+        val jsBridge = WebViewJavaScriptBridge(testDomain, promise, r)
+        wv.addJavascriptInterface(jsBridge, "javaScriptBridge")
+        wv.loadUrl("file:///android_asset/ws.html")
     }
 
     //@method

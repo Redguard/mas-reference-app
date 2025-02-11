@@ -19,7 +19,7 @@ class NetworkTlsClientConfig(var context: ReactApplicationContext) : ReactContex
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun oldTlsConfig(): String {
-        val testDomain = MasSettings.getData("testDomain")
+        val testDomain = MasSettings.getTestDomain()
 
         val status = StringBuffer()
         val factory = SSLSocketFactory.getDefault() as SSLSocketFactory
@@ -56,7 +56,7 @@ class NetworkTlsClientConfig(var context: ReactApplicationContext) : ReactContex
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun insecureCipherSuites(): String {
-        val testDomain = MasSettings.getData("testDomain")
+        val testDomain = MasSettings.getTestDomain()
 
         val ciphers = arrayOf(
             "TLS_RSA_WITH_AES_128_CBC_SHA",

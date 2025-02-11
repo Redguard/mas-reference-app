@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
   Animated,
   Easing,
@@ -6,25 +6,25 @@ import {
   StyleSheet,
   Text,
   useWindowDimensions,
-} from 'react-native'
-import { Color } from '../style/Color'
+} from 'react-native';
+import {Color} from '../style/Color';
 
 // Inspired by https://github.com/warlyware/react-native-cookbook/blob/master/chapter-6/notification-animation/Notification/index.js
 
 interface Props {
   /** Whether to show or hide the overlay.  */
-  show: boolean
+  show: boolean;
   /** Invoked when the 'Play again!' button is pressed. */
-  onPlayAgainPress: () => void
+  onPlayAgainPress: () => void;
 }
 
 /**
  * Has a 'Play again!' button that invokes `onPlayAgainPress` when pressed.
  */
-export function WinOverlayButton({ show, onPlayAgainPress }: Props) {
-  const { height: screenHeight } = useWindowDimensions()
+export function WinOverlayButton({show, onPlayAgainPress}: Props) {
+  const {height: screenHeight} = useWindowDimensions();
 
-  const animatedValue = React.useRef(new Animated.Value(0))
+  const animatedValue = React.useRef(new Animated.Value(0));
 
   React.useEffect(() => {
     if (show) {
@@ -33,24 +33,24 @@ export function WinOverlayButton({ show, onPlayAgainPress }: Props) {
         duration: 1000,
         easing: Easing.cubic,
         useNativeDriver: false, // 'top' is not supported by native animated module
-      }).start()
+      }).start();
     } else {
       Animated.timing(animatedValue.current, {
         toValue: 0,
         duration: 800,
         easing: Easing.cubic,
         useNativeDriver: false,
-      }).start()
+      }).start();
     }
-  }, [show, animatedValue])
+  }, [show, animatedValue]);
 
   const top = animatedValue.current.interpolate({
     inputRange: [0, 1],
     outputRange: [-screenHeight, 0],
-  })
+  });
 
   return (
-    <Animated.View style={[styles.main, { height: screenHeight, top }]}>
+    <Animated.View style={[styles.main, {height: screenHeight, top}]}>
       <Text style={styles.title}>Congratulations! You won!</Text>
       <Text style={styles.text}>With X moves and X seconds.</Text>
       <Text style={styles.text}>Woooooo!</Text>
@@ -58,7 +58,7 @@ export function WinOverlayButton({ show, onPlayAgainPress }: Props) {
         <Text style={styles.buttonText}>Play again!</Text>
       </Pressable>
     </Animated.View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -97,4 +97,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
   },
-})
+});

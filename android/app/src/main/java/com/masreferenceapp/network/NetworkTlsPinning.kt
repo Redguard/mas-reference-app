@@ -32,14 +32,14 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun androidPinning(): String {
-        val testDomain = MasSettings.getData("testDomain")
+        val testDomain = MasSettings.getTestDomain()
 
         val r = ReturnStatus()
 
         try{
             val connection = URL("https://$testDomain").openConnection() as HttpURLConnection
             val data = connection.inputStream.bufferedReader().readText()
-            r.success("Pin verification successful. Connection to https://$testDomain established.")
+            r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${connection.responseCode}.")
         }
         catch (e: Exception){
             r.fail("Connection to https://$testDomain could not be established.")
@@ -50,14 +50,14 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun androidPinningInvalid(): String {
-        val testDomain = MasSettings.getData("testDomain")
+        val testDomain = "invalidpin." + MasSettings.getTestDomain()
 
         val r = ReturnStatus()
 
         try{
-            val connection = URL("https://invalidpin.$testDomain").openConnection() as HttpURLConnection
+            val connection = URL("https://$testDomain").openConnection() as HttpURLConnection
             val data = connection.inputStream.bufferedReader().readText()
-            r.success("Pin verification successful. Connection to https://$testDomain established.")
+            r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${connection.responseCode}.")
         }
         catch (e: Exception){
             r.fail("Connection to https://$testDomain could not be established.")
@@ -88,7 +88,7 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
                 .url("https://$testDomain")
                 .build()
             val response = okHttpClient.newCall(request).execute()
-            r.success("Pin verification successful. Connection to https://$testDomain established.")
+            r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${response.code}.")
         }
         catch (e: Exception){
             r.fail("Connection to https://$testDomain could not be established.")
@@ -117,7 +117,7 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
                 .url("https://$testDomain")
                 .build()
             val response = okHttpClient.newCall(request).execute()
-            r.success("Pin verification successful. Connection to https://$testDomain established.")
+            r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${response.code}.")
         }
         catch (e: Exception){
             r.fail("Connection to https://$testDomain could not be established.")
@@ -167,7 +167,7 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
             val response = inputStream.bufferedReader().use { it.readText() }
             connection.disconnect()
 
-            r.success("Pin verification successful. Connection to https://$testDomain established.")
+            r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${connection.responseCode}.")
         }catch (e: Exception){
             r.fail("Connection to https://$testDomain could not be established.")
             r.fail(e.toString())
@@ -200,7 +200,7 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
             connection.sslSocketFactory = sslSocketFactory
             connection.connect()
             connection.disconnect()
-            r.success("Pin verification successful. Connection to https://$testDomain established.")
+            r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${connection.responseCode}.")
         }catch (e: Exception){
             r.fail("Connection to https://$testDomain could not be established.")
             r.fail(e.toString())

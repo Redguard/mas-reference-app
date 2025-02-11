@@ -55,12 +55,6 @@ export var generalTestCases: Dictionary<TestCases[]> = {
             'Logs location data in different forms. An example is 37°46\'29.64"N, 122°25\'9.84"W',
           nativeFunction: StorageLog.logLocation,
         },
-        {
-          title: 'AAAAAA',
-          description:
-            'Logs location data in different forms. An example is 37°46\'29.64"N, 122°25\'9.84"W',
-          nativeFunction: StorageLog.bla,
-        },
       ],
     },
 
@@ -112,24 +106,36 @@ export var generalTestCases: Dictionary<TestCases[]> = {
       title: 'Cleartext Traffic',
       maswe: '0050',
       description:
-        'Unencrypted connections are an issue because they expose sensitive data to potential interception and tampering by malicious actors.',
+        'Unencrypted connections are an issue because they expose sensitive data to potential interception and tampering by malicious actors. Protocols such as HTTP should never be used as they are always unencrypted. Further, if a raw TCP or UDP socket is opened from the apps namespace, this can be a this may be an indication that the developer uses custom application layer protocols. This could be a source for a risk.',
       testCases: [
         {
-          title: 'Open HTTP Connection',
+          title: 'HTTP',
           description:
             'Opens a HTTP connection using the default HTTP stack. This is always a risk as the traffic is not encrypted.',
-          nativeFunction: NetworkUnencrypted.sendHTTP,
+          nativeFunction: NetworkUnencrypted.openHTTP,
         },
         {
-          title: 'Open TCP Socket',
+          title: 'HTTP on Non-Default-Port',
           description:
-            'Opens a raw TCP socket. Usually, the app must not directly open a raw socket. Should the app transmit plain text data over this channel, this may therefore introduce a risk.',
+            'Opens a HTTP connection using the default HTTP stack and on a non-standard port (7001). This is always a risk as the traffic is not encrypted.',
+          nativeFunction: NetworkUnencrypted.nonStandardHTTP,
+        },
+        {
+          title: 'WebSocket within WebView',
+          description:
+            'Opens a WebView which opens a plaintext WebSocket connection. This is always a risk as the traffic is not encrypted.',
+          nativeFunction: NetworkUnencrypted.webSocket,
+        },
+        {
+          title: 'Raw TCP Socket',
+          description:
+            'Opens a raw TCP socket on port 80. Then the app sends a crafted HTTP request. Usually, the app must not directly open a raw socket. Should the app transmit plain text data over this channel, this may therefore introduce a risk.',
           nativeFunction: NetworkUnencrypted.rawTcp,
         },
         {
-          title: 'Open UDP Socket',
+          title: 'Raw UDP Socket',
           description:
-            'Opens a raw UDP socket. Usually, the app must not directly open a raw socket. Should the app transmit plain text data over this channel, this may therefore introduce a risk.',
+            'Opens a raw UDP socket on port 4001. If wou use the default test domain, a UDP echo server will echo the request on this port. Usually, the app must not directly open a raw socket. Should the app transmit plain text data over this channel, this may therefore introduce a risk. ',
           nativeFunction: NetworkUnencrypted.rawUdp,
         },
       ],

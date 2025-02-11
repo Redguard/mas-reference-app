@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> MAS Reference App</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+        function initWebSocket(url) {
+            const webSocket = new WebSocket(url);
+            webSocket.onopen = (e) => {
+                webSocket.send("This is the MAS app using WebSocket.");
+            };
+            webSocket.onmessage = (e) => {
+                javaScriptBridge.wsResponseReceived(event.data);
+                webSocket.close()
+            };
+            webSocket.onerror = (e) => {
+                javaScriptBridge.wsErrorOccurred("Failed to connect to " + url);
+            };
+            return "Connection to WebSocket created.";
+        }
+    </script>
+</head>
+<body>
+<h1>Welcome to the MAS Reference App Server</h1>
+<p>This is just a simple WebSocket test page.</p>
+</body>
+</html>
