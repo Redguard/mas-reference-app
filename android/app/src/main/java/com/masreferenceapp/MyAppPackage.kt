@@ -18,7 +18,7 @@ import com.masreferenceapp.crypto.CryptoKeyAttestation
 import com.masreferenceapp.crypto.CryptoMasterKey
 import com.masreferenceapp.crypto.CryptoRandomJava
 import com.masreferenceapp.network.NetworkLocalNetwork
-import com.masreferenceapp.network.NetworkTlsConfig
+import com.masreferenceapp.network.NetworkTlsClientConfig
 import com.masreferenceapp.network.NetworkTlsPinning
 import com.masreferenceapp.network.NetworkUnencrypted
 import com.masreferenceapp.platform.PlatformIpc
@@ -74,7 +74,7 @@ class MyAppPackage : ReactPackage {
         modules.add(CryptoMasterKey(reactContext))
 
         modules.add(NetworkUnencrypted(reactContext))
-        modules.add(NetworkTlsConfig(reactContext))
+        modules.add(NetworkTlsClientConfig(reactContext))
         modules.add(NetworkTlsPinning(reactContext))
         modules.add(NetworkLocalNetwork(reactContext))
 

@@ -190,7 +190,7 @@ function SettingsScreen(): React.JSX.Element {
                   Linking.openURL('https://mas.owasp.org/MASWE/');
                 }}
                 style={styles.row}>
-                <Text style={styles.rowLabel}>MAS Weaktness Enumeration</Text>
+                <Text style={styles.rowLabel}>MAS Weakness Enumeration</Text>
                 <View style={styles.rowSpacer} />
                 <FeatherIcon color="#bcbcbc" name="chevron-right" size={19} />
               </TouchableOpacity>

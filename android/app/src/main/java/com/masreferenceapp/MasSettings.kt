@@ -14,6 +14,11 @@ object MasSettings {
     }
 
     @JvmStatic
+    fun getTestDomain(): String {
+        return data["testDomain"].toString()
+    }
+
+    @JvmStatic
     fun getCanaryToken(): String {
         return data["canaryToken"].toString()
     }
