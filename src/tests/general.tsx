@@ -55,6 +55,12 @@ export var generalTestCases: Dictionary<TestCases[]> = {
             'Logs location data in different forms. An example is 37°46\'29.64"N, 122°25\'9.84"W',
           nativeFunction: StorageLog.logLocation,
         },
+        {
+          title: 'AAAAAA',
+          description:
+            'Logs location data in different forms. An example is 37°46\'29.64"N, 122°25\'9.84"W',
+          nativeFunction: StorageLog.bla,
+        },
       ],
     },
 

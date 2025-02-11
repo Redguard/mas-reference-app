@@ -20,7 +20,6 @@ import {InfoModal} from './component/InfoModal';
 import LinearGradient from 'react-native-linear-gradient';
 
 const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
-  
   const isDarkMode = useColorScheme() === 'dark';
   const isPortrait = useIsPortrait();
   const {boardSize} = useCardSize();

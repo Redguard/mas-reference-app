@@ -30,7 +30,7 @@ const {
 
   NetworkTlsPinning,
   NetworkLocalNetwork,
-  NetworkTlsConfig,
+  NetworkTlsClientConfig,
 
   PlatformWebView,
   PlatformIpc,
@@ -645,7 +645,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
   ],
   NETWORK: [
     {
-      title: 'TLS Client Settings',
+      title: 'TLS Client Configuration',
       description:
         'These tests change the default TLS client configuration. They can result in insecure settings.',
       testCases: [
@@ -653,31 +653,31 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           title: 'Use Old TLS-Protocol',
           description:
             'Configures the client to use outdated TLS protocols, which are considered insecure and vulnerable to attacks.',
-          nativeFunction: NetworkTlsConfig.oldTlsConfig,
+          nativeFunction: NetworkTlsClientConfig.oldTlsConfig,
         },
         {
           title: 'Use Insecure Cipher Suites',
           description:
             'These tests configure the client to use insecure cipher suites, such as ones with insecure algorithms or disabled forward secrecy-property.',
-          nativeFunction: NetworkTlsConfig.insecureCipherSuites,
+          nativeFunction: NetworkTlsClientConfig.insecureCipherSuites,
         },
         {
           title: 'Usage of TLS Client Certificates',
           description:
             'Uses TLS with client authentication. This means, that the client must store a private key. Developers often hardcode client keys which is an issue.',
-          nativeFunction: NetworkTlsConfig.clientCertificate,
+          nativeFunction: NetworkTlsClientConfig.clientCertificate,
         },
         {
           title: 'Accept Bad TLS Servers',
           description:
             'Use BadSSL as TLS Server. The Client should not accept the connections.',
-          nativeFunction: NetworkTlsConfig.acceptBadTLS,
+          nativeFunction: NetworkTlsClientConfig.acceptBadTLS,
         },
         {
           title: 'Android User TrustStore',
           description:
             'By default, the app uses the system trust store. Users cannot add new certificate authorities to this trust store. However, developers may weaken this setting by explicitly allowing the app to verify against the user trust store.',
-          nativeFunction: NetworkTlsConfig.userTrustStore,
+          nativeFunction: NetworkTlsClientConfig.userTrustStore,
         },
       ],
     },
@@ -707,14 +707,24 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: NetworkTlsPinning.okHttpCertificatePinnerInvalid,
         },
         {
-          title: 'WebView CertificatePinner',
-          description: 'This test case uses a custom implementation of shouldOverrideUrlLoading() in order to manually verify the TLS server certificate (Let\'s Encrypt Root CA).', 
-          nativeFunction: NetworkTlsPinning.webViewPinning,
-        },
-        {
           title: 'Java X509TrustManager',
           description: 'This test case verifies the TLS server certificate by implementing its own TrustManager in code. There the Let\'s Encrypt root certificate is pinned.', 
           nativeFunction: NetworkTlsPinning.x509TrustManager,
+        },
+        {
+          title: 'Invalid Java X509TrustManager',
+          description: 'This test case verifies the TLS server certificate by implementing its own TrustManager in code. As no valid certificate is pinned, the client should not establish connection.', 
+          nativeFunction: NetworkTlsPinning.x509TrustManagerInvalid,
+        },
+        {
+          title: 'WebView Workaround',
+          description: 'WebView does not natively support server certificate pinning. In addition, it does not abide the the network security configuration form the manifest. One workaround is to intercept every request using shouldInterceptRequest() and then manually establish a connection using methods which support TLS pinning in order to do certificate pinning. This test implements such a WebView using OKHttp to pin the certificate.', 
+          nativeFunction: NetworkTlsPinning.webViewPinning,
+        },
+        {
+          title: 'Invalid WebView Workaround',
+          description: 'WebView does not natively support server certificate pinning. In addition, it does not abide the the network security configuration form the manifest. One workaround is to intercept every request using shouldInterceptRequest() and then manually establish a connection using methods which support TLS pinning in order to do certificate pinning. This test implements such a WebView using OKHttp to pin the certificate. The connection should fail, as the certificate is not properly pinned.', 
+          nativeFunction: NetworkTlsPinning.webViewPinningInvalid,
         },
       ],
     },
@@ -800,6 +810,11 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       description:
         'This class represents a storage facility for cryptographic keys and certificates. The Android Keystore system lets you store cryptographic keys in a container to make them more difficult to extract from the device. Once keys are in the keystore, you can use them for cryptographic operations, with the key material remaining non-exportable. ',
       testCases: [
+        {
+          title: 'URL Allow List',
+          description: '',
+          nativeFunction: PlatformWebView.urlAllowList,
+        },
         {
           title: 'Load Local Resource',
           description: '',

@@ -12,9 +12,9 @@ import javax.net.ssl.SSLSocket
 import javax.net.ssl.SSLSocketFactory
 
 
-class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
+class NetworkTlsClientConfig(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
     override fun getName(): String {
-        return "NetworkTlsConfig"
+        return "NetworkTlsClientConfig"
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -27,26 +27,29 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
         val r = ReturnStatus()
 
         try {
-            socket = factory.createSocket(testDomain, 443) as SSLSocket
             try {
-                socket.enabledProtocols = arrayOf("TLSv1")
+                socket = factory.createSocket(testDomain, 443) as SSLSocket
+                socket.enabledProtocols =  arrayOf("TLSv1", "SSLv3", "TLSv1.1")
+                socket.startHandshake()
+                socket.close()
+                r.success("TLS socket with outdated protocol versions created.")
             } catch (e: Exception) {
-                r.addStatus("FAIL", e.toString())
+                r.fail(e.toString())
             }
             try {
                 socket = factory.createSocket(testDomain, 443) as SSLSocket
                 // second way to set older protocols
                 val params = SSLParameters()
-                params.protocols = arrayOf("TLSv1")
+                params.protocols = arrayOf("TLSv1", "SSLv3", "TLSv1.1")
                 socket.sslParameters = params
+                socket.startHandshake()
+                socket.close()
+                r.success("TLS socket with outdated protocol versions created.")
             } catch (e: Exception) {
-                r.addStatus("FAIL", e.toString())
+                r.fail(e.toString())
             }
-            socket!!.startHandshake()
-            socket.close()
-            r.addStatus("[OK]", "TLS socket with TLSv1 created.")
         } catch (e: Exception) {
-            r.addStatus("FAIL", e.toString())
+            r.fail(e.toString())
         }
         return r.toJsonString()
     }
@@ -64,7 +67,6 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
             "TLS_ECDHE_RSA_WITH_RC4_128_SHA",
             "SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5"
         )
-        val status = StringBuffer()
         val factory = SSLSocketFactory.getDefault() as SSLSocketFactory
         var socket: SSLSocket? = null
         val r = ReturnStatus()
@@ -72,25 +74,26 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
             socket = factory.createSocket(testDomain, 443) as SSLSocket
             try {
                 socket.enabledCipherSuites = ciphers
+                socket.startHandshake()
+                socket.close()
+                r.success("TLS socket with insecure cipher suites created.")
             } catch (e: Exception) {
-                r.addStatus("FAIL", e.toString())
+                r.fail(e.toString())
             }
             try {
                 socket = factory.createSocket(testDomain, 443) as SSLSocket
                 // second way to set older protocols
                 val params = SSLParameters(ciphers, null)
                 socket.sslParameters = params
+                socket.startHandshake()
+                socket.close()
+                r.success("TLS socket with insecure cipher suites created.")
+
             } catch (e: Exception) {
-                r.addStatus("FAIL", e.toString())
+                r.fail(e.toString())
             }
-            socket!!.startHandshake()
-            socket.close()
-
-            r.addStatus("[OK]", "TLS socket with insecure cipher suites created.")
-
-            status.append("[OK]")
         } catch (e: Exception) {
-            r.addStatus("FAIL", e.toString())
+            r.fail(e.toString())
         }
         return r.toJsonString()
     }
@@ -136,13 +139,10 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
                 val url = URL(domain)
                 val connection = url.openConnection() as HttpURLConnection
                 val responseCode = connection.responseCode
-                r.addStatus(
-                    "FAIL",
-                    "App established connection to $domain . Response Code is $responseCode"
-                )
+                r.success("App established connection to $domain . Response Code is $responseCode")
 
             } catch (e: Exception) {
-                r.addStatus("OK", "App did not established connection to $domain. Error: $e")
+                r.fail(e.toString())
             }
         }
         return r.toJsonString()
@@ -151,7 +151,7 @@ class NetworkTlsConfig(var context: ReactApplicationContext) : ReactContextBaseJ
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun userTrustStore(): String {
         val r = ReturnStatus()
-        r.success("This app also trusts the CAs from the user trust store.")
+        r.success("This app also trusts the CAs from the user trust store. This is configured in the app's manifest (network_security_config.xml)")
         return r.toJsonString();
     }
 
