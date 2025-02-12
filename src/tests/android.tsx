@@ -759,24 +759,19 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     },
   ],
   PLATFORM: [
-
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-
     {
       title: 'Inter Process Communication',
       description:
-        'These tests will simulate how information can be sent trough IPC and potentially cause harm, given the input is not properly validated.',
+        'These tests will simulate how information can be sent through IPC and potentially cause harm, given the input is not properly validated.',
       testCases: [
         {
           title: 'Exported Activity',
-          description: '',
+          description: 'Simulates an activity that is exported and accessible by other apps, potentially allowing malicious apps to send harmful data or commands.',
           nativeFunction: PlatformIpc.exportedActivity,
         },
         {
           title: 'Service',
-          description: '',
+          description: 'Tests an exported service that can be accessed by other apps, which may lead to unauthorized actions or data leakage.',
           nativeFunction: PlatformIpc.service,
         },
         // {
@@ -786,27 +781,27 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         // },
         {
           title: 'Content Provider',
-          description: '',
+          description: 'Simulates a content provider that is accessible by other apps, potentially exposing sensitive data if permissions are not properly configured.',
           nativeFunction: PlatformIpc.provider,
         },
         {
           title: 'Broadcast Receiver',
-          description: '',
+          description: 'Tests a broadcast receiver that listens for system or app broadcasts, which can be exploited if not properly secured.',
           nativeFunction: PlatformIpc.broadcastReceiver,
         },
         {
           title: 'Deep Links',
-          description: '',
+          description: 'Simulates deep link handling in the app, which could be exploited to inject malicious data or commands.',
           nativeFunction: PlatformIpc.deepLinks,
         },
         {
           title: 'Listen on Localhost',
-          description: '',
+          description: 'Tests a service that listens on localhost, which could be exploited by malicious apps or users on the same device.',
           nativeFunction: PlatformIpc.listenLocalhost,
         },
         {
           title: 'Send Data to Localhost',
-          description: '',
+          description: 'Simulates sending data to a service running on localhost, which could expose sensitive information if not properly secured.',
           nativeFunction: PlatformIpc.sendLocalhost,
         },
       ],
@@ -814,56 +809,56 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'WebView',
       description:
-        'This class represents a storage facility for cryptographic keys and certificates. The Android Keystore system lets you store cryptographic keys in a container to make them more difficult to extract from the device. Once keys are in the keystore, you can use them for cryptographic operations, with the key material remaining non-exportable. ',
+        'This class represents a storage facility for cryptographic keys and certificates. The Android Keystore system lets you store cryptographic keys in a container to make them more difficult to extract from the device. Once keys are in the keystore, you can use them for cryptographic operations, with the key material remaining non-exportable.',
       testCases: [
         {
           title: 'URL Allow List',
-          description: 'TODO',
+          description: 'Tests the implementation of a URL allow list to restrict WebView to load only specific URLs.',
           nativeFunction: PlatformWebView.urlAllowList,
         },
         {
           title: 'Load Local Resource',
-          description: '',
+          description: 'Tests loading a local resource in the WebView, which could expose sensitive files if not properly configured.',
           nativeFunction: PlatformWebView.loadLocalResource,
         },
         {
           title: 'Load Remote HTTP Resource',
-          description: '',
+          description: 'Simulates loading a remote HTTP resource in the WebView, which could expose the app to man-in-the-middle attacks.',
           nativeFunction: PlatformWebView.loadRemoteHttpResource,
         },
         {
           title: 'Load Remote HTTPS Resource',
-          description: '',
+          description: 'Tests loading a remote HTTPS resource in the WebView, ensuring secure communication is used.',
           nativeFunction: PlatformWebView.loadRemoteHttpsResource,
         },
         {
           title: 'Allow File Access',
-          description: '',
+          description: 'Simulates enabling file access in the WebView, which could expose sensitive files to unauthorized access.',
           nativeFunction: PlatformWebView.allowFileAccess,
         },
         {
           title: 'Execute JavaScript From Host',
-          description: '',
+          description: 'Tests executing JavaScript in the WebView from the host application, which could lead to injection vulnerabilities.',
           nativeFunction: PlatformWebView.sendDataToJsSandbox,
         },
         {
           title: 'Call Native Function From JavaScript',
-          description: '',
+          description: 'Simulates calling native functions from JavaScript in the WebView, which could be exploited if not properly secured.',
           nativeFunction: PlatformWebView.readDataFromJsSandbox,
         },
         {
           title: 'Enable Geolocation',
-          description: '',
+          description: 'Tests enabling geolocation in the WebView, which could expose user location data to unauthorized parties.',
           nativeFunction: PlatformWebView.enableGeolocation,
         },
         {
           title: 'Allow Mixed Content',
-          description: '',
+          description: 'Simulates allowing mixed content (HTTP and HTTPS) in the WebView, which could expose the app to security risks.',
           nativeFunction: PlatformWebView.allowMixedContent,
         },
         {
           title: 'Enable Remote Web Content Debugging',
-          description: '',
+          description: 'Tests enabling remote debugging for WebView content, which could expose sensitive data during development.',
           nativeFunction: PlatformWebView.remoteDebugging,
         },
       ],
@@ -875,13 +870,13 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Passwords in Text-Fields',
-          description: '',
+          description: 'Simulates displaying passwords in plaintext in text fields, which could expose sensitive information to shoulder-surfing or screenshots.',
           nativeFunction: PlatformUiDisclosure.passwordPlaintextUi,
         },
         {
-          title: 'Sensitivie Data in Notifications',
+          title: 'Sensitive Data in Notifications',
           description:
-            'This test uses noitifications to display sensitive data.',
+            'This test uses notifications to display sensitive data.',
           nativeFunction: PlatformUiDisclosure.sensitiveDataNotifications,
         },
         {
@@ -892,23 +887,21 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-    // Define your Android-specific platform-related test cases here
   ],
   CODE: [
-    // Define your Android-specific code-related test cases here
     {
       title: 'Current Software Version',
       description:
         'Check if the app enforces updates e.g. via AppUpdateManager on Android. However, the backend would be enforcing this and not only the app locally.',
       testCases: [
         {
-          title: 'Check if App Update is availabe',
+          title: 'Check for Updates',
           description: 'Use AppUpdateManager.getAppUpdateInfo to query, if there is a new version available.',
           nativeFunction: CodeUpdate.checkUpdateAvailable,
         },
         {
           title: 'Check OS Version',
-          description: 'Checks the OS SDK Version in order to spot an insecure plattform.',
+          description: 'Checks the OS SDK Version in order to spot an insecure platform.',
           nativeFunction: CodeUpdate.checkOs,
         },
       ],
@@ -957,14 +950,16 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Obfuscation',
       description:
-        'Obfuscation can increase the amount of work attackers have to put into reverse-engineering or attacking the app. It therefore may be used alongside other seucre development techniques in order to better protect sensitve parts of the app.',
+        'Obfuscation can increase the amount of work attackers have to put into reverse-engineering or attacking the app. It therefore may be used alongside other secure development techniques in order to better protect sensitive parts of the app.',
       testCases: [
         {
           title: 'Obfuscated Android Class',
+          description: 'Tests the use of obfuscated Android classes to make reverse engineering more difficult.',
           nativeFunction: ResilienceObfuscation.obfuscatedAndroidClass,
         },
         {
           title: 'Native Library whit Debug Symbols',
+          description: 'Tests the inclusion of native libraries with debug symbols, which could expose sensitive implementation details.',
           nativeFunction: ResilienceObfuscation.nativeDebugSymbols,
         },
       ],
@@ -972,14 +967,16 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Anti-Debug',
       description:
-        'The app tries to find out if it is debuggable, or of a degubber is currently attached.',
+        'The app tries to find out if it is debuggable, or of a debugger is currently attached.',
       testCases: [
         {
           title: 'Verify if App is Debuggable',
+          description: 'Checks if the app is marked as debuggable, which could allow attackers to attach a debugger.',
           nativeFunction: ResilienceAntiDebug.debuggable,
         },
         {
           title: 'Verify if Debugger is Attached',
+          description: 'Tests if a debugger is currently attached to the app, which could indicate an ongoing attack.',
           nativeFunction: ResilienceAntiDebug.debuggerConnected,
         },
       ],
@@ -987,26 +984,31 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Anti-VM',
       description:
-        'The app tries to find out if it runs in a virual environment or on real hardware.',
+        'The app tries to find out if it runs in a virtual environment or on real hardware.',
       testCases: [
         {
           title: 'Get IMSI',
+          description: 'Checks the IMSI to determine if the app is running on a virtual machine.',
           nativeFunction: ResilienceAntiVm.getImsi,
         },
         {
           title: 'Get Build String',
+          description: 'Analyzes the build string to detect characteristics of virtual environments.',
           nativeFunction: ResilienceAntiVm.getBuild,
         },
         {
           title: 'Get Networkinterface',
+          description: 'Examines network interfaces to identify virtualized environments.',
           nativeFunction: ResilienceAntiVm.getNetworkInterface,
         },
         {
           title: 'Get Installer Package Name',
+          description: 'Checks the installer package name to detect if the app is running in a virtual environment.',
           nativeFunction: ResilienceAntiVm.getInstallerPackageName,
         },
         {
           title: 'Get Sensor',
+          description: 'Tests the availability of sensors to determine if the app is running on a physical device or a virtual machine.',
           nativeFunction: ResilienceAntiVm.getSensor,
         },
       ],
@@ -1019,7 +1021,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'RootBeer Check',
           description:
-            'Use the RootBeer Library to do the check.',
+            'Use the RootBeer Library to check if the the app is running on a rooted device. This check can usually be bypassed by static or dynamic attacks.',
           nativeFunction: ResilienceRootDetection.rootBeer,
         },
       ],
@@ -1040,7 +1042,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Device Integrity Checks',
       description:
-        'The app tries to validate the integrity of the platform using OS-API',
+        'The app tries to validate the integrity of the platform using security features provided by Android. Compared to a in-app root check, these checks are more secure, as the attacker must compromise the OS itself and the developer can verify the result on the server site.',
       testCases: [
         {
           title: 'Play Integrity API',
@@ -1076,18 +1078,22 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Get AAID',
+          description: 'Tests the retrieval of the Advertising ID (AAID), which can be used for tracking users across apps.',
           nativeFunction: PrivacyMarketingUUID.getAAID,
         },
         {
           title: 'Get Android ID',
+          description: 'Simulates accessing the Android ID, which can be used as a unique identifier for tracking purposes.',
           nativeFunction: PrivacyMarketingUUID.getAndroidID,
         },
         {
           title: 'Get IMEI',
+          description: 'Tests accessing the IMEI, which can be used to uniquely identify a device and track users.',
           nativeFunction: PrivacyMarketingUUID.getImei,
         },
         {
           title: 'Get MAC Address',
+          description: 'Simulates retrieving the MAC address, which can be used for tracking devices on a network.',
           nativeFunction: PrivacyMarketingUUID.getMAC,
         },
       ],
