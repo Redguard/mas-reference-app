@@ -60,19 +60,36 @@ function HomeScreen({}: any): React.JSX.Element {
   return (
     <ScrollView>
       <View style={styles.homeStyle}>
-        <View style={styles.container}>
+        <View style={styles.logoContainer}>
           <Image
             style={styles.logo}
             source={require('../../assets/logo_circle.png')}
           />
         </View>
-        <Text style={styles.title}>{'OWASP MAS Reference App'}</Text>
+        <Text style={styles.title}>{'OWASP MAS\n Reference App'}</Text>
         <Text style={styles.text}>
-          {
-            'The OWASP MAS Reference App implements different vulnerabilities and security-relevant features such as anti-tampering measures. \n\nThe app can be used to train testers in assessing the security of mobile apps. In addition it can be used to develop and test security scanners both static and dynamic ones.'
-          }
+          This app implements common security and privacy weaknesses specific to mobile apps. Use it for the following purposes:
         </Text>
-        <Text>Here are some statistics:</Text>
+      </View>
+        <Text style={styles.bulletPoint}>
+          - Lean about mobile security and OWASP MAS
+        </Text>
+        <Text style={styles.bulletPoint}>
+          - Test tools used to assess mobile app security
+        </Text>
+        <Text style={styles.bulletPoint}>
+          - Educate security testers about testing apps
+        </Text>
+        <Text style={styles.bulletPoint}>
+          - Educate developers about secure app development
+        </Text>
+      <View style={styles.homeStyle}>
+        <Text style={styles.text}>
+          For more information got the settings and follow the links.
+        </Text>
+        <Text style={styles.text}>
+          Here are some statistics:
+        </Text>
         <Stats />
       </View>
     </ScrollView>

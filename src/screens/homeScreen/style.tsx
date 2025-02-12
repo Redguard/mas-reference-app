@@ -1,13 +1,13 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
+  logoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
   },
   logo: {
-    width: 250,
-    height: 250,
+    width: 200,
+    height: 200,
     margin: '5%',
   },
   homeStyle: {
@@ -20,11 +20,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   text: {
-    margin: '5%',
+    alignItems: 'center',
+    marginHorizontal: '5%',
+    marginBottom: '2%',
+    marginTop: '2%',
     textAlign: 'justify',
     fontSize: 15,
   },
+  bulletPoint: {
+    marginHorizontal: '10%',
+  },
   statsContainer: {
+    justifyContent: 'center',
     width: '80%',
     position: 'relative',
     flex: 1,
@@ -34,6 +41,7 @@ const styles = StyleSheet.create({
     margin: 5,
     textAlign: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   statsTextHeader: {
     fontWeight: 'bold',
