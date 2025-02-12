@@ -57,7 +57,6 @@ export var generalTestCases: Dictionary<TestCases[]> = {
         },
       ],
     },
-
     {
       title: 'Hardcoded API Keys',
       maswe: '0005',

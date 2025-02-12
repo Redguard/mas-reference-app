@@ -16,23 +16,23 @@ class ExecuteTestButton extends Component<any, any> {
   }
 
   async onPress() {
-    const ret: string = await this.nativeFunction();
-
-    const retJson = JSON.parse(ret);
-
-    if (this.terminalRef && this.terminalRef.current) {
-      retJson.map((item: any, _: any) => {
-        console.log(item);
-        if (item.statusCode === 'OK') {
-          this.terminalRef.current.addSuccess(item.message);
-        } else if (item.statusCode === 'FAIL') {
-          this.terminalRef.current.addFailure(item.message);
-        }
-      });
+    try{
+      const ret: string = await this.nativeFunction();
+      const retJson = JSON.parse(ret);
+      if (this.terminalRef && this.terminalRef.current) {
+        retJson.map((item: any, _: any) => {
+          console.log(item);
+          if (item.statusCode === 'OK') {
+            this.terminalRef.current.addSuccess(item.message);
+          } else if (item.statusCode === 'FAIL') {
+            this.terminalRef.current.addFailure(item.message);
+          }
+        });
+      }
+      this.setState({successful: true});
+    } catch (error) {
+      console.error('Error calling the native function:', error);
     }
-
-    console.log(ret);
-    this.setState({successful: true});
   }
 
   render() {
