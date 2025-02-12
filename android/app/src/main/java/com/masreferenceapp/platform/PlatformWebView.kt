@@ -77,8 +77,8 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
         wv.loadUrl(localWebViewJavaScriptBridge)
         wv.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
-                view.evaluateJavascript("receiveCallFromAndroid()") {
-                    value -> println(value)
+                view.evaluateJavascript("receiveCallFromAndroid()") { value ->
+                    println(value)
                     r.success("Native method called JavaScript function. It returned the following value: $value")
                     promise.resolve(r.toJsonString())
                     wv.destroy()

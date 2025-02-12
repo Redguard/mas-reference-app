@@ -13,14 +13,18 @@ class PinningWebViewClient(
     private val testDomain: String,
     private val pins: Array<String>,
     private val promise: Promise,
-    private val r: ReturnStatus) : WebViewClient() {
+    private val r: ReturnStatus
+) : WebViewClient() {
 
-    override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
+    override fun shouldInterceptRequest(
+        view: WebView?,
+        request: WebResourceRequest?
+    ): WebResourceResponse? {
         val url = request?.url.toString()
 
         val certificatePinner = CertificatePinner.Builder()
 
-        for (pin in pins){
+        for (pin in pins) {
             certificatePinner.add(testDomain, pin)
         }
 
@@ -38,13 +42,12 @@ class PinningWebViewClient(
             promise.resolve(r.toJsonString())
 
             // Return valid response to WebView
-           return WebResourceResponse(
+            return WebResourceResponse(
                 response.header("content-type", "text/html"),
                 response.header("content-encoding", "utf-8"),
                 response.body?.byteStream()
             )
-        }
-        catch (e: Exception){
+        } catch (e: Exception) {
             r.fail("Connection to https://$testDomain could not be established.")
             r.fail(e.toString())
             promise.resolve(r.toJsonString())

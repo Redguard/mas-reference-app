@@ -997,7 +997,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: ResilienceAntiVm.getBuild,
         },
         {
-          title: 'Get Networkinterface',
+          title: 'Get Network Interface',
           description: 'Examines network interfaces to identify virtualized environments.',
           nativeFunction: ResilienceAntiVm.getNetworkInterface,
         },
@@ -1029,7 +1029,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     // {
     //   title: 'Simple Dynamic Analysis Tools Detection',
     //   description:
-    //     'The app uses common Dynamic Analysis Tools Detection detection libraries in order to do a simple check if tools are avilable.',
+    //     'The app uses common Dynamic Analysis Tools Detection detection libraries in order to do a simple check if tools are available.',
     //   testCases: [
     //     {
     //       title: 'DetectFrida Check',

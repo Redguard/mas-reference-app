@@ -12,7 +12,8 @@ import javax.net.ssl.SSLSocket
 import javax.net.ssl.SSLSocketFactory
 
 
-class NetworkTlsClientConfig(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
+class NetworkTlsClientConfig(var context: ReactApplicationContext) :
+    ReactContextBaseJavaModule(context) {
     override fun getName(): String {
         return "NetworkTlsClientConfig"
     }
@@ -29,7 +30,7 @@ class NetworkTlsClientConfig(var context: ReactApplicationContext) : ReactContex
         try {
             try {
                 socket = factory.createSocket(testDomain, 443) as SSLSocket
-                socket.enabledProtocols =  arrayOf("TLSv1", "SSLv3", "TLSv1.1")
+                socket.enabledProtocols = arrayOf("TLSv1", "SSLv3", "TLSv1.1")
                 socket.startHandshake()
                 socket.close()
                 r.success("TLS socket with outdated protocol versions created.")
@@ -152,7 +153,7 @@ class NetworkTlsClientConfig(var context: ReactApplicationContext) : ReactContex
     fun userTrustStore(): String {
         val r = ReturnStatus()
         r.success("This app also trusts the CAs from the user trust store. This is configured in the app's manifest (network_security_config.xml)")
-        return r.toJsonString();
+        return r.toJsonString()
     }
 
     //@method
