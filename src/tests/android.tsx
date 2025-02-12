@@ -229,6 +229,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     },
     {
       title: 'MediaStore API',
+      maswe: '0007',
       description:
         'To provide a more enriched user experience, many apps let users contribute and access media that\'s available on an external storage volume. These files remain outside the apps sandbox, are world read- and writable and may therefore be accessed from other apps.',
       testCases: [
@@ -556,7 +557,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'FingerprintManager',
       description:
-        'XXX IS USED  FingerprintManager is deprecated and should not be used anymore. The replacement is BiometricManger and BiometricPrompt.',
+        'FingerprintManager is a class that coordinates access to the fingerprint hardware. However, it is deprecated and should not be used anymore. The replacement is BiometricManger and BiometricPrompt.',
       testCases: [
         {
           title: 'Query Fingerprint Hardware',
@@ -729,35 +730,40 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       ],
     },
 
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-
     {
       title: 'Local Network',
       description:
-        'XXXXXXXXXXXX',
+        'Aside from connection servers on the public internet, apps may also try to access hosts on the local network. This can be be a violation of privacy in case an app scans and accesses local hosts excessively. Also it is possible to open ports on the phone. This adds additional attack surface which goes against the least-privilege principle if not necessary.',
       testCases: [
         {
           title: 'Access Local Network',
+          description: 'This use case uses ICMP and TCP in order to check if a host in the private networks (10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16) are up and if a service is running on the common port 80.',
           nativeFunction: NetworkLocalNetwork.access,
         },
         {
           title: 'Host HTTP Server',
+          description: 'This use case hosts a HTTP server on port 80 and exposes it to the local network.',
           nativeFunction: NetworkLocalNetwork.hostHttpServer,
         },
         {
           title: 'Host TCP Server',
+          description: 'This use case hosts a TCP server on port 2001 and exposes it to the local network.',
           nativeFunction: NetworkLocalNetwork.hostTcpServer,
         },
         {
           title: 'Host UDP Server',
+          description: 'This use case hosts a UDP server on port 3001 and exposes it to the local network.',
           nativeFunction: NetworkLocalNetwork.hostUDPServer,
         },
       ],
     },
   ],
   PLATFORM: [
+
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+
     {
       title: 'Inter Process Communication',
       description:
@@ -812,7 +818,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'URL Allow List',
-          description: '',
+          description: 'TODO',
           nativeFunction: PlatformWebView.urlAllowList,
         },
         {

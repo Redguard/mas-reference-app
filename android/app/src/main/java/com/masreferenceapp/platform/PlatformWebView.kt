@@ -3,6 +3,7 @@ package com.masreferenceapp.platform
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
@@ -26,6 +27,7 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
         headers["X-b"] = "anotherHeader"
         wv.loadUrl(localWebViewDomain, headers)
         wv.loadUrl(localWebViewDomain)
+        wv.destroy()
         return ReturnStatus("OK", "Resource loaded. URL of the WebView: " + wv.url).toJsonString()
     }
 
@@ -38,6 +40,7 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
         headers["X-b"] = "anotherHeader"
         wv.loadUrl("http://$testDomain", headers)
         wv.loadUrl("http://$testDomain")
+        wv.destroy()
         return ReturnStatus("OK", "Resource loaded. URL of the WebView: " + wv.url).toJsonString()
     }
 
@@ -50,6 +53,7 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
         headers["X-b"] = "anotherHeader"
         wv.loadUrl("https://$testDomain", headers)
         wv.loadUrl("https://$testDomain")
+        wv.destroy()
         return ReturnStatus("OK", "Resource loaded. URL of the WebView: " + wv.url).toJsonString()
     }
 
@@ -58,38 +62,38 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
         val wv = WebView(context)
         wv.loadUrl(localWebViewDomain)
         wv.settings.allowFileAccess = true
+        wv.destroy()
         return ReturnStatus(
             "OK",
             "AllowFileAccess set. URL of the WebView: " + wv.url
         ).toJsonString()
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun sendDataToJsSandbox(): String {
+    @ReactMethod
+    fun sendDataToJsSandbox(promise: Promise) {
+        val r = ReturnStatus()
         val wv = WebView(context)
         wv.settings.javaScriptEnabled = true
         wv.loadUrl(localWebViewJavaScriptBridge)
         wv.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
-                view.evaluateJavascript("receiveCallFromAndroid()") { value -> println(value) }
+                view.evaluateJavascript("receiveCallFromAndroid()") {
+                    value -> println(value)
+                    r.success("Native method called JavaScript function. It returned the following value: $value")
+                    promise.resolve(r.toJsonString())
+                    wv.destroy()
+                }
             }
         }
-        return ReturnStatus(
-            "OK",
-            "Data to JS sandobx sent. URL of the WebView: " + wv.url
-        ).toJsonString()
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun readDataFromJsSandbox(): String {
+    @ReactMethod
+    fun readDataFromJsSandbox(promise: Promise) {
+        val r = ReturnStatus()
         val wv = WebView(context)
         wv.settings.javaScriptEnabled = true
-        wv.addJavascriptInterface(WebViewJavaScriptBridge(context), "javascriptBridge")
+        wv.addJavascriptInterface(WebViewJavaScriptBridge(promise, r, wv), "javascriptBridge")
         wv.loadUrl(localWebViewJavaScriptBridge)
-        return ReturnStatus(
-            "OK",
-            "Data from JS sandobx read. URL of the WebView: " + wv.url
-        ).toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
@@ -97,6 +101,7 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
         val wv = WebView(context)
         wv.loadUrl(localWebViewDomain)
         wv.settings.setGeolocationEnabled(true)
+        wv.destroy()
         return ReturnStatus(
             "OK",
             "Geolocation enabled. URL of the WebView: " + wv.url
@@ -108,6 +113,7 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
         val wv = WebView(context)
         wv.loadUrl(localWebViewDomain)
         wv.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+        wv.destroy()
         return ReturnStatus(
             "OK",
             "MixedContent allowed. URL of the WebView: " + wv.url
@@ -122,6 +128,5 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
     }
 
     //@method
-
 
 }

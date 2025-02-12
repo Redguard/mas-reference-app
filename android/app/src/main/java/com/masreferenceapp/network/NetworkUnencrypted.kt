@@ -73,12 +73,9 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
         val testDomain = MasSettings.getTestDomain()
         val port = 5001
         val r = ReturnStatus()
-
-        val socket: Socket
         try {
-            socket = Socket(testDomain, port)
+            val socket: Socket = Socket(testDomain, port)
             socket.soTimeout = 500
-
             val request = "This is the MAS app using TCP."
             val output = socket.getOutputStream()
             val writer = PrintWriter(output)
@@ -92,8 +89,6 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
             r.success("Raw TCP socket to $testDomain:$port successfully established. Received data: $message")
 
             socket.close()
-
-
         } catch (e: Exception) {
             r.fail(e.toString())
         }
@@ -106,17 +101,15 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
         val port = 4001
         val r = ReturnStatus()
 
+        val socket = DatagramSocket()
+        socket.soTimeout = 500
          try {
-
-             val socket = DatagramSocket()
-             socket.soTimeout = 500
              val serverAddress = InetAddress.getByName(testDomain)
              val sendData = "This is the MAS app using UDP.".toByteArray()
              val sendPacket = DatagramPacket(sendData, sendData.size, serverAddress, port)
 
              // Send the UDP packet
              socket.send(sendPacket)
-
 
              val buffer = ByteArray(512)
              val packet = DatagramPacket(buffer, buffer.size)
@@ -128,6 +121,7 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
              r.success("Raw UDP socket to $testDomain:$port successfully established. Received data: $receivedData")
          } catch (e: Exception) {
              r.fail(e.toString())
+             socket.close()
          }
         return r.toJsonString()
     }
@@ -148,8 +142,8 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
             }
         }
 
-        val jsBridge = WebViewJavaScriptBridge(testDomain, promise, r)
-        wv.addJavascriptInterface(jsBridge, "javaScriptBridge")
+        val javaScriptBridge = WebViewJavaScriptBridge(testDomain, promise, r)
+        wv.addJavascriptInterface(javaScriptBridge, "javaScriptBridge")
         wv.loadUrl("file:///android_asset/ws.html")
     }
 
