@@ -82,7 +82,7 @@ class CodeInsecureSoftware(var context: ReactApplicationContext) : ReactContextB
     data class User(val id: Int, val name: String, val email: String) : Serializable
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun insecureDeserialisation(): String {
+    fun deserialization(): String {
         val r = ReturnStatus()
         try {
             var user = User(id = 1, name = "John Doe", email = "john.doe@mas.owasp.org")

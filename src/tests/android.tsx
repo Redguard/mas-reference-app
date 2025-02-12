@@ -1,5 +1,3 @@
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable prettier/prettier */
 import {NativeModules} from 'react-native';
 import {TestCases} from '../appContent';
 const {
@@ -362,7 +360,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: CryptoKeyInfo.isInsideSecureHardware,
         },
       ],
-    },   
+    },
     {
       title: 'SecretKeyFactory',
       description:
@@ -394,7 +392,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
 
       ],
-    },    
+    },
     {
       title: 'Java Cryptography API',
       description:
@@ -507,7 +505,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           nativeFunction: CryptoDeprecated.bouncyCastleDirect,
         },
       ],
-    },   
+    },
   ],
   AUTH: [
     {
@@ -608,7 +606,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
         {
           title: 'Request Dismiss Keyguard',
-          description: 
+          description:
             'Tries to dismiss the KeyGuard. If the Keyguard is not secure or the device is currently in a trusted state, calling this method will immediately dismiss the Keyguard without any user interaction.',
           nativeFunction: AuthKeyguardManager.requestDismissKeyguard,
         },
@@ -689,12 +687,12 @@ export var androidTestCases: Dictionary<TestCases[]> = {
       testCases: [
         {
           title: 'Android Pinning',
-          description: 'This test case uses the Java network API in order to connect to a TLS server who\'s certificate is pinned using the Android manifest. There the Let\'s Encrypt root certificate is pinned.', 
+          description: 'This test case uses the Java network API in order to connect to a TLS server who\'s certificate is pinned using the Android manifest. There the Let\'s Encrypt root certificate is pinned.',
           nativeFunction: NetworkTlsPinning.androidPinning,
         },
         {
           title: 'Invalid Android Pinning',
-          description: 'This test case uses the Java network API in order to connect to a TLS server who\'s certificate is NOT pinned.', 
+          description: 'This test case uses the Java network API in order to connect to a TLS server who\'s certificate is NOT pinned.',
           nativeFunction: NetworkTlsPinning.androidPinningInvalid,
         },
         {
@@ -704,27 +702,27 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
         {
           title: 'Invalid OKHttp CertificatePinner',
-          description: 'This test case uses the OKHttp to connect to a TLS server who\'s certificate is NOT pinned.', 
+          description: 'This test case uses the OKHttp to connect to a TLS server who\'s certificate is NOT pinned.',
           nativeFunction: NetworkTlsPinning.okHttpCertificatePinnerInvalid,
         },
         {
           title: 'Java X509TrustManager',
-          description: 'This test case verifies the TLS server certificate by implementing its own TrustManager in code. There the Let\'s Encrypt root certificate is pinned.', 
+          description: 'This test case verifies the TLS server certificate by implementing its own TrustManager in code. There the Let\'s Encrypt root certificate is pinned.',
           nativeFunction: NetworkTlsPinning.x509TrustManager,
         },
         {
           title: 'Invalid Java X509TrustManager',
-          description: 'This test case verifies the TLS server certificate by implementing its own TrustManager in code. As no valid certificate is pinned, the client should not establish connection.', 
+          description: 'This test case verifies the TLS server certificate by implementing its own TrustManager in code. As no valid certificate is pinned, the client should not establish connection.',
           nativeFunction: NetworkTlsPinning.x509TrustManagerInvalid,
         },
         {
           title: 'WebView Workaround',
-          description: 'WebView does not natively support server certificate pinning. In addition, it does not abide the the network security configuration form the manifest. One workaround is to intercept every request using shouldInterceptRequest() and then manually establish a connection using methods which support TLS pinning in order to do certificate pinning. This test implements such a WebView using OKHttp to pin the certificate.', 
+          description: 'WebView does not natively support server certificate pinning. In addition, it does not abide the the network security configuration form the manifest. One workaround is to intercept every request using shouldInterceptRequest() and then manually establish a connection using methods which support TLS pinning in order to do certificate pinning. This test implements such a WebView using OKHttp to pin the certificate.',
           nativeFunction: NetworkTlsPinning.webViewPinning,
         },
         {
           title: 'Invalid WebView Workaround',
-          description: 'WebView does not natively support server certificate pinning. In addition, it does not abide the the network security configuration form the manifest. One workaround is to intercept every request using shouldInterceptRequest() and then manually establish a connection using methods which support TLS pinning in order to do certificate pinning. This test implements such a WebView using OKHttp to pin the certificate. The connection should fail, as the certificate is not properly pinned.', 
+          description: 'WebView does not natively support server certificate pinning. In addition, it does not abide the the network security configuration form the manifest. One workaround is to intercept every request using shouldInterceptRequest() and then manually establish a connection using methods which support TLS pinning in order to do certificate pinning. This test implements such a WebView using OKHttp to pin the certificate. The connection should fail, as the certificate is not properly pinned.',
           nativeFunction: NetworkTlsPinning.webViewPinningInvalid,
         },
       ],
@@ -935,13 +933,13 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         },
         {
           title: 'Protect against XEE ',
-          description: 'It is recommended to harden the DocumentBuilder used when parsing XML in order to protect agians possible XEE.',
+          description: 'It is recommended to harden the DocumentBuilder used when parsing XML in order to protect against possible XEE.',
           nativeFunction: CodeInsecureSoftware.XmlExternalEntity,
         },
         {
-          title: 'Insecure Java Deserialisation',
-          description: 'This uses case implements an insecure Java Deserialisation.',
-          nativeFunction: CodeInsecureSoftware.insecureDeserialisation,
+          title: 'Java Deserialization',
+          description: 'In this use case, a Java Object is serialized and the deserialized. If an attacker is able to control data which is deserialized, it is possible that the attacker can inject malicious code if the deserialization is successful. ',
+          nativeFunction: CodeInsecureSoftware.deserialization,
         },
       ],
     },
@@ -1071,7 +1069,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     //   ],
     // },
   ],
-  PRIVACY: [    
+  PRIVACY: [
     {
       title: 'Advertisement',
       description: 'User tracking in mobile applications involves collecting and analyzing data to monitor user behavior, preferences, and movements. This enables companies to recognize and follow users over time and across different apps, devices, and services. Such tracking often occurs without the user\'s explicit knowledge or consent, leading to significant privacy concerns.',
