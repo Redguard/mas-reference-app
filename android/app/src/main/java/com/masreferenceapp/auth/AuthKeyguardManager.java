@@ -66,7 +66,7 @@ public class AuthKeyguardManager extends ReactContextBaseJavaModule {
             return r.toJsonString();
 
         } catch (Exception e) {
-            ReturnStatus r = new ReturnStatus("FAIL",  e.toString());
+            ReturnStatus r = new ReturnStatus("FAIL", e.toString());
             return r.toJsonString();
         }
     }

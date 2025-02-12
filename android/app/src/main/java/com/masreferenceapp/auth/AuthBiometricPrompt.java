@@ -73,11 +73,11 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
         androidx.biometric.BiometricManager bm = androidx.biometric.BiometricManager.from(context);
         int canAuth = bm.canAuthenticate(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK);
 
-        if (canAuth == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS){
+        if (canAuth == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS) {
             CancellationSignal mcancellationSignal = new CancellationSignal();
             prompt.authenticate(mcancellationSignal, mExecutor, mAuthenticationCallback);
 
-        }else{
+        } else {
             r.fail("Device does not support biometry, or biometry is not properly enrolled.");
             promise.resolve(r.toJsonString());
         }
@@ -114,9 +114,9 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
         androidx.biometric.BiometricManager bm = androidx.biometric.BiometricManager.from(context);
         int canAuth = bm.canAuthenticate(androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL);
 
-        if (canAuth == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS){
+        if (canAuth == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS) {
             prompt.authenticate(mcancellationSignal, mExecutor, mAuthenticationCallback);
-        }else{
+        } else {
             r.fail("Device does not support device credentials. Set up local authentication using PIN, password or pattern first.");
             promise.resolve(r.toJsonString());
         }
@@ -179,16 +179,17 @@ public class AuthBiometricPrompt extends ReactContextBaseJavaModule {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             r.success("Authentication canceled.");
-                            promise.resolve(r.toJsonString());                        }
+                            promise.resolve(r.toJsonString());
+                        }
                     })
                     .build();
 
             androidx.biometric.BiometricManager bm = androidx.biometric.BiometricManager.from(context);
             int canAuth = bm.canAuthenticate(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK);
 
-            if (canAuth == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS){
+            if (canAuth == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS) {
                 prompt.authenticate(cObject, mcancellationSignal, mExecutor, mAuthenticationCallback);
-            }else{
+            } else {
                 r.fail("Device does not support biometry, or biometry is not properly enrolled.");
                 promise.resolve(r.toJsonString());
             }

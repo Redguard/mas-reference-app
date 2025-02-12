@@ -36,12 +36,11 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
 
         val r = ReturnStatus()
 
-        try{
+        try {
             val connection = URL("https://$testDomain").openConnection() as HttpURLConnection
             val data = connection.inputStream.bufferedReader().readText()
             r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${connection.responseCode}.")
-        }
-        catch (e: Exception){
+        } catch (e: Exception) {
             r.fail("Connection to https://$testDomain could not be established.")
             r.fail(e.toString())
         }
@@ -54,12 +53,11 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
 
         val r = ReturnStatus()
 
-        try{
+        try {
             val connection = URL("https://$testDomain").openConnection() as HttpURLConnection
             val data = connection.inputStream.bufferedReader().readText()
             r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${connection.responseCode}.")
-        }
-        catch (e: Exception){
+        } catch (e: Exception) {
             r.fail("Connection to https://$testDomain could not be established.")
             r.fail(e.toString())
         }
@@ -83,14 +81,13 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
             .certificatePinner(certificatePinner)
             .build()
 
-        try{
+        try {
             val request = Request.Builder()
                 .url("https://$testDomain")
                 .build()
             val response = okHttpClient.newCall(request).execute()
             r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${response.code}.")
-        }
-        catch (e: Exception){
+        } catch (e: Exception) {
             r.fail("Connection to https://$testDomain could not be established.")
             r.fail(e.toString())
         }
@@ -112,14 +109,13 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
             .certificatePinner(certificatePinner)
             .build()
 
-        try{
+        try {
             val request = Request.Builder()
                 .url("https://$testDomain")
                 .build()
             val response = okHttpClient.newCall(request).execute()
             r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${response.code}.")
-        }
-        catch (e: Exception){
+        } catch (e: Exception) {
             r.fail("Connection to https://$testDomain could not be established.")
             r.fail(e.toString())
         }
@@ -127,7 +123,7 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
     }
 
 
-    private fun loadKeyStore(ks: KeyStore, fileId: Int){
+    private fun loadKeyStore(ks: KeyStore, fileId: Int) {
         context.resources.openRawResource(fileId).use { keyInput ->
             val certificateFactory = CertificateFactory.getInstance("X.509")
             val certificate = certificateFactory.generateCertificate(keyInput) as X509Certificate
@@ -140,14 +136,15 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
         val r = ReturnStatus()
         val testDomain = MasSettings.getTestDomain()
 
-        try{
+        try {
             val keyStore = KeyStore.getInstance(KeyStore.getDefaultType())
             keyStore.load(null, null) // Create an empty KeyStore
 
             loadKeyStore(keyStore, R.raw.isrgrootx1)
             loadKeyStore(keyStore, R.raw.isrgrootx2)
 
-            val trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
+            val trustManagerFactory =
+                TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
             trustManagerFactory.init(keyStore)
 
             val sslContext = SSLContext.getInstance("TLS")
@@ -168,7 +165,7 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
             connection.disconnect()
 
             r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${connection.responseCode}.")
-        }catch (e: Exception){
+        } catch (e: Exception) {
             r.fail("Connection to https://$testDomain could not be established.")
             r.fail(e.toString())
         }
@@ -181,13 +178,14 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
         val r = ReturnStatus()
         val testDomain = "invalidpin.${MasSettings.getTestDomain()}"
 
-        try{
+        try {
             val keyStore = KeyStore.getInstance(KeyStore.getDefaultType())
             keyStore.load(null, null)
 
             // leave the KeyStore empty on purpose
 
-            val trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
+            val trustManagerFactory =
+                TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
             trustManagerFactory.init(keyStore)
 
             val sslContext = SSLContext.getInstance("TLS")
@@ -201,7 +199,7 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
             connection.connect()
             connection.disconnect()
             r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${connection.responseCode}.")
-        }catch (e: Exception){
+        } catch (e: Exception) {
             r.fail("Connection to https://$testDomain could not be established.")
             r.fail(e.toString())
         }
@@ -209,7 +207,7 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
     }
 
     @ReactMethod
-    fun webViewPinning(promise: Promise){
+    fun webViewPinning(promise: Promise) {
         val r = ReturnStatus()
         val testDomain = MasSettings.getTestDomain()
 
@@ -219,12 +217,12 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
             "sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M="
         )
         val wv = WebView(context)
-        wv.webViewClient = PinningWebViewClient(testDomain,pins, promise, r)
+        wv.webViewClient = PinningWebViewClient(testDomain, pins, promise, r)
         wv.loadUrl("https://$testDomain")
     }
 
     @ReactMethod
-    fun webViewPinningInvalid(promise: Promise){
+    fun webViewPinningInvalid(promise: Promise) {
         val r = ReturnStatus()
         val testDomain = MasSettings.getTestDomain()
 
@@ -233,7 +231,7 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
             "sha256/NDirQI6weuLiefh9EFjP0Rg8F7iLvBQE7fdD2e+j5r8="
         )
         val wv = WebView(context)
-        wv.webViewClient = PinningWebViewClient(testDomain,pins, promise, r)
+        wv.webViewClient = PinningWebViewClient(testDomain, pins, promise, r)
         wv.loadUrl("https://invalid.$testDomain")
     }
 

@@ -54,7 +54,7 @@ public class AuthProtectedConfirmation extends ReactContextBaseJavaModule {
         private final Promise promise;
         private final ReturnStatus r;
 
-        public MyConfirmationCallback(Promise promise, ReturnStatus r){
+        public MyConfirmationCallback(Promise promise, ReturnStatus r) {
             this.promise = promise;
             this.r = r;
         }

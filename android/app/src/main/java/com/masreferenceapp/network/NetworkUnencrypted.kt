@@ -84,7 +84,7 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
 
             //receive the message which the server sends back
             val input = BufferedReader(InputStreamReader(socket.getInputStream()))
-            val message = input.readLine();
+            val message = input.readLine()
 
             r.success("Raw TCP socket to $testDomain:$port successfully established. Received data: $message")
 
@@ -103,26 +103,26 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
 
         val socket = DatagramSocket()
         socket.soTimeout = 500
-         try {
-             val serverAddress = InetAddress.getByName(testDomain)
-             val sendData = "This is the MAS app using UDP.".toByteArray()
-             val sendPacket = DatagramPacket(sendData, sendData.size, serverAddress, port)
+        try {
+            val serverAddress = InetAddress.getByName(testDomain)
+            val sendData = "This is the MAS app using UDP.".toByteArray()
+            val sendPacket = DatagramPacket(sendData, sendData.size, serverAddress, port)
 
-             // Send the UDP packet
-             socket.send(sendPacket)
+            // Send the UDP packet
+            socket.send(sendPacket)
 
-             val buffer = ByteArray(512)
-             val packet = DatagramPacket(buffer, buffer.size)
-             socket.receive(packet);
-             val receivedData = String(packet.data, 0, packet.length)
+            val buffer = ByteArray(512)
+            val packet = DatagramPacket(buffer, buffer.size)
+            socket.receive(packet)
+            val receivedData = String(packet.data, 0, packet.length)
 
-             socket.close()
+            socket.close()
 
-             r.success("Raw UDP socket to $testDomain:$port successfully established. Received data: $receivedData")
-         } catch (e: Exception) {
-             r.fail(e.toString())
-             socket.close()
-         }
+            r.success("Raw UDP socket to $testDomain:$port successfully established. Received data: $receivedData")
+        } catch (e: Exception) {
+            r.fail(e.toString())
+            socket.close()
+        }
         return r.toJsonString()
     }
 
@@ -130,7 +130,7 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
     @ReactMethod()
     fun webSocket(promise: Promise) {
         val r = ReturnStatus()
-        val testDomain = "ws://"+MasSettings.getTestDomain()+":2001"
+        val testDomain = "ws://" + MasSettings.getTestDomain() + ":2001"
 
         val wv = WebView(context)
         wv.settings.javaScriptEnabled = true

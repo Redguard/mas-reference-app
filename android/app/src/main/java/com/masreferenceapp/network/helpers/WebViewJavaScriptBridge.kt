@@ -4,11 +4,11 @@ import android.webkit.JavascriptInterface
 import com.facebook.react.bridge.Promise
 import com.masreferenceapp.ReturnStatus
 
-class WebViewJavaScriptBridge (
+class WebViewJavaScriptBridge(
     private val testDomain: String,
     private val promise: Promise,
     private val r: ReturnStatus
-){
+) {
     @JavascriptInterface
     fun wsResponseReceived(dataFromJavaScript: String?) {
         r.success("Connection to $testDomain established. Received data: ${dataFromJavaScript}.")
