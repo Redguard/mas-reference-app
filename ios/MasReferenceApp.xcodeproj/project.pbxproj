@@ -12,9 +12,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		66AA321300B1FFACA56CFBCC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		7699B88040F8A987B510C191 /* libPods-MasReferenceApp-MasReferenceAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-MasReferenceApp-MasReferenceAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		84DBEA1D2700BD422EFD28AF /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,14 +49,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		F862946F2D5CAFF000EFD2B0 /* storage */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = storage; sourceTree = "<group>"; };
-		F86294762D5CD05E00EFD2B0 /* crypto */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = crypto; sourceTree = "<group>"; };
-		F86294772D5CD07300EFD2B0 /* auth */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = auth; sourceTree = "<group>"; };
-		F86294782D5CD07C00EFD2B0 /* network */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = network; sourceTree = "<group>"; };
-		F86294792D5CD08200EFD2B0 /* platform */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = platform; sourceTree = "<group>"; };
-		F862947A2D5CD08900EFD2B0 /* code */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = code; sourceTree = "<group>"; };
-		F862947B2D5CD08D00EFD2B0 /* resilience */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = resilience; sourceTree = "<group>"; };
-		F862947C2D5CD09700EFD2B0 /* privacy */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = privacy; sourceTree = "<group>"; };
+		F89948052D5CFBF6007724FC /* crypto */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = crypto; sourceTree = "<group>"; };
+		F89948092D5CFC10007724FC /* network */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = network; sourceTree = "<group>"; };
+		F899480C2D5CFC10007724FC /* privacy */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = privacy; sourceTree = "<group>"; };
+		F899480F2D5CFC10007724FC /* resilience */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = resilience; sourceTree = "<group>"; };
+		F89948142D5CFC10007724FC /* storage */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = storage; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,14 +96,11 @@
 		13B07FAE1A68108700A75B9A /* MasReferenceApp */ = {
 			isa = PBXGroup;
 			children = (
-				F862947C2D5CD09700EFD2B0 /* privacy */,
-				F862947B2D5CD08D00EFD2B0 /* resilience */,
-				F862947A2D5CD08900EFD2B0 /* code */,
-				F86294792D5CD08200EFD2B0 /* platform */,
-				F86294782D5CD07C00EFD2B0 /* network */,
-				F86294772D5CD07300EFD2B0 /* auth */,
-				F86294762D5CD05E00EFD2B0 /* crypto */,
-				F862946F2D5CAFF000EFD2B0 /* storage */,
+				F89948092D5CFC10007724FC /* network */,
+				F899480C2D5CFC10007724FC /* privacy */,
+				F899480F2D5CFC10007724FC /* resilience */,
+				F89948142D5CFC10007724FC /* storage */,
+				F89948052D5CFBF6007724FC /* crypto */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -211,14 +205,11 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				F862946F2D5CAFF000EFD2B0 /* storage */,
-				F86294762D5CD05E00EFD2B0 /* crypto */,
-				F86294772D5CD07300EFD2B0 /* auth */,
-				F86294782D5CD07C00EFD2B0 /* network */,
-				F86294792D5CD08200EFD2B0 /* platform */,
-				F862947A2D5CD08900EFD2B0 /* code */,
-				F862947B2D5CD08D00EFD2B0 /* resilience */,
-				F862947C2D5CD09700EFD2B0 /* privacy */,
+				F89948052D5CFBF6007724FC /* crypto */,
+				F89948092D5CFC10007724FC /* network */,
+				F899480C2D5CFC10007724FC /* privacy */,
+				F899480F2D5CFC10007724FC /* resilience */,
+				F89948142D5CFC10007724FC /* storage */,
 			);
 			name = MasReferenceApp;
 			productName = MasReferenceApp;
@@ -275,7 +266,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				66AA321300B1FFACA56CFBCC /* PrivacyInfo.xcprivacy in Resources */,
+				84DBEA1D2700BD422EFD28AF /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,8 +503,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "--PRODUCT-NAME-rfc1034identifier-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.MasReferenceApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MasReferenceApp;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -540,8 +530,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "--PRODUCT-NAME-rfc1034identifier-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.MasReferenceApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MasReferenceApp;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
