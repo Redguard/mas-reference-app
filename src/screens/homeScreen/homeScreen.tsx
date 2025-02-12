@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './style.tsx';
 import testCases from '../../testcases.tsx';
 import appContent from '../../appContent.tsx';
-import {Table, Rows} from 'react-native-table-component';
+import {Table, Rows} from 'react-native-reanimated-table';
 
 function Stats({}: any): React.JSX.Element {
   const stats: {[id: string]: number} = {};
