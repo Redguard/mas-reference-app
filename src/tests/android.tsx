@@ -113,7 +113,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'Java File API',
       description:
-        'These test cases write data into the internal storage (FilesDir and CacheDir) using java.io.File. These files are not encrypted by default.',
+        'Developers can choose to use the java.io.File API directly. Using this class, it is possible to store data in within the sandbox, or the sandboxed external storage. However, these files are not encrypted by default. Developers should keep that in mind, wen using the Java File API directly.',
       testCases: [
         {
           title: 'Write MODE_PRIVATE',

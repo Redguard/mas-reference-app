@@ -2,7 +2,7 @@
 import {NativeModules} from 'react-native';
 import {TestCases} from '../appContent';
 const {} = NativeModules;
-
+  
 interface Dictionary<Type> {
   [key: string]: Type;
 }
