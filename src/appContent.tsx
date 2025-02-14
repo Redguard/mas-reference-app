@@ -27,21 +27,21 @@ var appContent: MASCategory[] = [
     key: 'STORAGE',
     color: '#df5c8c',
     description:
-      'These test cases focus on identifying potentially sensitive data stored by an application and verifying if it is securely stored.',
+      'Mobile apps often store sensitive data. This can be done in various ways. For example, the location of the datastorage can have an impact on the security of the data. Also, sensitive data can escape the app\'s sandbox using insecure backups or misconfigured logging.',
     tests: [],
   },
   {
     key: 'CRYPTO',
     color: '#f65928',
     description:
-      "This category also focuses on the management of cryptographic keys throughout their lifecycle, including key generation, storage, and protection. Poor key management can compromise even the strongest cryptography, so it is crucial for developers to follow the recommended best practices to ensure the security of their users' sensitive data.",
+      'This category focuses on the management of cryptographic material throughout their lifecycle, including key properties, their storage, and protection against unauthorized access during the runtime. But also the usage of insecure cryptographic primitives, such as insecurely configured ciphers are part of these use cases.',
     tests: [],
   },
   {
     key: 'AUTH',
     color: '#f09236',
     description:
-      'Mobile apps often use different forms of authentication, such as biometrics, PIN, or multi-factor authentication code generators, to validate user identity. These mechanisms must be implemented correctly to ensure their effectiveness in preventing unauthorized access.',
+      'Local authentication, such as biometrics, PIN, or passwords, is important for mobile app security. However, there are different ways of implementing them. Some of them more, some of them less secure. This category enumerates the different risks associated with them.',
     tests: [],
   },
   {
@@ -55,28 +55,28 @@ var appContent: MASCategory[] = [
     key: 'PLATFORM',
     color: '#4fb990',
     description:
-      "This category comprises controls that ensure the app's interactions with the mobile platform occur securely. These controls cover the secure use of platform-provided IPC mechanisms, WebView configurations to prevent sensitive data leakage and functionality exposure, and secure display of sensitive data in the app's user interface. By implementing these controls, mobile app developers can safeguard sensitive user information and prevent unauthorized access by attackers.",
+      "This category comprises tests that could lead to insecure interactions with the mobile platform. The cover the use of platform-provided IPC mechanisms, insecure WebView configurations which may lead to sensitive data leakage and functionality exposure, and the display of sensitive data in the app's user interface.",
     tests: [],
   },
   {
     key: 'CODE',
     color: '#5facd3',
     description:
-      'This category covers coding vulnerabilities that arise from external sources such as app data entry points, the OS, and third-party software components. Developers should verify and sanitize all incoming data to prevent injection attacks and bypass of security checks. They should also enforce app updates and ensure that the app runs up-to-date platforms to protect users from known vulnerabilities.',
+      'This category covers coding vulnerabilities that arise from external sources such as app data entry points, the OS, and third-party software components. The use cases also cover the enforcement of app updates and checks, that the app runs up-to-date platforms to protect users from known vulnerabilities.',
     tests: [],
   },
   {
     key: 'RESILIENCE',
     color: '#317bc0',
     description:
-      "The controls in this category aim to ensure that the app is running on a trusted platform, prevent tampering at runtime and ensure the integrity of the app's intended functionality. Additionally, the controls impede comprehension by making it difficult to figure out how the app works using static analysis and prevent dynamic analysis and instrumentation that could allow an attacker to modify the code at runtime.",
+      "The tests in this category aim to ensure that the app is running on a trusted platform, prevent tampering at runtime and ensure the integrity of the app's intended functionality. Due to the nature of the category, the absence of these controls in an application is the risk.",
     tests: [],
   },
   {
     key: 'PRIVACY',
     color: '#8b5f9e',
     description:
-      "The main goal of MASVS-PRIVACY is to provide a baseline for user privacy. It is not intended to cover all aspects of user privacy, especially when other standards and regulations such as ENISA or the GDPR already do that. We focus on the app itself, looking at what can be tested using information that's publicly available or found within the app through methods like static or dynamic analysis.",
+      'Mobile apps can access a variety of personal data under certain circumstances. These tests simulate apps which try to access these information.',
     tests: [],
   },
 ];
