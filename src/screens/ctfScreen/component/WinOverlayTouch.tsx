@@ -112,12 +112,16 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   const bottom = animatedBottomRef.current;
   // console.log('bottom', bottom)
 
-  const message = `With ${game.moves} moves and ${game.timer.seconds} seconds.`;
+  /* Decides whether to show the usual "you won" screen after a game, or the description of the CTF when spawning the game */
+  const title = game.cards.length != 0 ? "Congratulations! You won!" : "Welcome to Redguard's CTF for the Insomni'hack!";
+  const message = game.cards.length != 0 ? `With ${game.moves} moves and ${game.timer.seconds} seconds.` : "There are several challenges hidden inside this App. You can use the MASVS references from the sidebar as an inspiration. Flags have the format of a UUIDv4 (for example: 08E94C4B-052A-434D-80DA-50D82C6A5085)";
+  const subtitle = game.cards.length != 0 ? "Wooohooo!" : "¡Buena suerte!";
+
   return (
     <Animated.View style={[styles.main, {height: screenHeight, bottom}]}>
-      <Text style={styles.title}>Congratulations! You won!</Text>
+      <Text style={styles.title}>{title}</Text>
       <Text style={styles.text}>{message}</Text>
-      <Text style={styles.text}>Wooohooo!</Text>
+      <Text style={styles.text}>{subtitle}</Text>
       <View {...panResponder.panHandlers} style={styles.moveUp}>
         <Text style={styles.buttonText}>Press and swipe up</Text>
       </View>
@@ -146,12 +150,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 22,
     marginBottom: 10,
+    textAlign: "center",
   },
   text: {
     color: Color.gray,
     fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 10,
+    textAlign: "justify",
   },
   // TODO change button color when pressed
   button: {
