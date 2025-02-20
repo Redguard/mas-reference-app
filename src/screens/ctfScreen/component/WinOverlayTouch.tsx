@@ -9,10 +9,13 @@ import {
   Text,
   useWindowDimensions,
   View,
+  NativeModules
 } from 'react-native';
 import {Color} from '../style/Color';
 import {observer} from 'mobx-react-lite';
 import {Game} from '../game/Game';
+
+const { WelcomeCTF } = NativeModules;
 
 interface Props {
   game: Game;
@@ -116,6 +119,8 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   const title = game.cards.length != 0 ? "Congratulations! You won!" : "Welcome to Redguard's CTF for the Insomni'hack!";
   const message = game.cards.length != 0 ? `With ${game.moves} moves and ${game.timer.seconds} seconds.` : "There are several challenges hidden inside this App. You can use the MASVS references from the sidebar as an inspiration. Flags have the format of a UUIDv4 (for example: 08E94C4B-052A-434D-80DA-50D82C6A5085)";
   const subtitle = game.cards.length != 0 ? "Wooohooo!" : "¡Buena suerte!";
+
+  WelcomeCTF.showToast ("asdf");
 
   return (
     <Animated.View style={[styles.main, {height: screenHeight, bottom}]}>
