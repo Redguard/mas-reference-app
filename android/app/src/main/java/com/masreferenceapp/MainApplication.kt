@@ -1,7 +1,8 @@
 package com.masreferenceapp
 
 import android.app.Application
-import com.ctf_insomnihack.CTFPackage
+import android.util.Log
+import com.insomnihack.CTFPackage
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost
@@ -12,6 +13,7 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
+import com.insomnihack.MainCTF
 
 class MainApplication : Application(), ReactApplication {
 
@@ -42,5 +44,7 @@ class MainApplication : Application(), ReactApplication {
             // If you opted-in for the New Architecture, we load the native entry point for this app.
             load()
         }
+        // Initialise the CTF
+        MainCTF()
     }
 }

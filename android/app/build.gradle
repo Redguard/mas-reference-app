@@ -91,6 +91,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        ndk {
+            moduleName "rust_jni"
+        }
     }
     signingConfigs {
         debug {

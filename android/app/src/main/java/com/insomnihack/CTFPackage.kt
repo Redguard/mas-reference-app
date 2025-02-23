@@ -1,4 +1,4 @@
-package com.ctf_insomnihack
+package com.insomnihack
 
 import android.view.View
 import com.facebook.react.ReactPackage

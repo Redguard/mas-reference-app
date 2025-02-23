@@ -1,4 +1,4 @@
-package com.ctf_insomnihack
+package com.insomnihack
 
 import android.widget.Toast
 import com.facebook.react.bridge.ReactApplicationContext
@@ -7,14 +7,12 @@ import com.facebook.react.bridge.ReactMethod
 
 class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
-    // The name of the module that will be used in JS
     override fun getName() = "WelcomeCTF"
 
-    // Method to show the toast
+    external fun test(a: Int, b: Int): Int
+
     @ReactMethod
     fun showToast(message: String) {
-        Toast.makeText(reactApplicationContext, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(reactApplicationContext, "message ${test(1, 3)}", Toast.LENGTH_SHORT).show()
     }
-
-    // Optionally, you can add methods to handle more complex functionality
 }
