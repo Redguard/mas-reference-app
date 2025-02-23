@@ -115,12 +115,17 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   const bottom = animatedBottomRef.current;
   // console.log('bottom', bottom)
 
+  let flag = "";
+
+  if (game.isCompleted && game.cards.length > 0) {
+
+    flag = WelcomeCTF.showToast ("0FE3F0F0-DFD6-4B1D-92A7-005EC104C403");
+  }
+
   /* Decides whether to show the usual "you won" screen after a game, or the description of the CTF when spawning the game */
   const title = game.cards.length != 0 ? "Congratulations! You won!" : "Welcome to Redguard's CTF for the Insomni'hack!";
   const message = game.cards.length != 0 ? `With ${game.moves} moves and ${game.timer.seconds} seconds.` : "There are several challenges hidden inside this App. You can use the MASVS references from the sidebar as an inspiration. Flags have the format of a UUIDv4 (for example: 08E94C4B-052A-434D-80DA-50D82C6A5085)";
-  const subtitle = game.cards.length != 0 ? "Wooohooo!" : "¡Buena suerte!";
-
-  WelcomeCTF.showToast ("asdf");
+  const subtitle = game.cards.length != 0 ? `Here's your first flag:\n${flag}` : "¡Buena suerte!";
 
   return (
     <Animated.View style={[styles.main, {height: screenHeight, bottom}]}>
