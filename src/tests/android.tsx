@@ -1,5 +1,5 @@
 import {NativeModules} from 'react-native';
-import {TestCases} from '../appContent';
+import {TestGroup} from '../appContent';
 const {
   StorageSharedPreferences,
   StorageDataStore,
@@ -52,7 +52,7 @@ interface Dictionary<Type> {
   [key: string]: Type;
 }
 
-export var androidTestCases: Dictionary<TestCases[]> = {
+export var androidTestCases: Dictionary<TestGroup[]> = {
   STORAGE: [
     {
       title: 'SharedPreferences',
@@ -345,7 +345,8 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'KeyInfo',
       description:
-        'Android devices can be very different in features with an impact on the security. The can for example have a Trusted Execution Environment (TEE), a StrongBox HSM-Chip or none of them. This KeyInfo can be used to verify the properties of the key. Developers should use them in order to be informed about the security of the key material.',
+        'Android devices can be very different in features with an impact on the security. The can for example have a Trusted Execution Environment' +
+        '(TEE), a StrongBox HSM-Chip or none of them. This KeyInfo can be used to verify the properties of the key. Developers should use them in order to be informed about the security of the key material.',
       testCases: [
         {
           title: 'Get Security Level',
@@ -401,8 +402,14 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Init Weak KeyGenerators',
           description:
-            'Creates KeyGenerators weak Algorithms such as AES/ECB or RC4.',
+            'Creates KeyGenerators for weak Algorithms such as AES/ECB or RC4.',
           nativeFunction: CryptoJava.initInsecureKeyGenerators,
+        },
+        {
+          title: 'Init Weak KeyPairGenerators',
+          description:
+            'Creates KeyPairGenerators with insecure properties such as weak key sizes.',
+          nativeFunction: CryptoJava.initInsecureKeyPairGenerators,
         },
         {
           title: 'Init Weak Ciphers',

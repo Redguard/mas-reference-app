@@ -9,11 +9,14 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.ReturnStatus;
 
+import java.security.KeyPairGenerator;
+import java.security.SecureRandom;
 import java.security.Security;
 import java.security.Signature;
 import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
+import java.util.Random;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -63,6 +66,30 @@ public class CryptoJava extends ReactContextBaseJavaModule {
                 r.addStatus("FAIL", e.toString());
             }
 
+        }
+        return r.toJsonString();
+    }
+
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String initInsecureKeyPairGenerators() {
+
+        ReturnStatus r = new ReturnStatus();
+        try {
+            KeyPairGenerator kg = KeyPairGenerator.getInstance("RSA");
+            kg.initialize(512);
+            r.addStatus("OK", "Initialized KeyPairGenerator with insecure key size (512 bit).");
+
+        } catch (Exception e) {
+            r.addStatus("FAIL", e.toString());
+        }
+
+        try {
+            KeyPairGenerator kg = KeyPairGenerator.getInstance("RSA", "AndroidOpenSSL");
+            r.addStatus("OK", "Initialized KeyPairGenerator with a security provider other than AndroidKeyStore.");
+
+        } catch (Exception e) {
+            r.addStatus("FAIL", e.toString());
         }
         return r.toJsonString();
     }

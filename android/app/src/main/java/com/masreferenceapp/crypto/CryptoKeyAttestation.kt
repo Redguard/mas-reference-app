@@ -31,7 +31,8 @@ class CryptoKeyAttestation(var context: ReactApplicationContext) : ReactContextB
                 KeyGenParameterSpec.Builder(
                     "masAttestationTestKey",
                     KeyProperties.PURPOSE_SIGN
-                ).build()
+                ).setAttestationChallenge("randomAttestationChallenge".toByteArray())
+                    .build()
             )
             val kp = kpg.generateKeyPair()
 
@@ -43,7 +44,7 @@ class CryptoKeyAttestation(var context: ReactApplicationContext) : ReactContextB
 
             for (attestationCert in attestationCerts) {
                 val x509cert: X509Certificate = attestationCert as X509Certificate
-                r.success("Common name for the current certificate in chain is ${x509cert.subjectDN}")
+                r.success("Current certificate in chain is $x509cert")
             }
 
             return r.toJsonString()
