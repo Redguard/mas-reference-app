@@ -1,5 +1,5 @@
 import {NativeModules} from 'react-native';
-import {TestCases} from '../appContent';
+import {TestGroup} from '../appContent';
 const {
   StorageLog,
   StorageHardcodedApiKey,
@@ -17,7 +17,7 @@ interface Dictionary<Type> {
   [key: string]: Type;
 }
 
-export var generalTestCases: Dictionary<TestCases[]> = {
+export var generalTestCases: Dictionary<TestGroup[]> = {
   STORAGE: [
     {
       title: 'Sensitive Data in Log',
