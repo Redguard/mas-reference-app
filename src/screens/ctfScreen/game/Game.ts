@@ -7,6 +7,7 @@ export class Game {
   cards: Card[] = [];
   clicks = 0;
   timer = new Timer();
+  SUPER_SECRET_FLAG = "458C0DC0-AA89-4B6D-AF74-564981068AD8";
 
   constructor() {
     makeObservable(this, {
