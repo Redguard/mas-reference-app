@@ -26,15 +26,11 @@ export function InfoModal({onClose}: Props) {
         <View style={styles.textContainer}>
           <Text style={styles.text}>Hi!</Text>
           <Text style={styles.text}>
-            This app is built with React Native, TypeScript and MobX for state
-            management.
+            The CTF was built on top of a game developed by Albert Vila Calvo.
+            He gave us permission to use his App as a baseline for our CTF.
           </Text>
           <Text style={styles.text}>
-            Animations and gestures are implemented with Animated, Reanimated
-            and PanResponder.
-          </Text>
-          <Text style={styles.text}>
-            You can find the source code on GitHub at{' '}
+            The original source code is available at{' '}
             <Text
               style={styles.link}
               onPress={() =>
