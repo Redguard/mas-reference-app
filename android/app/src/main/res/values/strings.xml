@@ -3,4 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_web_view">WebViewActivity</string>
+    <string name="increase_score">Increase Score</string>
+    <string name="current_score">Current score:</string>
+    <string name="go_back">Go back</string>
 </resources>

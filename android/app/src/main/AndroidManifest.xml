@@ -58,6 +58,10 @@
                     android:scheme="masref" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.insomnihack.ui.ScoreDebuggerActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
 
         <receiver
             android:name=".platform.helpers.IpcExportedBroadcastReceiver"
