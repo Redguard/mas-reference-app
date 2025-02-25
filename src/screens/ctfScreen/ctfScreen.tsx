@@ -81,6 +81,11 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
           </Text>
         </View>
         <Board cards={game.cards} />
+        <View style={[styles.row2, row2Style, {width: boardSize}]}>
+          <Text style={[styles.textBottom, textStyleBottom]}>
+            Total score: {game.totalScore}
+          </Text>
+        </View>
         <View style={styles.spaceBottom} />
       </LinearGradient>
 

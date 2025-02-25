@@ -6,12 +6,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.insomnihack.JniThingies;
 import com.masreferenceapp.R;
 
 public class ScoreDebuggerActivity extends AppCompatActivity {
 
     private TextView scoreTextView;
-    private int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class ScoreDebuggerActivity extends AppCompatActivity {
         Button increaseScoreButton = findViewById(R.id.increase_score_button);
 
         // Set initial score display
-        scoreTextView.setText(String.valueOf(score));
+        scoreTextView.setText(String.valueOf(JniThingies.getInstance().getScore()));
 
         // Set onClickListener for the button
         increaseScoreButton.setOnClickListener(new View.OnClickListener() {
@@ -44,13 +44,13 @@ public class ScoreDebuggerActivity extends AppCompatActivity {
     }
 
     private void increaseScore() {
-        score += 100;
-        scoreTextView.setText(String.valueOf(score));  // Update the score on the TextView
+        JniThingies.getInstance().add(100);
+        scoreTextView.setText(String.valueOf(JniThingies.getInstance().getScore()));
     }
 
-    /* Intentionally unused (for another flag, potentially) */
+    /* Intentionally unused (for another flag, potentially?) */
     private void decreaseScore() {
-        score -= 1;
-        scoreTextView.setText(String.valueOf(score));  // Update the score on the TextView
+        JniThingies.getInstance().add(-1);
+        scoreTextView.setText(String.valueOf(JniThingies.getInstance().getScore()));
     }
 }

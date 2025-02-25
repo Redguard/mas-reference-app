@@ -3,10 +3,15 @@ import {generateInitialCards} from './generateInitialCards';
 import {Card} from './Card';
 import {Timer} from './Timer';
 
+import {NativeModules} from 'react-native';
+const { WelcomeCTF } = NativeModules;
+
 export class Game {
   cards: Card[] = [];
   clicks = 0;
   timer = new Timer();
+  /* Nobody can find it here, right?
+  I heard that reverse engineering is illegal, or something */
   SUPER_SECRET_FLAG = "458C0DC0-AA89-4B6D-AF74-564981068AD8";
 
   constructor() {
@@ -50,6 +55,8 @@ export class Game {
     if (visibleCards[0].matches(visibleCards[1])) {
       visibleCards[0].makeMatched();
       visibleCards[1].makeMatched();
+      /* native */
+      WelcomeCTF.matched()
       if (this.isCompleted) {
         this.timer.stop();
       }
@@ -65,6 +72,11 @@ export class Game {
 
   get isCompleted(): boolean {
     return this.cards.every(card => card.isMatched);
+  }
+
+  get totalScore(): number {
+    /* Delegated to native code */
+    return WelcomeCTF.getScore()
   }
 
   // helpers

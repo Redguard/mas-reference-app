@@ -120,6 +120,7 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   if (game.isCompleted && game.cards.length > 0) {
 
     flag = WelcomeCTF.showToast ("0FE3F0F0-DFD6-4B1D-92A7-005EC104C403");
+    console.log (flag); // To allow players to copy+paste (given they know how to read the logs)
   }
 
   /* Decides whether to show the usual "you won" screen after a game, or the description of the CTF when spawning the game */

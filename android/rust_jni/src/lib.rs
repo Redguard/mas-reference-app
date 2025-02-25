@@ -1,12 +1,16 @@
 use jni::JNIEnv;
 use jni::objects::{JClass, JString};
 use jni::sys::jstring;
+use jni::sys::jint;
+use std::sync::atomic::{AtomicI32, Ordering};
 
+static SCORE: AtomicI32 = AtomicI32::new(0);
+
+// =================
+// external fun JNImangle (part1: String, part2: String): String
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_Welcome_mangle<'local>(
-    mut env: JNIEnv<'local>,
-    _class: JClass,
+pub extern "C" fn Java_com_insomnihack_Welcome_JNImangle<'local>(mut env: JNIEnv<'local>, _class: JClass,
     jKotlin_flag: JString<'local>,
     jReact_flag: JString<'local>
 ) -> jstring {
@@ -29,3 +33,47 @@ pub extern "C" fn Java_com_insomnihack_Welcome_mangle<'local>(
     output.into_raw()
 }
 
+// =================
+// external fun JNIgenHighScoreFlag (): String
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_JniThingies_JNIgenHighScoreFlag<'local>(_env: JNIEnv<'local>, _class: JClass) -> jstring {
+
+    _env.new_string ("asdf").expect ("Couldn't create java string!").into_raw()
+}
+
+// =================
+// external fun JNInewMatch ()
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_JniThingies_JNInewMatch<'local>(_env: JNIEnv<'local>, _class: JClass) {
+
+    SCORE.fetch_add(1, Ordering::Relaxed);
+}
+
+// =================
+// external fun JNIadd (amount: Int)
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_JniThingies_JNIadd<'local>(_env: JNIEnv<'local>, _class: JClass, amount: jint) {
+
+    SCORE.fetch_add(amount, Ordering::Relaxed);
+}
+
+// =================
+// external fun JNIgetScore (): Int
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_JniThingies_JNIgetScore<'local>(_env: JNIEnv<'local>, _class: JClass) -> jint {
+
+    SCORE.load (Ordering::Relaxed)
+}
+
+// =================
+// external fun JNIresetScore ()
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_JniThingies_JNIresetScore<'local>(_env: JNIEnv<'local>, _class: JClass) {
+
+    SCORE.store (0, Ordering::Relaxed);
+}
