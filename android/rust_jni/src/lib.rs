@@ -1,10 +1,182 @@
+#[macro_use]
+extern crate lazy_static;
+
 use jni::JNIEnv;
 use jni::objects::{JClass, JString};
-use jni::sys::jstring;
-use jni::sys::jint;
-use std::sync::atomic::{AtomicI32, Ordering};
+use jni::sys::{jstring, jint};
+use rand::prelude::*;
+use std::collections::HashMap;
+use std::sync::Mutex;
+use sha1::{Sha1, Digest};
+use uuid::Builder;
 
-static SCORE: AtomicI32 = AtomicI32::new(0);
+// Define the structure to hold your library's state
+pub struct GameState {
+    score: i32,
+    rng: StdRng,
+    metadata: HashMap<String, String>,
+}
+
+lazy_static! {
+    static ref GAME_STATE: Mutex<Option<GameState>> = Mutex::new(None);
+}
+
+// --- Initialization and Destruction ---
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgameInit(_env: JNIEnv, _class: JClass) {
+
+    let game_state = GameState {
+        score: 0,
+        rng: StdRng::seed_from_u64(1234), // Static seed -> maybe to be used for another flag (?)
+        metadata: HashMap::new(),
+    };
+
+    let mut state_guard = GAME_STATE.lock().unwrap();
+    *state_guard = Some(game_state);
+}
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgameDestroy(_env: JNIEnv, _class: JClass) {
+
+    let mut state_guard = GAME_STATE.lock().unwrap();
+    *state_guard = None;  // Drop the GameState.
+}
+
+// --- Score Management ---
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIincreaseScore(_env: JNIEnv, _class: JClass,
+    amount: jint,
+) {
+    let mut state_guard = GAME_STATE.lock().unwrap();
+    if let Some(state) = state_guard.as_mut(){
+        state.score += amount as i32;
+    }
+}
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIresetScore(_env: JNIEnv, _class: JClass) -> jint {
+    let mut state_guard = GAME_STATE.lock().unwrap();
+    if let Some(state) = state_guard.as_mut(){
+        state.score = 0;
+        state.score
+    } else {
+        -1
+    }
+}
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetScore(_env: JNIEnv, _class: JClass) -> jint {
+
+     let mut state_guard = GAME_STATE.lock().unwrap();
+     if let Some(state) = state_guard.as_mut(){
+        state.score
+    }else{
+        -1 // Indicate an error or uninitialized state
+    }
+}
+
+// --- Metadata Management ---
+
+#[no_mangle]
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIsetMetadata(mut env: JNIEnv, _class: JClass,
+    key: JString,
+    value: JString,
+) {
+     let mut state_guard = GAME_STATE.lock().unwrap();
+     if let Some(state) = state_guard.as_mut(){
+        let key_str: String = env.get_string(&key).expect("Couldn't get Java string!").into();
+        let value_str: String = env.get_string(&value).expect("Couldn't get Java string!").into();
+        state.metadata.insert(key_str, value_str);
+    }
+}
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetMetadata(mut env: JNIEnv, _class: JClass,
+    key: JString,
+) -> jstring {
+
+    let mut state_guard = GAME_STATE.lock().unwrap();
+    if let Some(state) = state_guard.as_mut(){
+        let key_str: String = env.get_string(&key).expect("Couldn't get Java string!").into();
+
+        match state.metadata.get(&key_str) {
+            Some(value) => {
+                let value_jstring = env.new_string(value).expect("Couldn't create Java string!");
+                value_jstring.into_raw()
+            }
+            None => {
+                let value_jstring = env.new_string("").expect("Couldn't create Java string!");
+                value_jstring.into_raw()
+            }
+        }
+    }
+    else{
+        let value_jstring = env.new_string("").expect("Couldn't create Java string!");
+        value_jstring.into_raw()
+    }
+}
+
+// --- PRNG Example ---
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetRandomNumber(_env: JNIEnv, _class: JClass) -> jint {
+
+    let mut state_guard = GAME_STATE.lock().unwrap();
+    if let Some(state) = state_guard.as_mut(){
+
+        state.rng.random_range(0..100)
+    }
+    else{
+        -1
+    }
+}
+
+// --- Flag management ---
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenFlag(mut env: JNIEnv,_class: JClass,
+    key: JString
+) -> jstring {
+
+    let mut state_guard = GAME_STATE.lock().unwrap();
+    let default_message = "Nuh huh huh, no cheating allowed!";
+    let flag = if let Some(state) = state_guard.as_mut(){
+        /* Just another safeguard, so that players actually discover the exported activity instead of calling `add()` with Frida (that's a different Flag) */
+        if state.score >= 1000 {
+
+            let key_str: String = env.get_string(&key).expect("Couldn't get Java string!").into();
+
+            let mut hasher = Sha1::new();
+            if let Some(value) = state.metadata.get(&key_str) {
+                hasher.update(value);
+            }
+
+            let hash = hasher.finalize ();
+            let mut sha1_bytes = [0u8; 16]; // uuid::Builder expects a `[u8; 16]`
+            sha1_bytes.copy_from_slice(&hash[..16]);
+
+            let uuid = Builder::from_sha1_bytes(sha1_bytes).into_uuid();
+            uuid.hyphenated().to_string()
+        } else {
+            default_message.to_string()
+        }
+    } else {
+        default_message.to_string()
+    };
+
+    let value_jstring = env.new_string(flag).expect("Couldn't create Java string!");
+    value_jstring.into_raw()
+}
 
 // =================
 // external fun JNImangle (part1: String, part2: String): String
@@ -31,49 +203,4 @@ pub extern "C" fn Java_com_insomnihack_Welcome_JNImangle<'local>(mut env: JNIEnv
         ).expect("Couldn't create java string!");
 
     output.into_raw()
-}
-
-// =================
-// external fun JNIgenHighScoreFlag (): String
-#[no_mangle]
-#[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_JniThingies_JNIgenHighScoreFlag<'local>(_env: JNIEnv<'local>, _class: JClass) -> jstring {
-
-    _env.new_string ("asdf").expect ("Couldn't create java string!").into_raw()
-}
-
-// =================
-// external fun JNInewMatch ()
-#[no_mangle]
-#[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_JniThingies_JNInewMatch<'local>(_env: JNIEnv<'local>, _class: JClass) {
-
-    SCORE.fetch_add(1, Ordering::Relaxed);
-}
-
-// =================
-// external fun JNIadd (amount: Int)
-#[no_mangle]
-#[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_JniThingies_JNIadd<'local>(_env: JNIEnv<'local>, _class: JClass, amount: jint) {
-
-    SCORE.fetch_add(amount, Ordering::Relaxed);
-}
-
-// =================
-// external fun JNIgetScore (): Int
-#[no_mangle]
-#[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_JniThingies_JNIgetScore<'local>(_env: JNIEnv<'local>, _class: JClass) -> jint {
-
-    SCORE.load (Ordering::Relaxed)
-}
-
-// =================
-// external fun JNIresetScore ()
-#[no_mangle]
-#[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_JniThingies_JNIresetScore<'local>(_env: JNIEnv<'local>, _class: JClass) {
-
-    SCORE.store (0, Ordering::Relaxed);
 }

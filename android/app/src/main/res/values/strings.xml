@@ -6,4 +6,5 @@
     <string name="increase_score">Increase Score</string>
     <string name="current_score">Current score:</string>
     <string name="go_back">Go back</string>
+    <string name="get_flag">Get flag!</string>
 </resources>
