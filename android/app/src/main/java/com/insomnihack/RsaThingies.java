@@ -67,10 +67,6 @@ public class RsaThingies {
                     KeyProperties.KEY_ALGORITHM_RSA, PROVIDER);
             keyPairGenerator.initialize(keyGenParameterSpec);
             keyPairGenerator.generateKeyPair();
-            Log.i(TAG,"Key generated using KeyGenParameterSpec");
-
-        } else {
-            Log.i(TAG, "Key pair already exists.");
         }
     }
 
