@@ -55,8 +55,11 @@ public class ScoreDebuggerActivity extends AppCompatActivity {
 
     private void getFlag() {
         String flag = JniThingies.getInstance().genHighScoreFlag();
-        Log.i("CTF", flag);
-        // TODO: show it somewhere in the UI (?)
+        Log.i("CTF", "Here is your flag for copy+paste: " + flag);
+
+        ((TextView) findViewById(R.id.flag_textView))
+                .setText(flag);
+
     }
 
     private void increaseScore() {

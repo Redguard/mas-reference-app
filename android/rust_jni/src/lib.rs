@@ -144,12 +144,11 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetRandomNumber(_env
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenFlag(mut env: JNIEnv,_class: JClass,
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenHighScoreFlag(mut env: JNIEnv,_class: JClass,
     key: JString
 ) -> jstring {
 
     let mut state_guard = GAME_STATE.lock().unwrap();
-    let default_message = "Nuh huh huh, no cheating allowed!";
     let flag = if let Some(state) = state_guard.as_mut(){
         /* Just another safeguard, so that players actually discover the exported activity instead of calling `add()` with Frida (that's a different Flag) */
         if state.score >= 1000 {
@@ -168,10 +167,10 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenFlag(mut env: JNI
             let uuid = Builder::from_sha1_bytes(sha1_bytes).into_uuid();
             uuid.hyphenated().to_string()
         } else {
-            default_message.to_string()
+            "You need at least 1000 points to get the flag! 🙃".to_string()
         }
     } else {
-        default_message.to_string()
+        "Oopsie doopsie, I can't generate the flag 😳".to_string()
     };
 
     let value_jstring = env.new_string(flag).expect("Couldn't create Java string!");

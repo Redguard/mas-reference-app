@@ -15,7 +15,7 @@ public class JniThingies {
     private static native void JNIsetMetadata(String key, String value);
     private static native String JNIgetMetadata(String key);
 
-    private static native String JNIgenFlag(String key);
+    private static native String JNIgenHighScoreFlag(String key);
 
     private static native int JNIgetRandomNumber();
     /* ----------- */
@@ -91,6 +91,6 @@ public class JniThingies {
 
     public String genHighScoreFlag () {
 
-        return JNIgenFlag("HighScoreCaller");
+        return JNIgenHighScoreFlag("HighScoreCaller");
     }
 }
