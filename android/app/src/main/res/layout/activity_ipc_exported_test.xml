@@ -7,7 +7,7 @@
     tools:context=".platform.helpers.IpcExportedActivityTest">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/deeplink_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="IPC Test with exportet Activity"

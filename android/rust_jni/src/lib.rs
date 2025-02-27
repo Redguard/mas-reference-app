@@ -145,6 +145,33 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetRandomNumber(_env
 
 #[no_mangle]
 #[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenWololoFlag(mut env: JNIEnv,_class: JClass,
+    command: JString,
+    token: JString
+)  -> jstring {
+
+    let cmd_str: String = env.get_string (&command).expect ("Cannot get jString").into ();
+    let token_str: String = env.get_string (&token).expect ("Cannot get jString").into ();
+
+    let mut hasher = Sha1::new();
+    
+    hasher.update(cmd_str);
+    hasher.update(token_str);
+
+    let hash = hasher.finalize ();
+    let mut sha1_bytes = [0u8; 16]; // uuid::Builder expects a `[u8; 16]`
+    sha1_bytes.copy_from_slice(&hash[..16]);
+
+    let uuid = Builder::from_sha1_bytes(sha1_bytes).into_uuid();
+
+    let value_jstring = env.new_string(
+            uuid.hyphenated().to_string()
+        ).expect("Couldn't create Java string!");
+    value_jstring.into_raw()
+}
+
+#[no_mangle]
+#[allow(non_snake_case)]
 pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenSpecialFlag(env: JNIEnv,_class: JClass)  -> jstring {
 
     let mut state_guard = GAME_STATE.lock().unwrap();

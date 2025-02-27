@@ -17,6 +17,7 @@ public class JniThingies {
 
     private static native String JNIgenHighScoreFlag(String key);
     private static native String JNIgenSpecialFlag();
+    private static native String JNIgenWololoFlag(String val1, String val2);
 
     private static native int JNIgetRandomNumber();
     /* ----------- */
@@ -96,5 +97,9 @@ public class JniThingies {
 
     public String genSpecialFlag () {
         return JNIgenSpecialFlag();
+    }
+
+    public String genWololoFlag (String val1, String val2) {
+        return JNIgenWololoFlag (val1, val2);
     }
 }

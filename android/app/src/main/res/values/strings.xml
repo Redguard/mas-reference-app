@@ -7,4 +7,5 @@
     <string name="current_score">Current score:</string>
     <string name="go_back">Go back</string>
     <string name="get_flag">Get flag!</string>
+    <string name="deep_link_received">Deep Link Received!</string>
 </resources>
