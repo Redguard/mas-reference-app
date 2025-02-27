@@ -1,5 +1,6 @@
 package com.insomnihack
 
+import android.util.Log
 import android.widget.Toast
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -38,15 +39,18 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
         return score
     }
 
-    /* Shown when score >= 1000 */
+    /* Shown when score == -1234 */
+    @ReactMethod(isBlockingSynchronousMethod = true)
     fun getSpecialFlag(): String {
 
-        var s = ""
+        var s = "I don't think you deserve a flag... yet"
 
-        if (getScore() >= 1000) {
+        if (getScore() == -1234) {
 
-            s = "Wow, you've already more than 1k pairs, what a memory! Here's your special flag -> "
-            s += JniThingies.getInstance().genHighScoreFlag()
+            s = "Your current score is kinda sus... 🤔\nAnyway, here's a special flag -> "
+            s += JniThingies.getInstance().genSpecialFlag()
+
+            Log.i ("CTF", s)
         }
 
         return s

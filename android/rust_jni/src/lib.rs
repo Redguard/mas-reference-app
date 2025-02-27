@@ -4,7 +4,8 @@ extern crate lazy_static;
 use jni::JNIEnv;
 use jni::objects::{JClass, JString};
 use jni::sys::{jstring, jint};
-use rand::prelude::*;
+use rand::{Rng, SeedableRng};
+use rand::rngs::StdRng;
 use std::collections::HashMap;
 use std::sync::Mutex;
 use sha1::{Sha1, Digest};
@@ -141,6 +142,31 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetRandomNumber(_env
 }
 
 // --- Flag management ---
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenSpecialFlag(env: JNIEnv,_class: JClass)  -> jstring {
+
+    let mut state_guard = GAME_STATE.lock().unwrap();
+    let flag = if let Some(state) = state_guard.as_mut(){
+        /* Just another safeguard, so that players actually discover the exported activity instead of calling `add()` with Frida (that's a different Flag) */
+        if state.score == -1234 {
+
+            let mut rng = StdRng::seed_from_u64(state.score as u64);
+            let not_so_random_bytes: [u8; 16] = rng.random();
+
+            let uuid = Builder::from_random_bytes(not_so_random_bytes).into_uuid();
+            uuid.hyphenated().to_string()
+        } else {
+            "Come back when you have a better score".to_string()
+        }
+    } else {
+        "Oopsie doopsie, I can't generate the flag 😳".to_string()
+    };
+
+    let value_jstring = env.new_string(flag).expect("Couldn't create Java string!");
+    value_jstring.into_raw()
+}
 
 #[no_mangle]
 #[allow(non_snake_case)]

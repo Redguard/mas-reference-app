@@ -7,6 +7,7 @@ import {
   Text,
   useColorScheme,
   View,
+  NativeModules
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Color} from './style/Color';
@@ -18,6 +19,8 @@ import {WinOverlayTouch} from './component/WinOverlayTouch';
 import {useIsPortrait} from './util/useIsPortrait';
 import {InfoModal} from './component/InfoModal';
 import LinearGradient from 'react-native-linear-gradient';
+
+const { WelcomeCTF } = NativeModules;
 
 const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -36,6 +39,15 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
     marginTop: isPortrait ? 12 : 3,
     marginBottom: isPortrait ? 15 : 2,
   };
+
+  /* Special flag shown only when the score is -1234 (this should never happen, right?) */
+  let specialFlag = game.totalScore == -1234?
+        <View style={[styles.row2, row2Style, {width: boardSize}]}>
+          <Text style={[styles.textBottom, textStyleBottom]}>
+            {WelcomeCTF.getSpecialFlag()}
+          </Text>
+        </View>
+        : null;
 
   return (
     <SafeAreaView style={[styles.fullHeight, backgroundStyle]}>
@@ -86,6 +98,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             Total score: {game.totalScore}
           </Text>
         </View>
+        {specialFlag}
         <View style={styles.spaceBottom} />
       </LinearGradient>
 
