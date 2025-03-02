@@ -1,12 +1,16 @@
 package com.insomnihack
 
 import android.util.Log
+import android.util.Xml
 import android.widget.Toast
+import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.insomnihack.utils.JniThingies
 import com.insomnihack.utils.LocalGameState
+import org.xmlpull.v1.XmlSerializer
+import java.io.StringWriter
 
 class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
@@ -55,4 +59,48 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
 
         return s
     }
+
+
+    @ReactMethod
+    fun serialiseScore (score: Int, fastestTime: Int, leastMoves: Int, handleResult: Callback) {
+
+        val serializer: XmlSerializer = Xml.newSerializer()
+        val stringWriter = StringWriter()
+        serializer.setOutput(stringWriter)
+
+        // XML generation
+        serializer.startDocument("UTF-8", true)
+        serializer.startTag("", "game_stats")
+
+        serializer.startTag("", "score")
+        serializer.text(score.toString())
+        serializer.endTag("", "score")
+
+        serializer.startTag("", "fastest_time")
+        serializer.text(fastestTime.toString())
+        serializer.endTag("", "fastest_time")
+
+        serializer.startTag("", "least_moves")
+        serializer.text(leastMoves.toString())
+        serializer.endTag("", "least_moves")
+
+        serializer.startTag("", "flag")
+        serializer.text(JniThingies.getInstance().genFlagFromMetadata("score_file"))
+        serializer.endTag("", "flag")
+
+        serializer.startTag("", "signature")
+        serializer.text("{SIGNATURE}")
+        serializer.endTag("", "signature")
+
+        serializer.endTag("", "game_stats")
+        serializer.endDocument()
+
+        var signedXml = stringWriter.toString()
+
+        val signature = RsaThingies().signData(signedXml.toByteArray())
+        signedXml = signedXml.replace("{SIGNATURE}", signature)
+
+        handleResult.invoke (signedXml)
+    }
+
 }

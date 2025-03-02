@@ -128,7 +128,7 @@ public class RsaThingies {
         signature.initSign(privateKey);
         signature.update(dataToSign);
         byte[] signatureBytes = signature.sign();
-        return Base64.encodeToString(signatureBytes, Base64.DEFAULT);
+        return Base64.encodeToString(signatureBytes, Base64.NO_WRAP);
     }
 
     /**

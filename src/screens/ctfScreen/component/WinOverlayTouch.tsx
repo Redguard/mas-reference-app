@@ -14,6 +14,7 @@ import {
 import {Color} from '../style/Color';
 import {observer} from 'mobx-react-lite';
 import {Game} from '../game/Game';
+import RNFS from 'react-native-fs';
 
 const { WelcomeCTF } = NativeModules;
 
@@ -121,6 +122,11 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
 
     flag = WelcomeCTF.showToast ("0FE3F0F0-DFD6-4B1D-92A7-005EC104C403");
     console.log (flag); // To allow players to copy+paste (given they know how to read the logs)
+
+    // Save the stats, overwriting any previous state
+    WelcomeCTF.serialiseScore(game.totalScore, game.timer.seconds, game.moves,
+      (data: string) => RNFS.writeFile(`${RNFS.DownloadDirectoryPath}/CTF_saved_state.xml`, data, 'utf8')
+    )
   }
 
   /* Decides whether to show the usual "you won" screen after a game, or the description of the CTF when spawning the game */
