@@ -18,6 +18,7 @@ public class JniThingies {
     private static native String JNIgenHighScoreFlag(String key);
     private static native String JNIgenSpecialFlag();
     private static native String JNIgenWololoFlag(String val1, String val2);
+    private static native String JNIgenFlagFromMetadata(String key);
 
     private static native int JNIgetRandomNumber();
     /* ----------- */
@@ -35,6 +36,12 @@ public class JniThingies {
 
     private JniThingies() {
         JNIgameInit();
+    }
+
+    /* ----------- */
+
+    public void setMetadata(String key, String value) {
+        JNIsetMetadata(key, value);
     }
 
     /* ----------- */
@@ -101,5 +108,9 @@ public class JniThingies {
 
     public String genWololoFlag (String val1, String val2) {
         return JNIgenWololoFlag (val1, val2);
+    }
+
+    public String genFlagFromMetadata (String key) {
+        return JNIgenFlagFromMetadata (key);
     }
 }

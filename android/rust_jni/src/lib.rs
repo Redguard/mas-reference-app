@@ -143,6 +143,38 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetRandomNumber(_env
 
 // --- Flag management ---
 
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenFlagFromMetadata(mut env: JNIEnv,_class: JClass,
+    key: JString
+) -> jstring {
+
+    let mut state_guard = GAME_STATE.lock().unwrap();
+    let flag = if let Some(state) = state_guard.as_mut(){
+
+        let key_str: String = env.get_string(&key).expect("Couldn't get Java string!").into();
+
+        let mut hasher = Sha1::new();
+        if let Some(value) = state.metadata.get(&key_str) {
+            hasher.update(value);
+        }
+
+        let hash = hasher.finalize ();
+        let mut sha1_bytes = [0u8; 16]; // uuid::Builder expects a `[u8; 16]`
+        sha1_bytes.copy_from_slice(&hash[..16]);
+
+        let uuid = Builder::from_sha1_bytes(sha1_bytes).into_uuid();
+        uuid.hyphenated().to_string()
+
+    } else {
+        "Oopsie doopsie, I can't generate the flag 😳".to_string()
+    };
+
+    let value_jstring = env.new_string(flag).expect("Couldn't create Java string!");
+    value_jstring.into_raw()
+}
+
 #[no_mangle]
 #[allow(non_snake_case)]
 pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenWololoFlag(mut env: JNIEnv,_class: JClass,
