@@ -7,10 +7,13 @@ import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.insomnihack.network.RestClient
 import com.insomnihack.utils.JniThingies
 import com.insomnihack.utils.LocalGameState
+import okhttp3.Response
 import org.xmlpull.v1.XmlSerializer
 import java.io.StringWriter
+import java.security.MessageDigest
 
 class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
@@ -101,6 +104,21 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
         signedXml = signedXml.replace("{SIGNATURE}", signature)
 
         handleResult.invoke (signedXml)
+    }
+
+    @ReactMethod
+    fun submitFeedback (apiKey: String, name: String, feedback: String, callback: Callback) {
+
+        RestClient().sendFeedback (name, feedback, apiKey,
+            onSuccess = { response ->
+                Log.i("CTF", "Feedback submitted! Response: $response")
+            },
+            onFailure = { error ->
+                Log.i ("CTF", "Error submitting feedback: ${error.localizedMessage}")
+            }
+        )
+
+        callback.invoke ()
     }
 
 }

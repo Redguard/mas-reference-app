@@ -80,3 +80,6 @@ android/rust_jni/target/
 android/rust_jni/debug/
 *.rs.bk
 *.pdb
+
+# Python
+ctf_server/__pycache__/

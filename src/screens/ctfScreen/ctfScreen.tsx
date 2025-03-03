@@ -18,6 +18,7 @@ import {observer} from 'mobx-react-lite';
 import {WinOverlayTouch} from './component/WinOverlayTouch';
 import {useIsPortrait} from './util/useIsPortrait';
 import {InfoModal} from './component/InfoModal';
+import {FeedbackModal} from './component/FeedbackModal';
 import LinearGradient from 'react-native-linear-gradient';
 
 const { WelcomeCTF } = NativeModules;
@@ -28,6 +29,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
   const {boardSize} = useCardSize();
 
   const [showInfoModal, setShowInfoModal] = React.useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = React.useState(false);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -98,6 +100,18 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             Total score: {game.totalScore}
           </Text>
         </View>
+        <Pressable
+          style={({pressed}) => [
+            styles.restartPressable,
+            {
+              backgroundColor: pressed ? Color.blue : Color.blueLight,
+            },
+          ]}
+          onPress={() => {
+            setShowFeedbackModal(true);
+          }}>
+          <Text style={[styles.restartText, textStyleTop]}>Give feedback</Text>
+        </Pressable>
         {specialFlag}
         <View style={styles.spaceBottom} />
       </LinearGradient>
@@ -112,6 +126,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
       )}
 
       {showInfoModal && <InfoModal onClose={() => setShowInfoModal(false)} />}
+      {showFeedbackModal && <FeedbackModal game={game} onClose={() => setShowFeedbackModal(false)} />}
     </SafeAreaView>
   );
 });

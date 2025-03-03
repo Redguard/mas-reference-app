@@ -12,7 +12,7 @@ export class Game {
   timer = new Timer();
   /* Nobody can find it here, right?
   I heard that reverse engineering is illegal, or something */
-  SUPER_SECRET_FLAG = "458C0DC0-AA89-4B6D-AF74-564981068AD8";
+  API_KEY = "458C0DC0-AA89-4B6D-AF74-564981068AD8";
 
   constructor() {
     makeObservable(this, {

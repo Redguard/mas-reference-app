@@ -12,5 +12,5 @@ ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=8008
 
-CMD ["flask", "run"]
+CMD ["flask", "--debug", "run"]
 #CMD ["gunicorn", "--bind", "0.0.0.0:8008", "app:app"]
