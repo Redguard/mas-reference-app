@@ -120,7 +120,7 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
           title: 'Write MODE_PRIVATE',
           maswe: '006',
           description:
-            'Creates a file within the sandbox using the java.io.File API. The file is MODE_PRIVATE which limits the accessibility only to the app.',
+            'Creates a file within the sandbox using the java.io.File API. The file is MODE_PRIVATE which limits the accessibility only to the app. This file is not accessible by other apps, but can be exported as access to the external storage is possible by the USB interface for example.',
           nativeFunction: StorageJavaFileIo.writeSensitiveFileSandbox,
         },
         {
@@ -136,10 +136,10 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
           nativeFunction: StorageJavaFileIo.writeSandboxWorldWritable,
         },
         {
-          title: 'Write to External App Storage',
+          title: 'Write to Internal App Storage',
           maswe: '002',
-          description: 'Tries to write sensitive data into a file outside of the sandbox. This file is not accessible by other apps, but can be exported as access to the external storage is possible by the USB interface for example.',
-          nativeFunction: StorageJavaFileIo.writeExternalAppContext,
+          description: 'Tries to write sensitive data into a file inside of the sandbox. This file is not accessible by other apps, but it can be exported using insecure backups. Very sensitive data should therefore not be stored in plain text in the sandbox.',
+          nativeFunction: StorageJavaFileIo.writeInternalAppContext,
         },
       ],
     },
@@ -233,13 +233,13 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         'To provide a more enriched user experience, many apps let users contribute and access media that\'s available on an external storage volume. These files remain outside the apps sandbox, are world read- and writable and may therefore be accessed from other apps.',
       testCases: [
         {
-          title: 'Write Data to Document Storage',
-          description: 'Writes text file to the document folder in the world writable external document storage.',
+          title: 'Write Data to Public Storage',
+          description: 'Writes text file to the document folder in the world writable external storage.',
           nativeFunction: StorageMediaStoreAPI.writeDocument,
         },
         {
-          title: 'Read Data to Download Storage',
-          description: 'First writes a file into the world readable external download storage. Then tries to access it again.',
+          title: 'Read Data from Public Storage',
+          description: 'First writes a file into the world readable external storage. Then tries to access it again.',
           nativeFunction: StorageMediaStoreAPI.readDownload,
         },
       ],
@@ -531,7 +531,7 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
           'Write sensitive data as StringSet into the sandbox using EncryptedSharedPreferences.',
           nativeFunction: CryptoEncryptedSharedPreferences.putStringSet,
         },
-      ]
+      ],
     },
   ],
   AUTH: [
@@ -833,6 +833,16 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
           title: 'Send Data to Localhost',
           description: 'Simulates sending data to a service running on localhost, which could expose sensitive information if not properly secured.',
           nativeFunction: PlatformIpc.sendLocalhost,
+        },
+        {
+          title: 'Write to Clipboard',
+          description: 'Data can also be shared with services outside the app sandbox using the system clipboard. This test writes data to the clipboard.',
+          nativeFunction: PlatformIpc.writeClipboard,
+        },
+        {
+          title: 'Read from Clipboard',
+          description: 'Data can also be shared with services outside the app sandbox using the system clipboard. This test reads data from the clipboard.',
+          nativeFunction: PlatformIpc.readClipboard,
         },
       ],
     },

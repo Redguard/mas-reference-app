@@ -63,10 +63,10 @@ function HomeScreen({}: any): React.JSX.Element {
         <View style={styles.logoContainer}>
           <Image
             style={styles.logo}
-            source={require('../../assets/logo_circle.png')}
+            source={require('../../assets/phone-call-icon.png')}
           />
         </View>
-        <Text style={styles.title}>{'OWASP MAS\n Reference App'}</Text>
+        <Text style={styles.title}>{'MAS Reference App'}</Text>
         <Text style={styles.text}>
           This app implements common security and privacy weaknesses specific to mobile apps. Use it for the following purposes:
         </Text>
