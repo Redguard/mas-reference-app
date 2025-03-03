@@ -136,10 +136,10 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
           nativeFunction: StorageJavaFileIo.writeSandboxWorldWritable,
         },
         {
-          title: 'Write to Internal App Storage',
+          title: 'Write to External App Storage',
           maswe: '002',
-          description: 'Tries to write sensitive data into a file inside of the sandbox. This file is not accessible by other apps, but it can be exported using insecure backups. Very sensitive data should therefore not be stored in plain text in the sandbox.',
-          nativeFunction: StorageJavaFileIo.writeInternalAppContext,
+          description: 'Tries to write sensitive data into a file outside of the sandbox. This file is not accessible by other apps, but it can be exported using the USB interface or by physically removing the external SD-Card.',
+          nativeFunction: StorageJavaFileIo.writeExternalAppContext,
         },
       ],
     },
