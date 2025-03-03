@@ -10,11 +10,19 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+//        maven {
+//            url = uri("https://maven.pkg.github.com/open-obfuscator/dProtect")
+//            credentials {
+//                username = "......"
+//                password = "......"
+//            }
+//        }
     }
     dependencies {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+//        classpath 're.obfuscator:dprotect-gradle:1.0.0'
     }
 }
 

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.net.Uri
 import android.os.IBinder
+import androidx.core.content.IntentSanitizer
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
@@ -55,7 +56,7 @@ class PlatformIpc(var context: ReactApplicationContext) : ReactContextBaseJavaMo
                 "com.masreferenceapp.platform.helpers.IpcExportedActivityTest"
             )
         )
-        myIntent.putExtra("key", "Hello from the other side.")
+        myIntent.putExtra("data", "This text has been sent to the activity by the initiator.")
         context.applicationContext.startActivity(myIntent)
         return ReturnStatus(
             "OK",
@@ -110,14 +111,14 @@ class PlatformIpc(var context: ReactApplicationContext) : ReactContextBaseJavaMo
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun broadcastReceiver(): String {
-        val intent = Intent()
-        val componentName = ComponentName(
-            "com.masreferenceapp",
-            "com.masreferenceapp.platform.helpers.IpcExportedBroadcastReceiver"
-        )
-        intent.setComponent(componentName)
-        intent.putExtra("data", "Nothing to see here, move along.")
-        context.currentActivity!!.sendBroadcast(intent)
+
+        val intent = Intent("com.masreferenceapp.DO_SOMETHING").apply {
+            putExtra("data", "The initiator sent this data to the BroadCast Receiver. ")
+            setPackage("com.masreferenceapp")
+        }
+
+        context.sendBroadcast(intent)
+
         return ReturnStatus(
             "OK",
             "Broadcast received. It contains the following extras: " + Objects.requireNonNull(intent.extras)

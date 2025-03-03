@@ -98,12 +98,12 @@ function App(): React.JSX.Element {
               />
             );
           })}
-          <Drawer.Screen
+          {/* <Drawer.Screen
             name="CTF Game"
             component={CtfScreen}
             options={{
               headerBackground: () => <HeaderBackground />,
-            }}/>
+            }}/> */}
           <Drawer.Screen
             name="Settings"
             component={SettingsScreen}

@@ -3,6 +3,7 @@ package com.masreferenceapp.platform.helpers;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,17 +17,16 @@ public class IpcExportedActivityTest extends AppCompatActivity {
         setContentView(R.layout.activity_ipc_exported_test);
 
         Intent intent = getIntent();
-        String value = intent.getStringExtra("key");
+        String value = intent.getStringExtra("data");
 
         // can be null
         String callerPackage = intent.getPackage();
 
-        System.out.println(value);
-        System.out.println(callerPackage);
-
         Intent resultIntent = new Intent();
-        resultIntent.putExtra("return", "String data");
+        resultIntent.putExtra("return", "Data sent back to the intent initiator.");
         setResult(Activity.RESULT_OK, resultIntent);
+
+        Log.i("MAS", "Activity called via ICP. The intent contained the following data: " + value);
 
         this.finish();
 

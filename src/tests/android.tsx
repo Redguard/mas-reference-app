@@ -18,6 +18,7 @@ const {
   CryptoSecretKeyFactory,
   CryptoDeprecated,
   CryptoKeyInfo,
+  CryptoEncryptedSharedPreferences,
 
   AuthBiometricManager,
   AuthBiometricPrompt,
@@ -513,6 +514,25 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         },
       ],
     },
+    {
+      title: 'Encrypted Shared Preferences',
+      description:
+        'Encrypted Shared Preferences are Shared Preferences which are encrypted using the Android KeyStore.',
+      testCases: [
+        {
+          title: 'Write String',
+          description:
+          'Write sensitive data as String into the sandbox using EncryptedSharedPreferences.',
+          nativeFunction: CryptoEncryptedSharedPreferences.putString,
+        },
+        {
+          title: 'Write StringSet',
+          description:
+          'Write sensitive data as StringSet into the sandbox using EncryptedSharedPreferences.',
+          nativeFunction: CryptoEncryptedSharedPreferences.putStringSet,
+        },
+      ]
+    },
   ],
   AUTH: [
     {
@@ -692,6 +712,11 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
       description:
         'By hardcoding or \'pinning\' specific TLS certificates or public keys within the application\'s code, TLS pinning ensures that only trusted servers are communicated with, preventing attackers from intercepting and tampering with sensitive data exchanged between the mobile app and the server. These test implement TLS pinning.',
       testCases: [
+        {
+          title: 'No Pinning',
+          description: 'This test case uses the Java network API in order to connect to a TLS server who\'s certificate is not pinned using the Android manifest.',
+          nativeFunction: NetworkTlsPinning.androidNoPinning,
+        },
         {
           title: 'Android Pinning',
           description: 'This test case uses the Java network API in order to connect to a TLS server who\'s certificate is pinned using the Android manifest. There the Let\'s Encrypt root certificate is pinned.',
