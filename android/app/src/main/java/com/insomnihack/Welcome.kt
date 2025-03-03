@@ -107,18 +107,18 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
     }
 
     @ReactMethod
-    fun submitFeedback (apiKey: String, name: String, feedback: String, callback: Callback) {
+    fun submitFeedback (apiKey: String, name: String, feedback: String, successCallback: Callback, errorCallback: Callback) {
 
-        RestClient().sendFeedback (name, feedback, apiKey,
+        RestClient(apiKey).sendFeedback (name, feedback,
             onSuccess = { response ->
                 Log.i("CTF", "Feedback submitted! Response: $response")
+                successCallback.invoke (response)
             },
             onFailure = { error ->
                 Log.i ("CTF", "Error submitting feedback: ${error.localizedMessage}")
+                errorCallback.invoke (error.toString())
             }
         )
-
-        callback.invoke ()
     }
 
 }

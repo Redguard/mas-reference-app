@@ -38,11 +38,16 @@ export function FeedbackModal({game, onClose}: Props) {
     setSubmitting(true);
 
     try {
-      WelcomeCTF.submitFeedback (game.API_KEY, name, feedback, () => {
-        setName('');
-        setFeedback('');
-        Alert.alert('Success', 'Feedback submitted successfully!');
-      });
+      WelcomeCTF.submitFeedback (game.API_KEY, name, feedback,
+        (response: string) => {
+          setName('');
+          setFeedback('');
+          Alert.alert ("Success", response);
+        },
+        (err: string) => {
+          Alert.alert ("Error", err);
+        }
+      );
 
     } catch (error) {
       console.error('Feedback submission error:', error);
