@@ -7,7 +7,7 @@ plugins {
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
-
+//apply plugin: 're.obfuscator.dprotect'
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -64,7 +64,7 @@ react {
 /**
  * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore (JSC)
@@ -103,13 +103,25 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+
+            // uncomment for dProtect obfuscation
+            minifyEnabled false // Prevent using r8
+
+
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+
+            // uncomment for dProtect obfuscation also, app must not be debuggable if you want to obfuscate it
+//             minifyEnabled false // Prevent using r8
+
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+
+
+//            debuggable true
+            signingConfig signingConfigs.debug
         }
     }
     buildFeatures {
@@ -210,6 +222,22 @@ protobuf {
     }
 }
 
+
+// uncomment for dProtect obfuscation
+//dProtect {
+//    configurations {
+//        release {
+//            defaultConfiguration 'proguard-android-optimize.txt'
+//            defaultConfiguration 'proguard-android.txt'
+//            configuration        'proguard-rules.pro'
+//            configuration        'dprotect-rules.pro'
+//        }
+//        debug {
+//            defaultConfiguration 'proguard-android.txt'
+//            configuration        'proguard-rules.pro'
+//        }
+//    }
+//}
 
 
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
