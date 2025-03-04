@@ -1,7 +1,7 @@
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles.tsx';
 import React, {Component, useLayoutEffect} from 'react';
-import {TestCases} from '../../appContent.tsx';
+import {TestGroup} from '../../appContent.tsx';
 import {Menu, MenuOptions, MenuTrigger} from 'react-native-popup-menu';
 
 class ExecuteTestButton extends Component<any, any> {
@@ -67,7 +67,7 @@ class ExecuteTestButton extends Component<any, any> {
 }
 
 function TestScreen({route, navigation}: any): React.JSX.Element {
-  var testCases: TestCases = route.params.testCase;
+  var testCases: TestGroup = route.params.testCase;
   const terminalRef = route.params.terminalRef;
 
   useLayoutEffect(() => {
@@ -80,21 +80,22 @@ function TestScreen({route, navigation}: any): React.JSX.Element {
   return (
     <ScrollView style={styles.categoryDescription}>
       <Text style={styles.testDescription}>{testCases.description}</Text>
-      {testCases.testCases.map(testCase => {
-        var title = testCase.title;
+      {testCases.testCases.map(testGroup => {
+        var title = testGroup.title;
 
-        if (testCases.maswe) {
-          title += ' (MASWE-' + testCases.maswe + ')';
-        } else if (testCase.maswe) {
-          title += ' (MASWE-' + testCase.maswe + ')';
-        }
+        // TODO: Re-enable again once, all tests have been mapped to MASWE
+        // if (testCases.maswe) {
+        //   title += ' (MASWE-' + testCases.maswe + ')';
+        // } else if (testCase.maswe) {
+        //   title += ' (MASWE-' + testCase.maswe + ')';
+        // }
 
         return (
           <ExecuteTestButton
-            key={testCase.title.replace(' ', '_')}
-            nativeFunction={testCase.nativeFunction}
+            key={testGroup.title.replace(' ', '_')}
+            nativeFunction={testGroup.nativeFunction}
             title={title}
-            description={testCase.description}
+            description={testGroup.description}
             terminalRef={terminalRef}
           />
         );

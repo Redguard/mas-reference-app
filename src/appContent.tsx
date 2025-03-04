@@ -1,25 +1,26 @@
 import testCases from './testcases.tsx';
 
-type TestCase = {
-  title: string;
-  description?: string;
-  nativeFunction: any;
-  canaryToken?: string;
-  maswe?: string;
+
+type MASCategory = {
+  key: string;
+  color: string;
+  description: string;
+  tests: TestGroup[];
 };
 
-type TestCases = {
+type TestGroup = {
   title: string;
   description: string;
   testCases: TestCase[];
   maswe?: string;
 };
 
-type MASCategory = {
-  key: string;
-  color: string;
-  description: string;
-  tests: TestCases[];
+type TestCase = {
+  title: string;
+  description?: string;
+  nativeFunction: any;
+  canaryToken?: string;
+  maswe?: string;
 };
 
 var appContent: MASCategory[] = [
@@ -88,4 +89,4 @@ appContent.forEach((category: MASCategory) => {
 });
 
 export default appContent;
-export type {TestCases};
+export type {TestGroup};

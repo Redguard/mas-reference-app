@@ -1,5 +1,9 @@
 package com.masreferenceapp.platform
 
+import android.R.attr.label
+import android.R.attr.text
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.ComponentName
 import android.content.ContentValues
 import android.content.Context
@@ -7,10 +11,12 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.net.Uri
 import android.os.IBinder
+import androidx.core.content.ContextCompat.getSystemService
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.masreferenceapp.ReturnStatus
+import com.masreferenceapp.SensitiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -22,6 +28,7 @@ import java.net.ServerSocket
 import java.net.Socket
 import java.net.URL
 import java.util.Objects
+
 
 class PlatformIpc(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
     //    /** Defines callbacks for service binding, passed to bindService(). */
@@ -55,7 +62,7 @@ class PlatformIpc(var context: ReactApplicationContext) : ReactContextBaseJavaMo
                 "com.masreferenceapp.platform.helpers.IpcExportedActivityTest"
             )
         )
-        myIntent.putExtra("key", "Hello from the other side.")
+        myIntent.putExtra("data", "This text has been sent to the activity by the initiator.")
         context.applicationContext.startActivity(myIntent)
         return ReturnStatus(
             "OK",
@@ -110,14 +117,14 @@ class PlatformIpc(var context: ReactApplicationContext) : ReactContextBaseJavaMo
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun broadcastReceiver(): String {
-        val intent = Intent()
-        val componentName = ComponentName(
-            "com.masreferenceapp",
-            "com.masreferenceapp.platform.helpers.IpcExportedBroadcastReceiver"
-        )
-        intent.setComponent(componentName)
-        intent.putExtra("data", "Nothing to see here, move along.")
-        context.currentActivity!!.sendBroadcast(intent)
+
+        val intent = Intent("com.masreferenceapp.DO_SOMETHING").apply {
+            putExtra("data", "The initiator sent this data to the BroadCast Receiver. ")
+            setPackage("com.masreferenceapp")
+        }
+
+        context.sendBroadcast(intent)
+
         return ReturnStatus(
             "OK",
             "Broadcast received. It contains the following extras: " + Objects.requireNonNull(intent.extras)
@@ -217,6 +224,39 @@ class PlatformIpc(var context: ReactApplicationContext) : ReactContextBaseJavaMo
         )
         return r.toJsonString()
     }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun writeClipboard(): String {
+        val r = ReturnStatus()
+
+        val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText("masData", SensitiveData.data)
+        clipboardManager.setPrimaryClip(clipData)
+        r.success("Sensitive data written to clipboard using setPrimaryClip(clip).")
+
+        clipboardManager.text = SensitiveData.data
+        r.success("Sensitive data written to clipboard using setText(text) (deprecated).")
+
+        return r.toJsonString()
+    }
+
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun readClipboard(): String {
+        val r = ReturnStatus()
+
+        val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText("masData", SensitiveData.data)
+        clipboardManager.setPrimaryClip(clipData)
+
+        r.success("Data read from clipboard using primaryClip(). Data ${clipboardManager.primaryClip?.getItemAt(0)?.text?.toString()}")
+
+        clipboardManager.text = SensitiveData.data
+        r.success("Data read from clipboard using getText() (deprecated). Data ${clipboardManager.primaryClip?.getItemAt(0)?.text?.toString()}")
+
+        return r.toJsonString()
+    }
+
 
     //@method
 

@@ -41,7 +41,7 @@ public class ResilienceAntiDebug extends ReactContextBaseJavaModule {
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String debuggerConnected() {
-        ReturnStatus r = new ReturnStatus("OK", "Is debugger connected:: " + Debug.isDebuggerConnected());
+        ReturnStatus r = new ReturnStatus("OK", "Is debugger connected: " + Debug.isDebuggerConnected());
         return r.toJsonString();
     }
 

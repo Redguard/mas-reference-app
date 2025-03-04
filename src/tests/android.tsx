@@ -1,5 +1,5 @@
 import {NativeModules} from 'react-native';
-import {TestCases} from '../appContent';
+import {TestGroup} from '../appContent';
 const {
   StorageSharedPreferences,
   StorageDataStore,
@@ -18,6 +18,7 @@ const {
   CryptoSecretKeyFactory,
   CryptoDeprecated,
   CryptoKeyInfo,
+  CryptoEncryptedSharedPreferences,
 
   AuthBiometricManager,
   AuthBiometricPrompt,
@@ -52,7 +53,7 @@ interface Dictionary<Type> {
   [key: string]: Type;
 }
 
-export var androidTestCases: Dictionary<TestCases[]> = {
+export var androidTestCases: Dictionary<TestGroup[]> = {
   STORAGE: [
     {
       title: 'SharedPreferences',
@@ -119,7 +120,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           title: 'Write MODE_PRIVATE',
           maswe: '006',
           description:
-            'Creates a file within the sandbox using the java.io.File API. The file is MODE_PRIVATE which limits the accessibility only to the app.',
+            'Creates a file within the sandbox using the java.io.File API. The file is MODE_PRIVATE which limits the accessibility only to the app. This file is not accessible by other apps, but can be exported as access to the external storage is possible by the USB interface for example.',
           nativeFunction: StorageJavaFileIo.writeSensitiveFileSandbox,
         },
         {
@@ -137,7 +138,7 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Write to External App Storage',
           maswe: '002',
-          description: 'Tries to write sensitive data into a file outside of the sandbox. This file is not accessible by other apps, but can be exported as access to the external storage is possible by the USB interface for example.',
+          description: 'Tries to write sensitive data into a file outside of the sandbox. This file is not accessible by other apps, but it can be exported using the USB interface or by physically removing the external SD-Card.',
           nativeFunction: StorageJavaFileIo.writeExternalAppContext,
         },
       ],
@@ -232,13 +233,13 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'To provide a more enriched user experience, many apps let users contribute and access media that\'s available on an external storage volume. These files remain outside the apps sandbox, are world read- and writable and may therefore be accessed from other apps.',
       testCases: [
         {
-          title: 'Write Data to Document Storage',
-          description: 'Writes text file to the document folder in the world writable external document storage.',
+          title: 'Write Data to Public Storage',
+          description: 'Writes text file to the document folder in the world writable external storage.',
           nativeFunction: StorageMediaStoreAPI.writeDocument,
         },
         {
-          title: 'Read Data to Download Storage',
-          description: 'First writes a file into the world readable external download storage. Then tries to access it again.',
+          title: 'Read Data from Public Storage',
+          description: 'First writes a file into the world readable external storage. Then tries to access it again.',
           nativeFunction: StorageMediaStoreAPI.readDownload,
         },
       ],
@@ -345,7 +346,8 @@ export var androidTestCases: Dictionary<TestCases[]> = {
     {
       title: 'KeyInfo',
       description:
-        'Android devices can be very different in features with an impact on the security. The can for example have a Trusted Execution Environment (TEE), a StrongBox HSM-Chip or none of them. This KeyInfo can be used to verify the properties of the key. Developers should use them in order to be informed about the security of the key material.',
+        'Android devices can be very different in features with an impact on the security. The can for example have a Trusted Execution Environment' +
+        '(TEE), a StrongBox HSM-Chip or none of them. This KeyInfo can be used to verify the properties of the key. Developers should use them in order to be informed about the security of the key material.',
       testCases: [
         {
           title: 'Get Security Level',
@@ -401,8 +403,14 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         {
           title: 'Init Weak KeyGenerators',
           description:
-            'Creates KeyGenerators weak Algorithms such as AES/ECB or RC4.',
+            'Creates KeyGenerators for weak Algorithms such as AES/ECB or RC4.',
           nativeFunction: CryptoJava.initInsecureKeyGenerators,
+        },
+        {
+          title: 'Init Weak KeyPairGenerators',
+          description:
+            'Creates KeyPairGenerators with insecure properties such as weak key sizes.',
+          nativeFunction: CryptoJava.initInsecureKeyPairGenerators,
         },
         {
           title: 'Init Weak Ciphers',
@@ -503,6 +511,25 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           description:
             'In this use case, BouncyCastle is used directly in order to encrypt data. While this is not an issue in any case, it is not recommended to use it aside form specific purposes.',
           nativeFunction: CryptoDeprecated.bouncyCastleDirect,
+        },
+      ],
+    },
+    {
+      title: 'Encrypted Shared Preferences',
+      description:
+        'Encrypted Shared Preferences are Shared Preferences which are encrypted using the Android KeyStore.',
+      testCases: [
+        {
+          title: 'Write String',
+          description:
+          'Write sensitive data as String into the sandbox using EncryptedSharedPreferences.',
+          nativeFunction: CryptoEncryptedSharedPreferences.putString,
+        },
+        {
+          title: 'Write StringSet',
+          description:
+          'Write sensitive data as StringSet into the sandbox using EncryptedSharedPreferences.',
+          nativeFunction: CryptoEncryptedSharedPreferences.putStringSet,
         },
       ],
     },
@@ -686,6 +713,11 @@ export var androidTestCases: Dictionary<TestCases[]> = {
         'By hardcoding or \'pinning\' specific TLS certificates or public keys within the application\'s code, TLS pinning ensures that only trusted servers are communicated with, preventing attackers from intercepting and tampering with sensitive data exchanged between the mobile app and the server. These test implement TLS pinning.',
       testCases: [
         {
+          title: 'No Pinning',
+          description: 'This test case uses the Java network API in order to connect to a TLS server who\'s certificate is not pinned using the Android manifest.',
+          nativeFunction: NetworkTlsPinning.androidNoPinning,
+        },
+        {
           title: 'Android Pinning',
           description: 'This test case uses the Java network API in order to connect to a TLS server who\'s certificate is pinned using the Android manifest. There the Let\'s Encrypt root certificate is pinned.',
           nativeFunction: NetworkTlsPinning.androidPinning,
@@ -801,6 +833,16 @@ export var androidTestCases: Dictionary<TestCases[]> = {
           title: 'Send Data to Localhost',
           description: 'Simulates sending data to a service running on localhost, which could expose sensitive information if not properly secured.',
           nativeFunction: PlatformIpc.sendLocalhost,
+        },
+        {
+          title: 'Write to Clipboard',
+          description: 'Data can also be shared with services outside the app sandbox using the system clipboard. This test writes data to the clipboard.',
+          nativeFunction: PlatformIpc.writeClipboard,
+        },
+        {
+          title: 'Read from Clipboard',
+          description: 'Data can also be shared with services outside the app sandbox using the system clipboard. This test reads data from the clipboard.',
+          nativeFunction: PlatformIpc.readClipboard,
         },
       ],
     },

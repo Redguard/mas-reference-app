@@ -1,13 +1,13 @@
 /* eslint-disable no-trailing-spaces */
 import {NativeModules} from 'react-native';
-import {TestCases} from '../appContent';
+import {TestGroup} from '../appContent';
 const {} = NativeModules;
   
 interface Dictionary<Type> {
   [key: string]: Type;
 }
 
-export var iosTestCases: Dictionary<TestCases[]> = {
+export var iosTestCases: Dictionary<TestGroup[]> = {
   STORAGE: [
     // Define your general storage test cases here
   ],

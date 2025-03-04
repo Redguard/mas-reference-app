@@ -30,6 +30,25 @@ class NetworkTlsPinning(var context: ReactApplicationContext) : ReactContextBase
         return "NetworkTlsPinning"
     }
 
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun androidNoPinning(): String {
+        val testDomain = "nopin." + MasSettings.getTestDomain()
+
+        val r = ReturnStatus()
+
+        try {
+            val connection = URL("https://$testDomain").openConnection() as HttpURLConnection
+            val data = connection.inputStream.bufferedReader().readText()
+            r.success("Pin verification successful. Connection to https://$testDomain established. Response code was: ${connection.responseCode}.")
+        } catch (e: Exception) {
+            r.fail("Connection to https://$testDomain could not be established.")
+            r.fail(e.toString())
+        }
+        return r.toJsonString()
+    }
+
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun androidPinning(): String {
         val testDomain = MasSettings.getTestDomain()

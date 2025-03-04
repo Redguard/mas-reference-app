@@ -1,9 +1,13 @@
 package com.masreferenceapp.storage
 
+import android.Manifest
 import android.content.ContentValues
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
@@ -47,7 +51,7 @@ class StorageMediaStoreAPI(var context: ReactApplicationContext) : ReactContextB
             }
         }
         r.success(
-            "Data written to external, public document folder. URI-Path is: " + (uri?.path ?: "")
+            "Data written to external, public folder ($location). URI-Path is: " + (uri?.path ?: "")
         )
 
         return uri
@@ -56,7 +60,28 @@ class StorageMediaStoreAPI(var context: ReactApplicationContext) : ReactContextB
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun writeDocument(): String {
         val r = ReturnStatus()
-        writeFile(Environment.DIRECTORY_DOCUMENTS, r)
+
+        val publicDirs = arrayOf(
+            Environment.DIRECTORY_DOCUMENTS,
+            Environment.DIRECTORY_DOWNLOADS,
+            Environment.DIRECTORY_PICTURES,
+            Environment.DIRECTORY_MUSIC,
+            Environment.DIRECTORY_MOVIES,
+            Environment.DIRECTORY_DCIM,
+            Environment.DIRECTORY_ALARMS,
+            Environment.DIRECTORY_NOTIFICATIONS,
+            Environment.DIRECTORY_PODCASTS,
+            Environment.DIRECTORY_RINGTONES
+        )
+
+        for (directory in publicDirs) {
+            try {
+                writeFile(directory, r)
+            }
+            catch (e: Exception){
+                r.fail(e.toString())
+            }
+        }
         return r.toJsonString()
     }
 
