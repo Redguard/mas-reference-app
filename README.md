@@ -1,6 +1,6 @@
 # Introduction
 
-![Alt text](screenshots/main.png)
+![](screenshots/main.png)
 
 The MAS Reference App is an mobile application which implements common mobile security weaknesses, but also defense-in-depth techniques categorized under the MAS framework.
 
@@ -85,9 +85,9 @@ By default, the domain `mas-reference-app.org` is used and the server should be 
 
 Then you need to change the default domain in the apps setting:
 
-
-![Alt text](screenshots/settings.png)
-
+<p align="center">
+<img src="screenshots/settings.png " width="400">
+</p>
 
 # Canary Token
 
