@@ -168,7 +168,7 @@ public class RsaThingies {
     /**
      * Retrieves the public key from the Android KeyStore.
      */
-    private PublicKey getPublicKey() throws KeyStoreException {
+    public PublicKey getPublicKey() throws KeyStoreException {
         return keyStore.getCertificate(KEY_ALIAS).getPublicKey();
     }
 

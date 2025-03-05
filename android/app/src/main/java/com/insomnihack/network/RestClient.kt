@@ -2,6 +2,7 @@ package com.insomnihack.network
 
 import android.util.Base64
 import android.util.Log
+import com.insomnihack.RsaThingies
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Headers
@@ -13,6 +14,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import java.io.IOException
 import java.security.MessageDigest
+import java.security.PrivateKey
+import java.security.PublicKey
 import java.util.concurrent.TimeUnit
 
 class RestClient(private val secretKey: String) {
@@ -85,7 +88,14 @@ class RestClient(private val secretKey: String) {
 
         val url = "$baseUrl/authorise"
 
-        doPostJson("".toRequestBody(), url, onSuccess, onFailure)
+        val b64PubKey = String (
+            Base64.encode (
+                RsaThingies().publicKey.encoded,
+                Base64.NO_WRAP
+            )
+        )
+
+        doPostJson("""{"k":"$b64PubKey"}""".toRequestBody(), url, onSuccess, onFailure)
     }
 
     /**
@@ -94,13 +104,21 @@ class RestClient(private val secretKey: String) {
     fun sendFeedback(name: String, feedback: String, onSuccess: (String) -> Unit, onFailure: (IOException) -> Unit) {
 
         initSession(
-            {sessionId ->
-                /* It's logged by `doPost` anyways */
-                Log.i ("CTF", "Super secret data, or something: $sessionId")
+            {encryptedSessionId ->
+
+                val sessionId = try {
+                    val decrypted = String(RsaThingies().decryptData(encryptedSessionId))
+                    Log.i("CTF", "Super secret data, or something: $decrypted")
+
+                    decrypted
+                } catch (err: Error) {
+                    Log.e("CTF", err.localizedMessage, err)
+                    ""
+                }
 
                 val url = "$baseUrl/feedback"
 
-                val feedbackB64 = String (Base64.encode(feedback.toByteArray(), Base64.NO_WRAP))
+                val feedbackB64 = String(Base64.encode(feedback.toByteArray(), Base64.NO_WRAP))
 
                 val requestBody = """
                 {
@@ -110,7 +128,7 @@ class RestClient(private val secretKey: String) {
                 }
                 """.trimIndent().toRequestBody(jsonMediaType.toMediaType())
 
-                doPostJson (requestBody, url, onSuccess, onFailure)
+                doPostJson(requestBody, url, onSuccess, onFailure)
             },
             onFailure
         )
