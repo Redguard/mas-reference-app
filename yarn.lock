@@ -6179,6 +6179,11 @@ react-native-screens@^3.29.0, "react-native-screens@>= 3.0.0":
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+react-native-shake@^6.0.0-beta.3:
+  version "6.0.0-beta.3"
+  resolved "https://registry.npmjs.org/react-native-shake/-/react-native-shake-6.0.0-beta.3.tgz"
+  integrity sha512-OEXAIUj8vI11tYCzcrU5Cgsvl/0yVR2mEzXZNPzHgRXU8C/h1QE2q8giSdjxTNTR/XpNAZeTi7sCn6vSt3eFtQ==
+
 react-native-svg@>=5.3:
   version "15.10.1"
   resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-15.10.1.tgz"

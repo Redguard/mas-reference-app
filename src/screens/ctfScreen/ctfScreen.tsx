@@ -20,6 +20,7 @@ import {useIsPortrait} from './util/useIsPortrait';
 import {InfoModal} from './component/InfoModal';
 import {FeedbackModal} from './component/FeedbackModal';
 import LinearGradient from 'react-native-linear-gradient';
+import DebugScreen from './debug/DebugScreen.tsx';
 
 const { WelcomeCTF } = NativeModules;
 
@@ -61,10 +62,10 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
         angle={135}
         style={[styles.container]}>
         <View style={styles.spaceTop} />
-        <View style={[styles.row1, {width: boardSize}]}>
+        <View style={[styles.row1, { width: boardSize }]}>
           <Text style={[styles.title, textStyleTop]}>Memory Game</Text>
           <Pressable
-            style={({pressed}) => [
+            style={({ pressed }) => [
               styles.restartPressable,
               {
                 backgroundColor: pressed ? Color.blue : Color.blueLight,
@@ -74,7 +75,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             <Text style={[styles.restartText, textStyleTop]}>restart</Text>
           </Pressable>
           <Pressable
-            style={({pressed}) => [
+            style={({ pressed }) => [
               styles.infoPressable,
               {
                 backgroundColor: pressed ? Color.teal : Color.tealLight,
@@ -82,11 +83,11 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             ]}
             onPress={() => {
               setShowInfoModal(true);
-            }}>
+            } }>
             <Text style={[styles.infoText, textStyleTop]}>i</Text>
           </Pressable>
         </View>
-        <View style={[styles.row2, row2Style, {width: boardSize}]}>
+        <View style={[styles.row2, row2Style, { width: boardSize }]}>
           <Text style={[styles.textBottom, textStyleBottom]}>
             {game.moves} moves
           </Text>
@@ -95,13 +96,13 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
           </Text>
         </View>
         <Board cards={game.cards} />
-        <View style={[styles.row2, row2Style, {width: boardSize}]}>
+        <View style={[styles.row2, row2Style, { width: boardSize }]}>
           <Text style={[styles.textBottom, textStyleBottom]}>
             Total score: {game.totalScore}
           </Text>
         </View>
         <Pressable
-          style={({pressed}) => [
+          style={({ pressed }) => [
             styles.restartPressable,
             {
               backgroundColor: pressed ? Color.blue : Color.blueLight,
@@ -109,7 +110,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
           ]}
           onPress={() => {
             setShowFeedbackModal(true);
-          }}>
+          } }>
           <Text style={[styles.restartText, textStyleTop]}>Give feedback</Text>
         </Pressable>
         {specialFlag}
@@ -121,12 +122,12 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
           game={game}
           onClose={() => {
             game.startGame();
-          }}
-        />
+          } } />
       )}
 
       {showInfoModal && <InfoModal onClose={() => setShowInfoModal(false)} />}
       {showFeedbackModal && <FeedbackModal game={game} onClose={() => setShowFeedbackModal(false)} />}
+      <DebugScreen />
     </SafeAreaView>
   );
 });
