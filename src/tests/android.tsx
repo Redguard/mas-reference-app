@@ -283,6 +283,7 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         },
         {
           title: 'Set Weak Key Size',
+          maswe: '0009',
           description:
             'Sets a weak size (in bits) of the key to be generated. ',
           nativeFunction: CryptoKeyGenParameterSpec.setWeakKey,
@@ -307,6 +308,7 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         },
         {
           title: 'Set to Exportable',
+          maswe: '0014',
           description:
             'Forces the key not to be stored in the StrongBox HSM using setIsStrongBoxBacked(false). Such a key can now be accessed form within the application.',
           nativeFunction: CryptoKeyGenParameterSpec.setExportable,
@@ -325,18 +327,21 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         },
         {
           title: 'Require User Authentication',
+          maswe: '0018',
           description:
             'By default, the setUserAuthenticationRequired is set to false. By changing it to true, the user is authenticated by Android before the key can be accessed.',
           nativeFunction: CryptoKeyGenParameterSpec.requireUserAuthentication,
         },
         {
           title: 'Configure User Authorization',
+          maswe: '0018',
           description:
             'By default, there is no timeout on how long a key can be accessed if user authentication is required. This use case configures this using setUserAuthenticationParameters (int timeout, int type).',
           nativeFunction: CryptoKeyGenParameterSpec.configureUserAuth,
         },
         {
           title: 'Configure User Authorization (legacy)',
+          maswe: '0018',
           description:
             'By default, there is no timeout on how long a key can be accessed if user authentication is required. This use case configures this using setUserAuthenticationValidityDurationSeconds (int seconds).',
           nativeFunction: CryptoKeyGenParameterSpec.configureUserAuthLegacy,
