@@ -87,9 +87,14 @@ public class JniThingies {
         StringBuilder stackTrace = new StringBuilder();
 
         for (StackTraceElement s : stack) {
+            /* Anything outside of the current application is variable (OS, platform, etc.) */
+            String str = s.toString();
+            if (str.contains("insomnihack") ||
+                    str.contains("masreferenceapp")) {
 
-            stackTrace.append (s.toString ())
-                    .append("\n");
+                stackTrace.append(str)
+                        .append("\n");
+            }
         }
 
         JNIincreaseScore (amount);

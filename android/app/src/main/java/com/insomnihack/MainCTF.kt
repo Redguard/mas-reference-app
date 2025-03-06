@@ -15,8 +15,13 @@ class MainCTF {
         val stack = Thread.currentThread().stackTrace
 
         for (s in stack) {
-            trace.append(s.toString())
-                .append("\n")
+            /* Anything outside of the current application is variable (OS, platform, etc.) */
+            val str: String = s.toString()
+            if (str.contains("insomnihack", true) ||
+                str.contains("masreferenceapp", true)) {
+                trace.append(str)
+                    .append("\n")
+            }
         }
 
         JniThingies.getInstance().setMetadata("score_file", String (trace))
