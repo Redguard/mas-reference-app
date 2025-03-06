@@ -10,13 +10,11 @@ import com.facebook.react.bridge.ReactMethod;
 import com.masreferenceapp.ReturnStatus;
 
 import java.security.KeyPairGenerator;
-import java.security.SecureRandom;
 import java.security.Security;
 import java.security.Signature;
 import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
-import java.util.Random;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

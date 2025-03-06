@@ -1,5 +1,7 @@
 package com.masreferenceapp.network
 
+import android.os.Handler
+import android.os.Looper
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.facebook.react.bridge.Promise
@@ -131,20 +133,21 @@ class NetworkUnencrypted(var context: ReactApplicationContext) : ReactContextBas
     fun webSocket(promise: Promise) {
         val r = ReturnStatus()
         val testDomain = "ws://" + MasSettings.getTestDomain() + ":2001"
-
-        val wv = WebView(context)
-        wv.settings.javaScriptEnabled = true
-        wv.webViewClient = object : WebViewClient() {
-            override fun onPageFinished(view: WebView, url: String) {
-                view.evaluateJavascript("initWebSocket('$testDomain')") {
-                    r.success("WebView successfully loaded.")
+        Handler(Looper.getMainLooper()).post {
+            val wv = WebView(context)
+            wv.settings.javaScriptEnabled = true
+            wv.webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView, url: String) {
+                    view.evaluateJavascript("initWebSocket('$testDomain')") {
+                        r.success("WebView successfully loaded.")
+                    }
                 }
             }
+            val javaScriptBridge = WebViewJavaScriptBridge(testDomain, promise, r)
+            wv.addJavascriptInterface(javaScriptBridge, "javaScriptBridge")
+            wv.loadUrl("file:///android_asset/ws.html")
+            wv.destroy()
         }
-
-        val javaScriptBridge = WebViewJavaScriptBridge(testDomain, promise, r)
-        wv.addJavascriptInterface(javaScriptBridge, "javaScriptBridge")
-        wv.loadUrl("file:///android_asset/ws.html")
     }
 
     //@method

@@ -692,12 +692,12 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
             'These tests configure the client to use insecure cipher suites, such as ones with insecure algorithms or disabled forward secrecy-property.',
           nativeFunction: NetworkTlsClientConfig.insecureCipherSuites,
         },
-        {
-          title: 'Usage of TLS Client Certificates',
-          description:
-            'Uses TLS with client authentication. This means, that the client must store a private key. Developers often hardcode client keys which is an issue.',
-          nativeFunction: NetworkTlsClientConfig.clientCertificate,
-        },
+        // {
+        //   title: 'Usage of TLS Client Certificates',
+        //   description:
+        //     'Uses TLS with client authentication. This means, that the client must store a private key. Developers often hardcode client keys which is an issue.',
+        //   nativeFunction: NetworkTlsClientConfig.clientCertificate,
+        // },
         {
           title: 'Accept Bad TLS Servers',
           description:
@@ -856,11 +856,11 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
       description:
         'This class represents a storage facility for cryptographic keys and certificates. The Android Keystore system lets you store cryptographic keys in a container to make them more difficult to extract from the device. Once keys are in the keystore, you can use them for cryptographic operations, with the key material remaining non-exportable.',
       testCases: [
-        {
-          title: 'URL Allow List',
-          description: 'Tests the implementation of a URL allow list to restrict WebView to load only specific URLs.',
-          nativeFunction: PlatformWebView.urlAllowList,
-        },
+        // {
+        //   title: 'URL Allow List',
+        //   description: 'Tests the implementation of a URL allow list to restrict WebView to load only specific URLs.',
+        //   nativeFunction: PlatformWebView.urlAllowList,
+        // },
         {
           title: 'Load Local Resource',
           description: 'Tests loading a local resource in the WebView, which could expose sensitive files if not properly configured.',

@@ -9,7 +9,7 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.masreferenceapp.MasSettings.getData
+import com.masreferenceapp.MasSettings
 import com.masreferenceapp.ReturnStatus
 import com.masreferenceapp.platform.helpers.WebViewJavaScriptBridge
 
@@ -23,51 +23,64 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun loadLocalResource(): String {
-        val wv = WebView(context)
-        val headers: MutableMap<String, String> = HashMap()
-        headers["X-a"] = "someHeader"
-        headers["X-b"] = "anotherHeader"
-        wv.loadUrl(localWebViewDomain, headers)
-        wv.loadUrl(localWebViewDomain)
-        wv.destroy()
-        return ReturnStatus("OK", "Resource loaded. URL of the WebView: " + wv.url).toJsonString()
+        Handler(Looper.getMainLooper()).post {
+            val wv = WebView(context)
+            val headers: MutableMap<String, String> = HashMap()
+            headers["X-a"] = "someHeader"
+            headers["X-b"] = "anotherHeader"
+            wv.loadUrl(localWebViewDomain, headers)
+            wv.loadUrl(localWebViewDomain)
+            wv.destroy()
+        }
+        return ReturnStatus(
+            "OK",
+            "Resource loaded. URL of the WebView: $localWebViewDomain"
+        ).toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun loadRemoteHttpResource(): String {
-        val testDomain = getData("testDomain")
-        val wv = WebView(context)
-        val headers: MutableMap<String, String> = HashMap()
-        headers["X-a"] = "someHeader"
-        headers["X-b"] = "anotherHeader"
-        wv.loadUrl("http://$testDomain", headers)
-        wv.loadUrl("http://$testDomain")
-        wv.destroy()
-        return ReturnStatus("OK", "Resource loaded. URL of the WebView: " + wv.url).toJsonString()
+        val testDomain = MasSettings.getTestDomain()
+        val url = "http://$testDomain"
+        Handler(Looper.getMainLooper()).post {
+            val wv = WebView(context)
+            val headers: MutableMap<String, String> = HashMap()
+            headers["X-a"] = "someHeader"
+            headers["X-b"] = "anotherHeader"
+            wv.loadUrl(url, headers)
+            wv.loadUrl(url)
+            wv.destroy()
+        }
+        return ReturnStatus("OK", "Resource loaded. URL of the WebView: $url").toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun loadRemoteHttpsResource(): String {
-        val testDomain = getData("testDomain")
-        val wv = WebView(context)
-        val headers: MutableMap<String, String> = HashMap()
-        headers["X-a"] = "someHeader"
-        headers["X-b"] = "anotherHeader"
-        wv.loadUrl("https://$testDomain", headers)
-        wv.loadUrl("https://$testDomain")
-        wv.destroy()
-        return ReturnStatus("OK", "Resource loaded. URL of the WebView: " + wv.url).toJsonString()
+        val testDomain = MasSettings.getTestDomain()
+        val url = "https://$testDomain"
+        Handler(Looper.getMainLooper()).post {
+            val wv = WebView(context)
+            val headers: MutableMap<String, String> = HashMap()
+            headers["X-a"] = "someHeader"
+            headers["X-b"] = "anotherHeader"
+            wv.loadUrl(url, headers)
+            wv.loadUrl(url)
+            wv.destroy()
+        }
+        return ReturnStatus("OK", "Resource loaded. URL of the WebView: $url").toJsonString()
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun allowFileAccess(): String {
-        val wv = WebView(context)
-        wv.loadUrl(localWebViewDomain)
-        wv.settings.allowFileAccess = true
-        wv.destroy()
+        Handler(Looper.getMainLooper()).post {
+            val wv = WebView(context)
+            wv.loadUrl(localWebViewDomain)
+            wv.settings.allowFileAccess = true
+            wv.destroy()
+        }
         return ReturnStatus(
             "OK",
-            "AllowFileAccess set. URL of the WebView: " + wv.url
+            "AllowFileAccess set. URL of the WebView: $localWebViewDomain"
         ).toJsonString()
     }
 
@@ -117,10 +130,12 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun allowMixedContent(): String {
-        val wv = WebView(context)
-        wv.loadUrl(localWebViewDomain)
-        wv.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-        wv.destroy()
+        Handler(Looper.getMainLooper()).post {
+            val wv = WebView(context)
+            wv.loadUrl(localWebViewDomain)
+            wv.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+            wv.destroy()
+        }
         return ReturnStatus(
             "OK",
             "MixedContent allowed. URL of the WebView: $localWebViewDomain"

@@ -1,5 +1,7 @@
 package com.masreferenceapp.auth
 
+import android.os.Handler
+import android.os.Looper
 import android.webkit.WebView
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -50,10 +52,18 @@ open class AuthHttpBasicAuth(var context: ReactApplicationContext) : ReactContex
     fun webView(): String {
 
         val testDomain = MasSettings.getTestDomain()
-        val wv = WebView(context)
-        wv.webViewClient = HttpBasicAuthWebViewClient()
-        wv.loadUrl("https://$testDomain/basicAuth.html")
-        return ReturnStatus("OK", "Resource loaded. URL of the WebView: " + wv.url).toJsonString()
+
+        Handler(Looper.getMainLooper()).post {
+            val wv = WebView(context)
+            wv.webViewClient = HttpBasicAuthWebViewClient()
+            wv.loadUrl("https://$testDomain/basicAuth.html")
+            wv.destroy()
+        }
+
+        return ReturnStatus(
+            "OK",
+            "Used WebView to connect to $testDomain using HTTP Basic Access Authentication."
+        ).toJsonString()
 
     }
 

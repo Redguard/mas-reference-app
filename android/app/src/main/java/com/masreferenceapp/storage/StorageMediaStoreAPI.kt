@@ -1,13 +1,9 @@
 package com.masreferenceapp.storage
 
-import android.Manifest
 import android.content.ContentValues
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
@@ -77,8 +73,7 @@ class StorageMediaStoreAPI(var context: ReactApplicationContext) : ReactContextB
         for (directory in publicDirs) {
             try {
                 writeFile(directory, r)
-            }
-            catch (e: Exception){
+            } catch (e: Exception) {
                 r.fail(e.toString())
             }
         }
