@@ -155,6 +155,7 @@ Go to [Android Native Modules](https://reactnative.dev/docs/legacy/native-module
 
 Finally, it should be discussed what the MAS Reference App is not at the moment and what we plan to do in the future:
 
+- At the moment, we use legacy React Native with the JavaScript Bridge. We want to migrate the app to the new architere in the future.
 - The app should not be used as a sole reference for developers in any way and no code from the MAS Reference app should be copy / pasted into any project because it is not production-ready or properly tested.
 - You may have noticed that all the examples are from the Android version. The reason for that, is that only these use cases have been implemented so far. In fact, the next iteration will focus on the iOS app.
 - Some of the use cases create files in public locations which are (deliberately) not deleted. Some of them remain on the phone even after the app has been uninstalled. It is therefore recommend using it on test devices only.
