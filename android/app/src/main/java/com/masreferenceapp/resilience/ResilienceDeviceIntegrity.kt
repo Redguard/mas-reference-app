@@ -68,12 +68,5 @@ class ResilienceDeviceIntegrity(var context: ReactApplicationContext) : ReactCon
         }
     }
 
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun safetyNet(): String {
-        val r = ReturnStatus("OK", "Android code stub.")
-        return r.toJsonString()
-    }
-
     //@method
 }

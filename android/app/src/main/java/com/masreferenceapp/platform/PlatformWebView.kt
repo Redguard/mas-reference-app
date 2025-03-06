@@ -1,5 +1,7 @@
 package com.masreferenceapp.platform
 
+import android.os.Handler
+import android.os.Looper
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -72,16 +74,17 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
     @ReactMethod
     fun sendDataToJsSandbox(promise: Promise) {
         val r = ReturnStatus()
-        val wv = WebView(context)
-        wv.settings.javaScriptEnabled = true
-        wv.loadUrl(localWebViewJavaScriptBridge)
-        wv.webViewClient = object : WebViewClient() {
-            override fun onPageFinished(view: WebView, url: String) {
-                view.evaluateJavascript("receiveCallFromAndroid()") { value ->
-                    println(value)
-                    r.success("Native method called JavaScript function. It returned the following value: $value")
-                    promise.resolve(r.toJsonString())
-                    wv.destroy()
+        Handler(Looper.getMainLooper()).post {
+            val wv = WebView(context)
+            wv.settings.javaScriptEnabled = true
+            wv.loadUrl(localWebViewJavaScriptBridge)
+            wv.webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView, url: String) {
+                    view.evaluateJavascript("receiveCallFromAndroid()") { value ->
+                        println(value)
+                        r.success("Native method called JavaScript function. It returned the following value: $value")
+                        promise.resolve(r.toJsonString())
+                    }
                 }
             }
         }
@@ -89,22 +92,26 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
 
     @ReactMethod
     fun readDataFromJsSandbox(promise: Promise) {
-        val r = ReturnStatus()
-        val wv = WebView(context)
-        wv.settings.javaScriptEnabled = true
-        wv.addJavascriptInterface(WebViewJavaScriptBridge(promise, r, wv), "javascriptBridge")
-        wv.loadUrl(localWebViewJavaScriptBridge)
+        Handler(Looper.getMainLooper()).post {
+            val r = ReturnStatus()
+            val wv = WebView(context)
+            wv.settings.javaScriptEnabled = true
+            wv.addJavascriptInterface(WebViewJavaScriptBridge(promise, r), "javascriptBridge")
+            wv.loadUrl(localWebViewJavaScriptBridge)
+        }
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun enableGeolocation(): String {
-        val wv = WebView(context)
-        wv.loadUrl(localWebViewDomain)
-        wv.settings.setGeolocationEnabled(true)
-        wv.destroy()
+        Handler(Looper.getMainLooper()).post {
+            val wv = WebView(context)
+            wv.loadUrl(localWebViewDomain)
+            wv.settings.setGeolocationEnabled(true)
+            wv.destroy()
+        }
         return ReturnStatus(
             "OK",
-            "Geolocation enabled. URL of the WebView: " + wv.url
+            "Geolocation enabled. URL of the WebView: $localWebViewDomain"
         ).toJsonString()
     }
 
@@ -116,7 +123,7 @@ class PlatformWebView(var context: ReactApplicationContext) : ReactContextBaseJa
         wv.destroy()
         return ReturnStatus(
             "OK",
-            "MixedContent allowed. URL of the WebView: " + wv.url
+            "MixedContent allowed. URL of the WebView: $localWebViewDomain"
         ).toJsonString()
     }
 

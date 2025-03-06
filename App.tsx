@@ -15,7 +15,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import CategoryStackScreen from './src/screens/categoryScreen/categoryScreen.tsx';
 import HomeScreen from './src/screens/homeScreen/homeScreen.tsx';
 import SettingsScreen from './src/screens/settingsScreen/settingsScreen.tsx';
-import CtfScreen from './src/screens/ctfScreen/ctfScreen.tsx';
 import appContent from './src/appContent.tsx';
 import HeaderBackground from './src/screens/header/headerBackground.tsx';
 import EncryptedStorage from 'react-native-encrypted-storage';
@@ -97,12 +96,6 @@ function App(): React.JSX.Element {
               />
             );
           })}
-          <Drawer.Screen
-            name="CTF Game"
-            component={CtfScreen}
-            options={{
-              headerBackground: () => <HeaderBackground />,
-            }}/>
           <Drawer.Screen
             name="Settings"
             component={SettingsScreen}

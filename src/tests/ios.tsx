@@ -9,29 +9,29 @@ interface Dictionary<Type> {
 
 export var iosTestCases: Dictionary<TestGroup[]> = {
   STORAGE: [
-    // Define your general storage test cases here
+    // Define your ios storage test cases here
   ],
   CRYPTO: [
-    // Define your general crypto test cases here
+    // Define your ios crypto test cases here
   ],
   AUTH: [
-    // Define your general authentication test cases here
+    // Define your ios authentication test cases here
   ],
   NETWORK: [
-    // Define your general network test cases here
+    // Define your ios network test cases here
   ],
   PLATFORM: [
-    // Define your general platform-related test cases here
+    // Define your ios platform-related test cases here
   ],
   CODE: [
-    // Define your general code-related test cases here
+    // Define your ios code-related test cases here
   ],
   RESILIENCE: [
-    // Define your general resilience test cases here
+    // Define your ios resilience test cases here
   ],
   PRIVACY: [
     
-    // Define your general privacy-related test cases here
+    // Define your ios privacy-related test cases here
   ],
 };
 

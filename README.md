@@ -19,10 +19,22 @@ We recommend using the app only on dedicated test devices, as some of the tests 
 
 # Getting Started
 
+## Step 0: Download dependencies
+
+After you downloaded the code, you need to install the node dependencies:
+
+```bash
+# using npm
+npm install
+
+# OR using Yarn
+yarn install
+```
+
 
 ## Step 1: Start the Metro Server
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+Then, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
 
 To start Metro, run the following command from the _root_ of your React Native project:
 
@@ -159,14 +171,6 @@ Sometimes issues with caching, icon databases or dependencies can occur. Cleanin
 # clean Android Project
 cd android
 ./gradlew clean
-```
-
-```bash
-# clean iOS Project
-xcodebuild clean
-cd ios
-pod deintegrate
-pod install
 ```
 
 ```bash

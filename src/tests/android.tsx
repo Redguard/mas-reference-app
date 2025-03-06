@@ -759,34 +759,34 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         },
       ],
     },
-
-    {
-      title: 'Local Network',
-      description:
-        'Aside from connection servers on the public internet, apps may also try to access hosts on the local network. This can be be a violation of privacy in case an app scans and accesses local hosts excessively. Also it is possible to open ports on the phone. This adds additional attack surface which goes against the least-privilege principle if not necessary.',
-      testCases: [
-        {
-          title: 'Access Local Network',
-          description: 'This use case uses ICMP and TCP in order to check if a host in the private networks (10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16) are up and if a service is running on the common port 80.',
-          nativeFunction: NetworkLocalNetwork.access,
-        },
-        {
-          title: 'Host HTTP Server',
-          description: 'This use case hosts a HTTP server on port 80 and exposes it to the local network.',
-          nativeFunction: NetworkLocalNetwork.hostHttpServer,
-        },
-        {
-          title: 'Host TCP Server',
-          description: 'This use case hosts a TCP server on port 2001 and exposes it to the local network.',
-          nativeFunction: NetworkLocalNetwork.hostTcpServer,
-        },
-        {
-          title: 'Host UDP Server',
-          description: 'This use case hosts a UDP server on port 3001 and exposes it to the local network.',
-          nativeFunction: NetworkLocalNetwork.hostUDPServer,
-        },
-      ],
-    },
+    // TODO: Will be implemented in the next release. The code stub in android exists already.
+    // {
+    //   title: 'Local Network',
+    //   description:
+    //     'Aside from connection servers on the public internet, apps may also try to access hosts on the local network. This can be be a violation of privacy in case an app scans and accesses local hosts excessively. Also it is possible to open ports on the phone. This adds additional attack surface which goes against the least-privilege principle if not necessary.',
+    //   testCases: [
+    //     {
+    //       title: 'Access Local Network',
+    //       description: 'This use case uses ICMP and TCP in order to check if a host in the private networks (10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16) are up and if a service is running on the common port 80.',
+    //       nativeFunction: NetworkLocalNetwork.access,
+    //     },
+    //     {
+    //       title: 'Host HTTP Server',
+    //       description: 'This use case hosts a HTTP server on port 80 and exposes it to the local network.',
+    //       nativeFunction: NetworkLocalNetwork.hostHttpServer,
+    //     },
+    //     {
+    //       title: 'Host TCP Server',
+    //       description: 'This use case hosts a TCP server on port 2001 and exposes it to the local network.',
+    //       nativeFunction: NetworkLocalNetwork.hostTcpServer,
+    //     },
+    //     {
+    //       title: 'Host UDP Server',
+    //       description: 'This use case hosts a UDP server on port 3001 and exposes it to the local network.',
+    //       nativeFunction: NetworkLocalNetwork.hostUDPServer,
+    //     },
+    //   ],
+    // },
   ],
   PLATFORM: [
     {
@@ -946,23 +946,24 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         },
       ],
     },
-    {
-      title: 'Insecure Dependency',
-      description:
-        'Insecure dependencies can introduce vulnerabilities into the app.',
-      testCases: [
-        {
-          title: 'Vulnerable Native SDK',
-          description: 'Test Case which uses insecure native SKD function.',
-          nativeFunction: CodeDependencies.vulnerableNativeSDK,
-        },
-        {
-          title: 'Vulnerable Web SDK',
-          description: 'Test Case which uses insecure web SKD function.',
-          nativeFunction: CodeDependencies.vulnerableWebSDK,
-        },
-      ],
-    },
+    // TODO: Will be implemented in the next release. The code stub in android exists already.
+    // {
+    //   title: 'Insecure Dependency',
+    //   description:
+    //     'Insecure dependencies can introduce vulnerabilities into the app.',
+    //   testCases: [
+    //     {
+    //       title: 'Vulnerable Native SDK',
+    //       description: 'Test Case which uses insecure native SKD function.',
+    //       nativeFunction: CodeDependencies.vulnerableNativeSDK,
+    //     },
+    //     {
+    //       title: 'Vulnerable Web SDK',
+    //       description: 'Test Case which uses insecure web SKD function.',
+    //       nativeFunction: CodeDependencies.vulnerableWebSDK,
+    //     },
+    //   ],
+    // },
     {
       title: 'Insecure Software',
       description:
@@ -987,23 +988,24 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
     },
   ],
   RESILIENCE: [
-    {
-      title: 'Obfuscation',
-      description:
-        'Obfuscation can increase the amount of work attackers have to put into reverse-engineering or attacking the app. It therefore may be used alongside other secure development techniques in order to better protect sensitive parts of the app.',
-      testCases: [
-        {
-          title: 'Obfuscated Android Class',
-          description: 'Tests the use of obfuscated Android classes to make reverse engineering more difficult.',
-          nativeFunction: ResilienceObfuscation.obfuscatedAndroidClass,
-        },
-        {
-          title: 'Native Library whit Debug Symbols',
-          description: 'Tests the inclusion of native libraries with debug symbols, which could expose sensitive implementation details.',
-          nativeFunction: ResilienceObfuscation.nativeDebugSymbols,
-        },
-      ],
-    },
+    // TODO: Will be implemented in the next release. The code stub in android exists already.
+    // {
+    //   title: 'Obfuscation',
+    //   description:
+    //     'Obfuscation can increase the amount of work attackers have to put into reverse-engineering or attacking the app. It therefore may be used alongside other secure development techniques in order to better protect sensitive parts of the app.',
+    //   testCases: [
+    //     {
+    //       title: 'Obfuscated Android Class',
+    //       description: 'Tests the use of obfuscated Android classes to make reverse engineering more difficult.',
+    //       nativeFunction: ResilienceObfuscation.obfuscatedAndroidClass,
+    //     },
+    //     {
+    //       title: 'Native Library whit Debug Symbols',
+    //       description: 'Tests the inclusion of native libraries with debug symbols, which could expose sensitive implementation details.',
+    //       nativeFunction: ResilienceObfuscation.nativeDebugSymbols,
+    //     },
+    //   ],
+    // },
     {
       title: 'Anti-Debug',
       description:
