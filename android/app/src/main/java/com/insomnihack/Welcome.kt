@@ -91,17 +91,13 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
         serializer.text(JniThingies.getInstance().genFlagFromMetadata("score_file"))
         serializer.endTag("", "flag")
 
-        serializer.startTag("", "signature")
-        serializer.text("{SIGNATURE}")
-        serializer.endTag("", "signature")
-
         serializer.endTag("", "game_stats")
         serializer.endDocument()
 
-        var signedXml = stringWriter.toString()
+        val rawXml = stringWriter.toString()
 
-        val signature = RsaThingies().signData(signedXml.toByteArray())
-        signedXml = signedXml.replace("{SIGNATURE}", signature)
+        val signature = RsaThingies().signData(rawXml.toByteArray())
+        val signedXml = "$rawXml§$signature"
 
         handleResult.invoke (signedXml)
     }
