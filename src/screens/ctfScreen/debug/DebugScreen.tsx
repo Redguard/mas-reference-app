@@ -1,15 +1,15 @@
 // DebugScreen.js
 import React, { useState } from 'react';
-import { Modal, View, Text, Button, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { Modal, View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 
 const DebugScreen = () => {
-  const [tapSequence, setTapSequence] = useState([]);
+  const [, setTapSequence] = useState([]);
   const [isDebugVisible, setIsDebugVisible] = useState(false);
 
   // Define the correct tap sequence (top-left, top-right, bottom-right, bottom-left)
   const correctSequence = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
 
-  const handleTap = (corner) => {
+  const handleTap = (corner: string) => {
     console.log(corner + ' tapped...')
     setTapSequence((prevSequence) => {
       const newSequence = [...prevSequence, corner];

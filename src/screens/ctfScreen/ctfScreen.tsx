@@ -19,6 +19,7 @@ import {WinOverlayTouch} from './component/WinOverlayTouch';
 import {useIsPortrait} from './util/useIsPortrait';
 import {InfoModal} from './component/InfoModal';
 import {FeedbackModal} from './component/FeedbackModal';
+import {HelpModal} from './component/HelpModal.tsx';
 import LinearGradient from 'react-native-linear-gradient';
 import DebugScreen from './debug/DebugScreen.tsx';
 
@@ -30,6 +31,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
   const {boardSize} = useCardSize();
 
   const [showInfoModal, setShowInfoModal] = React.useState(false);
+  const [showHelpModal, setShowHelpModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = React.useState(false);
 
   const backgroundStyle = {
@@ -73,6 +75,18 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             ]}
             onPress={() => game.startGame()}>
             <Text style={[styles.restartText, textStyleTop]}>restart</Text>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              styles.infoPressable,
+              {
+                backgroundColor: pressed ? Color.teal : Color.tealLight,
+              },
+            ]}
+            onPress={() => {
+              setShowHelpModal(true);
+            } }>
+            <Text style={[styles.infoText, textStyleTop]}>?</Text>
           </Pressable>
           <Pressable
             style={({ pressed }) => [
@@ -126,6 +140,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
       )}
 
       {showInfoModal && <InfoModal onClose={() => setShowInfoModal(false)} />}
+      {showHelpModal && <HelpModal onClose={() => setShowHelpModal(false)} />}
       {showFeedbackModal && <FeedbackModal game={game} onClose={() => setShowFeedbackModal(false)} />}
       <DebugScreen />
     </SafeAreaView>
