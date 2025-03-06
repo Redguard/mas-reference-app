@@ -363,7 +363,7 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         {
           title: 'Verify if Key is in Secure Hardware (deprecated)',
           description:
-            'Depending on the device, the key can be stored in software, the TEE or the StrongBox HSM. This use case gets information about where a Key is stored using isInsideSecureHardware(). ',
+            'Depending on the device, the key can be stored in software, the TEE or the StrongBox HSM. This use case gets information about where a Key is stored using isInsideSecureHardware().',
           nativeFunction: CryptoKeyInfo.isInsideSecureHardware,
         },
       ],
