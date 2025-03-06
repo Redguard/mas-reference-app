@@ -937,10 +937,10 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
     {
       title: 'Current Software Version',
       description:
-        'Check if the app enforces updates e.g. via AppUpdateManager on Android. However, the backend would be enforcing this and not only the app locally.',
+        'Check if the app enforces updates e.g. via AppUpdateManager on Android. However, the backend should be enforcing this and not only the app locally.',
       testCases: [
         {
-          title: 'Check for Updates',
+          title: 'Check for App Updates',
           description: 'Use AppUpdateManager.getAppUpdateInfo to query, if there is a new version available.',
           nativeFunction: CodeUpdate.checkUpdateAvailable,
         },
