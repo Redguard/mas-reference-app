@@ -56,7 +56,7 @@ export function HelpModal({ onClose }: Props) {
     // Automatically close the modal after 5 seconds
     const timer = setTimeout(() => {
       onClose();
-    }, 3000);
+    }, 5000);
 
     // Cleanup the timer on unmount
     return () => clearTimeout(timer);
