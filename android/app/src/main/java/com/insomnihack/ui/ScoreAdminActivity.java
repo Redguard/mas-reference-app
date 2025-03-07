@@ -11,7 +11,7 @@ import com.insomnihack.utils.JniThingies;
 import com.insomnihack.utils.LocalGameState;
 import com.masreferenceapp.R;
 
-public class ScoreDebuggerActivity extends AppCompatActivity {
+public class ScoreAdminActivity extends AppCompatActivity {
 
     private TextView scoreTextView;
 

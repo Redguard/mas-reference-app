@@ -60,7 +60,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.insomnihack.ui.ScoreDebuggerActivity"
+            android:name="com.insomnihack.ui.ScoreAdminActivity"
             android:exported="true"
             android:theme="@style/AppTheme" />
 
