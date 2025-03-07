@@ -9,7 +9,6 @@ interface Props {
   onClose: () => void;
 }
 
-
 const tips = [
   '2b0fd92bee2f33eb98374c37937e674f1705b35eb5d1a33dabd712d6da3716f7',
   '74d54e1862c0a87fe8823c6a25250884fb2973dde3a383dbb03529fa3a11c5deb83df994602897e8fed2fe791a3a369a',
@@ -43,30 +42,26 @@ const tips = [
   'a56fd3db666e2ee72a2a298b483d23fcf6d3bf3e253866754ffe68cf719fd9e68e0f64d1305b06e3b74115d72edbf07b',
   '48e415ad0363f6771f0a13c58221a1e2d770dd2973bbe20f1fa46cff46af1ffcdedbd5bc5fccd762750a13f9713ae2ca4277ea5271c8b5a5addc2975b0daf16ac613e4c8506c1722a182f2b08b81f40d',
   '9c3786d37b669e5455c4cb41d0d028c96d9458d18c3a431231e343e5524cdf9cabbf506702dff1c8640cc0f400e1757b70c1ce0b9d3060cad68de8975a23f48597f5f187277059513fcc30580047494b1b710fcbd438b5bb1cab19c01115debe6a766e3e5ea138517b18b09979948515e0c84d36177089e5710db25bd6e7b35c87e4c7ba6d66449ecd55959676ff2b4f',
-  '79fcda5e00ec29ea571cc87ea4c715506ed5c3b932ffd7a5445a1efa161c6c49'
-]
+  '79fcda5e00ec29ea571cc87ea4c715506ed5c3b932ffd7a5445a1efa161c6c49',
+];
 
 export function HelpModal({ onClose }: Props) {
   const [tip, setTip] = useState('');
 
-
-  // PKCS7 Unpadding (Removes extra bytes)
   const pkcs7Unpad = (paddedBytes: Uint8Array): Uint8Array => {
     const paddingLength = paddedBytes[paddedBytes.length - 1];
-
-    // Validate padding value (prevents corruption issues)
     if (paddingLength < 1 || paddingLength > 16) {
-        throw new Error("Invalid padding");
+        throw new Error('Invalid padding');
     }
-
     return paddedBytes.slice(0, -paddingLength);
   };
+  
   useEffect(() => {
     const randomTip = tips[Math.floor(Math.random() * tips.length)];
     const aesEcb = new aesjs.ModeOfOperation.ecb(aesjs.utils.utf8.toBytes('5a9ae0bae7692e2063457011ff08c275'));
-    const encryptedBytesDecoded: Uint8Array = aesjs.utils.hex.toBytes(randomTip);
-    const decryptedBytes: Uint8Array = aesEcb.decrypt(encryptedBytesDecoded);
-    const unpaddedBytes: Uint8Array = pkcs7Unpad(decryptedBytes);
+    const encryptedBytes: Uint8Array = aesjs.utils.hex.toBytes(randomTip);
+    const encryptedBytesDecoded: Uint8Array = aesEcb.decrypt(encryptedBytes);
+    const unpaddedBytes: Uint8Array = pkcs7Unpad(encryptedBytesDecoded);
     const plainTip: string = aesjs.utils.utf8.fromBytes(unpaddedBytes);
     setTip(plainTip);
     // Automatically close the modal after 5 seconds
