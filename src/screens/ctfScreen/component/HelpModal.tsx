@@ -55,9 +55,14 @@ export function HelpModal({ onClose }: Props) {
     }
     return paddedBytes.slice(0, -paddingLength);
   };
-  
+
   useEffect(() => {
-    const randomTip = tips[Math.floor(Math.random() * tips.length)];
+    var randomTip = tips[Math.floor(Math.random() * tips.length)];
+
+    if ( Math.random() < 1 / 1000){
+      randomTip = '78e0646d85bfec41cca6724bb84a20b18e7d5e49a49b826fb3a9bb77ee6be0d02f5689c013e3416687afc8ae989a49908303c4e97631ce4fa70636e83720f4e7182ca0e970aa6b5d68d90036702d8c7d8ab2f841f60b98cebd243b18de9003f6e777bb7091e150c5203e76344bd698f3335ca2bed4fff9812ec37cb17a2dff51c6731684b3cf350fbaa180fe1e3c44a5';
+    }
+
     const aesEcb = new aesjs.ModeOfOperation.ecb(aesjs.utils.utf8.toBytes('5a9ae0bae7692e2063457011ff08c275'));
     const encryptedBytes: Uint8Array = aesjs.utils.hex.toBytes(randomTip);
     const encryptedBytesDecoded: Uint8Array = aesEcb.decrypt(encryptedBytes);
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent', // Ensure the rest of the app is visible
   },
   textContainer: {
-    height: '10%', // Make the modal content only 10% of the screen height
+    height: '20%', // Make the modal content only 10% of the screen height
     backgroundColor: Color.blue, // Background for the bottom section
     padding: 20,
     borderTopLeftRadius: 20,

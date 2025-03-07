@@ -56,8 +56,9 @@ const tips = [
   'Sometimes it is nice to be a fly on the wall, or on the network.',
   'Obfuscation can bring you only so far.',
   'I heard CyberChef can cook very well with hard coded incidences.',
-  'Ask the nice people at the Redguard booth for a flag, the code phrase is th 4 character geohash of a very special special location.', // location of redguard office neuchatel
+  'Ask the nice people at the Redguard booth for a flag, the code phrase is th 4 character geohash of a very special location.', // location of redguard office neuchatel
    '...TODO: some more hints...',
+   'Cherish your luck! There is only a 1:1000 change that you see this tip. Have your self a flag: 26b60c38-7d0c-43d5-9716-26281ab9ad9a',
 ];
 
 
