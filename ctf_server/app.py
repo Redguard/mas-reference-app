@@ -95,5 +95,5 @@ app.register_blueprint(api_v1)
 @app.route('/', defaults={'path': ''}, methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'])
 @app.route('/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'])
 def catch_all(path):
-    return "😶‍🌫️", 200
+    return "😶‍🌫️", 404
 

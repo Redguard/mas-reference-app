@@ -14,8 +14,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import java.io.IOException
 import java.security.MessageDigest
-import java.security.PrivateKey
-import java.security.PublicKey
 import java.util.concurrent.TimeUnit
 
 class RestClient(private val secretKey: String) {
@@ -111,7 +109,7 @@ class RestClient(private val secretKey: String) {
                     Log.i("CTF", "Super secret data, or something: $decrypted")
 
                     decrypted
-                } catch (err: Error) {
+                } catch (err: Exception) {
                     Log.e("CTF", err.localizedMessage, err)
                     ""
                 }
