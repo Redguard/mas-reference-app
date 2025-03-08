@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-clipboard/clipboard": "^1.16.2",
     "@react-native-vector-icons/feather": "^4.29.2-alpha.25",
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/native": "^6.1.9",
@@ -33,7 +34,7 @@
     "react-native-gesture-handler": "^2.15.0",
     "react-native-linear-gradient": "2.8.3",
     "react-native-popup-menu": "^0.16.1",
-    "react-native-reanimated": "^3.16.5",
+    "react-native-reanimated": "^3.17.1",
     "react-native-reanimated-table": "^0.0.2",
     "react-native-safe-area-context": "^4.9.0",
     "react-native-screens": "^3.29.0",
