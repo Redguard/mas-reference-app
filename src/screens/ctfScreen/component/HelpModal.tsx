@@ -76,7 +76,7 @@ export function HelpModal({ onClose }: Props) {
 
     // Cleanup the timer on unmount
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, []);
 
   return (
     <Modal animationType="slide" transparent={true} onRequestClose={onClose}>
