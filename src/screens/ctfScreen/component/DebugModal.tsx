@@ -1,14 +1,17 @@
-// DebugScreen.js
+// DebugModal.js
 import React, { useState } from 'react';
 import { Buffer } from 'buffer';
 import { Modal, View, Text, StyleSheet, Pressable } from 'react-native';
+
+import Clipboard from '@react-native-clipboard/clipboard';
+
 import { Game } from '../game/Game';
 
 interface Props {
   game: Game;
 }
 
-export function DebugScreen({game}: Props) {
+export function DebugModal({game}: Props) {
   const [, setTapSequence] = useState([]);
   const [isDebugVisible, setIsDebugVisible] = useState(false);
 
@@ -70,7 +73,10 @@ export function DebugScreen({game}: Props) {
           <View style={styles.modalContent}>
             <Text style={styles.title}>Debug Screen</Text>
             <Text style={styles.text}>You deserve a flag:</Text>
-            <Text style={styles.text}>{otpDecode('3KTlTD9mgaCBfdIXbzhdZaRRNKhVMi1JZh+4dYEvlWeNyNhV', 'edc0872a5b5fb692ac49b1245b15695dc06419ca60534f64522f8c44e218f057bcf8bc609e07f0ed9add6e4289c5e937aa39e86bd24aa0aa0f5570ab96265e9eda7decbeed34cbf5')}</Text>
+            <Pressable onPress={() => Clipboard.setString(otpDecode('3KTlTD9mgaCBfdIXbzhdZaRRNKhVMi1JZh+4dYEvlWeNyNhV', 'edc0872a5b5fb692ac49b1245b15695dc06419ca60534f64522f8c44e218f057bcf8bc609e07f0ed9add6e4289c5e937aa39e86bd24aa0aa0f5570ab96265e9eda7decbeed34cbf5'))} >
+                <Text style={styles.text}>{otpDecode('3KTlTD9mgaCBfdIXbzhdZaRRNKhVMi1JZh+4dYEvlWeNyNhV', 'edc0872a5b5fb692ac49b1245b15695dc06419ca60534f64522f8c44e218f057bcf8bc609e07f0ed9add6e4289c5e937aa39e86bd24aa0aa0f5570ab96265e9eda7decbeed34cbf5')}</Text>
+              </Pressable>
+            <Text style={styles.text}>{}</Text>
 
             <Pressable style={styles.button} onPress={function(){
               game.showAllCards();
@@ -86,14 +92,26 @@ export function DebugScreen({game}: Props) {
             </Pressable>
 
             <Pressable style={styles.button} onPress={function(){
+              // confetti;
+              // confetti.current.start();
               setIsDebugVisible(false);
             }}>
-              <Text>Confetti 🎉</Text>
+            <Text>Confetti 🎉</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={function(){
+              setIsDebugVisible(false);
+            }}>
+              <Text>Close</Text>
             </Pressable>
           </View>
         </View>
       </Modal>
-    </View>
+      {/* <Confetti
+        autoplay={false}
+        count={300}
+        ref={confetti}
+        /> */}
+      </View>
   );
 }
 
@@ -159,4 +177,3 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default DebugScreen;

@@ -1,26 +1,24 @@
 import aesjs from 'aes-js';
 
 // PKCS7 Padding (Ensures 16-byte blocks)
-const pkcs7Pad = (textBytes, blockSize = 16) => {
-  const paddingLength = blockSize - (textBytes.length % blockSize);
-  const padding = new Uint8Array(paddingLength).fill(paddingLength);
-  return new Uint8Array([...textBytes, ...padding]);
-};
-
-// PKCS7 Unpadding (Removes extra bytes)
-const pkcs7Unpad = (paddedBytes) => {
-  const paddingLength = paddedBytes[paddedBytes.length - 1];
-
-  // Validate padding value (prevents corruption issues)
-  if (paddingLength < 1 || paddingLength > 16) {
-      throw new Error("Invalid padding");
+class PKCS7 {
+  static pad(data, blockSize) {
+    const padLength = blockSize - (data.length % blockSize);
+    const padding = new Uint8Array(padLength).fill(padLength);
+    return new Uint8Array([...data, ...padding]);
   }
 
-  return paddedBytes.slice(0, -paddingLength);
-};
+  static unpad(paddedData) {
+    const padLength = paddedData[paddedData.length - 1];
+    if (padLength < 1 || padLength > paddedData.length) {
+      throw new Error("Invalid padding");
+    }
+    return paddedData.slice(0, -padLength);
+  }
+}
 
 // Example AES encryption using aes-js with padding
-const key = aesjs.utils.utf8.toBytes('5a9ae0bae7692e2063457011ff08c275'); // Must be 16, 24, or 32 bytes
+const key = aesjs.utils.hex.toBytes('5a9ae0bae7692e2063457011ff08c275'); // Must be 16, 24, or 32 bytes
 
 
 const tips = [
@@ -60,7 +58,9 @@ const tips = [
   'Ask the nice people at the Redguard booth for a flag. The code phrase is the 4 character geohash of our newest member.', // location of redguard office neuchatel
   'Memory is live.',
   'Live is memory',
-  '...TODO: some more hints...',
+  'If you are VERY lucky, you will find fortune in these tips.',
+  'Your victory is right around the CORNER. Never give up.',
+  'The sun goes up in north-west.',
   'Cherish your luck! There is only a 1:1000 change that you see this tip. Have your self a flag: 26b60c38-7d0c-43d5-9716-26281ab9ad9a',
 ];
 
@@ -70,7 +70,7 @@ for (var tip in tips) {
   var textBytes = aesjs.utils.utf8.toBytes(tips[tip]);
 
   // Apply padding only ONCE
-  textBytes = pkcs7Pad(textBytes);
+  textBytes = PKCS7.pad(textBytes, 16);
 
   // Encrypt using AES-ECB
   const aesEcb = new aesjs.ModeOfOperation.ecb(key);
@@ -86,7 +86,7 @@ for (var tip in tips) {
   const decryptedBytes = aesEcb.decrypt(encryptedBytesDecoded);
 
   // Remove PKCS7 padding properly
-  const unpaddedBytes = pkcs7Unpad(decryptedBytes);
+  const unpaddedBytes =  PKCS7.unpad(decryptedBytes);
   const decryptedText = aesjs.utils.utf8.fromBytes(unpaddedBytes);
 
   console.log('Decrypted:', decryptedText);

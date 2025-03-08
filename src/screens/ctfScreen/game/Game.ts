@@ -118,7 +118,6 @@ export class Game {
 }
 
 
-
 export const game = new Game();
 
 autorun(() => {

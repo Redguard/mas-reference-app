@@ -65,7 +65,6 @@ async function initGlobalSettings(){
 }
 
 function App(): React.JSX.Element {
-
   initGlobalSettings();
 
   return (

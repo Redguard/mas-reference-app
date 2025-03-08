@@ -9,12 +9,15 @@ import {
   Text,
   useWindowDimensions,
   View,
-  NativeModules
+  NativeModules,
+  Pressable,
 } from 'react-native';
 import {Color} from '../style/Color';
 import {observer} from 'mobx-react-lite';
 import {Game} from '../game/Game';
 import RNFS from 'react-native-fs';
+import {getId, lookupFlag} from './ObfuscatedReactFlag';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 const { WelcomeCTF } = NativeModules;
 
@@ -116,32 +119,48 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   const bottom = animatedBottomRef.current;
   // console.log('bottom', bottom)
 
-  let flag = '';
+  let defaultWinnerFlag = '';
+  let devFlag = lookupFlag(42,false);
+  console.log('Developer flag using lookupFlag() function created. May use it later.');
+  devFlag;
 
   if (game.isCompleted && game.cards.length > 0) {
 
-    flag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
-    console.log(flag); // To allow players to copy+paste (given they know how to read the logs)
+    defaultWinnerFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
+    console.log(defaultWinnerFlag); // To allow players to copy+paste (given they know how to read the logs)
 
     // Save the stats, overwriting any previous state
     WelcomeCTF.serialiseScore(game.totalScore, game.timer.seconds, game.moves,
       (data: string) => RNFS.writeFile(`${RNFS.DownloadDirectoryPath}/CTF_saved_state.xml`, data, 'utf8')
-    )
+    );
   }
 
+  var selectedFlag:string = '';
   /* Decides whether to show the usual "you won" screen after a game, or the description of the CTF when spawning the game */
   const title = game.cards.length !== 0 ? 'Congratulations! You won!' : "Welcome to Redguard's CTF for the Insomni'hack!";
-  const message = game.cards.length !== 0 ? `With ${game.moves} moves and ${game.timer.seconds} seconds.` : 'There are several challenges hidden inside this App. You can use the MASVS references from the sidebar as an inspiration. Flags have the format of a UUIDv4 (for example: 08E94C4B-052A-434D-80DA-50D82C6A5085)';
+  const message = game.cards.length !== 0 ? `With ${game.moves} moves and ${game.timer.seconds} seconds.` : 'There are several challenges hidden inside this App. You can use the MASVS references from the sidebar as an inspiration. \n\n Flags have the format of a UUIDv4, for example:\n 08E94C4B-052A-434D-80DA-50D82C6A5085\n\nHint: Tap the flag to copy it into the clipboard.';
   var subtitle = '¡Buena suerte!';
-  if(game.numbersOfGames === 1) {subtitle = `Welcome to the game. Here's your first flag:\n\n${flag}`;}
-  if(game.numbersOfGames > 1) {subtitle = `You already got the first flag, but just in case you missed it, here it is again: \n\n${flag}`;}
-  if(game.winningStreak()) {subtitle = 'Impressive! You managed to score a perfect streak. You deserve this special reward:\n\nBLA----';}
+  if(game.numbersOfGames === 1) {
+    selectedFlag = defaultWinnerFlag;
+    subtitle = 'Welcome to the game. Here\'s your first flag:\n';
+  }
+  if(game.numbersOfGames > 1) {
+    selectedFlag = defaultWinnerFlag;
+    subtitle = 'You already got the first flag, but just in case you missed it, here it is again: \n';
+  }
+  if(game.winningStreak()) {
+    selectedFlag = getId('You made it this far, now go further.');
+    subtitle = 'Impressive! You managed to score a perfect streak. You deserve this special reward:\n';
+  }
 
   return (
     <Animated.View style={[styles.main, {height: screenHeight, bottom}]}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.text}>{message}</Text>
       <Text style={styles.text}>{subtitle}</Text>
+      <Pressable onPress={() => Clipboard.setString(selectedFlag)} >
+        <Text style={styles.text}>{selectedFlag}</Text>
+      </Pressable>
       <View {...panResponder.panHandlers} style={styles.moveUp}>
         <Text style={styles.buttonText}>Press and swipe up</Text>
       </View>

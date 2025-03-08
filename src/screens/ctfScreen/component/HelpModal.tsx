@@ -1,7 +1,8 @@
-import { Modal, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { Color } from '../style/Color';
 import React, { useState, useEffect } from 'react';
 import aesjs from 'aes-js';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 
 interface Props {
@@ -10,65 +11,78 @@ interface Props {
 }
 
 const tips = [
-  '2b0fd92bee2f33eb98374c37937e674f1705b35eb5d1a33dabd712d6da3716f7',
-  '74d54e1862c0a87fe8823c6a25250884fb2973dde3a383dbb03529fa3a11c5deb83df994602897e8fed2fe791a3a369a',
-  'c928cd1e72881412f6dc0c47274c93d8e4cd3cecf2fd7af5c5355dc70438ecc7c613e4c8506c1722a182f2b08b81f40d',
-  '1582a944e7d61ccb5dcae98c659d239b5a60d072d8e463fcdcd98bbb97a6078fda6e2e74539ad1867e45c49f6bf74394',
-  '4cf5af7ea09354d4f152e2092ff29ea03366af42426514420ae3c7a8afd313578cfac73437b91da170e680becf8ab92f',
-  '8da69effeba3c381f0ab32dcc72ca308d889f648abeabc8ef3974e43b60154f1',
-  '38cb90102dc815e74603970e0bace999f3f4a4a11ee43653c06753698e477d69b90d705955d3ea8a3f64d6d6e914ca4e2b35d07bff84089f66a4d75ff1b52e6c',
-  '40dbca3afe90bbf4724bf9f3cb3b330fd2941ed33c4e098432a5da86855bd86932c7ff40fd4d3422c066b4f11d85f042',
-  'de463933ffe6f6e477a144563cf843e7718074f0cbcc54fd61bf7e49415c6763b3d73b3c785a72cfb8b210e59da866fe',
-  'f63df819db396b80878786e62df6ae3abc5240f8850ac636d2f0c088b0bdd59ea8d4e9fc389a637b3dd65d923714189094c29d88c890da231ed47091e6918a88',
-  '149d9f138f28a4911dde0774966e3fae709c387428a12bd97663996543430bcaa7899ce349496c02ad2d41a67ed0fdb8',
-  '8dd4218f7e6d7bf2a1cd31632c2ab3be521c786d5f8db88b896b75edab6ce23483d8b2b4bb371b47c6f2a38333c055133e9e530043a26a2a11f42c9b97ebc622',
-  'b5b8e6fa5645c631785f893de0fb3219d0bcb2ddec850d5b51b48e6cede547e8bc77fac47981f942c014037659695b563030ef29e8a37d8104ff60318b5c221a',
-  '8b377ac516146d7fc408f5b8dd46be5f6ce36d88552a95ce854c81867bd35e4d146102546195d0aa80784696244f8ffbb9b94ad1ba5fd3a425a56e7f35beb4ff',
-  '1e36dde8aaa925c39e508211256696a3ead77a121d0ef5d1251eb66d0a9c85c83811bc43f3d27b971a135f380fb411fa',
-  'fdc1980997f66769b808a33cfcaa2b178ce9f5f9dc45698cd05a729eee779ac49b59601787d2e4594d5bfa9bb7195d09',
-  '68062aa4cda1f560e3e6193454864d2de324e88f8c21eb4c02767bb6f68f4562ea596db8cf4ccf445e747b54a3f3902a',
-  'd92501a37fdaf802a014b0650d065502609d7500c390e1d4560711fbe9d2c629c290eaad782e8ec8dd217dd444580cef',
-  '29b0c659b9a26cff8f97da224a93b88575b31f154890b1926821e337962b3d4475ea10e6fd69d532697cca6db5051360',
-  'f179b79d47a6159b55380ea4d1d35c47ec86469c938a406d2ff5614635592dba050f1592c7f347ebe860113592b4a506',
-  'c077380ef8a1cdd7300d1ed57114a4b051922ac708ddfe97603821bb28c3061d',
-  '1e3ae8919e158f9475e7f58f244d2f3824cf118ebe7e24eb8af8c83f234e62a8',
-  'b9e211f7e017e872395524de0ce3562bb3337a6943dc0c82aa2ee38de3cb0606126230a88c214721f86aefb0a8945efa',
-  'af6c2b4678582fe0f1e5b87d86569fc705c18f6abe9024caaa6ac81c30646ef4f7d043f856febaa6baf127a24fa56daa7f1bd8bf15f59e66555ff616614d43f0',
-  '563e3f456322d784a6af2715c2caa4dc29215ee695698d34bc0b46b9647d4e935742a98367ee7454ba3d57eb2313b0e92d8bfb222f42455a09b97af0daea03b6',
-  '26acca5ed5ce46980729248fabb75df3b54aec8c486b6d21f10eeb5ed2d9f90d1636535edc3d811a6464e0c3e93dbea9',
-  'b583eefbf322ea1a6668a3f3f37d4700332035523c5ed90d523975a9a60ec324',
-  '7af717d31b7d7782e646404e96d6ad1b388a05ace9ac129c2f66400ca1336e76c53eae50346c52cc4a83db4d9b0b55884c88d144b9cdc82932cc7a1fb7e13086b83df994602897e8fed2fe791a3a369a',
-  '8419ae133ac7c0cbeedf54e94a51919109f9cefbc4159a1eee7d150a79a6d86fdd5801a8b4ce064d8b4e2e37ce63a914b07bd9b85b906b506cfc3b701d482e4dc613e4c8506c1722a182f2b08b81f40d',
-  'a56fd3db666e2ee72a2a298b483d23fcf6d3bf3e253866754ffe68cf719fd9e68e0f64d1305b06e3b74115d72edbf07b',
-  '48e415ad0363f6771f0a13c58221a1e2d770dd2973bbe20f1fa46cff46af1ffcdedbd5bc5fccd762750a13f9713ae2ca4277ea5271c8b5a5addc2975b0daf16ac613e4c8506c1722a182f2b08b81f40d',
-  '9c3786d37b669e5455c4cb41d0d028c96d9458d18c3a431231e343e5524cdf9cabbf506702dff1c8640cc0f400e1757b70c1ce0b9d3060cad68de8975a23f48597f5f187277059513fcc30580047494b1b710fcbd438b5bb1cab19c01115debe6a766e3e5ea138517b18b09979948515e0c84d36177089e5710db25bd6e7b35c87e4c7ba6d66449ecd55959676ff2b4f',
-  '79fcda5e00ec29ea571cc87ea4c715506ed5c3b932ffd7a5445a1efa161c6c49',
+  'c688d67590d8f64b7d72e58c17db38252cc1e2593f37f83b0bc1d797e5daee2d',
+  '7f0c9de4b737fd148fd7835aca4cedea33aae1facef0afbacd61718de0d9e088f2e27ca7e01a700f187c7dde43833ca5',
+  '666afdffc5b9258b41e907c52d09fd46482b28e1c5f3b42354550af950277be0a995ea60ed6c191b5433e4491f40769f',
+  '2a18350163b0a3b0314002da6eeb539914d2abb57b453d1997abc901842c7556c880e63adc0a6fd549e883e35d9537ed',
+  '4f175adc317da97496f0b74459d495f2f71aff325122582c81351ebf585f37840a8e191ab0426c3e0792e518ddbc501e',
+  'c8538bd1b037e9da95758345f4f341900eaf1c8efedc2b007ac91afdcad06fd8',
+  '493b8e75c69500a3a6941a0df7b4a97943ff2a8329e43ad68edd9c9a7ed493814ec6c89cd11539cf84dbee450fcbb05b3f5a091515c3525194e9fb223946cd7a',
+  '11d15c41d1ee89ebabd6ce55f2e60922c8417ce190ce7647b84f5d394a5218ed307e0e88bf9c8ed842c60acf0bb6354f',
+  '82614c2a24ddfaf17cb07ee0003aa482e29e9cc0ed4461168dbbb053f03bd3cfa4e35abda91f6d93f835097e11387fdc',
+  '6de7aa9a9198b5d318fdc9fee19fcdc0cc48d7d20f0d283cbed992f129f043293b00e3fabbb02fe69e3b1ef7e55814df1aa0610ed1abaebdfa5ad13df402320b',
+  '309a30696e2bb6ead9ea778ca3c20ad3d04c3ac7c010e0b7065e8d04e57560e5f5d6d8ba754b3527d3cb62b99467d79a',
+  '63571e8ba33b87ee63b6df4d4dec94823119a3ef144ecbcf8ccaedf87e446498793e1ee06a208d65c17b223bdeab49925838330d72ce4645224f3abe19be1869',
+  '398ddd347023daaf393382aba90a2da75d28f2d266cd69d2439bd8316f7cf756091105400839590cb15f97f43130938473fc32ad536ca96e57e08944a0c1c94f',
+  'fe87f94b29426ded0bd80e8b271bd6778d41b3fb75a4e6a76328e64f9bb6dc60555415341d33cbfefb92331ee672ee7295b488c9b7a894de9b428aacca6a6764',
+  'dcbd353f14c127ccc775c37e0afa07a5fb5f15e762b072e90c7ed49e2edf0cc8ce836285664b8bf3286245955b5f15dc',
+  'c09f7a1e58a57a778acf460320b932498f38b57fd47d199eaa21219c2a524e28a2a4f83280dcf109b9b8d177cd8d737d',
+  '6f76c4ea011bbc65445f56f9af24615629906bf38e40b5cfaea10f01df099d29e8dbc83dd4841b8412706442762d548d',
+  'cd32abc44802228292966f72254081c82be4edb7ac15315b750cad85c4abb1c05b6dfd70cac7f6b94921867b0b278a9e',
+  '067c9f3de712c092753d2f8f2bf9aaf38b56e01b15db7655a1a4a95744ad784c10248776bdb039fa67609eb2c6708079',
+  '726a9f17378ac6ea910428c97886b34d822662ff5217bb64e4f609e7d73eaf3f251d87e25b70d3d4fb970ac7bd635318',
+  'c84be51725787169d8efdbbd1a77705ad65ab6305592a3135f95f5c12603a99e',
+  'd98b12ffa94aabf52882d47740529de7f8a97ed33a731afda8d37eca09d22cf7',
+  '0deb4863d88f41b30169781fc19a49b1ed559c6626c4429461f32cba10dc1881039d5bf49e43323c3cc08a4aa0561ac4',
+  '409d2e64b88d69f971c30f6e5d857f3879ba8c075007f08143b08e54c31e0201db5c185f0c5d19a8cfecf2e7bb4a9ccb5a55bb3da2a1838a06d24864d389ed2b',
+  'c92d9ca849674f7626ae9cb886110e5d7e93e31211a99b2d1577f18a0ab18696795b82e1bde09c0e262a1137bf09838bb17409c7bf623aa88f3744c9f5c61e33',
+  '9cde1c6aacde2f62976b2359e956bd190cca3397c4d88bf56e16634c984411c3822a54a0d44665dda9dcbefe6f485b30',
+  '18f3f8cccff01a66aed4137327995349e9e526496cfec67a75dc0bbbb4ae1adb',
+  'bb363151995a2a9406f05d49de1f70f1ea9d8af6ac6768333648d8c41c45c127',
+  '52642218ac5c91c750027ec3ffd7f8952151c486038a5b3e71736676a4c6c6c673f852a993dc9318e2af63e3f74c4ea8878d47ae1c0b87ceb040eda995425980f2e27ca7e01a700f187c7dde43833ca5',
+  '93cc1d4580ab10d50f2fcae990d83f7fa4d6bce4098c2c24d1c8787e0274059d011b2affae64d5bdcbf2445c8003d0d8461b5fb618983a708b48c38dde5c4db4a995ea60ed6c191b5433e4491f40769f',
+  'e22959fa9a23d5dd97354b032b0aab318532612757d0e379fc020c5e7ed371ef32099ccd6247e435cda220bf4e73e3d9',
+  '92979ec54b53cc469355b8c3ba7bc8b9036cc6c4c3a1bcc798e47b8b4ce8bfe4c39119252bd112e47c8d416513a7870dbcff04cb41847043ced6c5033270aca1a995ea60ed6c191b5433e4491f40769f',
+  'b98a9b2b33f1b5eaef4e7afc6c7127c0f318b0ec5dcaa30bc0a253885433258ed4a5a64d7a3aa4d0388aab120dc268c3a0102c675509aae241b1f9dcf63019b9d87be64c247fc3875a0d0e7c7cc01f69c80cb10b06ef66083ab874bcab7178a6f5bbd71cbd8c5af67c0c65d6c9c0c20c4088cdc6750181cd5261bec078b01fb2',
+  'c0a2b133e98eb8f68bd27ba338019d6b',
+  '66782b911313313de6787f489bfeca85',
+  '55dc2af1625e5b457117e8ed6be046330668da57b343f5991a33b3a4365c25b87a3a8075075ee61a833286d19b5a73d5b764a191c64ff4ca3cb71f417041af74',
+  '57d845caa18b8366fa9f4b81720120a5249a2c3d295d74f8c9643c9ad84a6049586dd7b5f057256a89ef142475771a6029c3868f6b52fe2bcb3d92bd16b47ed7',
+  '7652cc99f0d6af2e8e06d591ac3fa969f6b66fcbe102a5be7937884271ea77fe',
 ];
+
+const pkcs7Unpad = (paddedBytes: Uint8Array): Uint8Array => {
+  const paddingLength = paddedBytes[paddedBytes.length - 1];
+  if (paddingLength < 1 || paddingLength > 16) {
+      throw new Error('Invalid padding');
+  }
+  return paddedBytes.slice(0, -paddingLength);
+};
+
+const decryptFlag = (ciphertext: string, key: string): string => {
+  const aesEcb = new aesjs.ModeOfOperation.ecb(aesjs.utils.hex.toBytes(key));
+  const encryptedBytes: Uint8Array = aesjs.utils.hex.toBytes(ciphertext);
+  const encryptedBytesDecoded: Uint8Array = aesEcb.decrypt(encryptedBytes);
+  const unpaddedBytes: Uint8Array = pkcs7Unpad(encryptedBytesDecoded);
+  const plainTip: string = aesjs.utils.utf8.fromBytes(unpaddedBytes);
+  return plainTip;
+};
 
 export function HelpModal({ onClose }: Props) {
   const [tip, setTip] = useState('');
 
-  const pkcs7Unpad = (paddedBytes: Uint8Array): Uint8Array => {
-    const paddingLength = paddedBytes[paddedBytes.length - 1];
-    if (paddingLength < 1 || paddingLength > 16) {
-        throw new Error('Invalid padding');
-    }
-    return paddedBytes.slice(0, -paddingLength);
-  };
+  // this code is not perfect on purpose. we want, that it is easier to find in the JS pseudocode
+  const title: string =  'Tip of the moment is:';
 
   useEffect(() => {
     var randomTip = tips[Math.floor(Math.random() * tips.length)];
 
     if ( Math.random() < 1 / 1000){
-      randomTip = '78e0646d85bfec41cca6724bb84a20b18e7d5e49a49b826fb3a9bb77ee6be0d02f5689c013e3416687afc8ae989a49908303c4e97631ce4fa70636e83720f4e7182ca0e970aa6b5d68d90036702d8c7d8ab2f841f60b98cebd243b18de9003f6e777bb7091e150c5203e76344bd698f3335ca2bed4fff9812ec37cb17a2dff51c6731684b3cf350fbaa180fe1e3c44a5';
+      randomTip =   'dab208345db23b4b076402141ba425013e2ff030f2e4dae3cffec49d353e32c795953a990b9178a0ee2e5eea905089faddd0e7ca8cd9427a9ecc0ccd5a737b775dead4c30c13559722c64af38902cd1ec41db2deac7cca224b2d3d031141a2f576e4537672915ecfc3eca1c3e238782cfd6fb05b6c4a0bfa7c409cc834c3fa99ba2a4b9e3f4b876d2950b141ba4371fb';
     }
 
-    const aesEcb = new aesjs.ModeOfOperation.ecb(aesjs.utils.utf8.toBytes('5a9ae0bae7692e2063457011ff08c275'));
-    const encryptedBytes: Uint8Array = aesjs.utils.hex.toBytes(randomTip);
-    const encryptedBytesDecoded: Uint8Array = aesEcb.decrypt(encryptedBytes);
-    const unpaddedBytes: Uint8Array = pkcs7Unpad(encryptedBytesDecoded);
-    const plainTip: string = aesjs.utils.utf8.fromBytes(unpaddedBytes);
-    setTip(plainTip);
+    setTip(decryptFlag(randomTip, '5a9ae0bae7692e2063457011ff08c275'));
+
     // Automatically close the modal after 5 seconds
     const timer = setTimeout(() => {
       onClose();
@@ -76,15 +90,17 @@ export function HelpModal({ onClose }: Props) {
 
     // Cleanup the timer on unmount
     return () => clearTimeout(timer);
-  }, []);
+  }, [onClose]);
 
   return (
     <Modal animationType="slide" transparent={true} onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.modalContainer}>
           <View style={styles.textContainer}>
-            <Text style={styles.text}>Tip of the moment is:</Text>
-            <Text style={styles.tipText}>{tip}</Text>
+            <Text style={styles.text}>{title}</Text>
+              <Pressable onPress={() => Clipboard.setString(tip)} >
+                <Text style={styles.tipText}>{tip}</Text>
+              </Pressable>
           </View>
         </View>
       </TouchableWithoutFeedback>

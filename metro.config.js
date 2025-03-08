@@ -8,7 +8,7 @@ const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
  */
 const config = {};
 
-const jsoMetroPlugin = require('obfuscator-io-metro-plugin')(
+// const jsoMetroPlugin = require('obfuscator-io-metro-plugin')(
   // {
   //   // for these option look javascript-obfuscator library options from  above url
   //   compact: true,
@@ -25,20 +25,20 @@ const jsoMetroPlugin = require('obfuscator-io-metro-plugin')(
   //   runInDev: false /* optional */,
   //   logObfuscatedFiles: true /* optional generated files will be located at ./.jso */,
   // }
-);
+// );
 
 
 module.exports = mergeConfig(getDefaultConfig(__dirname), config);
 
-module.exports = {
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: false,
-      },
-    }),
-  },
-  ... mergeConfig(getDefaultConfig(__dirname), config),
-  ...jsoMetroPlugin,
-};
+// module.exports = {
+//   transformer: {
+//     getTransformOptions: async () => ({
+//       transform: {
+//         experimentalImportSupport: false,
+//         inlineRequires: false,
+//       },
+//     }),
+//   },
+//   ... mergeConfig(getDefaultConfig(__dirname), config),
+//   ...jsoMetroPlugin,
+// };
