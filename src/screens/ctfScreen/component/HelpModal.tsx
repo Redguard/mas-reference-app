@@ -90,7 +90,7 @@ export function HelpModal({ onClose }: Props) {
 
     // Cleanup the timer on unmount
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, []); // If this depends on `onClose`, the tip will change every second (if the game was active) and the modal will always be shown
 
   return (
     <Modal animationType="slide" transparent={true} onRequestClose={onClose}>
