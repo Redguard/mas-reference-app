@@ -30,6 +30,7 @@ export class Game {
     console.log('startGame()');
     this.cards = generateInitialCards();
     this.clicks = 0;
+    this.streak = 0;
     this.timer.reset();
   }
 
