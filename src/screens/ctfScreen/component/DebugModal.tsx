@@ -1,9 +1,9 @@
-// DebugScreen.js
-import React, { useRef, useState } from 'react';
+// DebugModal.js
+import React, { useState } from 'react';
 import { Buffer } from 'buffer';
 import { Modal, View, Text, StyleSheet, Pressable } from 'react-native';
 
-import {  Clipboard } from '@react-native-clipboard/clipboard';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 import { Game } from '../game/Game';
 
@@ -11,8 +11,7 @@ interface Props {
   game: Game;
 }
 
-export function DebugScreen({game}: Props) {
-  const confetti = useRef(null);
+export function DebugModal({game}: Props) {
   const [, setTapSequence] = useState([]);
   const [isDebugVisible, setIsDebugVisible] = useState(false);
 
@@ -178,4 +177,3 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default DebugScreen;

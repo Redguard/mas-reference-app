@@ -22,7 +22,7 @@ import {InfoModal} from './component/InfoModal';
 import {FeedbackModal} from './component/FeedbackModal';
 import {HelpModal} from './component/HelpModal.tsx';
 import LinearGradient from 'react-native-linear-gradient';
-import {DebugScreen} from './debug/DebugScreen.tsx';
+import {DebugModal} from './component/DebugModal.tsx';
 
 const { WelcomeCTF } = NativeModules;
 
@@ -138,7 +138,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
       {showInfoModal && <InfoModal onClose={() => setShowInfoModal(false)} />}
       {showHelpModal && <HelpModal onClose={() => setShowHelpModal(false)} />}
       {showFeedbackModal && <FeedbackModal game={game} onClose={() => setShowFeedbackModal(false)} />}
-      <DebugScreen game={game} />
+      <DebugModal game={game} />
     </SafeAreaView>
   );
 });
