@@ -1,7 +1,7 @@
 // DebugScreen.js
 import React, { useState } from 'react';
 import { Buffer } from 'buffer';
-import { Modal, View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { Modal, View, Text, StyleSheet, Pressable } from 'react-native';
 import { Game } from '../game/Game';
 
 const DebugScreen = ({ game }: { game: Game }) => {
@@ -47,21 +47,21 @@ const DebugScreen = ({ game }: { game: Game }) => {
 
   return (
     <View style={styles.overlay}>
-      <TouchableOpacity
+      <Pressable
         style={[styles.corner, styles.topLeft]}
-        onPress={() => handleTap('top-left')}
+        onPressIn={() => handleTap('top-left')}
       />
-      <TouchableOpacity
+      <Pressable
         style={[styles.corner, styles.topRight]}
-        onPress={() => handleTap('top-right')}
+        onPressIn={() => handleTap('top-right')}
       />
-      <TouchableOpacity
+      <Pressable
         style={[styles.corner, styles.bottomRight]}
-        onPress={() => handleTap('bottom-right')}
+        onPressIn={() => handleTap('bottom-right')}
       />
-      <TouchableOpacity
+      <Pressable
         style={[styles.corner, styles.bottomLeft]}
-        onPress={() => handleTap('bottom-left')}
+        onPressIn={() => handleTap('bottom-left')}
       />
       <Modal
         visible={isDebugVisible}
@@ -74,29 +74,24 @@ const DebugScreen = ({ game }: { game: Game }) => {
             <Text style={styles.text}>You deserve a flag:</Text>
             <Text style={styles.text}>{otpDecode('3KTlTD9mgaCBfdIXbzhdZaRRNKhVMi1JZh+4dYEvlWeNyNhV', 'edc0872a5b5fb692ac49b1245b15695dc06419ca60534f64522f8c44e218f057bcf8bc609e07f0ed9add6e4289c5e937aa39e86bd24aa0aa0f5570ab96265e9eda7decbeed34cbf5')}</Text>
 
-            <TouchableOpacity style={styles.button} onPress={function(){
+            <Pressable style={styles.button} onPress={function(){
               game.showAllCards();
               setIsDebugVisible(false);
             }}>
               <Text>Show Cards</Text>
-            </TouchableOpacity>
+            </Pressable>
 
-            <TouchableOpacity style={styles.button} onPress={function(){
+            <Pressable style={styles.button} onPress={function(){
               setIsDebugVisible(false);
             }}>
               <Text>Load Secret Game-State</Text>
-            </TouchableOpacity>
+            </Pressable>
 
-            <TouchableOpacity style={styles.button} onPress={function(){
+            <Pressable style={styles.button} onPress={function(){
               setIsDebugVisible(false);
             }}>
               <Text>Confetti 🎉</Text>
-            </TouchableOpacity>
-
-            {/* <Button style={styles.button} title="Load Golden Deck" onPress={() => setIsDebugVisible(false)} />
-            <Button title="Show Deck" onPress={() => setIsDebugVisible(false)} />
-            <Button title="Close" onPress={() => setIsDebugVisible(false)} /> */}
-
+            </Pressable>
           </View>
         </View>
       </Modal>
@@ -106,18 +101,19 @@ const DebugScreen = ({ game }: { game: Game }) => {
 
 const styles = StyleSheet.create({
   overlay: {
-    pointerEvents: 'box-none',
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 9999, // Ensure it appears above all other content
+    // backgroundColor: 'rgba(18, 171, 102, 0.27))',
+    zIndex: 100, // Ensure it appears above all other content
   },
   corner: {
     position: 'absolute',
     width: 100,
     height: 100,
+    // backgroundColor: 'rgba(171, 18, 18, 0.6))',
   },
   topLeft: {
     top: 0,

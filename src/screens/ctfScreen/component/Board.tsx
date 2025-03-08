@@ -24,6 +24,7 @@ export function Board({cards}: {cards: Card[]}) {
 const styles = StyleSheet.create({
   containerPortrait: {
     flexDirection: 'row',
+    zIndex: 9999,
     flexWrap: 'wrap',
     padding: GAP_SIZE / 2,
     borderRadius: 10,

@@ -69,8 +69,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
               styles.restartPressable,
               {
                 backgroundColor: pressed ? Color.blue : Color.blueLight,
-              },
-            ]}
+              },{zIndex: 9999}]}
             onPress={() => game.startGame()}>
             <Text style={[styles.restartText, textStyleTop]}>restart</Text>
           </Pressable>
@@ -79,8 +78,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
               styles.infoPressable,
               {
                 backgroundColor: pressed ? Color.teal : Color.tealLight,
-              },
-            ]}
+              },{zIndex: 9999}]}
             onPress={() => {
               setShowHelpModal(true);
             } }>
@@ -91,8 +89,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
               styles.infoPressable,
               {
                 backgroundColor: pressed ? Color.teal : Color.tealLight,
-              },
-            ]}
+              },{zIndex: 9999}]}
             onPress={() => {
               setShowInfoModal(true);
             } }>
@@ -121,8 +118,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             styles.restartPressable,
             {
               backgroundColor: pressed ? Color.blue : Color.blueLight,
-            },
-          ]}
+            },{zIndex: 9999}]}
           onPress={() => {
             setShowFeedbackModal(true);
           } }>

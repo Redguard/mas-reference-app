@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     borderColor: Color.teal,
   },
   infoText: {
+    pointerEvents: 'auto',
     fontWeight: '600',
     color: Color.dark,
   },
