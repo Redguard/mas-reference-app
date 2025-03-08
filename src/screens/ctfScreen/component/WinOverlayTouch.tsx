@@ -116,12 +116,12 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   const bottom = animatedBottomRef.current;
   // console.log('bottom', bottom)
 
-  let flag = "";
+  let flag = '';
 
   if (game.isCompleted && game.cards.length > 0) {
 
-    flag = WelcomeCTF.showToast ("0FE3F0F0-DFD6-4B1D-92A7-005EC104C403");
-    console.log (flag); // To allow players to copy+paste (given they know how to read the logs)
+    flag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
+    console.log(flag); // To allow players to copy+paste (given they know how to read the logs)
 
     // Save the stats, overwriting any previous state
     WelcomeCTF.serialiseScore(game.totalScore, game.timer.seconds, game.moves,
@@ -130,9 +130,12 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   }
 
   /* Decides whether to show the usual "you won" screen after a game, or the description of the CTF when spawning the game */
-  const title = game.cards.length != 0 ? "Congratulations! You won!" : "Welcome to Redguard's CTF for the Insomni'hack!";
-  const message = game.cards.length != 0 ? `With ${game.moves} moves and ${game.timer.seconds} seconds.` : "There are several challenges hidden inside this App. You can use the MASVS references from the sidebar as an inspiration. Flags have the format of a UUIDv4 (for example: 08E94C4B-052A-434D-80DA-50D82C6A5085)";
-  const subtitle = game.cards.length != 0 ? `Here's your first flag:\n${flag}` : "¡Buena suerte!";
+  const title = game.cards.length !== 0 ? 'Congratulations! You won!' : "Welcome to Redguard's CTF for the Insomni'hack!";
+  const message = game.cards.length !== 0 ? `With ${game.moves} moves and ${game.timer.seconds} seconds.` : 'There are several challenges hidden inside this App. You can use the MASVS references from the sidebar as an inspiration. Flags have the format of a UUIDv4 (for example: 08E94C4B-052A-434D-80DA-50D82C6A5085)';
+  var subtitle = '¡Buena suerte!';
+  if(game.numbersOfGames === 1) {subtitle = `Welcome to the game. Here's your first flag:\n\n${flag}`;}
+  if(game.numbersOfGames > 1) {subtitle = `You already got the first flag, but just in case you missed it, here it is again: \n\n${flag}`;}
+  if(game.winningStreak()) {subtitle = 'Impressive! You managed to score a perfect streak. You deserve this special reward:\n\nBLA----';}
 
   return (
     <Animated.View style={[styles.main, {height: screenHeight, bottom}]}>
@@ -167,14 +170,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 22,
     marginBottom: 10,
-    textAlign: "center",
+    textAlign: 'center',
   },
   text: {
     color: Color.gray,
     fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 10,
-    textAlign: "justify",
+    textAlign: 'center',
   },
   // TODO change button color when pressed
   button: {
