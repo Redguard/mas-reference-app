@@ -16,7 +16,7 @@ import {Color} from '../style/Color';
 import {observer} from 'mobx-react-lite';
 import {Game} from '../game/Game';
 import RNFS from 'react-native-fs';
-import {deobfuscateFlag} from './ObfuscatedReactFlag';
+import {getId, lookupFlag} from './ObfuscatedReactFlag';
 import Clipboard from '@react-native-clipboard/clipboard';
 
 const { WelcomeCTF } = NativeModules;
@@ -120,7 +120,8 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   // console.log('bottom', bottom)
 
   let defaultWinnerFlag = '';
-  let devFlag = deobfuscateFlag('This flag should only be used in the debug build.');
+  let devFlag = lookupFlag(42,false);
+  console.log('Developer flag using lookupFlag() function created. May use it later.');
   devFlag;
 
   if (game.isCompleted && game.cards.length > 0) {
@@ -148,7 +149,7 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
     subtitle = 'You already got the first flag, but just in case you missed it, here it is again: \n';
   }
   if(game.winningStreak()) {
-    selectedFlag = deobfuscateFlag('You made it this far, now go further.');
+    selectedFlag = getId('You made it this far, now go further.');
     subtitle = 'Impressive! You managed to score a perfect streak. You deserve this special reward:\n';
   }
 
