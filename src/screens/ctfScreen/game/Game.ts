@@ -7,6 +7,7 @@ import {NativeModules} from 'react-native';
 const { WelcomeCTF } = NativeModules;
 
 export class Game {
+  numbersOfGames = 0;
   cards: Card[] = [];
   clicks = 0;
   streak: number = 0;
@@ -61,6 +62,7 @@ export class Game {
       /* native */
       WelcomeCTF.matched()
       if (this.isCompleted) {
+        this.numbersOfGames += 1;
         this.timer.stop();
       }
     } else {
@@ -106,7 +108,16 @@ export class Game {
       }
     }, 3000);
   }
+
+  winningStreak(){
+     if (this.numbersOfGames === 0){
+      return false;
+     }
+    return this.cards.length / 2 === this.streak ? true : false;
+  }
 }
+
+
 
 export const game = new Game();
 
