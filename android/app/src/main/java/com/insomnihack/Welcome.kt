@@ -44,6 +44,15 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
         return score
     }
 
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun getStreak (): Int = LocalGameState.getInstance().streak
+
+    @ReactMethod
+    fun addStreak() = LocalGameState.getInstance().addStreak ()
+
+    @ReactMethod
+    fun resetStreak () = LocalGameState.getInstance().resetStreak()
+
     /* Shown when score == -1234 */
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getSpecialFlag(): String {
