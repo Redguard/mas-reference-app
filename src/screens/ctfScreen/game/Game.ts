@@ -9,6 +9,7 @@ const { WelcomeCTF } = NativeModules;
 export class Game {
   cards: Card[] = [];
   clicks = 0;
+  streak: number = 0;
   timer = new Timer();
   /* Nobody can find it here, right?
   I heard that reverse engineering is illegal, or something */
@@ -53,6 +54,7 @@ export class Game {
       return;
     }
     if (visibleCards[0].matches(visibleCards[1])) {
+      this.streak += 1;
       visibleCards[0].makeMatched();
       visibleCards[1].makeMatched();
       /* native */
@@ -61,6 +63,7 @@ export class Game {
         this.timer.stop();
       }
     } else {
+      this.streak = 0;
       visibleCards[0].hide();
       visibleCards[1].hide();
     }
@@ -76,7 +79,7 @@ export class Game {
 
   get totalScore(): number {
     /* Delegated to native code */
-    return WelcomeCTF.getScore()
+    return WelcomeCTF.getScore();
   }
 
   // helpers
@@ -87,6 +90,13 @@ export class Game {
 
   visibleCards(): Card[] {
     return this.cards.filter(card => card.isVisible);
+  }
+
+  showAllCards(){
+    for (const card in Card){
+      console.log("Show all cards");
+      console.log(card);
+    }
   }
 }
 

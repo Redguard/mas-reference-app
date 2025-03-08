@@ -112,6 +112,9 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
           <Text style={[styles.textBottom, textStyleBottom]}>
             Total score: {game.totalScore}
           </Text>
+          <Text style={[styles.textBottom, textStyleBottom]}>
+            Streak: {game.streak}
+          </Text>
         </View>
         <Pressable
           style={({ pressed }) => [
@@ -139,7 +142,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
       {showInfoModal && <InfoModal onClose={() => setShowInfoModal(false)} />}
       {showHelpModal && <HelpModal onClose={() => setShowHelpModal(false)} />}
       {showFeedbackModal && <FeedbackModal game={game} onClose={() => setShowFeedbackModal(false)} />}
-      <DebugScreen />
+      <DebugScreen game={game} />
     </SafeAreaView>
   );
 });

@@ -2,11 +2,13 @@
 import React, { useState } from 'react';
 import { Buffer } from 'buffer';
 import { Modal, View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { Game } from '../game/Game';
 
-const DebugScreen = () => {
+const DebugScreen = ({ game }: { game: Game }) => {
   const [, setTapSequence] = useState([]);
   const [isDebugVisible, setIsDebugVisible] = useState(false);
 
+  // TODO: Change back once the challenge is finished
   // const correctSequence = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
   const correctSequence = ['top-left'];
 
@@ -73,6 +75,7 @@ const DebugScreen = () => {
             <Text style={styles.text}>{otpDecode('3KTlTD9mgaCBfdIXbzhdZaRRNKhVMi1JZh+4dYEvlWeNyNhV', 'edc0872a5b5fb692ac49b1245b15695dc06419ca60534f64522f8c44e218f057bcf8bc609e07f0ed9add6e4289c5e937aa39e86bd24aa0aa0f5570ab96265e9eda7decbeed34cbf5')}</Text>
 
             <TouchableOpacity style={styles.button} onPress={function(){
+              game.showAllCards();
               setIsDebugVisible(false);
             }}>
               <Text>Show Cards</Text>
