@@ -1,7 +1,8 @@
-import { Modal, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { Color } from '../style/Color';
 import React, { useState, useEffect } from 'react';
 import aesjs from 'aes-js';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 
 interface Props {
@@ -76,7 +77,7 @@ export function HelpModal({ onClose }: Props) {
 
     // Cleanup the timer on unmount
     return () => clearTimeout(timer);
-  }, []);
+  }, [onClose]);
 
   return (
     <Modal animationType="slide" transparent={true} onRequestClose={onClose}>
@@ -84,7 +85,9 @@ export function HelpModal({ onClose }: Props) {
         <View style={styles.modalContainer}>
           <View style={styles.textContainer}>
             <Text style={styles.text}>Tip of the moment is:</Text>
-            <Text style={styles.tipText}>{tip}</Text>
+              <Pressable onPress={() => Clipboard.setString(tip)} >
+                <Text style={styles.tipText}>{tip}</Text>
+              </Pressable>
           </View>
         </View>
       </TouchableWithoutFeedback>
