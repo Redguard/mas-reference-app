@@ -51,6 +51,10 @@ export class Card {
     }, NO_MATCH_ANIMATION_DURATION);
   }
 
+  cover(){
+    this.state = CardState.Invisible;
+  }
+
   matches(card: Card): boolean {
     return card.type === this.type;
   }

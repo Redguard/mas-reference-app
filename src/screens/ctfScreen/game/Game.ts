@@ -94,10 +94,17 @@ export class Game {
   }
 
   showAllCards(){
-    for (const card in Card){
-      console.log("Show all cards");
-      console.log(card);
+    console.log('showing all cards for 3 seconds.');
+    this.startGame();
+    for (const card in this.cards){
+      this.cards[card].makeVisible();
     }
+    //reset the game, it should not be THAT easy
+    setTimeout(() => {
+      for (const card in this.cards){
+        this.cards[card].cover();
+      }
+    }, 3000);
   }
 }
 

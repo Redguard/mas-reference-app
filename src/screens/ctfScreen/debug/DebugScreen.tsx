@@ -73,11 +73,10 @@ export function DebugScreen({game}: Props) {
             <Text style={styles.text}>{otpDecode('3KTlTD9mgaCBfdIXbzhdZaRRNKhVMi1JZh+4dYEvlWeNyNhV', 'edc0872a5b5fb692ac49b1245b15695dc06419ca60534f64522f8c44e218f057bcf8bc609e07f0ed9add6e4289c5e937aa39e86bd24aa0aa0f5570ab96265e9eda7decbeed34cbf5')}</Text>
 
             <Pressable style={styles.button} onPress={function(){
-              console.log('Show all Cards.');
               game.showAllCards();
               setIsDebugVisible(false);
             }}>
-              <Text>Show Cards</Text>
+              <Text>New Game with a Head Start</Text>
             </Pressable>
 
             <Pressable style={styles.button} onPress={function(){
