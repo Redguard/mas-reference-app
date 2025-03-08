@@ -49,6 +49,7 @@ export function InfoModal({onClose}: Props) {
 
 const styles = StyleSheet.create({
   modalContainer: {
+    zIndex: 9999,
     flex: 1,
     padding: 40,
     backgroundColor: Color.blue,

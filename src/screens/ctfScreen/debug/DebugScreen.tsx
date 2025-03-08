@@ -4,14 +4,17 @@ import { Buffer } from 'buffer';
 import { Modal, View, Text, StyleSheet, Pressable } from 'react-native';
 import { Game } from '../game/Game';
 
-const DebugScreen = ({ game }: { game: Game }) => {
+interface Props {
+  game: Game;
+}
+
+export function DebugScreen({game}: Props) {
   const [, setTapSequence] = useState([]);
   const [isDebugVisible, setIsDebugVisible] = useState(false);
 
   // TODO: Change back once the challenge is finished
   // const correctSequence = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
   const correctSequence = ['top-left'];
-
 
   function otpDecode(base64String: string, hexKey: string): string {
     const encodedBytes: Buffer = Buffer.from(base64String, 'base64');
@@ -29,18 +32,13 @@ const DebugScreen = ({ game }: { game: Game }) => {
     console.log(corner + ' tapped...')
     setTapSequence((prevSequence) => {
       const newSequence = [...prevSequence, corner];
-
-      // Check if the sequence matches the correct sequence
       if (newSequence.join(',') === correctSequence.join(',')) {
-        setIsDebugVisible(true); // Show the debug screen
-        return []; // Reset the sequence
+        setIsDebugVisible(true);
+        return [];
       }
-
-      // If the sequence is incorrect or incomplete, keep tracking
       if (!correctSequence.slice(0, newSequence.length).every((v, i) => v === newSequence[i])) {
-        return []; // Reset the sequence if it doesn't match
+        return [];
       }
-
       return newSequence;
     });
   };
@@ -75,6 +73,7 @@ const DebugScreen = ({ game }: { game: Game }) => {
             <Text style={styles.text}>{otpDecode('3KTlTD9mgaCBfdIXbzhdZaRRNKhVMi1JZh+4dYEvlWeNyNhV', 'edc0872a5b5fb692ac49b1245b15695dc06419ca60534f64522f8c44e218f057bcf8bc609e07f0ed9add6e4289c5e937aa39e86bd24aa0aa0f5570ab96265e9eda7decbeed34cbf5')}</Text>
 
             <Pressable style={styles.button} onPress={function(){
+              console.log('Show all Cards.');
               game.showAllCards();
               setIsDebugVisible(false);
             }}>
@@ -97,7 +96,7 @@ const DebugScreen = ({ game }: { game: Game }) => {
       </Modal>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   overlay: {
@@ -161,4 +160,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DebugScreen;
+// export default DebugScreen;

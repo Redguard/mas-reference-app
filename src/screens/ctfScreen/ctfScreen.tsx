@@ -22,7 +22,7 @@ import {InfoModal} from './component/InfoModal';
 import {FeedbackModal} from './component/FeedbackModal';
 import {HelpModal} from './component/HelpModal.tsx';
 import LinearGradient from 'react-native-linear-gradient';
-import DebugScreen from './debug/DebugScreen.tsx';
+import {DebugScreen} from './debug/DebugScreen.tsx';
 
 const { WelcomeCTF } = NativeModules;
 

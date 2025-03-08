@@ -94,6 +94,7 @@ export function HelpModal({ onClose }: Props) {
 
 const styles = StyleSheet.create({
   modalContainer: {
+    zIndex: 9999,
     flex: 1,
     justifyContent: 'flex-end', // Align the modal content at the bottom
     backgroundColor: 'transparent', // Ensure the rest of the app is visible

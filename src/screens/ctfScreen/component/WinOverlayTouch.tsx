@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   main: {
     backgroundColor: 'rgba(255, 255, 255, 0.85)',
     padding: 10,
-    zIndex: 1,
+    zIndex: 9999,
     position: 'absolute',
     left: 0,
     right: 0,
