@@ -8,7 +8,7 @@ import {
   useColorScheme,
   View,
   Alert,
-  NativeModules
+  NativeModules,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Color} from './style/Color';

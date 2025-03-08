@@ -60,7 +60,7 @@ const tips = [
   'Ask the nice people at the Redguard booth for a flag. The code phrase is the 4 character geohash of our newest member.', // location of redguard office neuchatel
   'Memory is live.',
   'Live is memory',
-  '...TODO: some more hints...',
+  'Your victory is right around the corner. Never give up.',
   'Cherish your luck! There is only a 1:1000 change that you see this tip. Have your self a flag: 26b60c38-7d0c-43d5-9716-26281ab9ad9a',
 ];
 

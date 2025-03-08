@@ -10,7 +10,7 @@ import {
   useWindowDimensions,
   View,
   NativeModules,
-  Pressable
+  Pressable,
 } from 'react-native';
 import {Color} from '../style/Color';
 import {observer} from 'mobx-react-lite';
