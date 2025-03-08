@@ -50,15 +50,18 @@ const tips = [
   'You\'re stronger than you think and braver than you feel.',
   'Success is a journey, not a destination—enjoy the ride!',
   'Keep going! You\'re closer than you think.',
+  'Don\t dream it, be it.',
   //below are the real tips
   'Have you looked at the logs?',
   'Sometimes the developers forget something important in the build.',
   'Sometimes it is nice to be a fly on the wall, or on the network.',
   'Obfuscation can bring you only so far.',
   'I heard CyberChef can cook very well with hard coded incidences.',
-  'Ask the nice people at the Redguard booth for a flag, the code phrase is th 4 character geohash of a very special location.', // location of redguard office neuchatel
-   '...TODO: some more hints...',
-   'Cherish your luck! There is only a 1:1000 change that you see this tip. Have your self a flag: 26b60c38-7d0c-43d5-9716-26281ab9ad9a',
+  'Ask the nice people at the Redguard booth for a flag. The code phrase is the 4 character geohash of our newest member.', // location of redguard office neuchatel
+  'Memory is live.',
+  'Live is memory',
+  '...TODO: some more hints...',
+  'Cherish your luck! There is only a 1:1000 change that you see this tip. Have your self a flag: 26b60c38-7d0c-43d5-9716-26281ab9ad9a',
 ];
 
 
@@ -75,10 +78,6 @@ for (var tip in tips) {
 
   // Convert encrypted data to hex string
   tips[tip] = aesjs.utils.hex.fromBytes(encryptedBytes);
-
-  // -------------------------
-  // DECRYPTION PART (FIXED)
-  // -------------------------
 
   // Convert hex string back to bytes
   const encryptedBytesDecoded = aesjs.utils.hex.toBytes(tips[tip]);
