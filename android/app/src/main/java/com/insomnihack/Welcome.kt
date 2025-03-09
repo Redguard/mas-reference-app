@@ -10,10 +10,8 @@ import com.facebook.react.bridge.ReactMethod
 import com.insomnihack.network.RestClient
 import com.insomnihack.utils.JniThingies
 import com.insomnihack.utils.LocalGameState
-import okhttp3.Response
 import org.xmlpull.v1.XmlSerializer
 import java.io.StringWriter
-import java.security.MessageDigest
 
 class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
@@ -58,6 +56,15 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
         return score
     }
 
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun getStreak (): Int = LocalGameState.getInstance().streak
+
+    @ReactMethod
+    fun addStreak() = LocalGameState.getInstance().addStreak ()
+
+    @ReactMethod
+    fun resetStreak () = LocalGameState.getInstance().resetStreak()
+
     /* Shown when score == -1234 */
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getSpecialFlag(): String {
@@ -66,10 +73,17 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
 
         if (getScore() == -1234) {
 
-            s = "Your current score is kinda sus... 🤔\nAnyway, here's a special flag -> "
-            s += JniThingies.getInstance().genSpecialFlag()
+            /* Makes it easier for players to understand they didn't really get the actual flag */
+            val flag = JniThingies.getInstance().genSpecialFlag()
 
-            Log.i ("CTF", s)
+            if (flag != "Come back when you have a better score") {
+
+                s = "Your current score is kinda sus... 🤔\nAnyway, here's a special flag -> "
+                s += JniThingies.getInstance().genSpecialFlag()
+
+                Log.i ("CTF", s)
+            }
+
         }
 
         return s
@@ -128,5 +142,4 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
             }
         )
     }
-
 }

@@ -138,7 +138,7 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   var selectedFlag:string = '';
   /* Decides whether to show the usual "you won" screen after a game, or the description of the CTF when spawning the game */
   const title = game.cards.length !== 0 ? 'Congratulations! You won!' : "Welcome to Redguard's CTF for the Insomni'hack!";
-  const message = game.cards.length !== 0 ? `With ${game.moves} moves and ${game.timer.seconds} seconds.` : 'There are several challenges hidden inside this App. You can use the MASVS references from the sidebar as an inspiration. \n\n Flags have the format of a UUIDv4, for example:\n 08E94C4B-052A-434D-80DA-50D82C6A5085\n\nHint: Tap the flag to copy it into the clipboard.';
+  const message = game.cards.length !== 0 ? `With ${game.moves} moves and ${game.timer.seconds} seconds.` : 'There are several challenges hidden inside this App. You can use the MASVS references from the sidebar as an inspiration. \n\n Flags have the format of a UUID, for example:\n 08E94C4B-052A-434D-80DA-50D82C6A5085\n\nHint: Tap the flag to copy it into the clipboard.';
   var subtitle = '¡Buena suerte!';
   if(game.numbersOfGames === 1) {
     selectedFlag = defaultWinnerFlag;

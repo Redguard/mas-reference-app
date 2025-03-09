@@ -10,7 +10,6 @@ export class Game {
   numbersOfGames = 0;
   cards: Card[] = [];
   clicks = 0;
-  streak: number = 0;
   timer = new Timer();
   /* Nobody can find it here, right?
   I heard that reverse engineering is illegal, or something */
@@ -31,7 +30,6 @@ export class Game {
     console.log('startGame()');
     this.cards = generateInitialCards();
     this.clicks = 0;
-    this.streak = 0;
     this.timer.reset();
   }
 
@@ -55,8 +53,8 @@ export class Game {
     if (visibleCards.length !== 2) {
       return;
     }
-    if (visibleCards[0].matches(visibleCards[1])) {
-      this.streak += 1;
+    if (visibleCards[0].matches(visibleCards[1])) { // Correct match
+      WelcomeCTF.addStreak ();
       visibleCards[0].makeMatched();
       visibleCards[1].makeMatched();
       /* native */
@@ -65,12 +63,14 @@ export class Game {
         this.numbersOfGames += 1;
         this.timer.stop();
       }
-    } else {
-      this.streak = 0;
+    } else { // Wrong match
+      WelcomeCTF.resetStreak ();
       visibleCards[0].hide();
       visibleCards[1].hide();
     }
   }
+
+  get streak (): number { return WelcomeCTF.getStreak (); }
 
   get moves(): number {
     return Math.floor(this.clicks / 2);
