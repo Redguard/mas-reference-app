@@ -8,6 +8,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.insomnihack.network.RestClient
+import com.insomnihack.utils.CustomTrustManager
 import com.insomnihack.utils.JniThingies
 import com.insomnihack.utils.LocalGameState
 import com.masreferenceapp.MasSettings
@@ -17,6 +18,9 @@ import java.io.StringWriter
 import java.net.HttpURLConnection
 import java.net.URL
 import com.insomnihack.utils.NetworkHelpers
+import com.insomnihack.utils.createTLSSocket
+import java.io.InputStream
+import java.io.OutputStream
 
 class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
@@ -175,14 +179,13 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun postScore () {
         // https request, pinned using default manifest, domain/path is obfuscated
-
         val helper = NetworkHelpers()
 
         val testDomain = helper.decode("gH51WKxlWy9N45WGQnIkVm48MV0re3mqtL34jazivmmZ4Sqq")+ "." + MasSettings.getTestDomain()
         try {
             val connection = URL("https://$testDomain/${helper.decode("03olXvtvDHdN4JTQEHIkXmg+MV0rfnyq4bj8jvrgvmie4Hup")}.html").openConnection() as HttpURLConnection
             val data = connection.inputStream.bufferedReader().readText()
-             Log.i("CTF", data)
+            //Log.i("CTF", data)
             // do something useful here
         } catch (e: Exception) {
             Log.e("CTF", e.toString())
@@ -191,7 +194,34 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getChallenges () {
-        // https request, pinned using OKHTTP and inline, domain/path is obfuscated, custom HTTPS client used
-        // TODO
+        // https request, pinned using OKHTTP and inline, domain/path is obfuscated
+        val helper = NetworkHelpers()
+
+        try {
+            // we simply do this manually, that it is not too easy guessing the domain and path,
+            // the easier way should be to bypass the custom pinning
+
+            val host = helper.decode("0Hh1D/A/DnpN4sOBRXIkUmptMV0ocS+q57T73/Dg6jrN4Cv+")+"." + MasSettings.getTestDomain()
+            val port = 443
+
+            val tlsSocket = createTLSSocket(host, port)
+
+            val outputStream: OutputStream = tlsSocket.outputStream
+            val inputStream: InputStream = tlsSocket.inputStream
+
+            val message = helper.decode("oQ5DHeZvCHYB4pLRQnInBGpqMQstf3uq4rWr2eXgsWmZ4Xz58iQwbO6BcFSVHVIBu9rqT4a3mxbvB0xHpbjd3j9khhuIy1PQsaFoI2ivRMwEDMlsHP3qjN66SIcP0VmlMyhzJrd+1GH4UwPV1Buasnr4PwLTUpFcB1hg91/ufJVCyzjNzz+fI8B+fAksYSX5SUbWvpSoa5yjrFyKDTy33Mmyepu6zfz6nCuDa75DpRHBW8wGOVsl")
+            outputStream.write(message.toByteArray(Charsets.UTF_8))
+            outputStream.flush()
+
+            val buffer = ByteArray(4096)
+            val bytesRead = inputStream.read(buffer)
+            // println("Server response: ${String(buffer, 0, bytesRead)}")
+            // do something useful here
+
+            tlsSocket.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
     }
 }

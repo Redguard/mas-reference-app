@@ -68,5 +68,18 @@ fun main() {
     println("Encrypted: $encrypted")
     decrypted = obfuscator.decrypt(encrypted)
     println("Decrypted: $decrypted")
+
+    plaintext = "63b29c64-033c-44fd-bf95-d93b87c609da"
+    encrypted = obfuscator.encrypt(plaintext)
+    println("Encrypted: $encrypted")
+    decrypted = obfuscator.decrypt(encrypted)
+    println("Decrypted: $decrypted")
+
+
+    plaintext = "GET /308a0bcd-7bfc-4c7a-a8cd-78ed83f8b6a7.html HTTP/1.1\r\nHost: 63b29c64-033c-44fd-bf95-d93b87c609da.mas-reference-app.org\r\nUser-Agent: Redguard Insomnihack 2025\r\nConnection: close\r\n\r\n";
+    encrypted = obfuscator.encrypt(plaintext)
+    println("Encrypted: $encrypted")
+    decrypted = obfuscator.decrypt(encrypted)
+    println("Decrypted: $decrypted")
     
 }
