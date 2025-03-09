@@ -96,7 +96,6 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
         return s
     }
 
-
     @ReactMethod
     fun serialiseScore (score: Int, fastestTime: Int, leastMoves: Int, handleResult: Callback) {
 

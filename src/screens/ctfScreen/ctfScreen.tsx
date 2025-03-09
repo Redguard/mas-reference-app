@@ -24,6 +24,7 @@ import {FeedbackModal} from './component/FeedbackModal';
 import {HelpModal} from './component/HelpModal.tsx';
 import LinearGradient from 'react-native-linear-gradient';
 import {DebugModal} from './component/DebugModal.tsx';
+import {ScoreBoardModal} from './component/ScoreboardModal.tsx';
 
 const { WelcomeCTF } = NativeModules;
 
@@ -43,11 +44,14 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
     totalScore: true,
     streak: true,
     feedbackButton: true,
+    scoreBoardButton: true,
   });
 
   const [showInfoModal, setShowInfoModal] = React.useState(false);
   const [showHelpModal, setShowHelpModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = React.useState(false);
+  const [showScoreboardModal, setShowScoreboardModal] = React.useState(false);
+
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -178,6 +182,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             </Text>
           )}
         </View>
+        <View style={[styles.row2, row2Style, { width: boardSize }]}>
         {visibility.feedbackButton && (
           <Pressable
             style={({ pressed }) => [
@@ -191,6 +196,20 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             <Text style={[styles.restartText, textStyleTop]}>Give feedback</Text>
           </Pressable>
         )}
+        {visibility.scoreBoardButton && (
+          <Pressable
+            style={({ pressed }) => [
+              styles.restartPressable,
+              {
+                backgroundColor: pressed ? Color.blue : Color.blueLight,
+              }, { zIndex: 9999 }]}
+            onPress={() => {
+              setShowScoreboardModal(true);
+            }}>
+            <Text style={[styles.restartText, textStyleTop]}>Scoreboard</Text>
+          </Pressable>
+        )}
+        </View>
         <View style={styles.spaceBottom} />
       </LinearGradient>
 
@@ -210,6 +229,9 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
       )}
       {showFeedbackModal && (
         <FeedbackModal game={game} onClose={() => setShowFeedbackModal(false)} />
+      )}
+      {showScoreboardModal && (
+        <ScoreBoardModal onClose={() => setShowScoreboardModal(false)} />
       )}
       {(
         <DebugModal game={game} crashTheApp={crashTheApp} />
