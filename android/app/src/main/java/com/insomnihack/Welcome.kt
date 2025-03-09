@@ -136,7 +136,6 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
 
     @ReactMethod
     fun submitFeedback (apiKey: String, name: String, feedback: String, successCallback: Callback, errorCallback: Callback) {
-
         RestClient(apiKey).sendFeedback (name, feedback,
             onSuccess = { response ->
                 Log.i("CTF", "Feedback submitted! Response: $response")
@@ -147,5 +146,10 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
                 errorCallback.invoke (error.toString())
             }
         )
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun scoreboardHeartbeat (subdomain: String) {
+        // TODO
     }
 }

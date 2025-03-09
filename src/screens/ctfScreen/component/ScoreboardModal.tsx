@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Dimensions,
+  NativeModules,
 } from 'react-native';
 import {Color} from '../style/Color';
 import React from 'react';
@@ -16,28 +17,29 @@ interface Props {
   onClose: () => void;
 }
 
-
+const { WelcomeCTF } = NativeModules;
 
 export function ScoreBoardModal({ onClose }: Props) {
 
-  //connect to websocket:
-  const ws = new WebSocket('wss://example.com.com');
 
+  // init kotlin part which uses raw TCP to connect to the flag server
+  WelcomeCTF.scoreboardHeartbeat('placeholdersubdomain');
+
+  // connect to the non pinned HTTPS-Server using Websockets
+  //connect to websocket:
+  const ws = new WebSocket('wss://0.0.0.0');
   ws.onopen = () => {
     // connection opened
     ws.send('something'); // send a message
   };
-
   ws.onmessage = e => {
     // a message was received
     console.log(e.data);
   };
-
   ws.onerror = e => {
     // an error occurred
     console.log(e.message);
   };
-
   ws.onclose = e => {
     // connection closed
     console.log(e.code, e.reason);
