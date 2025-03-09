@@ -11,9 +11,10 @@ import { Game } from '../game/Game';
 
 interface Props {
   game: Game;
+  crashTheApp: Function;
 }
 
-export function DebugModal({game}: Props) {
+export function DebugModal({game, crashTheApp}: Props) {
   const [, setTapSequence] = useState([]);
   const [isDebugVisible, setIsDebugVisible] = useState(false);
 
@@ -95,6 +96,7 @@ export function DebugModal({game}: Props) {
 
             <Pressable style={styles.button} onPress={function(){
               WelcomeCTF.enableExperimentalGui();
+              crashTheApp();
               setIsDebugVisible(false);
             }}>
               <Text>‼️ Enable Experimental GUI ‼️</Text>

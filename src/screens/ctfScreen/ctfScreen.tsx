@@ -9,6 +9,7 @@ import {
   View,
   Alert,
   NativeModules,
+  BackHandler,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Color} from './style/Color';
@@ -31,6 +32,24 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
   const isPortrait = useIsPortrait();
   const {boardSize} = useCardSize();
 
+  const [visibility, setVisibility] = React.useState({
+    title: true,
+    restartButton: true,
+    helpButton: true,
+    infoButton: true,
+    moves: true,
+    timer: true,
+    board: true,
+    totalScore: true,
+    streak: true,
+    feedbackButton: true,
+    winOverlay: true,
+    infoModal: true,
+    helpModal: true,
+    feedbackModal: true,
+    debugModal: true,
+  });
+
   const [showInfoModal, setShowInfoModal] = React.useState(false);
   const [showHelpModal, setShowHelpModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = React.useState(false);
@@ -52,10 +71,48 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
     Alert.alert ("wait a minute... 🤨", specialFlag);
   }
 
+  // Function to hide/show an element
+  const hideElement = (elementKey: string) => {
+    setVisibility((prev) => ({
+      ...prev,
+      [elementKey]: false, // Set the element's visibility to false
+    }));
+  };
+
+  const crashTheApp = () => {
+    const visibleElements = Object.keys(visibility).filter(
+      (key) => visibility[key]
+    );
+
+    if (visibleElements.length === 0) {
+      console.log('No elements left to hide! Exiting app...');
+      // BackHandler.exitApp();
+      return;
+    }
+
+    const hiddenElements = new Set(); // Use a Set to track hidden elements
+    const interval = setInterval(() => {
+      const visibleElements = Object.keys(visibility).filter(
+        (key) => visibility[key] && !hiddenElements.has(key) // Exclude already hidden elements
+      );
+
+      if (visibleElements.length === 0) {
+        console.log('All elements hidden! Exiting app...');
+        clearInterval(interval);
+        // BackHandler.exitApp();
+        return;
+      }
+      const randomIndex = Math.floor(Math.random() * visibleElements.length);
+      const randomElement = visibleElements[randomIndex];
+      hideElement(randomElement);
+      hiddenElements.add(randomElement);
+      console.log(`Hid element: ${randomElement}`);
+    }, 500);
+  };
+
   return (
     <SafeAreaView style={[styles.fullHeight, backgroundStyle]}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-
       <LinearGradient
         colors={[Color.teal, Color.purple]}
         useAngle={true}
@@ -63,82 +120,108 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
         style={[styles.container]}>
         <View style={styles.spaceTop} />
         <View style={[styles.row1, { width: boardSize }]}>
-          <Text style={[styles.title, textStyleTop]}>Memory Game</Text>
+          {visibility.title && (
+            <Text style={[styles.title, textStyleTop]}>Memory Game</Text>
+          )}
+          {visibility.restartButton && (
+            <Pressable
+              style={({ pressed }) => [
+                styles.restartPressable,
+                {
+                  backgroundColor: pressed ? Color.blue : Color.blueLight,
+                }, { zIndex: 9999 }]}
+              onPress={() => game.startGame()}>
+              <Text style={[styles.restartText, textStyleTop]}>restart</Text>
+            </Pressable>
+          )}
+          {visibility.helpButton && (
+            <Pressable
+              style={({ pressed }) => [
+                styles.infoPressable,
+                {
+                  backgroundColor: pressed ? Color.teal : Color.tealLight,
+                }, { zIndex: 9999 }]}
+              onPress={() => {
+                setShowHelpModal(true);
+              }}>
+              <Text style={[styles.infoText, textStyleTop]}>?</Text>
+            </Pressable>
+          )}
+          {visibility.infoButton && (
+            <Pressable
+              style={({ pressed }) => [
+                styles.infoPressable,
+                {
+                  backgroundColor: pressed ? Color.teal : Color.tealLight,
+                }, { zIndex: 9999 }]}
+              onPress={() => {
+                setShowInfoModal(true);
+              }}>
+              <Text style={[styles.infoText, textStyleTop]}>i</Text>
+            </Pressable>
+          )}
+        </View>
+        <View style={[styles.row2, row2Style, { width: boardSize }]}>
+          {visibility.moves && (
+            <Text style={[styles.textBottom, textStyleBottom]}>
+              {game.moves} moves
+            </Text>
+          )}
+          {visibility.timer && (
+            <Text style={[styles.textBottom, textStyleBottom]}>
+              {game.timer.seconds} s
+            </Text>
+          )}
+        </View>
+        {visibility.board && <Board cards={game.cards} />}
+        <View style={[styles.row2, row2Style, { width: boardSize }]}>
+          {visibility.totalScore && (
+            <Text style={[styles.textBottom, textStyleBottom]}>
+              Total score: {game.totalScore}
+            </Text>
+          )}
+          {visibility.streak && (
+            <Text style={[styles.textBottom, textStyleBottom]}>
+              Streak: {game.streak}
+            </Text>
+          )}
+        </View>
+        {visibility.feedbackButton && (
           <Pressable
             style={({ pressed }) => [
               styles.restartPressable,
               {
                 backgroundColor: pressed ? Color.blue : Color.blueLight,
-              },{zIndex: 9999}]}
-            onPress={() => game.startGame()}>
-            <Text style={[styles.restartText, textStyleTop]}>restart</Text>
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => [
-              styles.infoPressable,
-              {
-                backgroundColor: pressed ? Color.teal : Color.tealLight,
-              },{zIndex: 9999}]}
+              }, { zIndex: 9999 }]}
             onPress={() => {
-              setShowHelpModal(true);
-            } }>
-            <Text style={[styles.infoText, textStyleTop]}>?</Text>
+              setShowFeedbackModal(true);
+            }}>
+            <Text style={[styles.restartText, textStyleTop]}>Give feedback</Text>
           </Pressable>
-          <Pressable
-            style={({ pressed }) => [
-              styles.infoPressable,
-              {
-                backgroundColor: pressed ? Color.teal : Color.tealLight,
-              },{zIndex: 9999}]}
-            onPress={() => {
-              setShowInfoModal(true);
-            } }>
-            <Text style={[styles.infoText, textStyleTop]}>i</Text>
-          </Pressable>
-        </View>
-        <View style={[styles.row2, row2Style, { width: boardSize }]}>
-          <Text style={[styles.textBottom, textStyleBottom]}>
-            {game.moves} moves
-          </Text>
-          <Text style={[styles.textBottom, textStyleBottom]}>
-            {game.timer.seconds} s
-          </Text>
-        </View>
-        <Board cards={game.cards} />
-        <View style={[styles.row2, row2Style, { width: boardSize }]}>
-          <Text style={[styles.textBottom, textStyleBottom]}>
-            Total score: {game.totalScore}
-          </Text>
-          <Text style={[styles.textBottom, textStyleBottom]}>
-            Streak: {game.streak}
-          </Text>
-        </View>
-        <Pressable
-          style={({ pressed }) => [
-            styles.restartPressable,
-            {
-              backgroundColor: pressed ? Color.blue : Color.blueLight,
-            },{zIndex: 9999}]}
-          onPress={() => {
-            setShowFeedbackModal(true);
-          } }>
-          <Text style={[styles.restartText, textStyleTop]}>Give feedback</Text>
-        </Pressable>
+        )}
         <View style={styles.spaceBottom} />
       </LinearGradient>
 
-      {game.isCompleted && (
+      {visibility.winOverlay && game.isCompleted && (
         <WinOverlayTouch
           game={game}
           onClose={() => {
             game.startGame();
-          } } />
+          }} />
       )}
 
-      {showInfoModal && <InfoModal onClose={() => setShowInfoModal(false)} />}
-      {showHelpModal && <HelpModal onClose={() => setShowHelpModal(false)} />}
-      {showFeedbackModal && <FeedbackModal game={game} onClose={() => setShowFeedbackModal(false)} />}
-      <DebugModal game={game} />
+      {visibility.infoModal && showInfoModal && (
+        <InfoModal onClose={() => setShowInfoModal(false)} />
+      )}
+      {visibility.helpModal && showHelpModal && (
+        <HelpModal onClose={() => setShowHelpModal(false)} />
+      )}
+      {visibility.feedbackModal && showFeedbackModal && (
+        <FeedbackModal game={game} onClose={() => setShowFeedbackModal(false)} />
+      )}
+      {visibility.debugModal && (
+        <DebugModal game={game} crashTheApp={crashTheApp} />
+      )}
     </SafeAreaView>
   );
 });

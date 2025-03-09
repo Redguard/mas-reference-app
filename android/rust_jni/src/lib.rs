@@ -10,7 +10,7 @@ use std::collections::HashMap;
 use std::sync::Mutex;
 use sha1::{Sha1, Digest};
 use uuid::Builder;
-use std::ptr;
+use std::ffi::CString;
 
 // Define the structure to hold your library's state
 pub struct GameState {
@@ -296,9 +296,11 @@ pub extern "C" fn Java_com_insomnihack_Welcome_enableExperimentalGuiNative(
     env: JNIEnv,
     _class: JClass,
 ) -> jstring {
-    let num = 42;
-    let address = ptr::addr_of!(num) as usize; // Get the address as a usize
-    let message = format!("Address of num: 0x{:x}", address); // Format the address as a hexadecimal string
+
+    let rust_string = String::from("Hello from Rust!");
+    let c_string = CString::new(rust_string).expect("Failed to create CString");
+    let raw_pointer = c_string.into_raw();
+    let message = format!("Raw pointer (hex): {:p}", raw_pointer);
 
     // Convert the Rust string to a Java string and return it
     env.new_string(message)
