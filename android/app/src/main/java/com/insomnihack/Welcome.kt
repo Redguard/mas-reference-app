@@ -23,6 +23,18 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
     override fun getName() = "WelcomeCTF"
 
     /* JNI modules (Rust) */
+    external fun enableExperimentalGuiNative(): String
+    /* ------------------ */
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun enableExperimentalGui()  {
+        Log.w("CTF", "Enabling experimental GUI. Careful, this is an untested feature.")
+        enableExperimentalGuiNative()
+        Log.e("CTF", enableExperimentalGuiNative())
+
+    }
+
+    /* JNI modules (Rust) */
     external fun JNImangle (part1: String, part2: String): String
     /* ------------------ */
 

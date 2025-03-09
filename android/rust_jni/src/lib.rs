@@ -10,6 +10,7 @@ use std::collections::HashMap;
 use std::sync::Mutex;
 use sha1::{Sha1, Digest};
 use uuid::Builder;
+use std::ptr;
 
 // Define the structure to hold your library's state
 pub struct GameState {
@@ -287,4 +288,20 @@ pub extern "C" fn Java_com_insomnihack_Welcome_JNImangle<'local>(mut env: JNIEnv
         ).expect("Couldn't create java string!");
 
     output.into_raw()
+}
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_Welcome_enableExperimentalGuiNative(
+    env: JNIEnv,
+    _class: JClass,
+) -> jstring {
+    let num = 42;
+    let address = ptr::addr_of!(num) as usize; // Get the address as a usize
+    let message = format!("Address of num: 0x{:x}", address); // Format the address as a hexadecimal string
+
+    // Convert the Rust string to a Java string and return it
+    env.new_string(message)
+        .expect("Couldn't create Java string")
+        .into_raw()
 }

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e 
 
 # Directories
 JNI_DIR="../app/src/main/jniLibs"
@@ -21,4 +22,3 @@ cp -v "target/i686-linux-android/release/librust_jni.so" "$JNI_DIR/x86/"
 cp -v "target/x86_64-linux-android/release/librust_jni.so" "$JNI_DIR/x86_64/"
 
 echo "Build completed and .so files copied successfully!"
-

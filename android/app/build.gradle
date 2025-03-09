@@ -9,6 +9,13 @@ apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 //apply plugin: 're.obfuscator.dprotect'
 
+
+tasks.register('buildRust', Exec) {
+    print("Building Rust")
+    workingDir "${projectDir}/../rust_jni"
+    commandLine "sh", "./compile_and_link.sh"
+}
+
 /**
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
@@ -80,6 +87,8 @@ def enableProguardInReleaseBuilds = true
 def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
+    preBuild.dependsOn buildRust
+
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
