@@ -65,6 +65,13 @@ Use the certbot service to issue certificates for the 3 TLS endpoints:
 docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  mas-reference-app.org
 docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  nopin.mas-reference-app.org
 docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  invalidpin.mas-reference-app.org
+
+docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  400e27f9-f9ff-4a86-8353-9c6df71a75b1.mas-reference-app.org
+docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  f5bee9ca-1e4d-40b5-be3c-7000d57ed8e5.mas-reference-app.org
+docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  63b29c64-033c-44fd-bf95-d93b87c609da.mas-reference-app.org
+docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  1a5d77b3-5699-4ea9-862b-897451300045.mas-reference-app.org
+
+
 ```
 
 ## Step 4: Start all servers

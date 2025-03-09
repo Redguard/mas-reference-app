@@ -17,6 +17,7 @@ services:
       - 3001:80
     restart: always
     volumes:
+      - ./nginx/conf_nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf_http/:/etc/nginx/conf.d/:ro
       - ./nginx/html/:/etc/nginx/html/:ro
       - ./certbot/www:/var/www/certbot/:ro
@@ -27,6 +28,7 @@ services:
       - 443:443
     restart: always
     volumes:
+      - ./nginx/conf_nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf_https/:/etc/nginx/conf.d/:ro
       - ./nginx/html/:/etc/nginx/html/:ro
       - ./certbot/www:/var/www/certbot/:ro
