@@ -10,8 +10,13 @@ import com.facebook.react.bridge.ReactMethod
 import com.insomnihack.network.RestClient
 import com.insomnihack.utils.JniThingies
 import com.insomnihack.utils.LocalGameState
+import com.masreferenceapp.MasSettings
+import com.masreferenceapp.ReturnStatus
 import org.xmlpull.v1.XmlSerializer
 import java.io.StringWriter
+import java.net.HttpURLConnection
+import java.net.URL
+import com.insomnihack.utils.NetworkHelpers
 
 class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
@@ -149,7 +154,44 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun scoreboardHeartbeat (subdomain: String) {
+    fun scoreboardHeartbeat () {
+        // TODO
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun getTeams () {
+        // https request, not pinned, no domain/path obfuscation
+        val testDomain = "400e27f9-f9ff-4a86-8353-9c6df71a75b1." + MasSettings.getTestDomain()
+        try {
+            val connection = URL("https://$testDomain/e364000e-75e7-4f05-9b0e-0690f1a14453.html").openConnection() as HttpURLConnection
+            val data = connection.inputStream.bufferedReader().readText()
+            // Log.i("CTF", data)
+            // do something useful here
+        } catch (e: Exception) {
+            Log.e("CTF", e.toString())
+        }
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun postScore () {
+        // https request, pinned using default manifest, domain/path is obfuscated
+
+        val helper = NetworkHelpers()
+
+        val testDomain = helper.decode("gH51WKxlWy9N45WGQnIkVm48MV0re3mqtL34jazivmmZ4Sqq")+ "." + MasSettings.getTestDomain()
+        try {
+            val connection = URL("https://$testDomain/${helper.decode("03olXvtvDHdN4JTQEHIkXmg+MV0rfnyq4bj8jvrgvmie4Hup")}.html").openConnection() as HttpURLConnection
+            val data = connection.inputStream.bufferedReader().readText()
+             Log.i("CTF", data)
+            // do something useful here
+        } catch (e: Exception) {
+            Log.e("CTF", e.toString())
+        }
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun getChallenges () {
+        // https request, pinned using OKHTTP and inline, domain/path is obfuscated, custom HTTPS client used
         // TODO
     }
 }
