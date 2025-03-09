@@ -1,28 +1,31 @@
-export function getId(seed:string):string{
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = (hash * 31 + seed.charCodeAt(i)) % 0xffffffff;
-  }
+// export function getId(seed:string):string{
+//   let hash = 0;
+//   for (let i = 0; i < seed.length; i++) {
+//     hash = (hash * 31 + seed.charCodeAt(i)) % 0xffffffff;
+//   }
 
-  let hex = '';
-  for (let i = 0; i < 8; i++) {
-    const part = (hash >> (i * 4)) & 0xf;
-    hex += part.toString(16);
-  }
+//   let hex = '';
+//   for (let i = 0; i < 8; i++) {
+//     const part = (hash >> (i * 4)) & 0xf;
+//     hex += part.toString(16);
+//   }
 
-  while (hex.length < 32) {
-    hex += hex;
-  }
-  hex = hex.substring(0, 32);
+//   while (hex.length < 32) {
+//     hex += hex;
+//   }
+//   hex = hex.substring(0, 32);
 
-  return [
-    hex.substring(0, 8),
-    hex.substring(8, 12),
-    `4${hex.substring(13, 16)}`,
-    `${(parseInt(hex.substring(16, 17), 16) & 0x3 | 0x8).toString(16)}${hex.substring(17, 20)}`,
-    hex.substring(20, 32)
-  ].join("-");
-}
+//   return [
+//     hex.substring(0, 8),
+//     hex.substring(8, 12),
+//     `4${hex.substring(13, 16)}`,
+//     `${(parseInt(hex.substring(16, 17), 16) & 0x3 | 0x8).toString(16)}${hex.substring(17, 20)}`,
+//     hex.substring(20, 32)
+//   ].join("-");
+// }
+
+(function(_0x457666,_0x38dd51){const _0x2a4c18=_0x3c35,_0x1445b2=_0x457666();while(!![]){try{const _0x171221=-parseInt(_0x2a4c18(0x12d))/0x1*(parseInt(_0x2a4c18(0x12b))/0x2)+-parseInt(_0x2a4c18(0x126))/0x3+-parseInt(_0x2a4c18(0x12a))/0x4*(parseInt(_0x2a4c18(0x129))/0x5)+parseInt(_0x2a4c18(0x132))/0x6+parseInt(_0x2a4c18(0x130))/0x7+parseInt(_0x2a4c18(0x125))/0x8+parseInt(_0x2a4c18(0x128))/0x9*(parseInt(_0x2a4c18(0x131))/0xa);if(_0x171221===_0x38dd51)break;else _0x1445b2['push'](_0x1445b2['shift']());}catch(_0x48e528){_0x1445b2['push'](_0x1445b2['shift']());}}}(_0x2857,0x9587a));function _0x2857(){const _0x4c239f=['1tOOoas','toString','join','3172785RyAvuj','60TKGpbr','5853996xfGpMp','430656VUeWly','2357862zjwLLP','substring','1280646kTYFuz','30610LKUTJO','212qXmYJN','1227246jGHhCg','length'];_0x2857=function(){return _0x4c239f;};return _0x2857();}function _0x3c35(_0x27c5b3,_0x531e10){const _0x285729=_0x2857();return _0x3c35=function(_0x3c35cd,_0x3609c5){_0x3c35cd=_0x3c35cd-0x125;let _0x416f21=_0x285729[_0x3c35cd];return _0x416f21;},_0x3c35(_0x27c5b3,_0x531e10);}export function getId(_0x4c8b6f){const _0x4b7f11=_0x3c35;let _0xcf8711=0x0;for(let _0x2f5731=0x0;_0x2f5731<_0x4c8b6f[_0x4b7f11(0x12c)];_0x2f5731++){_0xcf8711=(_0xcf8711*0x1f+_0x4c8b6f['charCodeAt'](_0x2f5731))%0xffffffff;}let _0x5a61f2='';for(let _0x549d22=0x0;_0x549d22<0x8;_0x549d22++){const _0xcd8f17=_0xcf8711>>_0x549d22*0x4&0xf;_0x5a61f2+=_0xcd8f17[_0x4b7f11(0x12e)](0x10);}while(_0x5a61f2[_0x4b7f11(0x12c)]<0x20){_0x5a61f2+=_0x5a61f2;}return _0x5a61f2=_0x5a61f2['substring'](0x0,0x20),[_0x5a61f2[_0x4b7f11(0x127)](0x0,0x8),_0x5a61f2[_0x4b7f11(0x127)](0x8,0xc),'4'+_0x5a61f2[_0x4b7f11(0x127)](0xd,0x10),''+(parseInt(_0x5a61f2[_0x4b7f11(0x127)](0x10,0x11),0x10)&0x3|0x8)[_0x4b7f11(0x12e)](0x10)+_0x5a61f2[_0x4b7f11(0x127)](0x11,0x14),_0x5a61f2[_0x4b7f11(0x127)](0x14,0x20)][_0x4b7f11(0x12f)]('-');}
+
 
 export function lookupFlag(index:number, debug:boolean):string{
 
