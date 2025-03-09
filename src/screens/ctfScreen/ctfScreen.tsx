@@ -80,7 +80,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
     );
 
     if (visibleElements.length === 0) {
-      BackHandler.exitApp();
+      // BackHandler.exitApp();
       return;
     }
 
@@ -92,7 +92,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
 
       if (visibleElements.length === 0) {
         clearInterval(interval);
-        BackHandler.exitApp();
+        // BackHandler.exitApp();
         return;
       }
       const randomIndex = Math.floor(Math.random() * visibleElements.length);

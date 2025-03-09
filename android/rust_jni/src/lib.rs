@@ -300,10 +300,25 @@ pub extern "C" fn Java_com_insomnihack_Welcome_enableExperimentalGuiNative(
     let rust_string = String::from("Hello from Rust!");
     let c_string = CString::new(rust_string).expect("Failed to create CString");
     let raw_pointer = c_string.into_raw();
-    let message = format!("Raw pointer (hex): {:p}", raw_pointer);
+    let raw_pointer_hex = format!("{:p}", raw_pointer);
 
-    // Convert the Rust string to a Java string and return it
-    env.new_string(message)
-        .expect("Couldn't create Java string")
-        .into_raw()
+    let result: Result<String, String> = (|| {
+        // Bad coding practice: Parsing an invalid integer string
+        let invalid_number = "fortyTwo";
+        let parsed_number: i32 = invalid_number.parse::<i32>().map_err(|e| format!("Parse error: {}", e))?;
+
+        let success_string = String::from("New Experimental GUI initiated, Have fun.");
+        Ok(success_string)
+    })();
+    
+    let output = match result {
+        Ok(msg) => msg,
+        Err(err) => format!("Error occurred: {}, but part of the new experimental GUI has been initiated at: {}", err, raw_pointer_hex),
+    };
+
+    let java_string = env.new_string(output).expect("Couldn't create Java string");
+
+    // Second mistake: We dont free the c_string here...
+
+    java_string.into_raw()
 }
