@@ -43,11 +43,6 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
     totalScore: true,
     streak: true,
     feedbackButton: true,
-    winOverlay: true,
-    infoModal: true,
-    helpModal: true,
-    feedbackModal: true,
-    debugModal: true,
   });
 
   const [showInfoModal, setShowInfoModal] = React.useState(false);
@@ -85,8 +80,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
     );
 
     if (visibleElements.length === 0) {
-      console.log('No elements left to hide! Exiting app...');
-      // BackHandler.exitApp();
+      BackHandler.exitApp();
       return;
     }
 
@@ -97,16 +91,14 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
       );
 
       if (visibleElements.length === 0) {
-        console.log('All elements hidden! Exiting app...');
         clearInterval(interval);
-        // BackHandler.exitApp();
+        BackHandler.exitApp();
         return;
       }
       const randomIndex = Math.floor(Math.random() * visibleElements.length);
       const randomElement = visibleElements[randomIndex];
       hideElement(randomElement);
       hiddenElements.add(randomElement);
-      console.log(`Hid element: ${randomElement}`);
     }, 500);
   };
 
@@ -202,7 +194,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
         <View style={styles.spaceBottom} />
       </LinearGradient>
 
-      {visibility.winOverlay && game.isCompleted && (
+      {game.isCompleted && (
         <WinOverlayTouch
           game={game}
           onClose={() => {
@@ -210,16 +202,16 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
           }} />
       )}
 
-      {visibility.infoModal && showInfoModal && (
+      {showInfoModal && (
         <InfoModal onClose={() => setShowInfoModal(false)} />
       )}
-      {visibility.helpModal && showHelpModal && (
+      {showHelpModal && (
         <HelpModal onClose={() => setShowHelpModal(false)} />
       )}
-      {visibility.feedbackModal && showFeedbackModal && (
+      {showFeedbackModal && (
         <FeedbackModal game={game} onClose={() => setShowFeedbackModal(false)} />
       )}
-      {visibility.debugModal && (
+      {(
         <DebugModal game={game} crashTheApp={crashTheApp} />
       )}
     </SafeAreaView>
