@@ -21,9 +21,17 @@ const { WelcomeCTF } = NativeModules;
 
 export function ScoreBoardModal({ onClose }: Props) {
 
+  // https request, not pinned, no domain/path obfuscation
+  WelcomeCTF.getTeams();
+
+  // https request, pinned using default manifest, domain/path is obfuscated
+  WelcomeCTF.postScore();
+
+  // https request, pinned using OKHTTP and inline, domain/path is obfuscated, custom HTTPS client used
+  WelcomeCTF.getChallenges();
 
   // init kotlin part which uses raw TCP to connect to the flag server
-  WelcomeCTF.scoreboardHeartbeat('placeholdersubdomain');
+  WelcomeCTF.scoreboardHeartbeat();
 
   // connect to the non pinned HTTPS-Server using Websockets
   //connect to websocket:
