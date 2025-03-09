@@ -34,7 +34,7 @@ export class Game {
   }
 
   onClick(card: Card) {
-    console.log('onClick() card', card.type);
+    // console.log('onClick() card', card.type);
     if (!this.timer.isStarted) {
       this.timer.start();
     }
@@ -49,7 +49,7 @@ export class Game {
 
   evaluateMatch() {
     const visibleCards = this.visibleCards();
-    console.log('visibleCards.length', visibleCards.length);
+    // console.log('visibleCards.length', visibleCards.length);
     if (visibleCards.length !== 2) {
       return;
     }
@@ -96,7 +96,7 @@ export class Game {
   }
 
   showAllCards(){
-    console.log('showing all cards for 3 seconds.');
+    // console.log('showing all cards for 3 seconds.');
     this.startGame();
     for (const card in this.cards){
       this.cards[card].makeVisible();
@@ -120,8 +120,4 @@ export class Game {
 
 export const game = new Game();
 
-autorun(() => {
-  if (__DEV__) {
-    console.log('autorun game clicks', game.clicks, 'cards', game.cards);
-  }
-});
+

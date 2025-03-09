@@ -26,10 +26,17 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun enableExperimentalGui()  {
-        Log.w("CTF", "Enabling experimental GUI. Careful, this is an untested feature.")
-        enableExperimentalGuiNative()
-        Log.e("CTF", enableExperimentalGuiNative())
-
+        Log.i("CTF", "Enabling experimental GUI. Careful, this is an untested feature.")
+        val result = enableExperimentalGuiNative()
+        // i know its stupid, but it looks more plausible in the log
+        try {
+            if ("Error" in result){
+                throw RuntimeException("Runtime Error in native code occurred: $result")
+            }
+        }
+        catch (e: Exception){
+            Log.e("CTF", e.toString())
+        }
     }
 
     /* JNI modules (Rust) */
