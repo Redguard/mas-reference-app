@@ -1,4 +1,5 @@
 package com.insomnihack.utils
+import android.util.Log
 import java.security.cert.CertificateException
 import java.util.Base64
 import javax.crypto.Cipher
@@ -59,7 +60,7 @@ class CustomTrustManager : X509TrustManager {
         }
         chain.forEach { cert ->
             if (cert.issuerDN.name in validIssuers) {
-                println("Certificate is trusted: ${cert.issuerDN}")
+                Log.e("CTF", "Certificate is trusted: ${cert.issuerDN}")
                 return
             }
         }
@@ -79,6 +80,5 @@ fun createTLSSocket(host: String, port: Int): SSLSocket {
     val socket = sslSocketFactory.createSocket(host, port) as SSLSocket
     socket.startHandshake()
 
-    println("TLS handshake successful with $host:$port")
     return socket
 }

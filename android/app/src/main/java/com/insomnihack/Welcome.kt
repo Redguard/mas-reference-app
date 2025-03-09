@@ -1,5 +1,6 @@
 package com.insomnihack
 
+import android.content.Intent
 import android.util.Log
 import android.util.Xml
 import android.widget.Toast
@@ -8,11 +9,9 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.insomnihack.network.RestClient
-import com.insomnihack.utils.CustomTrustManager
 import com.insomnihack.utils.JniThingies
 import com.insomnihack.utils.LocalGameState
 import com.masreferenceapp.MasSettings
-import com.masreferenceapp.ReturnStatus
 import org.xmlpull.v1.XmlSerializer
 import java.io.StringWriter
 import java.net.HttpURLConnection
@@ -164,6 +163,7 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getTeams () {
+
         // https request, not pinned, no domain/path obfuscation
         val testDomain = "400e27f9-f9ff-4a86-8353-9c6df71a75b1." + MasSettings.getTestDomain()
         try {
@@ -178,22 +178,6 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun postScore () {
-        // https request, pinned using default manifest, domain/path is obfuscated
-        val helper = NetworkHelpers()
-
-        val testDomain = helper.decode("gH51WKxlWy9N45WGQnIkVm48MV0re3mqtL34jazivmmZ4Sqq")+ "." + MasSettings.getTestDomain()
-        try {
-            val connection = URL("https://$testDomain/${helper.decode("03olXvtvDHdN4JTQEHIkXmg+MV0rfnyq4bj8jvrgvmie4Hup")}.html").openConnection() as HttpURLConnection
-            val data = connection.inputStream.bufferedReader().readText()
-            //Log.i("CTF", data)
-            // do something useful here
-        } catch (e: Exception) {
-            Log.e("CTF", e.toString())
-        }
-    }
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    fun getChallenges () {
         // https request, pinned using OKHTTP and inline, domain/path is obfuscated
         val helper = NetworkHelpers()
 

@@ -11,6 +11,7 @@ import {Color} from '../style/Color';
 import React from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { WebView } from 'react-native-webview';
+import { lookupFlag } from './ObfuscatedReactFlag';
 
 
 interface Props {
@@ -24,11 +25,8 @@ export function ScoreBoardModal({ onClose }: Props) {
   // https request, not pinned, no domain/path obfuscation
   WelcomeCTF.getTeams();
 
-  // https request, pinned using default manifest, domain/path is obfuscated
+  // https request, pinned using custom Android Trustmanager, domain/path is obfuscated, custom HTTPS client used. There are off the shelf frida.re script which bypass this pinning.
   WelcomeCTF.postScore();
-
-  // https request, pinned using OKHTTP and inline, domain/path is obfuscated, custom HTTPS client used
-  WelcomeCTF.getChallenges();
 
   // init kotlin part which uses raw TCP to connect to the flag server
   WelcomeCTF.scoreboardHeartbeat();
@@ -77,8 +75,12 @@ export function ScoreBoardModal({ onClose }: Props) {
         </View>
         {/* Correctly include the WebView without a semicolon */}
         <WebView
-          source={{ uri: 'https://www.redguard.ch/' }}
-          style={{ flex: 1, height: screenHeight * 0.7 }} // 70% of screen height
+          source={{ uri: 'https://' + lookupFlag(100,false) + '.mas-reference-app.org/scoreboard.html' }}
+          style={{ flex: 1, height: screenHeight * 0.5 }}
+        />
+        <WebView
+          source={{ uri: 'https://' + lookupFlag(101,false) + '.mas-reference-app.org/footer.html' }}
+          style={{ flex: 1, height: screenHeight * 0.2 }}
         />
       </ScrollView>
     </Modal>

@@ -15,7 +15,7 @@
         </pin-set>
     </domain-config>
     <domain-config>
-        <domain includeSubdomains="false">f5bee9ca-1e4d-40b5-be3c-7000d57ed8e5.mas-reference-app.org</domain>
+        <domain includeSubdomains="false">63b29c64-033c-44fd-bf95-d93b87c609da.mas-reference-app.org</domain>
         <pin-set>
             <!--These are the valid pins of the two Let's Encrypt root ca's-->
             <pin digest="SHA-256">C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=</pin>
