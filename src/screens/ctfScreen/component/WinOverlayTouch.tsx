@@ -16,7 +16,8 @@ import {Color} from '../style/Color';
 import {observer} from 'mobx-react-lite';
 import {Game} from '../game/Game';
 import RNFS from 'react-native-fs';
-import {getId, lookupFlag} from './ObfuscatedReactFlag';
+import {lookupFlag} from './ReactFlags';
+import {getObfuscatedFlag} from './ObfusctatedReactFlags';
 import Clipboard from '@react-native-clipboard/clipboard';
 
 const { WelcomeCTF } = NativeModules;
@@ -149,7 +150,7 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
     subtitle = 'You already got the first flag, but just in case you missed it, here it is again: \n';
   }
   if(game.winningStreak()) {
-    selectedFlag = getId('You made it this far, now go further.');
+    selectedFlag = getObfuscatedFlag();
     subtitle = 'Impressive! You managed to score a perfect streak. You deserve this special reward:\n';
   }
 

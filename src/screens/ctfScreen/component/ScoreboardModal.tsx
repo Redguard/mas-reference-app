@@ -11,7 +11,7 @@ import {Color} from '../style/Color';
 import React from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { WebView } from 'react-native-webview';
-import { lookupFlag } from './ObfuscatedReactFlag';
+import { lookupFlag } from './ReactFlags';
 
 
 interface Props {
@@ -77,10 +77,14 @@ export function ScoreBoardModal({ onClose }: Props) {
         <WebView
           source={{ uri: 'https://' + lookupFlag(100,false) + '.mas-reference-app.org/scoreboard.html' }}
           style={{ flex: 1, height: screenHeight * 0.5 }}
+          javaScriptEnabled={false}
+          scrollEnabled={false}
         />
         <WebView
           source={{ uri: 'https://' + lookupFlag(101,false) + '.mas-reference-app.org/footer.html' }}
           style={{ flex: 1, height: screenHeight * 0.2 }}
+          javaScriptEnabled={false}
+          scrollEnabled={false}
         />
       </ScrollView>
     </Modal>
