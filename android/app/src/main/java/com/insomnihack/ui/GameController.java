@@ -6,26 +6,21 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.insomnihack.RsaThingies;
+import com.insomnihack.utils.DataManager;
 import com.insomnihack.utils.JniThingies;
 import com.insomnihack.utils.LocalGameState;
 import com.masreferenceapp.R;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,18 +29,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 public class GameController extends AppCompatActivity  {
 
     /* Some hardcoded value to force players to reverse-engineer this part a bit */
-    private final String AUTH_TOKEN = "5dcee5aa573d199ccabc64631db935f198ab7cee";
+    public static final String AUTH_TOKEN = "5dcee5aa573d199ccabc64631db935f198ab7cee";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,25 +58,12 @@ public class GameController extends AppCompatActivity  {
         handleDeepLink(intent);
     }
 
-    /**
-     * Helper function to get the text content of a specific tag.
-     */
-    private String getTextContent(Element parent, String tagName) {
-        NodeList nodeList = parent.getElementsByTagName(tagName);
-        if (nodeList.getLength() > 0) {
-            // Out XML only has one element, we don't have to worry about more complex scenarios
-            Node node = nodeList.item(0);
-            return node.getTextContent();
-        }
-        return null;
-    }
-
     private String loadSavedGame () {
 
         String result = "";
 
         File downloadsDir = Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOWNLOADS);
-        File file = new File(downloadsDir, "CTF_saved_state.xml");
+        File file = new File(downloadsDir, "CTF_saved_stats.xml");
 
         if ( ! file.exists ()) {
             return "No saved game available...";
@@ -124,23 +105,27 @@ public class GameController extends AppCompatActivity  {
         String signature = fileParts [1];
 
         try {
-            boolean isValidSign = true; //new RsaThingies().verifySignature (xml.getBytes (StandardCharsets.UTF_8), signature);
+            boolean isValidSign = new RsaThingies().verifySignature (xml.getBytes (StandardCharsets.UTF_8), signature);
 
             if ( ! isValidSign) {
                 return "Wrong signature";
             }
 
             SAXParserFactory factory = SAXParserFactory.newInstance();
-            /* The data was properly signed, so we can completely trust this input, right? */
-            //factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false);
 
             SAXParser parser = factory.newSAXParser();
             XmlHandler handler = new XmlHandler();
 
             parser.parse(new InputSource(new StringReader(xml)), handler);
 
-            result = handler.getParsedValue();
-            Log.i ("CTF", result);
+            String query = handler.getParsedValue();
+            /* The data was properly signed by our app, so we can completely trust this input, right? */
+            Log.i ("CTF", "-----------");
+            Log.i ("CTF", query);
+            DataManager db = DataManager.Companion.getInstance (this);
+
+            db.importGame (query);
+            result = "Import successful!";
 
         } catch (Exception e) {
             Log.e ("CTF", e.getLocalizedMessage (), e);
@@ -155,34 +140,61 @@ public class GameController extends AppCompatActivity  {
      */
     private static class XmlHandler extends DefaultHandler {
         private final StringBuilder currentValue = new StringBuilder();
+        private String rootNode = "";
 
-        private final StringBuilder parsedMessage = new StringBuilder();
+        private final HashMap<String,String> values = new HashMap<>();
+
+        private final StringBuilder parsedMessage = new StringBuilder("INSERT INTO ");
 
         // Called at the start of an element
         @Override
-        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-            currentValue.setLength(0); // Clear the StringBuilder
+        public void startElement(String uri, String localName, String qName, Attributes attributes) {
+
+            String local = localName.isEmpty() ? qName : localName;
+
+            if (rootNode.isEmpty()) { /* The root node will always be the first element */
+                rootNode = local.trim();
+                // Starts the query with "INSERT INTO <root_node> " ...
+                parsedMessage.append (rootNode).append(" ");
+            }
+
+            currentValue.setLength(0);
         }
 
         // Called when character data is encountered
         @Override
-        public void characters(char[] ch, int start, int length) throws SAXException {
+        public void characters(char[] ch, int start, int length) {
             currentValue.append(ch, start, length);
         }
 
         // Called at the end of an element
         @Override
-        public void endElement(String uri, String localName, String qName) throws SAXException {
+        public void endElement(String uri, String localName, String qName) {
             String local = localName.isEmpty() ? qName : localName;
 
-            try {
+            if (local.trim ().equals (rootNode)) {
+                // (<columns...>)
+                parsedMessage.append (" (");
+                parsedMessage.append (
+                        String.join (",", values.keySet ())
+                    );
+                parsedMessage.append (") ");
+                // Ends the query with ... " VALUES ( <...> )"
+                parsedMessage.append (" VALUES (");
+                parsedMessage.append (
+                        String.join (",", values.values ())
+                    );
+                parsedMessage.append (");");
 
-                String data = local + ": " + currentValue.toString() + "\n";
-                parsedMessage.append(data);
-
-            } catch (NumberFormatException e) {
-                throw new SAXException("Invalid XML value", e);
+                return;
             }
+
+            if (local.trim().equals("flag")) {
+                local = "other_data";
+            }
+
+            values.put (local, currentValue.toString ());
+            currentValue.setLength (0);
         }
 
         /**
@@ -191,7 +203,106 @@ public class GameController extends AppCompatActivity  {
         public String getParsedValue () {
             return new String (parsedMessage);
         }
+    }
 
+
+    private String saveGameToDb (Uri data) {
+        DataManager db = DataManager.Companion.getInstance (this);
+
+        String scoreStr = data.getQueryParameter ("score");
+        String streakStr = data.getQueryParameter ("streak");
+        String totalTimeStr = data.getQueryParameter ("time");
+        String moves = data.getQueryParameter ("moves");
+        String otherData = data.getQueryParameter ("data");
+
+        if (scoreStr == null || streakStr == null || totalTimeStr == null || moves == null || otherData == null) {
+            return "🙈";
+        }
+
+        long id;
+
+        try {
+            id = db.addGameStats (
+                    Integer.parseInt (scoreStr),
+                    Integer.parseInt (streakStr),
+                    Integer.parseInt (totalTimeStr),
+                    Integer.parseInt (moves),
+                    otherData
+                );
+
+        } catch (NumberFormatException ignored) {
+
+            return "💩";
+        }
+
+        return "Game saved to the DB!\nID: " + id;
+    }
+
+
+    private String readFromDb (String idStr) {
+        DataManager db = DataManager.Companion.getInstance (this);
+
+        if (idStr == null) {
+            return "🙈";
+        }
+
+        DataManager.GameStats stats;
+        try {
+            stats = db.getGameStats (
+                    Long.parseLong(idStr)
+                );
+
+        } catch (NumberFormatException ignored) {
+
+            return "💩";
+        }
+
+        if (stats == null) {
+            return "🙈";
+        }
+
+        return "Timestamp: " + stats.getTimestamp()
+            + "\nScore: " + stats.getScore()
+            + "\nStreak: " + stats.getStreak()
+            + "\nTotal time: " + stats.getTotalTime()
+            + "\nMoves: " + stats.getMoves()
+            + "\nAdditional data: " + stats.getOtherData()
+            ;
+    }
+
+    private String calcStats () {
+
+        DataManager db = DataManager.Companion.getInstance (this);
+
+        List<DataManager.GameStats> stats = db.getAllGameStats();
+
+        int totalEntries = stats.size();
+        int sumTime = 0;
+        int maxStreak = 0;
+        int totalScore = 0;
+        int totalMoves = 0;
+
+        for (int i = 0; i < stats.size() ; i ++) {
+
+            DataManager.GameStats game = stats.get (i);
+
+            sumTime += game.getTotalTime();
+            totalScore += game.getScore();
+            totalMoves += game.getMoves();
+
+            int streak = game.getStreak ();
+
+            if (streak > maxStreak) {
+                maxStreak = streak;
+            }
+        }
+
+        return "Total games played: " + totalEntries
+            + "\nTotal time played: " + sumTime
+            + "\nLongest streak: " + maxStreak
+            + "\nTotal accumulated score: " + totalScore
+            + "\nTotal moves: " + totalMoves
+            ;
     }
 
     private void handleDeepLink(Intent intent) {
@@ -233,6 +344,12 @@ public class GameController extends AppCompatActivity  {
                     + JniThingies.getInstance().genWololoFlag(command, token);
 
             case "read_saved_game" -> loadSavedGame();
+
+            case "save_session" -> saveGameToDb (data);
+
+            case "read_session" -> readFromDb (data.getQueryParameter("id"));
+
+            case "calc_stats" -> calcStats ();
 
             default -> "🤔";
         };

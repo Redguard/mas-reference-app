@@ -11,7 +11,6 @@ use std::sync::Mutex;
 use sha1::{Sha1, Digest};
 use uuid::Builder;
 use std::ffi::CString;
-use hex_literal::hex;
 use pbkdf2::{pbkdf2_hmac};
 use sha2::Sha256;
 use uuid::Uuid;
