@@ -9,7 +9,6 @@ import {
   View,
   Alert,
   NativeModules,
-  BackHandler,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Color} from './style/Color';
@@ -25,6 +24,8 @@ import {HelpModal} from './component/HelpModal.tsx';
 import LinearGradient from 'react-native-linear-gradient';
 import {DebugModal} from './component/DebugModal.tsx';
 import {ScoreBoardModal} from './component/ScoreboardModal.tsx';
+import RNExitApp from 'react-native-exit-app';
+
 
 const { WelcomeCTF } = NativeModules;
 
@@ -84,7 +85,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
     );
 
     if (visibleElements.length === 0) {
-      BackHandler.exitApp();
+      RNExitApp.exitApp();
       return;
     }
 
@@ -96,14 +97,14 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
 
       if (visibleElements.length === 0) {
         clearInterval(interval);
-        BackHandler.exitApp();
+        RNExitApp.exitApp();
         return;
       }
       const randomIndex = Math.floor(Math.random() * visibleElements.length);
       const randomElement = visibleElements[randomIndex];
       hideElement(randomElement);
       hiddenElements.add(randomElement);
-    }, 500);
+    }, 1000);
   };
 
   return (

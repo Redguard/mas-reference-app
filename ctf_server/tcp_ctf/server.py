@@ -20,7 +20,7 @@ def start_server():
                 elif data == "heartbeat":
                     conn.sendall(b"ok")
                 elif data == "5604c261-651e-42fa-848e-31ab334e8f0c":
-                    conn.sendall(b"dea0b6f6-3143-45fb-bd80-818ad6688797")
+                    conn.sendall(b"Congratulation, you found a flag in the most unlikely place: dea0b6f6-3143-45fb-bd80-818ad6688797")
             except Exception as e:
                 print(f"Error handling connection from {addr}: {e}")
             finally:
