@@ -10,6 +10,12 @@ use std::collections::HashMap;
 use std::sync::Mutex;
 use sha1::{Sha1, Digest};
 use uuid::Builder;
+use std::ffi::CString;
+use hex_literal::hex;
+use pbkdf2::{pbkdf2_hmac};
+use sha2::Sha256;
+use uuid::Uuid;
+
 
 // Define the structure to hold your library's state
 pub struct GameState {
@@ -287,4 +293,51 @@ pub extern "C" fn Java_com_insomnihack_Welcome_JNImangle<'local>(mut env: JNIEnv
         ).expect("Couldn't create java string!");
 
     output.into_raw()
+}
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_com_insomnihack_Welcome_enableExperimentalGuiNative(
+    env: JNIEnv,
+    _class: JClass,
+) -> jstring {
+    let password = b"3593f7e8-0b8d-424d-8120-d653d2278b4e";
+    let salt = b"5b3e9099-8030-4bd0-b5a8-072c79b6fcf4 ";
+    let n = 600_000;
+    let mut key1 = [0u8; 16];
+    pbkdf2_hmac::<Sha256>(password, salt, n, &mut key1);
+
+    // Modify the key to conform to UUIDv4 format
+    key1[6] = (key1[6] & 0x0F) | 0x40; // Set version to 4
+    key1[8] = (key1[8] & 0x3F) | 0x80; // Set variant to 10
+
+    let uuid = Uuid::from_bytes(key1);
+    let uuidString = format!("Generated UUIDv4: {}", uuid);
+
+    let gui_flag = uuidString;
+    let c_string = CString::new(gui_flag.clone()).expect("Failed to create CString");
+    let _m1 = CString::new("Just temporary use C-Strings.").expect("CString::new failed");
+    let _m2 = CString::new("Don't forget to free the memory after use.").expect("CString::new failed");
+    let raw_pointer = c_string.into_raw();
+    let raw_pointer_hex = format!("{:p}", raw_pointer);
+
+    let result: Result<String, String> = (|| {
+        // Bad coding practice: Parsing an invalid integer string
+        let invalid_number = "fortyTwo";
+        let _parsed_number: i32 = invalid_number.parse::<i32>().map_err(|e| format!("Parse error: {}", e))?;
+
+        let success_string = String::from("New Experimental GUI initiated, Have fun.");
+        Ok(success_string)
+    })();
+    
+    let output = match result {
+        Ok(msg) => msg,
+        Err(err) => format!("Error occurred: {}, but part of the new experimental GUI has been initiated at: {}", err, raw_pointer_hex),
+    };
+
+    let java_string = env.new_string(output).expect("Couldn't create Java string");
+
+    // Second mistake: We dont free the c_string here, the c string remains in memory after as long as the lib is loaded
+
+    java_string.into_raw()
 }

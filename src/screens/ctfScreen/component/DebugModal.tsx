@@ -1,17 +1,20 @@
 // DebugModal.js
 import React, { useState } from 'react';
 import { Buffer } from 'buffer';
-import { Modal, View, Text, StyleSheet, Pressable } from 'react-native';
+import { Modal, View, Text, StyleSheet, Pressable, NativeModules } from 'react-native';
 
 import Clipboard from '@react-native-clipboard/clipboard';
+
+const { WelcomeCTF } = NativeModules;
 
 import { Game } from '../game/Game';
 
 interface Props {
   game: Game;
+  crashTheApp: Function;
 }
 
-export function DebugModal({game}: Props) {
+export function DebugModal({game, crashTheApp}: Props) {
   const [, setTapSequence] = useState([]);
   const [isDebugVisible, setIsDebugVisible] = useState(false);
 
@@ -89,6 +92,14 @@ export function DebugModal({game}: Props) {
               setIsDebugVisible(false);
             }}>
               <Text>Load Secret Game-State</Text>
+            </Pressable>
+
+            <Pressable style={styles.button} onPress={function(){
+              WelcomeCTF.enableExperimentalGui();
+              crashTheApp();
+              setIsDebugVisible(false);
+            }}>
+              <Text>‼️ Enable Experimental GUI ‼️</Text>
             </Pressable>
 
             <Pressable style={styles.button} onPress={function(){

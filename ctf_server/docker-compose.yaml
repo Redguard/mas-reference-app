@@ -1,0 +1,50 @@
+services:
+  echoserver:
+    image: vhiribarren/echo-server
+    ports:
+      - 4001:4001/udp
+      - 5001:5001
+  websocket:
+    image: jmalloc/echo-server
+    ports:
+      - 2001:8080
+  webserver_http:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 3001:80
+    restart: always
+    volumes:
+      - ./nginx/conf_nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf_http/:/etc/nginx/conf.d/:ro
+      - ./nginx/html/:/etc/nginx/html/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+  webserver_https:
+    image: nginx:latest
+    ports:
+      - 443:443
+    restart: always
+    volumes:
+      - ./nginx/conf_nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf_https/:/etc/nginx/conf.d/:ro
+      - ./nginx/html/:/etc/nginx/html/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+  websocket_ctf:
+    build: ./websocket_ctf
+    ports:
+      - 6001:6001
+  tcp_ctf:
+    build: ./tcp_ctf
+    ports:
+      - 7001:7001
+  ctf_feedback:
+    build: ./feedback_ctf
+    ports:
+      - 8008:8008

@@ -26,9 +26,11 @@
     "mobx-react-lite": "4.0.7",
     "react": "18.3.1",
     "react-native": "0.76.7",
+    "react-native-animatable": "^1.4.0",
     "react-native-cli": "^2.0.1",
     "react-native-dialog-input": "^1.0.8",
     "react-native-encrypted-storage": "^4.0.3",
+    "react-native-exit-app": "^2.0.0",
     "react-native-feather": "^1.1.2",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.15.0",
@@ -40,6 +42,7 @@
     "react-native-screens": "^3.29.0",
     "react-native-shake": "^6.0.0-beta.3",
     "react-native-vector-icons": "^10.2.0",
+    "react-native-webview": "^13.13.2",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
