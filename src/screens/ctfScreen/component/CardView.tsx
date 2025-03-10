@@ -9,6 +9,8 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
+import RedguardIcon from '../icons/RedguardIcon';
+import InsomnihackIcon from '../icons/InsomnihackIcon';
 
 const MATCH_STEP_DURATION = 120;
 const NO_MATCH_STEP_DURATION = 120;
@@ -117,7 +119,13 @@ export const CardView = observer(({card, cardSize, margin}: CardViewProps) => {
         }}>
         {!card.isInvisible && (
           <View style={styles.center}>
-            <Icon name={card.type} size={30} color="#fff" />
+            {card.type === 'redguard' ? (
+              <RedguardIcon/>
+            ): card.type === 'insomnihack' ? (
+              <InsomnihackIcon/>
+            ) : (
+              <Icon name={card.type} size={30} color="#fff" />
+            )}
           </View>
         )}
       </Pressable>

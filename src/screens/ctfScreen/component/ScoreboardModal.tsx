@@ -25,7 +25,7 @@ export function ScoreBoardModal({ onClose }: Props) {
   // https request, not pinned, no domain/path obfuscation
   WelcomeCTF.getTeams();
 
-  // https request, pinned using custom Android Trustmanager, domain/path is obfuscated, custom HTTPS client used. There are off the shelf frida.re script which bypass this pinning.
+  // https request, pinned using Android Trustmanager, domain/path is obfuscated, custom HTTPS client used. There are off the shelf frida.re script which bypass this pinning.
   WelcomeCTF.postScore();
 
   // init kotlin part which uses raw TCP to connect to the flag server
@@ -34,7 +34,7 @@ export function ScoreBoardModal({ onClose }: Props) {
   // https request, pinned Android Trustmanager
   const ws = new WebSocket(getScrambledFlags('websocketDomain'));
   ws.onopen = () => {
-    ws.send('Logging in with my hard coded  key');
+    ws.send('Logging in with my hard coded key');
     ws.send('b7c4de22-2366-4ba3-946a-820a42a8e733');
   };
   ws.onmessage = e => {
