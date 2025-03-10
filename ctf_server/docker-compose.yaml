@@ -42,3 +42,8 @@ services:
     build: ./websocket_ctf
     ports:
       - 6001:6001
+  tcp_ctf:
+    build: ./tcp_ctf
+    ports:
+      - 7001:7001
+

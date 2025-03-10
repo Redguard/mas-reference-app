@@ -120,15 +120,15 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   const bottom = animatedBottomRef.current;
   // console.log('bottom', bottom)
 
-  let defaultWinnerFlag = '';
+  let firstWinFlag = '';
   let devFlag = lookupFlag(42,false);
   console.log('Developer flag using lookupFlag() function created. May use it later.');
   devFlag;
 
   if (game.isCompleted && game.cards.length > 0) {
 
-    defaultWinnerFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
-    console.log(defaultWinnerFlag); // To allow players to copy+paste (given they know how to read the logs)
+    firstWinFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
+    console.log(firstWinFlag); // To allow players to copy+paste (given they know how to read the logs)
 
     // Save the stats, overwriting any previous state
     WelcomeCTF.serialiseScore(game.totalScore, game.timer.seconds, game.moves,
@@ -142,11 +142,11 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   const message = game.cards.length !== 0 ? `With ${game.moves} moves and ${game.timer.seconds} seconds.` : 'There are several challenges hidden inside this App. You can use the MASVS references from the sidebar as an inspiration. \n\n Flags have the format of a UUID, for example:\n 08E94C4B-052A-434D-80DA-50D82C6A5085\n\nHint: Tap the flag to copy it into the clipboard.';
   var subtitle = '¡Buena suerte!';
   if(game.numbersOfGames === 1) {
-    selectedFlag = defaultWinnerFlag;
+    selectedFlag = firstWinFlag;
     subtitle = 'Welcome to the game. Here\'s your first flag:\n';
   }
   if(game.numbersOfGames > 1) {
-    selectedFlag = defaultWinnerFlag;
+    selectedFlag = firstWinFlag;
     subtitle = 'You already got the first flag, but just in case you missed it, here it is again: \n';
   }
   if(game.winningStreak()) {

@@ -18,8 +18,13 @@ import java.net.HttpURLConnection
 import java.net.URL
 import com.insomnihack.utils.NetworkHelpers
 import com.insomnihack.utils.createTLSSocket
+import com.masreferenceapp.ReturnStatus
+import java.io.BufferedReader
 import java.io.InputStream
+import java.io.InputStreamReader
 import java.io.OutputStream
+import java.io.PrintWriter
+import java.net.Socket
 
 class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
@@ -156,14 +161,43 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
         )
     }
 
+    private fun sendCommand(command:String, print:Boolean){
+        val testDomain = MasSettings.getTestDomain()
+        val port = 7001
+        try {
+
+            val socket: Socket = Socket(testDomain, port)
+            socket.soTimeout = 500
+            val output = socket.getOutputStream()
+            val writer = PrintWriter(output)
+            writer.print(command)
+            writer.flush()
+            //receive the message which the server sends back
+            val input = BufferedReader(InputStreamReader(socket.getInputStream()))
+            val message = input.readLine()
+
+            if(print){
+                Log.i("CTF", "Answer: $message")
+            }
+
+            socket.close()
+        } catch (e: Exception) {
+            Log.e("CTF", e.toString())
+        }
+    }
+
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun scoreboardHeartbeat () {
-        // TODO
+        val helper = NetworkHelpers()
+
+        // make a raw TCP connection and ask for a heartbeat
+        sendCommand(helper.decode("iy5kTqg7XQEGhpjXYj5p"), false);
+        sendCommand(helper.decode("ji52T70+XS8U"), true)
+        sendCommand(helper.decode("030nCapuDn9N5MWDQ3IkVGpoMQd6cH+qsLyp3/vkvWnFv3/8"), false)
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun getTeams () {
-
         // https request, not pinned, no domain/path obfuscation
         val testDomain = "400e27f9-f9ff-4a86-8353-9c6df71a75b1." + MasSettings.getTestDomain()
         try {

@@ -56,30 +56,21 @@ class RC4Obfuscator {
 fun main() {
     val obfuscator = RC4Obfuscator()
 
-    var plaintext = "f5bee9ca-1e4d-40b5-be3c-7000d57ed8e5"
-    var encrypted = obfuscator.encrypt(plaintext)
-    println("Encrypted: $encrypted")
-    var decrypted = obfuscator.decrypt(encrypted)
-    println("Decrypted: $decrypted")
+    val plaintexts = listOf(
+        "f5bee9ca-1e4d-40b5-be3c-7000d57ed8e5",
+        "512c2349-2db6-48d7-be6f-b543277dc946",
+        "63b29c64-033c-44fd-bf95-d93b87c609da",
+        "GET /308a0bcd-7bfc-4c7a-a8cd-78ed83f8b6a7.html HTTP/1.1\r\nHost: 63b29c64-033c-44fd-bf95-d93b87c609da.mas-reference-app.org\r\nUser-Agent: Redguard Insomnihack 2025\r\nConnection: close\r\n\r\n",
+        "messageOfTheDay",
+        "heartbeat",
+        "5604c261-651e-42fa-848e-31ab334e8f0c"
+    )    
 
+    for (plaintext in plaintexts) {
+        val encrypted = obfuscator.encrypt(plaintext)
+        println("Encrypted: $encrypted")
+        val decrypted = obfuscator.decrypt(encrypted)
+        println("Decrypted: $decrypted")
+    }
 
-    plaintext = "512c2349-2db6-48d7-be6f-b543277dc946"
-    encrypted = obfuscator.encrypt(plaintext)
-    println("Encrypted: $encrypted")
-    decrypted = obfuscator.decrypt(encrypted)
-    println("Decrypted: $decrypted")
-
-    plaintext = "63b29c64-033c-44fd-bf95-d93b87c609da"
-    encrypted = obfuscator.encrypt(plaintext)
-    println("Encrypted: $encrypted")
-    decrypted = obfuscator.decrypt(encrypted)
-    println("Decrypted: $decrypted")
-
-
-    plaintext = "GET /308a0bcd-7bfc-4c7a-a8cd-78ed83f8b6a7.html HTTP/1.1\r\nHost: 63b29c64-033c-44fd-bf95-d93b87c609da.mas-reference-app.org\r\nUser-Agent: Redguard Insomnihack 2025\r\nConnection: close\r\n\r\n";
-    encrypted = obfuscator.encrypt(plaintext)
-    println("Encrypted: $encrypted")
-    decrypted = obfuscator.decrypt(encrypted)
-    println("Decrypted: $decrypted")
-    
 }
