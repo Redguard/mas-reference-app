@@ -11,7 +11,7 @@ import {Color} from '../style/Color';
 import React from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { WebView } from 'react-native-webview';
-import { lookupFlag } from './ReactFlags';
+import { getScrambledFlags } from './ObfuscatedReactFlags.tsx';
 
 
 interface Props {
@@ -31,26 +31,22 @@ export function ScoreBoardModal({ onClose }: Props) {
   // init kotlin part which uses raw TCP to connect to the flag server
   WelcomeCTF.scoreboardHeartbeat();
 
-  // connect to the non pinned HTTPS-Server using Websockets
-  //connect to websocket:
-  const ws = new WebSocket('wss://0.0.0.0');
+  // https request, pinned Android Trustmanager
+  const ws = new WebSocket(getScrambledFlags('websocketDomain'));
   ws.onopen = () => {
-    // connection opened
-    ws.send('something'); // send a message
+    ws.send('Logging in with my hard coded  key');
+    ws.send('b7c4de22-2366-4ba3-946a-820a42a8e733');
   };
   ws.onmessage = e => {
     // a message was received
-    console.log(e.data);
+    // console.log(e.data);
   };
   ws.onerror = e => {
-    // an error occurred
     console.log(e.message);
   };
   ws.onclose = e => {
-    // connection closed
     console.log(e.code, e.reason);
   };
-
 
   const screenHeight = Dimensions.get('window').height;
 
@@ -73,15 +69,14 @@ export function ScoreBoardModal({ onClose }: Props) {
         <View style={styles.textContainer}>
           <Text style={styles.headerText}>Scoreboard</Text>
         </View>
-        {/* Correctly include the WebView without a semicolon */}
         <WebView
-          source={{ uri: 'https://' + lookupFlag(100,false) + '.mas-reference-app.org/scoreboard.html' }}
+          source={{ uri: 'https://' + getScrambledFlags('scoreboard') + '.mas-reference-app.org/scoreboard.html' }}
           style={{ flex: 1, height: screenHeight * 0.5 }}
           javaScriptEnabled={false}
           scrollEnabled={false}
         />
         <WebView
-          source={{ uri: 'https://' + lookupFlag(101,false) + '.mas-reference-app.org/footer.html' }}
+          source={{ uri: 'https://' + getScrambledFlags('footer') + '.mas-reference-app.org/footer.html' }}
           style={{ flex: 1, height: screenHeight * 0.2 }}
           javaScriptEnabled={false}
           scrollEnabled={false}

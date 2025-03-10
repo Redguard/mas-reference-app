@@ -38,3 +38,7 @@ services:
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
+  websocket_ctf:
+    build: ./websocket_ctf
+    ports:
+      - 6001:6001

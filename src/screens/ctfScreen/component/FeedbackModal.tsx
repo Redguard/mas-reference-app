@@ -8,7 +8,7 @@ import {
   TextInput,
   Button,
   View,
-  NativeModules
+  NativeModules,
 } from 'react-native';
 import {Color} from '../style/Color';
 import React, { useState } from 'react';

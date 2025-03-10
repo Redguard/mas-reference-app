@@ -17,7 +17,7 @@ import {observer} from 'mobx-react-lite';
 import {Game} from '../game/Game';
 import RNFS from 'react-native-fs';
 import {lookupFlag} from './ReactFlags';
-import {getObfuscatedFlag} from './ObfusctatedReactFlags';
+import {getObfuscatedFlag} from './ObfuscatedReactFlags';
 import Clipboard from '@react-native-clipboard/clipboard';
 
 const { WelcomeCTF } = NativeModules;

@@ -60,7 +60,7 @@ class CustomTrustManager : X509TrustManager {
         }
         chain.forEach { cert ->
             if (cert.issuerDN.name in validIssuers) {
-                Log.e("CTF", "Certificate is trusted: ${cert.issuerDN}")
+                Log.i("CTF", "Certificate is trusted: ${cert.issuerDN}")
                 return
             }
         }
