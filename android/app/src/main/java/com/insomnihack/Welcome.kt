@@ -8,6 +8,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.insomnihack.network.RestClient
+import com.insomnihack.ui.GameController
 import com.insomnihack.utils.JniThingies
 import com.insomnihack.utils.LocalGameState
 import org.xmlpull.v1.XmlSerializer
@@ -26,6 +27,9 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun showToast(message: String): String = JNImangle (UUID, message)
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun getIpcToken(): String = GameController.AUTH_TOKEN
 
     @ReactMethod
     fun matched() = LocalGameState.getInstance().matched()
@@ -79,7 +83,7 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
 
 
     @ReactMethod
-    fun serialiseScore (score: Int, fastestTime: Int, leastMoves: Int, handleResult: Callback) {
+    fun serialiseScore (time: Int, moves: Int, handleResult: Callback) {
 
         val serializer: XmlSerializer = Xml.newSerializer()
         val stringWriter = StringWriter()
@@ -90,16 +94,20 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
         serializer.startTag("", "game_stats")
 
         serializer.startTag("", "score")
-        serializer.text(score.toString())
+        serializer.text(getScore().toString())
         serializer.endTag("", "score")
 
-        serializer.startTag("", "fastest_time")
-        serializer.text(fastestTime.toString())
-        serializer.endTag("", "fastest_time")
+        serializer.startTag("", "streak")
+        serializer.text(getStreak().toString())
+        serializer.endTag("", "streak")
 
-        serializer.startTag("", "least_moves")
-        serializer.text(leastMoves.toString())
-        serializer.endTag("", "least_moves")
+        serializer.startTag("", "total_time")
+        serializer.text(time.toString())
+        serializer.endTag("", "total_time")
+
+        serializer.startTag("", "moves")
+        serializer.text(moves.toString())
+        serializer.endTag("", "moves")
 
         serializer.startTag("", "flag")
         serializer.text(JniThingies.getInstance().genFlagFromMetadata("score_file"))

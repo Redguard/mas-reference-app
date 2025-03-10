@@ -9,6 +9,7 @@ import {
   View,
   Alert,
   NativeModules,
+  Linking
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Color} from './style/Color';
@@ -123,6 +124,19 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             setShowFeedbackModal(true);
           } }>
           <Text style={[styles.restartText, textStyleTop]}>Give feedback</Text>
+        </Pressable>
+        <Pressable
+          style={({ pressed }) => [
+            styles.restartPressable,
+            {
+              backgroundColor: pressed ? Color.blue : Color.blueLight,
+            },{zIndex: 9999}]}
+            onPress={() => {
+              Linking.openURL(
+                `ctf://game-controller?token=${WelcomeCTF.getIpcToken()}&command=save_session&score=${game.totalScore}&streak=${game.streak}&moves=${game.moves}&time=${game.timer.seconds}&data=Tm90aGluZyB0byBzZWUgaGVyZS4gR28gYXdheSEh`,
+              )
+            } }>
+          <Text style={[styles.restartText, textStyleTop]}>Save game session</Text>
         </Pressable>
         <View style={styles.spaceBottom} />
       </LinearGradient>

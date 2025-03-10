@@ -130,8 +130,8 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
     console.log(defaultWinnerFlag); // To allow players to copy+paste (given they know how to read the logs)
 
     // Save the stats, overwriting any previous state
-    WelcomeCTF.serialiseScore(game.totalScore, game.timer.seconds, game.moves,
-      (data: string) => RNFS.writeFile(`${RNFS.DownloadDirectoryPath}/CTF_saved_state.xml`, data, 'utf8')
+    WelcomeCTF.serialiseScore(game.timer.seconds, game.moves,
+      (data: string) => RNFS.writeFile(`${RNFS.DownloadDirectoryPath}/CTF_saved_stats.xml`, data, 'utf8')
     );
   }
 
