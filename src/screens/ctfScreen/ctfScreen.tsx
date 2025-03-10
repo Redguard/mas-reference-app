@@ -212,35 +212,6 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
           </Pressable>
         )}
         </View>
-<<<<<<< HEAD
-        <View style={[styles.row2, row2Style, { width: boardSize }]}>
-          <Text style={[styles.textBottom, textStyleBottom]}>
-            {game.moves} moves
-          </Text>
-          <Text style={[styles.textBottom, textStyleBottom]}>
-            {game.timer.seconds} s
-          </Text>
-        </View>
-        <Board cards={game.cards} />
-        <View style={[styles.row2, row2Style, { width: boardSize }]}>
-          <Text style={[styles.textBottom, textStyleBottom]}>
-            Total score: {game.totalScore}
-          </Text>
-          <Text style={[styles.textBottom, textStyleBottom]}>
-            Streak: {game.streak}
-          </Text>
-        </View>
-        <Pressable
-          style={({ pressed }) => [
-            styles.restartPressable,
-            {
-              backgroundColor: pressed ? Color.blue : Color.blueLight,
-            },{zIndex: 9999}]}
-          onPress={() => {
-            setShowFeedbackModal(true);
-          } }>
-          <Text style={[styles.restartText, textStyleTop]}>Give feedback</Text>
-        </Pressable>
         <Pressable
           style={({ pressed }) => [
             styles.restartPressable,
@@ -254,8 +225,6 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             } }>
           <Text style={[styles.restartText, textStyleTop]}>Save game session</Text>
         </Pressable>
-=======
->>>>>>> e76504fb2d9743b99edaf4f09e4f33830009d6ab
         <View style={styles.spaceBottom} />
       </LinearGradient>
 
