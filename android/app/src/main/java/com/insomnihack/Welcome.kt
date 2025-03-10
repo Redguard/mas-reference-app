@@ -216,9 +216,6 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
         val helper = NetworkHelpers()
 
         try {
-            // we simply do this manually, that it is not too easy guessing the domain and path,
-            // the easier way should be to bypass the custom pinning
-
             val host = helper.decode("0Hh1D/A/DnpN4sOBRXIkUmptMV0ocS+q57T73/Dg6jrN4Cv+")+"." + MasSettings.getTestDomain()
             val port = 443
 
