@@ -55,40 +55,26 @@ const tips = [
   'Sometimes it is nice to be a fly on the wall, or on the network.',
   'Obfuscation can bring you only so far.',
   'I heard CyberChef can cook very well with hard coded incidences.',
-  'Ask the nice people at the Redguard booth for a flag. The code phrase is the 4 character geohash of our newest member.', // location of redguard office neuchatel
+  'Ask the nice people at the Redguard booth for a flag. The code phrase is the 4 character geohash of our newest member.',
   'Memory is live.',
   'Live is memory',
   'If you are VERY lucky, you will find fortune in these tips.',
   'Your victory is right around the CORNER. Never give up.',
-  'The sun goes up in north-west.',
+  'The journey starts at north-west.',
   'Cherish your luck! There is only a 1:1000 change that you see this tip. Have your self a flag: 26b60c38-7d0c-43d5-9716-26281ab9ad9a',
 ];
 
 
 for (var tip in tips) {
-  // Convert text to bytes first
   var textBytes = aesjs.utils.utf8.toBytes(tips[tip]);
-
-  // Apply padding only ONCE
   textBytes = PKCS7.pad(textBytes, 16);
-
-  // Encrypt using AES-ECB
   const aesEcb = new aesjs.ModeOfOperation.ecb(key);
   const encryptedBytes = aesEcb.encrypt(textBytes);
-
-  // Convert encrypted data to hex string
   tips[tip] = aesjs.utils.hex.fromBytes(encryptedBytes);
-
-  // Convert hex string back to bytes
   const encryptedBytesDecoded = aesjs.utils.hex.toBytes(tips[tip]);
-
-  // Decrypt
   const decryptedBytes = aesEcb.decrypt(encryptedBytesDecoded);
-
-  // Remove PKCS7 padding properly
   const unpaddedBytes =  PKCS7.unpad(decryptedBytes);
   const decryptedText = aesjs.utils.utf8.fromBytes(unpaddedBytes);
-
   console.log('Decrypted:', decryptedText);
 }
 

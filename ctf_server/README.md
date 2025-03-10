@@ -69,6 +69,7 @@ docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/cert
 docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  f5bee9ca-1e4d-40b5-be3c-7000d57ed8e5.mas-reference-app.org
 docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  63b29c64-033c-44fd-bf95-d93b87c609da.mas-reference-app.org
 docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  1a5d77b3-5699-4ea9-862b-897451300045.mas-reference-app.org
+docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  6914c609-1992-4839-9ec7-77c744040a27.mas-reference-app.org
 
 
 ```

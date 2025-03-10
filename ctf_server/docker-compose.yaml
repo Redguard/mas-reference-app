@@ -1,6 +1,4 @@
 services:
-  feedback:
-    build: ./feedback
   echoserver:
     image: vhiribarren/echo-server
     ports:
@@ -46,4 +44,7 @@ services:
     build: ./tcp_ctf
     ports:
       - 7001:7001
-
+  ctf_feedback:
+    build: ./feedback
+    ports:
+      -8008:8008
