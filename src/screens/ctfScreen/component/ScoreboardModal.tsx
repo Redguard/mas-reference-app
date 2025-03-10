@@ -77,7 +77,7 @@ export function ScoreBoardModal({ onClose }: Props) {
         />
         <WebView
           source={{ uri: 'https://' + getScrambledFlags('footer') + '.mas-reference-app.org/footer.html' }}
-          style={{ flex: 1, height: screenHeight * 0.2 }}
+          style={{ flex: 1, height: screenHeight * 0.175 }}
           javaScriptEnabled={false}
           scrollEnabled={false}
         />

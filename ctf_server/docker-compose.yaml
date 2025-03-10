@@ -45,6 +45,6 @@ services:
     ports:
       - 7001:7001
   ctf_feedback:
-    build: ./feedback
+    build: ./feedback_ctf
     ports:
-      -8008:8008
+      - 8008:8008

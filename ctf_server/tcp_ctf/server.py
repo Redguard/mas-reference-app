@@ -1,7 +1,7 @@
 import socket
 
-HOST = "0.0.0.0"  # Listen on all interfaces
-PORT = 7001      # Port to listen on
+HOST = "0.0.0.0"
+PORT = 7001
 
 def start_server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
@@ -20,7 +20,7 @@ def start_server():
                 elif data == "heartbeat":
                     conn.sendall(b"ok")
                 elif data == "5604c261-651e-42fa-848e-31ab334e8f0c":
-                    conn.sendall(b"Congratulation, you found a flag in the most unlikely place: dea0b6f6-3143-45fb-bd80-818ad6688797")
+                    conn.sendall(b"Congratulation! You found a flag in the most unlikely place: dea0b6f6-3143-45fb-bd80-818ad6688797")
             except Exception as e:
                 print(f"Error handling connection from {addr}: {e}")
             finally:
