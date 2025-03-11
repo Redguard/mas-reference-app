@@ -283,6 +283,7 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         },
         {
           title: 'Set Weak Key Size',
+          maswe: '0009',
           description:
             'Sets a weak size (in bits) of the key to be generated. ',
           nativeFunction: CryptoKeyGenParameterSpec.setWeakKey,
@@ -307,6 +308,7 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         },
         {
           title: 'Set to Exportable',
+          maswe: '0014',
           description:
             'Forces the key not to be stored in the StrongBox HSM using setIsStrongBoxBacked(false). Such a key can now be accessed form within the application.',
           nativeFunction: CryptoKeyGenParameterSpec.setExportable,
@@ -325,18 +327,21 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         },
         {
           title: 'Require User Authentication',
+          maswe: '0018',
           description:
             'By default, the setUserAuthenticationRequired is set to false. By changing it to true, the user is authenticated by Android before the key can be accessed.',
           nativeFunction: CryptoKeyGenParameterSpec.requireUserAuthentication,
         },
         {
           title: 'Configure User Authorization',
+          maswe: '0018',
           description:
             'By default, there is no timeout on how long a key can be accessed if user authentication is required. This use case configures this using setUserAuthenticationParameters (int timeout, int type).',
           nativeFunction: CryptoKeyGenParameterSpec.configureUserAuth,
         },
         {
           title: 'Configure User Authorization (legacy)',
+          maswe: '0018',
           description:
             'By default, there is no timeout on how long a key can be accessed if user authentication is required. This use case configures this using setUserAuthenticationValidityDurationSeconds (int seconds).',
           nativeFunction: CryptoKeyGenParameterSpec.configureUserAuthLegacy,
@@ -358,7 +363,7 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         {
           title: 'Verify if Key is in Secure Hardware (deprecated)',
           description:
-            'Depending on the device, the key can be stored in software, the TEE or the StrongBox HSM. This use case gets information about where a Key is stored using isInsideSecureHardware(). ',
+            'Depending on the device, the key can be stored in software, the TEE or the StrongBox HSM. This use case gets information about where a Key is stored using isInsideSecureHardware().',
           nativeFunction: CryptoKeyInfo.isInsideSecureHardware,
         },
       ],
@@ -687,12 +692,12 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
             'These tests configure the client to use insecure cipher suites, such as ones with insecure algorithms or disabled forward secrecy-property.',
           nativeFunction: NetworkTlsClientConfig.insecureCipherSuites,
         },
-        {
-          title: 'Usage of TLS Client Certificates',
-          description:
-            'Uses TLS with client authentication. This means, that the client must store a private key. Developers often hardcode client keys which is an issue.',
-          nativeFunction: NetworkTlsClientConfig.clientCertificate,
-        },
+        // {
+        //   title: 'Usage of TLS Client Certificates',
+        //   description:
+        //     'Uses TLS with client authentication. This means, that the client must store a private key. Developers often hardcode client keys which is an issue.',
+        //   nativeFunction: NetworkTlsClientConfig.clientCertificate,
+        // },
         {
           title: 'Accept Bad TLS Servers',
           description:
@@ -759,34 +764,34 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         },
       ],
     },
-
-    {
-      title: 'Local Network',
-      description:
-        'Aside from connection servers on the public internet, apps may also try to access hosts on the local network. This can be be a violation of privacy in case an app scans and accesses local hosts excessively. Also it is possible to open ports on the phone. This adds additional attack surface which goes against the least-privilege principle if not necessary.',
-      testCases: [
-        {
-          title: 'Access Local Network',
-          description: 'This use case uses ICMP and TCP in order to check if a host in the private networks (10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16) are up and if a service is running on the common port 80.',
-          nativeFunction: NetworkLocalNetwork.access,
-        },
-        {
-          title: 'Host HTTP Server',
-          description: 'This use case hosts a HTTP server on port 80 and exposes it to the local network.',
-          nativeFunction: NetworkLocalNetwork.hostHttpServer,
-        },
-        {
-          title: 'Host TCP Server',
-          description: 'This use case hosts a TCP server on port 2001 and exposes it to the local network.',
-          nativeFunction: NetworkLocalNetwork.hostTcpServer,
-        },
-        {
-          title: 'Host UDP Server',
-          description: 'This use case hosts a UDP server on port 3001 and exposes it to the local network.',
-          nativeFunction: NetworkLocalNetwork.hostUDPServer,
-        },
-      ],
-    },
+    // TODO: Will be implemented in the next release. The code stub in android exists already.
+    // {
+    //   title: 'Local Network',
+    //   description:
+    //     'Aside from connection servers on the public internet, apps may also try to access hosts on the local network. This can be be a violation of privacy in case an app scans and accesses local hosts excessively. Also it is possible to open ports on the phone. This adds additional attack surface which goes against the least-privilege principle if not necessary.',
+    //   testCases: [
+    //     {
+    //       title: 'Access Local Network',
+    //       description: 'This use case uses ICMP and TCP in order to check if a host in the private networks (10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16) are up and if a service is running on the common port 80.',
+    //       nativeFunction: NetworkLocalNetwork.access,
+    //     },
+    //     {
+    //       title: 'Host HTTP Server',
+    //       description: 'This use case hosts a HTTP server on port 80 and exposes it to the local network.',
+    //       nativeFunction: NetworkLocalNetwork.hostHttpServer,
+    //     },
+    //     {
+    //       title: 'Host TCP Server',
+    //       description: 'This use case hosts a TCP server on port 2001 and exposes it to the local network.',
+    //       nativeFunction: NetworkLocalNetwork.hostTcpServer,
+    //     },
+    //     {
+    //       title: 'Host UDP Server',
+    //       description: 'This use case hosts a UDP server on port 3001 and exposes it to the local network.',
+    //       nativeFunction: NetworkLocalNetwork.hostUDPServer,
+    //     },
+    //   ],
+    // },
   ],
   PLATFORM: [
     {
@@ -851,11 +856,11 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
       description:
         'This class represents a storage facility for cryptographic keys and certificates. The Android Keystore system lets you store cryptographic keys in a container to make them more difficult to extract from the device. Once keys are in the keystore, you can use them for cryptographic operations, with the key material remaining non-exportable.',
       testCases: [
-        {
-          title: 'URL Allow List',
-          description: 'Tests the implementation of a URL allow list to restrict WebView to load only specific URLs.',
-          nativeFunction: PlatformWebView.urlAllowList,
-        },
+        // {
+        //   title: 'URL Allow List',
+        //   description: 'Tests the implementation of a URL allow list to restrict WebView to load only specific URLs.',
+        //   nativeFunction: PlatformWebView.urlAllowList,
+        // },
         {
           title: 'Load Local Resource',
           description: 'Tests loading a local resource in the WebView, which could expose sensitive files if not properly configured.',
@@ -932,10 +937,10 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
     {
       title: 'Current Software Version',
       description:
-        'Check if the app enforces updates e.g. via AppUpdateManager on Android. However, the backend would be enforcing this and not only the app locally.',
+        'Check if the app enforces updates e.g. via AppUpdateManager on Android. However, the backend should be enforcing this and not only the app locally.',
       testCases: [
         {
-          title: 'Check for Updates',
+          title: 'Check for App Updates',
           description: 'Use AppUpdateManager.getAppUpdateInfo to query, if there is a new version available.',
           nativeFunction: CodeUpdate.checkUpdateAvailable,
         },
@@ -946,23 +951,24 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
         },
       ],
     },
-    {
-      title: 'Insecure Dependency',
-      description:
-        'Insecure dependencies can introduce vulnerabilities into the app.',
-      testCases: [
-        {
-          title: 'Vulnerable Native SDK',
-          description: 'Test Case which uses insecure native SKD function.',
-          nativeFunction: CodeDependencies.vulnerableNativeSDK,
-        },
-        {
-          title: 'Vulnerable Web SDK',
-          description: 'Test Case which uses insecure web SKD function.',
-          nativeFunction: CodeDependencies.vulnerableWebSDK,
-        },
-      ],
-    },
+    // TODO: Will be implemented in the next release. The code stub in android exists already.
+    // {
+    //   title: 'Insecure Dependency',
+    //   description:
+    //     'Insecure dependencies can introduce vulnerabilities into the app.',
+    //   testCases: [
+    //     {
+    //       title: 'Vulnerable Native SDK',
+    //       description: 'Test Case which uses insecure native SKD function.',
+    //       nativeFunction: CodeDependencies.vulnerableNativeSDK,
+    //     },
+    //     {
+    //       title: 'Vulnerable Web SDK',
+    //       description: 'Test Case which uses insecure web SKD function.',
+    //       nativeFunction: CodeDependencies.vulnerableWebSDK,
+    //     },
+    //   ],
+    // },
     {
       title: 'Insecure Software',
       description:
@@ -987,23 +993,24 @@ export var androidTestCases: Dictionary<TestGroup[]> = {
     },
   ],
   RESILIENCE: [
-    {
-      title: 'Obfuscation',
-      description:
-        'Obfuscation can increase the amount of work attackers have to put into reverse-engineering or attacking the app. It therefore may be used alongside other secure development techniques in order to better protect sensitive parts of the app.',
-      testCases: [
-        {
-          title: 'Obfuscated Android Class',
-          description: 'Tests the use of obfuscated Android classes to make reverse engineering more difficult.',
-          nativeFunction: ResilienceObfuscation.obfuscatedAndroidClass,
-        },
-        {
-          title: 'Native Library whit Debug Symbols',
-          description: 'Tests the inclusion of native libraries with debug symbols, which could expose sensitive implementation details.',
-          nativeFunction: ResilienceObfuscation.nativeDebugSymbols,
-        },
-      ],
-    },
+    // TODO: Will be implemented in the next release. The code stub in android exists already.
+    // {
+    //   title: 'Obfuscation',
+    //   description:
+    //     'Obfuscation can increase the amount of work attackers have to put into reverse-engineering or attacking the app. It therefore may be used alongside other secure development techniques in order to better protect sensitive parts of the app.',
+    //   testCases: [
+    //     {
+    //       title: 'Obfuscated Android Class',
+    //       description: 'Tests the use of obfuscated Android classes to make reverse engineering more difficult.',
+    //       nativeFunction: ResilienceObfuscation.obfuscatedAndroidClass,
+    //     },
+    //     {
+    //       title: 'Native Library whit Debug Symbols',
+    //       description: 'Tests the inclusion of native libraries with debug symbols, which could expose sensitive implementation details.',
+    //       nativeFunction: ResilienceObfuscation.nativeDebugSymbols,
+    //     },
+    //   ],
+    // },
     {
       title: 'Anti-Debug',
       description:

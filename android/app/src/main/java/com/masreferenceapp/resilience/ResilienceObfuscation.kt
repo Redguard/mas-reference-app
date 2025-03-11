@@ -22,7 +22,20 @@ class ResilienceObfuscation(var context: ReactApplicationContext) : ReactContext
 
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun nativeDebugSymbols(): String {
+    fun nonObfuscatedAndroidClass(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun nativeWithDebugSymbols(): String {
+        val r = ReturnStatus("OK", "Android code stub.")
+        return r.toJsonString()
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    fun nativeWithoutDebugSymbols(): String {
         val r = ReturnStatus("OK", "Android code stub.")
         return r.toJsonString()
     }

@@ -165,6 +165,17 @@ function SettingsScreen(): React.JSX.Element {
             <View style={[styles.rowWrapper, styles.rowFirst]}>
               <TouchableOpacity
                 onPress={() => {
+                  Linking.openURL('https://github.com/Redguard/mas-reference-app');
+                }}
+                style={styles.row}>
+                <Text style={styles.rowLabel}>Source Code</Text>
+                <View style={styles.rowSpacer} />
+                <FeatherIcon color="#bcbcbc" name="chevron-right" size={19} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.rowWrapper}>
+              <TouchableOpacity
+                onPress={() => {
                   Linking.openURL('https://mas.owasp.org/');
                 }}
                 style={styles.row}>
@@ -208,7 +219,7 @@ function SettingsScreen(): React.JSX.Element {
             </View>
           </View>
         </View>
-        <Text style={styles.contentFooter}>App Version 0.10</Text>
+        <Text style={styles.contentFooter}>App Version 0.50</Text>
 
         {/* Dynamic DialogInput */}
         <DialogInput
