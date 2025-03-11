@@ -10,6 +10,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  topWrapper:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   spaceTop: {
     flex: 1,
   },
@@ -41,6 +46,7 @@ const styles = StyleSheet.create({
     height: 35,
     borderWidth: 2,
     borderRadius: 25,
+    marginLeft: 15,
     borderColor: Color.teal,
   },
   infoText: {
@@ -48,7 +54,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: Color.dark,
   },
-  restartPressable: {
+  buttonPressable: {
     justifyContent: 'center',
     paddingHorizontal: 5,
     paddingBottom: 5,
@@ -56,7 +62,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: Color.blue,
   },
-  restartText: {
+  buttonText: {
     color: Color.dark,
   },
   lottie: {

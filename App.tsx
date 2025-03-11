@@ -128,7 +128,7 @@ function App(): React.JSX.Element {
             name="CTF Game"
             component={CtfScreen}
             options={{
-              drawerItemStyle: {backgroundColor: 'rgb(255,239,255'},
+              drawerItemStyle: {backgroundColor: 'rgb(225,239,255)'},
               headerBackground: () => <HeaderBackground />,
               drawerLabel: () => (
                 <View style={styles.container}>

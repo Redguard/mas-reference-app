@@ -47,6 +47,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
     streak: true,
     feedbackButton: true,
     scoreBoardButton: true,
+    saveButton: true,
   });
 
   const [showInfoModal, setShowInfoModal] = React.useState(false);
@@ -117,21 +118,33 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
         angle={135}
         style={[styles.container]}>
         <View style={styles.spaceTop} />
-        <View style={[styles.row1, { width: boardSize }]}>
-          {visibility.title && (
+        <View style={[styles.topWrapper, { width: boardSize}]}>
+          {/* {visibility.title && (
             <Text style={[styles.title, textStyleTop]}>Memory Game</Text>
-          )}
+          )} */}
           {visibility.restartButton && (
             <Pressable
               style={({ pressed }) => [
-                styles.restartPressable,
+                styles.buttonPressable,
                 {
                   backgroundColor: pressed ? Color.blue : Color.blueLight,
                 }, { zIndex: 9999 }]}
               onPress={() => game.startGame()}>
-              <Text style={[styles.restartText, textStyleTop]}>restart</Text>
+              <Text style={[styles.buttonText, textStyleTop]}>restart</Text>
             </Pressable>
           )}
+          <View style={[styles.row2, row2Style, { width: boardSize / 2 }]}>
+            {visibility.moves && (
+              <Text style={[styles.textBottom, textStyleBottom]}>
+                {game.moves} moves
+              </Text>
+            )}
+            {visibility.timer && (
+              <Text style={[styles.textBottom, textStyleBottom]}>
+                {game.timer.seconds} s
+              </Text>
+            )}
+          </View>
           {visibility.helpButton && (
             <Pressable
               style={({ pressed }) => [
@@ -159,18 +172,6 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             </Pressable>
           )}
         </View>
-        <View style={[styles.row2, row2Style, { width: boardSize }]}>
-          {visibility.moves && (
-            <Text style={[styles.textBottom, textStyleBottom]}>
-              {game.moves} moves
-            </Text>
-          )}
-          {visibility.timer && (
-            <Text style={[styles.textBottom, textStyleBottom]}>
-              {game.timer.seconds} s
-            </Text>
-          )}
-        </View>
         {visibility.board && <Board cards={game.cards} />}
         <View style={[styles.row2, row2Style, { width: boardSize }]}>
           {visibility.totalScore && (
@@ -188,33 +189,33 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
         {visibility.feedbackButton && (
           <Pressable
             style={({ pressed }) => [
-              styles.restartPressable,
+              styles.buttonPressable,
               {
                 backgroundColor: pressed ? Color.blue : Color.blueLight,
               }, { zIndex: 9999 }]}
             onPress={() => {
               setShowFeedbackModal(true);
             }}>
-            <Text style={[styles.restartText, textStyleTop]}>Give feedback</Text>
+            <Text style={[styles.buttonText, textStyleTop]}>Feedback</Text>
           </Pressable>
         )}
         {visibility.scoreBoardButton && (
           <Pressable
             style={({ pressed }) => [
-              styles.restartPressable,
+              styles.buttonPressable,
               {
                 backgroundColor: pressed ? Color.blue : Color.blueLight,
               }, { zIndex: 9999 }]}
             onPress={() => {
               setShowScoreboardModal(true);
             }}>
-            <Text style={[styles.restartText, textStyleTop]}>Scoreboard</Text>
+            <Text style={[styles.buttonText, textStyleTop]}>Scoreboard</Text>
           </Pressable>
         )}
-        </View>
-        <Pressable
+        {visibility.saveButton && (
+          <Pressable
           style={({ pressed }) => [
-            styles.restartPressable,
+            styles.buttonPressable,
             {
               backgroundColor: pressed ? Color.blue : Color.blueLight,
             },{zIndex: 9999}]}
@@ -223,8 +224,11 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
                 `ctf://game-controller?token=${WelcomeCTF.getIpcToken()}&command=save_session&score=${game.totalScore}&streak=${game.streak}&moves=${game.moves}&time=${game.timer.seconds}&data=Tm90aGluZyB0byBzZWUgaGVyZS4gR28gYXdheSEh`,
               )
             } }>
-          <Text style={[styles.restartText, textStyleTop]}>Save game session</Text>
+          <Text style={[styles.buttonText, textStyleTop]}>Save Game</Text>
         </Pressable>
+          )}
+        </View>
+
         <View style={styles.spaceBottom} />
       </LinearGradient>
 
