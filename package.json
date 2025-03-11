@@ -23,6 +23,7 @@
     "fs": "^0.0.1-security",
     "install": "^0.13.0",
     "json5": "^2.2.3",
+    "lottie-react-native": "^7.2.2",
     "mobx": "6.13.5",
     "mobx-react-lite": "4.0.7",
     "react": "18.3.1",

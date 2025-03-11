@@ -1,6 +1,7 @@
 // DebugModal.js
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Buffer } from 'buffer';
+import LottieView from 'lottie-react-native';
 import { Modal, View, Text, StyleSheet, Pressable, NativeModules } from 'react-native';
 
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -49,6 +50,13 @@ export function DebugModal({game, crashTheApp}: Props) {
     });
   };
 
+  const confettiRef = useRef<LottieView>(null);
+
+  function triggerConfetti() {
+    confettiRef.current?.reset();
+    confettiRef.current?.play(1);
+  }
+
   return (
     <View style={styles.overlay}>
       <Pressable
@@ -72,6 +80,17 @@ export function DebugModal({game, crashTheApp}: Props) {
         transparent={true}
         animationType="slide"
       >
+
+<View style={styles.lottieWrapper} pointerEvents="none">
+  <LottieView
+    ref={confettiRef}
+    source={require('./assets/confetti.json')}
+    autoPlay={true}
+    loop={false}
+    style={styles.lottie}
+    resizeMode="cover"
+  />
+</View>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.title}>Debug Screen</Text>
@@ -103,9 +122,7 @@ export function DebugModal({game, crashTheApp}: Props) {
             </Pressable>
 
             <Pressable style={styles.button} onPress={function(){
-              // confetti;
-              // confetti.current.start();
-              setIsDebugVisible(false);
+              triggerConfetti();
             }}>
             <Text>Confetti 🎉</Text>
             </Pressable>
@@ -117,11 +134,6 @@ export function DebugModal({game, crashTheApp}: Props) {
           </View>
         </View>
       </Modal>
-      {/* <Confetti
-        autoplay={false}
-        count={300}
-        ref={confetti}
-        /> */}
       </View>
   );
 }
@@ -185,6 +197,19 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     width: '100%',
+    pointerEvents: 'box-only',
+  },
+  lottieWrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1000,
+    pointerEvents: 'none',
+  },
+  lottie: {
+    flex: 1,
   },
 });
 
