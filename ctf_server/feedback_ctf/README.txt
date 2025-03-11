@@ -1,6 +1,6 @@
 We should use 
 
-https://6914c609-1992-4839-9ec7-77c744040a27.mas-reference-app.com 
+https://6914c609-1992-4839-9ec7-77c744040a27.mas-reference-app.org
 
 as domain for the feedback.
 
