@@ -212,7 +212,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             <Text style={[styles.buttonText, textStyleTop]}>Scoreboard</Text>
           </Pressable>
         )}
-        {visibility.saveButton && (
+        {/*visibility.saveButton && (
           <Pressable
           style={({ pressed }) => [
             styles.buttonPressable,
@@ -226,7 +226,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             } }>
           <Text style={[styles.buttonText, textStyleTop]}>Save Game</Text>
         </Pressable>
-          )}
+          )*/}
         </View>
 
         <View style={styles.spaceBottom} />
