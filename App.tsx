@@ -7,7 +7,8 @@
  */
 
 import * as React from 'react';
-import {NativeModules} from 'react-native';
+import {NativeModules, StyleSheet, Text, View} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
@@ -20,6 +21,7 @@ import appContent from './src/appContent.tsx';
 import HeaderBackground from './src/screens/header/headerBackground.tsx';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { MenuProvider } from 'react-native-popup-menu';
+import LottieView from 'lottie-react-native';
 const {MasSettingsSync} = NativeModules;
 
 export type MasSettings = {
@@ -63,6 +65,32 @@ async function initGlobalSettings(){
     console.log(error);
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  text: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: "rgb(61, 61, 61)",
+  },
+  lottieWrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1000,
+    pointerEvents: 'none',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  lottie: {
+    width: 100,
+    height: 100,
+  },
+});
 
 function App(): React.JSX.Element {
   initGlobalSettings();
@@ -97,10 +125,48 @@ function App(): React.JSX.Element {
             );
           })}
           <Drawer.Screen
-            name="CTF Game"
+            name="CTF Memory"
             component={CtfScreen}
             options={{
+              drawerItemStyle: {backgroundColor: 'rgb(255,239,255'},
               headerBackground: () => <HeaderBackground />,
+              drawerLabel: () => (
+                <View style={styles.container}>
+                <View>
+                  <Text style={styles.text}>CTF Memory</Text>
+                </View>
+                <View style={styles.lottieWrapper} pointerEvents="none">
+                  <LottieView
+                    source={require('./src/assets/sparkle.json')}
+                    autoPlay={true}
+                    loop={true}
+                    style={styles.lottie}
+                    resizeMode="cover"
+                  />
+                 <LottieView
+                    source={require('./src/assets/sparkle.json')}
+                    autoPlay={true}
+                    loop={true}
+                    style={styles.lottie}
+                    resizeMode="cover"
+                  />
+                 <LottieView
+                    source={require('./src/assets/sparkle.json')}
+                    autoPlay={true}
+                    loop={true}
+                    style={styles.lottie}
+                    resizeMode="cover"
+                  />
+                   <LottieView
+                    source={require('./src/assets/sparkle.json')}
+                    autoPlay={true}
+                    loop={true}
+                    style={styles.lottie}
+                    resizeMode="cover"
+                  />
+                </View>
+              </View>
+              ),
             }}/>
           <Drawer.Screen
             name="Settings"

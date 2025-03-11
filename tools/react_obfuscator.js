@@ -49,7 +49,7 @@ const tips = [
   'Success is a journey, not a destination—enjoy the ride!',
   'Keep going! You\'re closer than you think.',
   'Don\t dream it, be it.',
-  //below are the real tips
+  //below are the real / hacker related tips
   'Have you looked at the logs?',
   'Sometimes the developers forget something important in the build.',
   'Sometimes it is nice to be a fly on the wall, or on the network.',
@@ -58,6 +58,7 @@ const tips = [
   'Ask the nice people at the Redguard booth for a flag. The code phrase is the 4 character geohash of our newest member.',
   'Memory is live.',
   'Live is memory',
+  'Try harder...',
   'If you are VERY lucky, you will find fortune in these tips.',
   'Your victory is right around the CORNER. Never give up.',
   'The journey starts at north-west.',
