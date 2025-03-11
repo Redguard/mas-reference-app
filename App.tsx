@@ -125,7 +125,7 @@ function App(): React.JSX.Element {
             );
           })}
           <Drawer.Screen
-            name="CTF Memory"
+            name="CTF Game"
             component={CtfScreen}
             options={{
               drawerItemStyle: {backgroundColor: 'rgb(255,239,255'},
@@ -133,7 +133,7 @@ function App(): React.JSX.Element {
               drawerLabel: () => (
                 <View style={styles.container}>
                 <View>
-                  <Text style={styles.text}>CTF Memory</Text>
+                  <Text style={styles.text}>CTF Game</Text>
                 </View>
                 <View style={styles.lottieWrapper} pointerEvents="none">
                   <LottieView
