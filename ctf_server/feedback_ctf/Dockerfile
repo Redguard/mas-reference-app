@@ -11,9 +11,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8008
 
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=8008
-
-CMD ["flask", "--debug", "run"]
-#CMD ["gunicorn", "--bind", "0.0.0.0:8008", "app:app"]
+#CMD ["flask", "--debug", "run", "--cert=adhoc"]
+CMD gunicorn --certfile certs/fullchain.pem --keyfile certs/privkey.pem --bind 0.0.0.0:8008 app:app
