@@ -25,7 +25,7 @@ For the CTF we use the following domains:
 
 | Endpoint                             | Description                                                    |   Flag | 
 | ------------------------------------ | -------------------------------------------------------------- | ------- |
-| `https://mas-reference-app.org`      |  CTFd with HTTP-Redirect                                       |    <none>     |
+| `https://redguard-ctf.ch`      |  CTFd with HTTP-Redirect                                       |    <none>     |
 | `https://400e27f9-f9ff-4a86-8353-9c6df71a75b1.mas-reference-app.org/e364000e-75e7-4f05-9b0e-0690f1a14453.html`                                  |  Domain which is not pinned, the Flag is in the response. Domain used for top WV     | ce8cd9d6-e110-4f99-a395-1e2f7fca0522 |
 | `https://63b29c64-033c-44fd-bf95-d93b87c609da.mas-reference-app.org/308a0bcd-7bfc-4c7a-a8cd-78ed83f8b6a7.html`                                  |  Domain which programmatically pinned and in the Android Truststore, Frida.re is required, but there are off the shelf-scripts available. the Flag is in the response.   Domain used for bottom WV        | 2eb3c894-ea45-4d42-87fb-a8b7f71d7886 |
 | `wss://f5bee9ca-1e4d-40b5-be3c-7000d57ed8e5.mas-reference-app.org:6001`            |  WebSocket for the Scoreboard. The client provides b7c4de22-2366-4ba3-946a-820a42a8e733 | 8b2b730f-958a-4e42-8879-6c76ffa9d37c |
