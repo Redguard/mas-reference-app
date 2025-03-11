@@ -5,8 +5,8 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Copy files
-COPY ws_server.py requirements.txt /app/
-COPY ws_certs /app/certs
+COPY server.py requirements.txt /app/
+COPY certs /app/certs
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
