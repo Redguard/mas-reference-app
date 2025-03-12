@@ -38,6 +38,8 @@ services:
       - ./certbot/conf/:/etc/letsencrypt/:rw
   websocket_ctf:
     build: ./websocket_ctf
+    volumes:
+      - ./certbot/conf/archive/f5bee9ca-1e4d-40b5-be3c-7000d57ed8e5.mas-reference-app.org:/app/certs:ro
     ports:
       - 6001:6001
   tcp_ctf:

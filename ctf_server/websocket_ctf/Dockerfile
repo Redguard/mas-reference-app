@@ -6,7 +6,6 @@ WORKDIR /app
 
 # Copy files
 COPY server.py requirements.txt /app/
-COPY certs /app/certs
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt

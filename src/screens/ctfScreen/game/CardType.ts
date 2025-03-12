@@ -1,7 +1,7 @@
 export enum CardType {
   Diamond = 'diamond',
   Plane = 'paper-plane-o',
-  // Anchor = 'anchor',
+  Anchor = 'anchor',
   // Bolt = 'bolt',
   // Cube = 'cube',
   // Leaf = 'leaf',

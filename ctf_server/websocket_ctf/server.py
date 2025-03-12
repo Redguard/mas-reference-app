@@ -15,7 +15,7 @@ async def handle_client(websocket, path=None):
 
 async def main():
     ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-    ssl_context.load_cert_chain(certfile="/app/certs/fullchain.pem", keyfile="/app/certs/privkey.pem")
+    ssl_context.load_cert_chain(certfile="/app/certs/fullchain1.pem", keyfile="/app/certs/privkey1.pem")
 
     async with websockets.serve(handle_client, "0.0.0.0", 6001, ssl=ssl_context):
         print("WebSocket server is running on wss://0.0.0.0:6001")

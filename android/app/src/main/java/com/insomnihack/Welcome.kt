@@ -185,7 +185,7 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
             val message = input.readLine()
 
             if(print){
-                Log.i("CTF", "Answer: $message")
+                Log.i("CTF", command);
             }
 
             socket.close()
@@ -199,9 +199,10 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
         val helper = NetworkHelpers()
 
         // make a raw TCP connection and ask for a heartbeat
-        sendCommand(helper.decode("iy5kTqg7XQEGhpjXYj5p"), false);
-        sendCommand(helper.decode("ji52T70+XS8U"), true)
-        sendCommand(helper.decode("030nCapuDn9N5MWDQ3IkVGpoMQd6cH+qsLyp3/vkvWnFv3/8"), false)
+        // INIT
+        sendCommand(helper.decode("rwVeaQ=="), true);
+        // heartbeat
+        sendCommand(helper.decode("ji52T70+XS8U"), false);
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)

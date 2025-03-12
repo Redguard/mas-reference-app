@@ -63,7 +63,9 @@ fun main() {
         "GET /308a0bcd-7bfc-4c7a-a8cd-78ed83f8b6a7.html HTTP/1.1\r\nHost: 63b29c64-033c-44fd-bf95-d93b87c609da.mas-reference-app.org\r\nUser-Agent: Redguard Insomnihack 2025\r\nConnection: close\r\n\r\n",
         "messageOfTheDay",
         "heartbeat",
-        "5604c261-651e-42fa-848e-31ab334e8f0c"
+        "5604c261-651e-42fa-848e-31ab334e8f0c",
+        "INIT",
+        "heartbeat"
     )    
 
     for (plaintext in plaintexts) {

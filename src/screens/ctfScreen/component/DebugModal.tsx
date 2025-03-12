@@ -106,13 +106,11 @@ export function DebugModal({game, crashTheApp}: Props) {
             }}>
               <Text>New Game with a Head Start</Text>
             </Pressable>
-
-            <Pressable style={styles.button} onPress={function(){
+            {/* <Pressable style={styles.button} onPress={function(){
               setIsDebugVisible(false);
             }}>
               <Text>Load Secret Game-State</Text>
-            </Pressable>
-
+            </Pressable> */}
             <Pressable style={styles.button} onPress={function(){
               WelcomeCTF.enableExperimentalGui();
               crashTheApp();
