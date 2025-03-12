@@ -120,15 +120,16 @@ export class Game {
     }, 3000);
   }
 
-  winningStreak(){
+  perfectGame(){
      if (this.numbersOfGames === 0){
       return false;
      }
-    return this.streak >= this.cards.length / 2 ? true : false;
+
+    return this.moves == (this.cards.length / 2);
   }
 
-  noDebugWinningStreak(){
-    return (!this.deckOpenedByDebugMenu && this.winningStreak()) ? true : false;
+  noDebugPerfectGame(){
+    return (!this.deckOpenedByDebugMenu && this.perfectGame()) ? true : false;
   }
 }
 
