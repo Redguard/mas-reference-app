@@ -31,6 +31,7 @@ For the CTF we use the following domains:
 | `wss://f5bee9ca-1e4d-40b5-be3c-7000d57ed8e5.mas-reference-app.org:6001`            |  WebSocket for the Scoreboard. The client provides b7c4de22-2366-4ba3-946a-820a42a8e733 | 8b2b730f-958a-4e42-8879-6c76ffa9d37c |
 | `mas-reference-app.org:7001`         |  Raw TPC for a heartbeat. The client provides 5604c261-651e-42fa-848e-31ab334e8f0c     | dea0b6f6-3143-45fb-bd80-818ad6688797 |
 | `https://1a5d77b3-5699-4ea9-862b-897451300045.mas-reference-app.org/index.html`   |  This domain is never used in the app, but since its HTTPS the users can use Certificate Transparency to enumerate it          | 78bf6a45-31d2-4c96-a6fd-715b9ebc6167 |
+| `https://6914c609-1992-4839-9ec7-77c744040a27.mas-reference-app.org`  | Domain contacted to submit the feedback | 66FB159E-8477-4AB3-9029-173725448749 |
 
 
 
