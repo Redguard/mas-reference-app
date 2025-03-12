@@ -128,7 +128,7 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   if (game.isCompleted && game.cards.length > 0) {
 
     firstWinFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
-    console.log(firstWinFlag); // To allow players to copy+paste (given they know how to read the logs)
+    //console.log(firstWinFlag); // To allow players to copy+paste (given they know how to read the logs)
 
     // Save the stats, overwriting any previous state
     WelcomeCTF.serialiseScore(game.timer.seconds, game.moves,
