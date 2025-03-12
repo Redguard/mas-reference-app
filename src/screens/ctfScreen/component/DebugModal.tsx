@@ -20,8 +20,8 @@ export function DebugModal({game, crashTheApp}: Props) {
   const [isDebugVisible, setIsDebugVisible] = useState(false);
 
   // TODO: Change back once the challenge is finished
-  // const correctSequence = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
-  const correctSequence = ['top-left'];
+  const correctSequence = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
+  // const correctSequence = ['top-left'];
 
   function otpDecode(base64String: string, hexKey: string): string {
     const encodedBytes: Buffer = Buffer.from(base64String, 'base64');
