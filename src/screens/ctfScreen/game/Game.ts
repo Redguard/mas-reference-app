@@ -14,6 +14,7 @@ export class Game {
   /* Nobody can find it here, right?
   I heard that reverse engineering is illegal, or something */
   API_KEY = "458C0DC0-AA89-4B6D-AF74-564981068AD8";
+  gameState: String = '';
 
   constructor() {
     makeObservable(this, {
@@ -27,8 +28,15 @@ export class Game {
   }
 
   startGame() {
-    console.log('startGame()');
     this.cards = generateInitialCards();
+
+    // we want the game stat to be in memory for easy memory scan
+    const cardsWithoutGame = this.cards.map(card => {
+      const { game, ...rest } = card;
+      return rest;
+    });
+    const cardsString = JSON.stringify(cardsWithoutGame);
+    this.gameState = cardsString.toString();
     this.clicks = 0;
     this.timer.reset();
   }

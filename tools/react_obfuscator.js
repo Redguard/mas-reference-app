@@ -55,7 +55,7 @@ const tips = [
   'Sometimes it is nice to be a fly on the wall, or on the network.',
   'Obfuscation can bring you only so far.',
   'I heard CyberChef can cook very well with hard coded incidences.',
-  'Ask the nice people at the Redguard booth for a flag. The code phrase is the 4 character geohash of our newest member.',
+  'Present the 4 character geohash of our newest member to the nice people at the Redguard booth for small sweet treat.',
   'Memory is live.',
   'Live is memory',
   'Try harder...',
