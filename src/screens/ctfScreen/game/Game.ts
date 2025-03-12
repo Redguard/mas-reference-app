@@ -15,6 +15,7 @@ export class Game {
   I heard that reverse engineering is illegal, or something */
   API_KEY = "458C0DC0-AA89-4B6D-AF74-564981068AD8";
   gameState: String = '';
+  deckOpenedByDebugMenu: boolean = false;
 
   constructor() {
     makeObservable(this, {
@@ -29,6 +30,7 @@ export class Game {
 
   startGame() {
     this.cards = generateInitialCards();
+    this.deckOpenedByDebugMenu = false;
 
     // we want the game stat to be in memory for easy memory scan
     const cardsWithoutGame = this.cards.map(card => {
@@ -106,6 +108,7 @@ export class Game {
   showAllCards(){
     // console.log('showing all cards for 3 seconds.');
     this.startGame();
+    this.deckOpenedByDebugMenu = true;
     for (const card in this.cards){
       this.cards[card].makeVisible();
     }
@@ -121,7 +124,11 @@ export class Game {
      if (this.numbersOfGames === 0){
       return false;
      }
-    return this.cards.length / 2 === this.streak ? true : false;
+    return this.streak >= this.cards.length / 2 ? true : false;
+  }
+
+  noDebugWinningStreak(){
+    return (!this.deckOpenedByDebugMenu && this.winningStreak()) ? true : false;
   }
 }
 
