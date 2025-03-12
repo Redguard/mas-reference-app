@@ -7,7 +7,7 @@ async def handle_client(websocket, path=None):
         print(f"Received: {message}")
 
         if "b7c4de22-2366-4ba3-946a-820a42a8e733" in message:
-            response = "You authenticated properly, have a flag: 8b2b730f-958a-4e42-8879-6c76ffa9d37c"
+            response = "You authenticated properly, have a flag for the challenge \"Live update!\": 8b2b730f-958a-4e42-8879-6c76ffa9d37c"
         else:
             response = "Please show the passphrase to login."
 

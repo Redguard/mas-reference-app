@@ -23,8 +23,10 @@ def start_server():
                 if data == "TIP":
                     conn.sendall(b"You should not use plain text TCP when transmitting data.")
                 elif data == "HEARTBEAT":
-                    conn.sendall(b"ACK: dea0b6f6-3143-45fb-bd80-818ad6688797")
+                    conn.sendall(b"ACK: Super! You solved the challenge \"Are you still there?\": dea0b6f6-3143-45fb-bd80-818ad6688797")
                 elif data == "heartbeat":
+                    conn.sendall(b"ERROR: Unknown command. Please see HELP.")
+                else:
                     conn.sendall(b"ERROR: Unknown command. Please see HELP.")
             except Exception as e:
                 print(f"Error handling connection from {addr}: {e}")
