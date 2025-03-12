@@ -47,6 +47,6 @@ services:
   ctf_feedback:
     build: ./feedback_ctf
     volumes:
-      - ./certbot/conf/live/6914c609-1992-4839-9ec7-77c744040a27.mas-reference-app.org/:/app/certs:ro
+      - ./certbot/conf/archive/6914c609-1992-4839-9ec7-77c744040a27.mas-reference-app.org:/app/certs:ro
     ports:
       - 8008:8008
