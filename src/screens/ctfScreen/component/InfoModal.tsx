@@ -27,7 +27,9 @@ export function InfoModal({onClose}: Props) {
           <Text style={styles.text}>Hi!</Text>
           <Text style={styles.text}>
             The CTF was built on top of a game developed by Albert Vila Calvo.
-            He gave us permission to use his App as a baseline for our CTF.
+          </Text>
+          <Text style={styles.text}>
+            He gave us permission to use his App as a baseline for our CTF and we want to thank him for that ❤️
           </Text>
           <Text style={styles.text}>
             The original source code is available at{' '}
