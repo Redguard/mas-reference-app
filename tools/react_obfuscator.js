@@ -11,7 +11,7 @@ class PKCS7 {
   static unpad(paddedData) {
     const padLength = paddedData[paddedData.length - 1];
     if (padLength < 1 || padLength > paddedData.length) {
-      throw new Error("Invalid padding");
+      throw new Error('Invalid padding');
     }
     return paddedData.slice(0, -padLength);
   }

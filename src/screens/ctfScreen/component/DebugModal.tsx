@@ -81,16 +81,16 @@ export function DebugModal({game, crashTheApp}: Props) {
         animationType="slide"
       >
 
-<View style={styles.lottieWrapper} pointerEvents="none">
-  <LottieView
-    ref={confettiRef}
-    source={require('./assets/confetti.json')}
-    autoPlay={true}
-    loop={false}
-    style={styles.lottie}
-    resizeMode="cover"
-  />
-</View>
+      <View style={styles.lottieWrapper} pointerEvents="none">
+        <LottieView
+          ref={confettiRef}
+          source={require('./assets/confetti.json')}
+          autoPlay={true}
+          loop={false}
+          style={styles.lottie}
+          resizeMode="cover"
+        />
+      </View>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.title}>Debug Screen</Text>

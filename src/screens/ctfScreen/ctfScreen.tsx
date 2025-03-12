@@ -9,7 +9,8 @@ import {
   View,
   Alert,
   NativeModules,
-  Linking
+  Linking,
+  Dimensions
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Color} from './style/Color';
@@ -26,6 +27,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {DebugModal} from './component/DebugModal.tsx';
 import {ScoreBoardModal} from './component/ScoreboardModal.tsx';
 import RNExitApp from 'react-native-exit-app';
+import LottieView from 'lottie-react-native';
 
 
 const { WelcomeCTF } = NativeModules;
@@ -49,12 +51,13 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
     scoreBoardButton: true,
     saveButton: true,
   });
-
   const [showInfoModal, setShowInfoModal] = React.useState(false);
   const [showHelpModal, setShowHelpModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = React.useState(false);
   const [showScoreboardModal, setShowScoreboardModal] = React.useState(false);
+  const [explosions, setExplosions] = React.useState([]);
 
+  const { width, height } = Dimensions.get('window');
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -106,7 +109,36 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
       const randomElement = visibleElements[randomIndex];
       hideElement(randomElement);
       hiddenElements.add(randomElement);
+       // Trigger explosion animation at a random position
+       const randomX = Math.random() * (width - 200);
+       const randomY = Math.random() * (height - 200);
+       const randomExplosion = getRandomExplosion();
+       setExplosions((prevExplosions) => [
+        ...prevExplosions,
+        { id: Date.now(), x: randomX, y: randomY, source: randomExplosion },
+      ]);
     }, 1000);
+  };
+
+
+  const explosionAssets = {
+    1: require('./component/assets/explosion1.json'),
+    2: require('./component/assets/explosion2.json'),
+    3: require('./component/assets/explosion3.json'),
+    4: require('./component/assets/explosion4.json'),
+    5: require('./component/assets/explosion4.json'),
+  };
+
+  const getRandomExplosion = () => {
+    const randomIndex = Math.floor(Math.random() * Object.keys(explosionAssets).length) + 1; // Random number between 1 and 4
+    return explosionAssets[randomIndex];
+  };
+
+  const handleAnimationFinish = (id: Number) => {
+    // Remove the explosion from the array after the animation finishes
+    setExplosions((prevExplosions) =>
+      prevExplosions.filter((explosion) => explosion.id !== id)
+    );
   };
 
   return (
@@ -117,6 +149,21 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
         useAngle={true}
         angle={135}
         style={[styles.container]}>
+
+        {explosions.map((explosion) => (
+                <LottieView
+                  key={explosion.id}
+                  source={explosion.source}
+                  onAnimationFinish={() => handleAnimationFinish(explosion.id)}
+                  autoPlay
+                  loop={false}
+                  style={[
+                    styles.explosion,
+                    { top: explosion.y, left: explosion.x },
+                  ]}
+                />
+              ))}
+
         <View style={styles.spaceTop} />
         <View style={[styles.topWrapper, { width: boardSize}]}>
           {/* {visibility.title && (

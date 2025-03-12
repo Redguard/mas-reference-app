@@ -74,6 +74,13 @@ const styles = StyleSheet.create({
     zIndex: 10000,
     pointerEvents: 'box-none',
   },
+  explosion:{
+    position: 'absolute',
+    width: 300,
+    height: 300,
+    zIndex:99999,
+    pointerEvents: 'box-none',
+  },
 });
 
 export default styles;
