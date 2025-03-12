@@ -18,9 +18,9 @@ def start_server():
                 print(data)
                 if data == "HELP":
                     conn.sendall(b"ACK: Supported commands: INIT, TIP, HEARTBEAT, HELP")
-                if data == "INIT":
+                elif data == "INIT":
                     conn.sendall(b"ACK: Hello client")
-                if data == "TIP":
+                elif data == "TIP":
                     conn.sendall(b"You should not use plain text TCP when transmitting data.")
                 elif data == "HEARTBEAT":
                     conn.sendall(b"ACK: Super! You solved the challenge \"Are you still there?\": dea0b6f6-3143-45fb-bd80-818ad6688797")
