@@ -17,7 +17,7 @@ import {observer} from 'mobx-react-lite';
 import {Game} from '../game/Game';
 import RNFS from 'react-native-fs';
 import {lookupFlag} from './ReactFlags';
-import {getObfuscatedFlag} from './ObfuscatedReactFlags';
+import {getObfuscatedFlag, getScrambledFlags} from './ObfuscatedReactFlags';
 import Clipboard from '@react-native-clipboard/clipboard';
 
 const { WelcomeCTF } = NativeModules;
@@ -141,17 +141,22 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   const title = game.cards.length !== 0 ? 'Congratulations! You won!' : "Welcome to Redguard's CTF for the Insomni'hack!";
   const message = game.cards.length !== 0 ? `With ${game.moves} moves and ${game.timer.seconds} seconds.` : 'There are several challenges hidden inside this App. You can use the MASVS references from the sidebar as an inspiration. \n\n Flags have the format of a UUID, for example:\n 08E94C4B-052A-434D-80DA-50D82C6A5085\n\nHint: Tap the flag to copy it into the clipboard.';
   var subtitle = '¡Buena suerte!';
-  if(game.numbersOfGames === 1) {
-    selectedFlag = firstWinFlag;
+
+  if (game.numbersOfGames === 1) {
+    selectedFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
     subtitle = 'Welcome to the game. Here\'s your first flag:\n';
   }
-  if(game.numbersOfGames > 1) {
-    selectedFlag = firstWinFlag;
+  if (game.numbersOfGames > 1) {
+    selectedFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
     subtitle = 'You already got the first flag, but just in case you missed it, here it is again: \n';
   }
-  if(game.winningStreak()) {
+  if (game.winningStreak()) {
     selectedFlag = getObfuscatedFlag();
-    subtitle = 'Impressive! You managed to score a perfect streak. You deserve this special reward:\n';
+    subtitle = 'You managed to score a perfect streak with the help of the debug menu. You deserve this special reward, but you can do better:\n';
+  }
+  if (game.noDebugWinningStreak()) {
+    selectedFlag = getScrambledFlags('noDebugWinningStreak');
+    subtitle = 'Impossible! You managed to score a perfect streak without using the debug menu. You deserve this special reward:\n';
   }
 
   return (
