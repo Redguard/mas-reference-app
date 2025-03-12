@@ -146,11 +146,11 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
     selectedFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
     subtitle = 'You already got the first flag, but just in case you missed it, here it is again: \n';
   }
-  if (game.winningStreak()) {
+  if (game.perfectGame()) {
     selectedFlag = getObfuscatedFlag();
     subtitle = 'You managed to score a perfect streak with the help of the debug menu. You deserve this special reward, but you can do better:\n';
   }
-  if (game.noDebugWinningStreak()) {
+  if (game.noDebugPerfectGame()) {
     selectedFlag = getScrambledFlags('noDebugWinningStreak');
     subtitle = 'Impossible! You managed to score a perfect streak without using the debug menu. You deserve this special reward:\n';
   }
