@@ -38,6 +38,7 @@
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.15.0",
     "react-native-linear-gradient": "2.8.3",
+    "react-native-logs": "^5.3.0",
     "react-native-popup-menu": "^0.16.1",
     "react-native-reanimated": "^3.17.1",
     "react-native-reanimated-table": "^0.0.2",

@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import { Buffer } from 'buffer';
 import LottieView from 'lottie-react-native';
 import { Modal, View, Text, StyleSheet, Pressable, NativeModules } from 'react-native';
+import { logger } from 'react-native-logs';
 
 import Clipboard from '@react-native-clipboard/clipboard';
 
@@ -36,7 +37,8 @@ export function DebugModal({game, crashTheApp}: Props) {
   }
 
   const handleTap = (corner: string) => {
-    console.log(corner + ' tapped...')
+    const log = logger.createLogger();
+    log.debug(corner + ' tapped...');
     setTapSequence((prevSequence) => {
       const newSequence = [...prevSequence, corner];
       if (newSequence.join(',') === correctSequence.join(',')) {

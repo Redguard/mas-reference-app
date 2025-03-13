@@ -19,6 +19,7 @@ import RNFS from 'react-native-fs';
 import {lookupFlag} from './ReactFlags';
 import {getObfuscatedFlag, getScrambledFlags} from './ObfuscatedReactFlags';
 import Clipboard from '@react-native-clipboard/clipboard';
+import { logger } from 'react-native-logs';
 
 const { WelcomeCTF } = NativeModules;
 
@@ -121,7 +122,8 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   // console.log('bottom', bottom)
 
   let devFlag = lookupFlag(42,false);
-  console.log('Developer flag using lookupFlag() function created. May use it later.');
+  const log = logger.createLogger();
+  log.debug('Developer flag using lookupFlag() function created. May use it later.');
   devFlag;
 
   if (game.isCompleted && game.cards.length > 0) {
