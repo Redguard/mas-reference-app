@@ -15,6 +15,7 @@ services:
       - 3001:80
     restart: always
     volumes:
+      - ./nginx/conf_nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf_http/:/etc/nginx/conf.d/:ro
       - ./nginx/html/:/etc/nginx/html/:ro
       - ./certbot/www:/var/www/certbot/:ro
@@ -25,6 +26,7 @@ services:
       - 443:443
     restart: always
     volumes:
+      - ./nginx/conf_nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf_https/:/etc/nginx/conf.d/:ro
       - ./nginx/html/:/etc/nginx/html/:ro
       - ./certbot/www:/var/www/certbot/:ro
@@ -34,3 +36,19 @@ services:
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
+  websocket_ctf:
+    build: ./websocket_ctf
+    volumes:
+      - ./certbot/conf/archive/updated.mas-reference-app.org:/app/certs:ro
+    ports:
+      - 6001:6001
+  tcp_ctf:
+    build: ./tcp_ctf
+    ports:
+      - 7001:7001
+  ctf_feedback:
+    build: ./feedback_ctf
+    volumes:
+      - ./certbot/conf/archive/feedback.mas-reference-app.org:/app/certs:ro
+    ports:
+      - 8008:8008

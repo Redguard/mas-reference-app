@@ -206,11 +206,11 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun getTeams () {
+    fun getScoreboard () {
         // https request, not pinned, no domain/path obfuscation
-        val testDomain = "400e27f9-f9ff-4a86-8353-9c6df71a75b1." + MasSettings.getTestDomain()
+        val testDomain = "scoreboard." + MasSettings.getTestDomain()
         try {
-            val connection = URL("https://$testDomain/e364000e-75e7-4f05-9b0e-0690f1a14453.html").openConnection() as HttpURLConnection
+            val connection = URL("https://$testDomain/board/e364000e-75e7-4f05-9b0e-0690f1a14453").openConnection() as HttpURLConnection
             val data = connection.inputStream.bufferedReader().readText()
             // Log.i("CTF", data)
             // do something useful here
@@ -220,12 +220,12 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    fun postScore () {
+    fun getTeams () {
         // https request, pinned using OKHTTP and inline, domain/path is obfuscated
         val helper = NetworkHelpers()
 
         try {
-            val host = helper.decode("0Hh1D/A/DnpN4sOBRXIkUmptMV0ocS+q57T73/Dg6jrN4Cv+")+"." + MasSettings.getTestDomain()
+            val host = "teams." + MasSettings.getTestDomain()
             val port = 443
 
             val tlsSocket = createTLSSocket(host, port)
