@@ -17,12 +17,10 @@ interface Props {
 }
 
 export function DebugModal({game, crashTheApp}: Props) {
-  const [, setTapSequence] = useState([]);
+  const [, setTapSequence] =  useState<string[]>([]);
   const [isDebugVisible, setIsDebugVisible] = useState(false);
 
-  // TODO: Change back once the challenge is finished
   const correctSequence = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
-  // const correctSequence = ['top-left'];
 
   function otpDecode(base64String: string, hexKey: string): string {
     const encodedBytes: Buffer = Buffer.from(base64String, 'base64');
@@ -30,11 +28,13 @@ export function DebugModal({game, crashTheApp}: Props) {
       const decodedBytes: Buffer = Buffer.from(
       encodedBytes.map((byte, index) => {
         const keyByte = keyBytes[index % keyBytes.length];
+        // eslint-disable-next-line no-bitwise
         return byte ^ keyByte;
       })
     );
     return decodedBytes.toString('utf-8');
   }
+
 
   const handleTap = (corner: string) => {
     const log = logger.createLogger();
@@ -108,11 +108,6 @@ export function DebugModal({game, crashTheApp}: Props) {
             }}>
               <Text>New Game with a Head Start</Text>
             </Pressable>
-            {/* <Pressable style={styles.button} onPress={function(){
-              setIsDebugVisible(false);
-            }}>
-              <Text>Load Secret Game-State</Text>
-            </Pressable> */}
             <Pressable style={styles.button} onPress={function(){
               WelcomeCTF.enableExperimentalGui();
               crashTheApp();
@@ -145,14 +140,12 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    // backgroundColor: 'rgba(18, 171, 102, 0.27))',
-    zIndex: 100, // Ensure it appears above all other content
+    zIndex: 100,
   },
   corner: {
     position: 'absolute',
     width: 100,
     height: 100,
-    // backgroundColor: 'rgba(171, 18, 18, 0.6))',
   },
   topLeft: {
     top: 0,
