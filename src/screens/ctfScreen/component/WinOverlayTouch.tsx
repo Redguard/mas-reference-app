@@ -17,7 +17,7 @@ import {observer} from 'mobx-react-lite';
 import {Game} from '../game/Game';
 import RNFS from 'react-native-fs';
 import {lookupFlag} from './ReactFlags';
-import {getObfuscatedFlag, getScrambledFlags} from './ObfuscatedReactFlags';
+import {getObfuscatedFlag, getScrambledPayload} from './ObfuscatedReactPayloads';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { logger } from 'react-native-logs';
 
@@ -153,7 +153,7 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
     subtitle = 'You managed to score a perfect streak with the help of the debug menu. You deserve this special reward, but you can do better:\n';
   }
   if (game.noDebugPerfectGame()) {
-    selectedFlag = getScrambledFlags('noDebugWinningStreak');
+    selectedFlag = getScrambledPayload('noDebugWinningStreak');
     subtitle = 'Impossible! You managed to score a perfect streak without using the debug menu. You deserve this special reward:\n';
   }
 

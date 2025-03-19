@@ -11,7 +11,7 @@ import {Color} from '../style/Color';
 import React from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { WebView } from 'react-native-webview';
-import { getScrambledFlags } from './ObfuscatedReactFlags.tsx';
+import { getScrambledPayload } from './ObfuscatedReactPayloads';
 
 
 interface Props {
@@ -25,27 +25,17 @@ export function ScoreBoardModal({ onClose }: Props) {
   // https request, not pinned, no domain/path obfuscation
   WelcomeCTF.getTeams();
 
-  // https request, pinned using Android Trustmanager, domain/path is obfuscated, custom HTTPS client used. There are off the shelf frida.re script which bypass this pinning.
+  // https request, pinned using Android Trust Manager, domain/path is obfuscated, custom HTTPS client used. There are off the shelf frida.re script which bypass this pinning.
   WelcomeCTF.postScore();
 
   // init kotlin part which uses raw TCP to connect to the flag server
   WelcomeCTF.scoreboardHeartbeat();
 
-  // https request, pinned Android Trustmanager
-  const ws = new WebSocket(getScrambledFlags('websocketDomain'));
+  // https request, pinned Android Trust Manager
+  const ws = new WebSocket(getScrambledPayload('wssDomain'));
   ws.onopen = () => {
     ws.send('Logging in with my hard coded key');
-    ws.send('b7c4de22-2366-4ba3-946a-820a42a8e733');
-  };
-  ws.onmessage = e => {
-    // a message was received
-    // console.log(e.data);
-  };
-  ws.onerror = e => {
-    console.log(e.message);
-  };
-  ws.onclose = e => {
-    console.log(e.code, e.reason);
+    ws.send(getScrambledPayload('wssPassword'));
   };
 
   const screenHeight = Dimensions.get('window').height;
@@ -70,13 +60,13 @@ export function ScoreBoardModal({ onClose }: Props) {
           <Text style={styles.headerText}>Scoreboard</Text>
         </View>
         <WebView
-          source={{ uri: 'https://' + getScrambledFlags('scoreboard') + '.mas-reference-app.org/scoreboard.html' }}
+          source={{ uri: getScrambledPayload('scoreboardDomain')}}
           style={{ flex: 1, height: screenHeight * 0.5 }}
           javaScriptEnabled={false}
           scrollEnabled={false}
         />
         <WebView
-          source={{ uri: 'https://' + getScrambledFlags('footer') + '.mas-reference-app.org/footer.html' }}
+          source={{ uri: getScrambledPayload('footerDomain')}}
           style={{ flex: 1, height: screenHeight * 0.175 }}
           javaScriptEnabled={false}
           scrollEnabled={false}
@@ -108,17 +98,17 @@ const styles = StyleSheet.create({
   },
   closeText: {
     fontSize: 20,
-    color: Color.white, // White color for better contrast
+    color: Color.white,
   },
   formContainer: {
-    flex: 1, // Use flex to fill available space
-    justifyContent: 'center', // Center vertically
+    flex: 1,
+    justifyContent: 'center',
   },
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     color: Color.dark,
-    textAlign: 'center', // Center the header text
+    textAlign: 'center',
   },
 });

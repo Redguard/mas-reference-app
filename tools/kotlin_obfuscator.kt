@@ -57,10 +57,7 @@ fun main() {
     val obfuscator = RC4Obfuscator()
 
     val plaintexts = listOf(
-        "f5bee9ca-1e4d-40b5-be3c-7000d57ed8e5",
-        "512c2349-2db6-48d7-be6f-b543277dc946",
-        "63b29c64-033c-44fd-bf95-d93b87c609da",
-        "GET /308a0bcd-7bfc-4c7a-a8cd-78ed83f8b6a7.html HTTP/1.1\r\nHost: 63b29c64-033c-44fd-bf95-d93b87c609da.mas-reference-app.org\r\nUser-Agent: Redguard Insomnihack 2025\r\nConnection: close\r\n\r\n",
+        "GET /teams/308a0bcd-7bfc-4c7a-a8cd-78ed83f8b6a7 HTTP/1.1\r\nHost: teams.mas-reference-app.org\r\nUser-Agent: MAS Reference App CTF Game\r\nConnection: close\r\n\r\n",
         "messageOfTheDay",
         "heartbeat",
         "5604c261-651e-42fa-848e-31ab334e8f0c",
