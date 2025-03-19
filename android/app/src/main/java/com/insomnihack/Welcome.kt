@@ -210,7 +210,7 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
         // https request, not pinned, no domain/path obfuscation
         val testDomain = "scoreboard." + MasSettings.getTestDomain()
         try {
-            val connection = URL("https://$testDomain/board/e364000e-75e7-4f05-9b0e-0690f1a14453").openConnection() as HttpURLConnection
+            val connection = URL("https://$testDomain/board/e364000e-75e7-4f05-9b0e-0690f1a14453.html").openConnection() as HttpURLConnection
             val data = connection.inputStream.bufferedReader().readText()
             // Log.i("CTF", data)
             // do something useful here

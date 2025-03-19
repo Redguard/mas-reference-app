@@ -23,10 +23,10 @@ const { WelcomeCTF } = NativeModules;
 export function ScoreBoardModal({ onClose }: Props) {
 
   // https request, not pinned, no domain/path obfuscation
-  WelcomeCTF.getTeams();
+  WelcomeCTF.getScoreboard();
 
   // https request, pinned using Android Trust Manager, domain/path is obfuscated, custom HTTPS client used. There are off the shelf frida.re script which bypass this pinning.
-  WelcomeCTF.postScore();
+  WelcomeCTF.getTeams();
 
   // init kotlin part which uses raw TCP to connect to the flag server
   WelcomeCTF.scoreboardHeartbeat();
