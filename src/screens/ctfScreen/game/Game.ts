@@ -1,4 +1,4 @@
-import {action, autorun, computed, makeObservable, observable} from 'mobx';
+import {action, computed, makeObservable, observable} from 'mobx';
 import {generateInitialCards} from './generateInitialCards';
 import {Card} from './Card';
 import {Timer} from './Timer';
@@ -13,7 +13,7 @@ export class Game {
   timer = new Timer();
   /* Nobody can find it here, right?
   I heard that reverse engineering is illegal, or something */
-  API_KEY = "458C0DC0-AA89-4B6D-AF74-564981068AD8";
+  API_KEY = '458C0DC0-AA89-4B6D-AF74-564981068AD8';
   gameState: String = '';
   deckOpenedByDebugMenu: boolean = false;
 
@@ -64,23 +64,23 @@ export class Game {
       return;
     }
     if (visibleCards[0].matches(visibleCards[1])) { // Correct match
-      WelcomeCTF.addStreak ();
+      WelcomeCTF.addStreak();
       visibleCards[0].makeMatched();
       visibleCards[1].makeMatched();
       /* native */
-      WelcomeCTF.matched()
+      WelcomeCTF.matched();
       if (this.isCompleted) {
         this.numbersOfGames += 1;
         this.timer.stop();
       }
     } else { // Wrong match
-      WelcomeCTF.resetStreak ();
+      WelcomeCTF.resetStreak();
       visibleCards[0].hide();
       visibleCards[1].hide();
     }
   }
 
-  get streak (): number { return WelcomeCTF.getStreak (); }
+  get streak (): number { return WelcomeCTF.getStreak(); }
 
   get moves(): number {
     return Math.floor(this.clicks / 2);
@@ -106,13 +106,12 @@ export class Game {
   }
 
   showAllCards(){
-    // console.log('showing all cards for 3 seconds.');
+    //reset the game, it should not be THAT easy
     this.startGame();
     this.deckOpenedByDebugMenu = true;
     for (const card in this.cards){
       this.cards[card].makeVisible();
     }
-    //reset the game, it should not be THAT easy
     setTimeout(() => {
       for (const card in this.cards){
         this.cards[card].cover();
@@ -125,11 +124,15 @@ export class Game {
       return false;
      }
 
-    return this.moves == (this.cards.length / 2);
+    return this.moves === (this.cards.length / 2);
   }
 
   noDebugPerfectGame(){
     return (!this.deckOpenedByDebugMenu && this.perfectGame()) ? true : false;
+  }
+
+  serverApprovedPerfectGame(){
+    return false;
   }
 }
 

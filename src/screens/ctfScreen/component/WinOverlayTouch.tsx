@@ -156,6 +156,10 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
     selectedFlag = getScrambledPayload('noDebugWinningStreak');
     subtitle = 'Impossible! You managed to score a perfect streak without using the debug menu. You deserve this special reward:\n';
   }
+  if (game.serverApprovedPerfectGame()) {
+    selectedFlag = getScrambledPayload('serverApprovedPerfectGame');
+    subtitle = 'Impossible! You managed to score a perfect streak without using the debug menu. You deserve this special reward:\n';
+  }
 
   return (
     <Animated.View style={[styles.main, {height: screenHeight, bottom}]}>

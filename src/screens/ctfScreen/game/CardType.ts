@@ -7,6 +7,8 @@ export enum CardType {
   Leaf = 'leaf',
   Bicycle = 'bicycle',
   Bomb = 'bomb',
-  Redguard = 'redguard',
-  Insomnihack = 'insomnihack',
+  Heart = 'heart',
+  Magnet = 'magnet',
+  // Redguard = 'redguard',
+  // Insomnihack = 'insomnihack',
 }
