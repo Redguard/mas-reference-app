@@ -34,7 +34,8 @@ export class Game {
 
     // we want the game stat to be in memory for easy memory scan
     const cardsWithoutGame = this.cards.map(card => {
-      const { game, ...rest } = card;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { game, ...rest } = card;
       return rest;
     });
     const cardsString = JSON.stringify(cardsWithoutGame);
@@ -119,7 +120,7 @@ export class Game {
     }, 3000);
   }
 
-  perfectGame(){
+  perfectGame() : Boolean {
      if (this.numbersOfGames === 0){
       return false;
      }
@@ -127,11 +128,12 @@ export class Game {
     return this.moves === (this.cards.length / 2);
   }
 
-  noDebugPerfectGame(){
+  noDebugPerfectGame() : Boolean {
     return (!this.deckOpenedByDebugMenu && this.perfectGame()) ? true : false;
   }
 
-  serverApprovedPerfectGame(){
+  serverValidatedWin() : Boolean {
+    // TODO: Implement
     return false;
   }
 }

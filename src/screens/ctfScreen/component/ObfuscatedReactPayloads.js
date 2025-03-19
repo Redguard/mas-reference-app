@@ -53,8 +53,11 @@ export function getScrambledPayload(target){
   else if (target === 'websocketPassword'){
     return 'b7c4de22-2366-4ba3-946a-820a42a8e733';
   }
-  else if (target === 'noDebugWinningStreak'){
+  else if (target === 'noDebugPerfectGame'){
     return '7a1f77fb-5aac-4bb0-b0bc-a8929ec91319';
+  }
+  else if (target === 'serverValidatedWin'){
+    return 'd23eac76-aa29-4348-9136-4f5704ab870a ';
   }
   else if (target === 'backup1'){
     return '6bcaf14d-295a-4f8f-ae72-2fccb4a8c1d3';

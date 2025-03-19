@@ -153,12 +153,12 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
     subtitle = 'You managed to score a perfect streak with the help of the debug menu. You deserve this special reward, but you can do better:\n';
   }
   if (game.noDebugPerfectGame()) {
-    selectedFlag = getScrambledPayload('noDebugWinningStreak');
-    subtitle = 'Impossible! You managed to score a perfect streak without using the debug menu. You deserve this special reward:\n';
+    selectedFlag = getScrambledPayload('noDebugPerfectGame');
+    subtitle = 'Did you rewind time? I saw the same result already before. You deserve this reward:\n';
   }
-  if (game.serverApprovedPerfectGame()) {
-    selectedFlag = getScrambledPayload('serverApprovedPerfectGame');
-    subtitle = 'Impossible! You managed to score a perfect streak without using the debug menu. You deserve this special reward:\n';
+  if (game.serverValidatedWin()) {
+    selectedFlag = getScrambledPayload('serverValidatedWin');
+    subtitle = 'Impossible! You managed to score a perfect streak without cheating? You deserve this special reward:\n';
   }
 
   return (
