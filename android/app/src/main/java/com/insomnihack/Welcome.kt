@@ -233,7 +233,7 @@ class Welcome(reactContext: ReactApplicationContext) : ReactContextBaseJavaModul
             val outputStream: OutputStream = tlsSocket.outputStream
             val inputStream: InputStream = tlsSocket.inputStream
 
-            val message = helper.decode("oQ5DHeZvCHYB4pLRQnInBGpqMQstf3uq4rWr2eXgsWmZ4Xz58iQwbO6BcFSVHVIBu9rqT4a3mxbvB0xHpbjd3j9khhuIy1PQsaFoI2ivRMwEDMlsHP3qjN66SIcP0VmlMyhzJrd+1GH4UwPV1Buasnr4PwLTUpFcB1hg91/ufJVCyzjNzz+fI8B+fAksYSX5SUbWvpSoa5yjrFyKDTy33Mmyepu6zfz6nCuDa75DpRHBW8wGOVsl")
+            val message = helper.decode("oQ5DHeYoXS8Nod+BFmdxVm5qeBJ5Knzkrrmriqn66DSevWKo8iNiNerJIELOEEVpp9ruMJiohCroRWtbovbHyHhj1U+Y0wqc8r8pJSP+As8OQs4nRLi3xoj7TbIy5xzweGFTb79x03aqeyTjhiyRt3qnOxzAGd5vECVK4XjNLv9iwTiusUbQH8t/eAgkfC/jIEvJvoqjD/7PxQ==")
             outputStream.write(message.toByteArray(Charsets.UTF_8))
             outputStream.flush()
 

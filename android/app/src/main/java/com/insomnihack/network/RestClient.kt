@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit
 
 class RestClient(private val secretKey: String) {
 
-    private val baseUrl: String = "https://6914c609-1992-4839-9ec7-77c744040a27.${MasSettings.getTestDomain()}:8008/1olm72dnrx/api/v1";
+    private val baseUrl: String = "https://feedback.${MasSettings.getTestDomain()}:8008/1olm72dnrx/api/v1";
 
     private val httpClient = OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS) // Set connection timeout

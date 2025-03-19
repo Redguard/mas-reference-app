@@ -36,18 +36,18 @@ services:
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
-  websocket_ctf:
-    build: ./websocket_ctf
+  ctf_websocket:
+    build: ./ctf_websocket
     volumes:
-      - ./certbot/conf/archive/updated.mas-reference-app.org:/app/certs:ro
+      - ./certbot/conf/archive/update.mas-reference-app.org:/app/certs:ro
     ports:
       - 6001:6001
-  tcp_ctf:
-    build: ./tcp_ctf
+  ctf_tcp:
+    build: ./ctf_tcp
     ports:
       - 7001:7001
   ctf_feedback:
-    build: ./feedback_ctf
+    build: ./ctf_feedback
     volumes:
       - ./certbot/conf/archive/feedback.mas-reference-app.org:/app/certs:ro
     ports:
