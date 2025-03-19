@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // https://obfuscator.io/#code
 // don't string array rotate/shuffle
 

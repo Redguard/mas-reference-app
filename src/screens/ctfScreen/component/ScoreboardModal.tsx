@@ -40,6 +40,12 @@ export function ScoreBoardModal({ onClose }: Props) {
 
   const screenHeight = Dimensions.get('window').height;
 
+
+  const webViewStyle = StyleSheet.create({
+    top: { flex: 1, height: screenHeight * 0.5 },
+    bottom: { flex: 1, height: screenHeight * 0.175 },
+  });
+
   return (
     <Modal animationType="slide">
       <ScrollView style={styles.modalContainer}>
@@ -61,13 +67,13 @@ export function ScoreBoardModal({ onClose }: Props) {
         </View>
         <WebView
           source={{ uri: getScrambledPayload('scoreboardDomain')}}
-          style={{ flex: 1, height: screenHeight * 0.5 }}
+          style={webViewStyle.top}
           javaScriptEnabled={false}
           scrollEnabled={false}
         />
         <WebView
           source={{ uri: getScrambledPayload('footerDomain')}}
-          style={{ flex: 1, height: screenHeight * 0.175 }}
+          style={webViewStyle.bottom}
           javaScriptEnabled={false}
           scrollEnabled={false}
         />

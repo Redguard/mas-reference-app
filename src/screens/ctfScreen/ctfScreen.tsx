@@ -9,8 +9,7 @@ import {
   View,
   Alert,
   NativeModules,
-  Linking,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Color} from './style/Color';
@@ -51,6 +50,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
     scoreBoardButton: true,
     saveButton: true,
   });
+
   const [showInfoModal, setShowInfoModal] = React.useState(false);
   const [showHelpModal, setShowHelpModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = React.useState(false);
@@ -259,21 +259,6 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
             <Text style={[styles.buttonText, textStyleTop]}>Scoreboard</Text>
           </Pressable>
         )}
-        {/*visibility.saveButton && (
-          <Pressable
-          style={({ pressed }) => [
-            styles.buttonPressable,
-            {
-              backgroundColor: pressed ? Color.blue : Color.blueLight,
-            },{zIndex: 9999}]}
-            onPress={() => {
-              Linking.openURL(
-                `ctf://game-controller?token=${WelcomeCTF.getIpcToken()}&command=save_session&score=${game.totalScore}&streak=${game.streak}&moves=${game.moves}&time=${game.timer.seconds}&data=Tm90aGluZyB0byBzZWUgaGVyZS4gR28gYXdheSEh`,
-              )
-            } }>
-          <Text style={[styles.buttonText, textStyleTop]}>Save Game</Text>
-        </Pressable>
-          )*/}
         </View>
 
         <View style={styles.spaceBottom} />

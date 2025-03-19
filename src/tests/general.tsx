@@ -187,7 +187,7 @@ export var generalTestCases: Dictionary<TestGroup[]> = {
             "Attempts to access the user's SMS messages, which may contain private communication data. The test does not really access the data, but only count the number of records retrieved.",
           nativeFunction: PrivacyAccessData.getSMS,
         },
-        // TODO: Not where to put this risk. 
+        // TODO: Not where to put this risk.
         // {
         //   title: 'Attempt so send SMS',
         //   description:
