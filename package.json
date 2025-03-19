@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@react-native-clipboard/clipboard": "^1.16.2",
-    "@react-native-vector-icons/feather": "^4.29.2-alpha.25",
+    "@react-native-vector-icons/feather": "^4.29.2",
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",

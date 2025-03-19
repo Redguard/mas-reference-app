@@ -31,12 +31,27 @@ import LottieView from 'lottie-react-native';
 
 const { WelcomeCTF } = NativeModules;
 
+interface ExplosionAssets {
+  [key: number]: any;
+}
+
+interface Visibility {
+  [key: string]: boolean;
+}
+
+interface Explosion {
+  id: number;
+  x: number;
+  y: number;
+  source: any;
+}
+
 const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const isPortrait = useIsPortrait();
   const {boardSize} = useCardSize();
 
-  const [visibility, setVisibility] = React.useState({
+  const [visibility, setVisibility] = React.useState<Visibility>({
     title: true,
     restartButton: true,
     helpButton: true,
@@ -55,7 +70,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
   const [showHelpModal, setShowHelpModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = React.useState(false);
   const [showScoreboardModal, setShowScoreboardModal] = React.useState(false);
-  const [explosions, setExplosions] = React.useState([]);
+  const [explosions, setExplosions] = React.useState<Explosion[]>([]);
 
   const { width, height } = Dimensions.get('window');
 
@@ -71,9 +86,9 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
   };
 
   /* Special flag shown only when the score is -1234 (this should never happen, right?) */
-  let specialFlag = game.totalScore == -1234? WelcomeCTF.getSpecialFlag() : null;
+  let specialFlag = game.totalScore === -1234 ? WelcomeCTF.getSpecialFlag() : null;
   if (specialFlag) {
-    Alert.alert ("wait a minute... 🤨", specialFlag);
+    Alert.alert('wait a minute... 🤨', specialFlag);
   }
 
   // Function to hide/show an element
@@ -85,43 +100,50 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
   };
 
   const crashTheApp = () => {
-    const visibleElements = Object.keys(visibility).filter(
-      (key) => visibility[key]
+    const hiddenElements = new Set<string>();
+
+    const getVisibleElements = () => Object.keys(visibility).filter(
+      (key) => visibility[key] && !hiddenElements.has(key)
     );
+
+    let visibleElements = getVisibleElements();
 
     if (visibleElements.length === 0) {
       RNExitApp.exitApp();
       return;
     }
 
-    const hiddenElements = new Set(); // Use a Set to track hidden elements
     const interval = setInterval(() => {
-      const visibleElements = Object.keys(visibility).filter(
-        (key) => visibility[key] && !hiddenElements.has(key) // Exclude already hidden elements
-      );
-
       if (visibleElements.length === 0) {
         clearInterval(interval);
         RNExitApp.exitApp();
         return;
       }
+
       const randomIndex = Math.floor(Math.random() * visibleElements.length);
       const randomElement = visibleElements[randomIndex];
+
       hideElement(randomElement);
       hiddenElements.add(randomElement);
-       // Trigger explosion animation at a random position
-       const randomX = Math.random() * (width - 200);
-       const randomY = Math.random() * (height - 200);
-       const randomExplosion = getRandomExplosion();
-       setExplosions((prevExplosions) => [
+
+      const randomX = Math.random() * (width - 200);
+      const randomY = Math.random() * (height - 200);
+      setExplosions((prevExplosions) => [
         ...prevExplosions,
-        { id: Date.now(), x: randomX, y: randomY, source: randomExplosion },
+        {
+          id: Date.now(),
+          x: randomX,
+          y: randomY,
+          source: getRandomExplosion(),
+        },
       ]);
+
+      visibleElements = getVisibleElements();
     }, 1000);
   };
 
 
-  const explosionAssets = {
+  const explosionAssets: ExplosionAssets = {
     1: require('./component/assets/explosion1.json'),
     2: require('./component/assets/explosion2.json'),
     3: require('./component/assets/explosion3.json'),
@@ -129,7 +151,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
     5: require('./component/assets/explosion4.json'),
   };
 
-  const getRandomExplosion = () => {
+  const getRandomExplosion = (): any => {
     const randomIndex = Math.floor(Math.random() * Object.keys(explosionAssets).length) + 1; // Random number between 1 and 4
     return explosionAssets[randomIndex];
   };
@@ -166,9 +188,6 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
 
         <View style={styles.spaceTop} />
         <View style={[styles.topWrapper, { width: boardSize}]}>
-          {/* {visibility.title && (
-            <Text style={[styles.title, textStyleTop]}>Memory Game</Text>
-          )} */}
           {visibility.restartButton && (
             <Pressable
               style={({ pressed }) => [

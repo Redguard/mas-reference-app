@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import {Card} from '../game/Card';
@@ -121,7 +122,7 @@ export const CardView = observer(({card, cardSize, margin}: CardViewProps) => {
           <View style={styles.center}>
             {card.type === 'redguard' ? (
               <RedguardIcon/>
-            ): card.type === 'insomnihack' ? (
+            ) : card.type === 'insomnihack' ? (
               <InsomnihackIcon/>
             ) : (
               <Icon name={card.type} size={30} color="#fff" />

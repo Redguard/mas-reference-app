@@ -72,7 +72,7 @@ const decryptFlag = (ciphertext: string, key: string): string => {
 export function HelpModal({ onClose }: Props) {
   const [tip, setTip] = useState('');
 
-  // this code is not perfect on purpose. we want, that it is easier to find in the JS pseudocode
+  // this code is not perfect on purpose. We want, that it is easier to find in the JS bytecode disassembly
   const title: string =  'Tip of the moment is:';
 
   useEffect(() => {
@@ -84,14 +84,12 @@ export function HelpModal({ onClose }: Props) {
 
     setTip(decryptFlag(randomTip, '5a9ae0bae7692e2063457011ff08c275'));
 
-    // Automatically close the modal after 5 seconds
     const timer = setTimeout(() => {
       onClose();
     }, 5000);
 
-    // Cleanup the timer on unmount
     return () => clearTimeout(timer);
-  }, []); // If this depends on `onClose`, the tip will change every second (if the game was active) and the modal will always be shown
+  }, [onClose]);
 
   return (
     <Modal animationType="slide" transparent={true} onRequestClose={onClose}>

@@ -1,5 +1,4 @@
 import {
-  Linking,
   Modal,
   Pressable,
   StyleSheet,
@@ -38,14 +37,14 @@ export function FeedbackModal({game, onClose}: Props) {
     setSubmitting(true);
 
     try {
-      WelcomeCTF.submitFeedback (game.API_KEY, name, feedback,
+      WelcomeCTF.submitFeedback(game.API_KEY, name, feedback,
         (response: string) => {
           setName('');
           setFeedback('');
-          Alert.alert ("Success", response);
+          Alert.alert('Success', response);
         },
         (err: string) => {
-          Alert.alert ("Error", err);
+          Alert.alert('Error', err);
         }
       );
 
@@ -97,7 +96,7 @@ export function FeedbackModal({game, onClose}: Props) {
           />
 
           <Button
-            title={submitting ? "Submitting..." : "Submit Feedback"}
+            title={submitting ? 'Submitting...' : 'Submit Feedback'}
             onPress={handleSubmit}
             disabled={submitting} // Disable button while submitting
             color={Color.blue}      // Use a consistent color
