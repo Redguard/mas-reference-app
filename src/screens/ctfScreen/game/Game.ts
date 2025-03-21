@@ -15,7 +15,7 @@ export class Game {
   cards: Card[] = [];
   clicks = 0;
   timer = new Timer();
-  anticheatEnabled: Boolean = false;
+  anticheatEnabled: Boolean = true;
   /* Nobody can find it here, right?
   I heard that reverse engineering is illegal, or something */
   API_KEY = '458C0DC0-AA89-4B6D-AF74-564981068AD8';
@@ -58,6 +58,7 @@ export class Game {
       this.anticheatEnabled = true;
 
     } catch (error) {
+      this.anticheatEnabled = false;
       const log = logger.createLogger();
       log.error('Anti-Cheat measure failed to initialize.');
       log.error(error);

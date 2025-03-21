@@ -81,6 +81,22 @@ const styles = StyleSheet.create({
     zIndex:99999,
     pointerEvents: 'box-none',
   },
+  cheatProtection:{
+    width: '100%',
+    height: '5%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cheatProtectionOk:{
+    backgroundColor: 'green',
+  },
+  cheatProtectionNok:{
+    backgroundColor: 'red',
+  },
+  cheatProtectionText:{
+    textAlign: 'center',
+    color: 'white',
+  },
 });
 
 export default styles;

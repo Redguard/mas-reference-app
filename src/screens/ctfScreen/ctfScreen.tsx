@@ -28,7 +28,6 @@ import {ScoreBoardModal} from './component/ScoreboardModal.tsx';
 import RNExitApp from 'react-native-exit-app';
 import LottieView from 'lottie-react-native';
 
-
 const { WelcomeCTF } = NativeModules;
 
 interface ExplosionAssets {
@@ -281,6 +280,18 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
         </View>
 
         <View style={styles.spaceBottom} />
+
+        {game.anticheatEnabled && (
+          <View style={[styles.cheatProtection,styles.cheatProtectionOk]}>
+              <Text style={[styles.cheatProtectionText]}>Cheat Protection Enabled</Text>
+          </View>
+        )}
+        {!game.anticheatEnabled && (
+          <View style={[styles.cheatProtection,styles.cheatProtectionNok]}>
+              <Text style={[styles.cheatProtectionText]}>Cheat Protection Disabled</Text>
+          </View>
+        )}
+
       </LinearGradient>
 
       {game.isCompleted && (
