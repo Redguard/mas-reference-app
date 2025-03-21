@@ -25,7 +25,7 @@ For the CTF we use the following domains:
 
 | Endpoint                       | Description                                                    |   Flag | 
 | ------------------------------ | -------------------------------------------------------------- | ------- |
-| `https://anticheat.<test-domain>:8000`  |  Anti-Cheat Endpoint. Creates a singed game state and verifies the client state after a win. If the  state was already seen, the game will be rejected with a signed response. |  <none> | 
+| `https://anticheat.<test-domain>:8001`  |  Anti-Cheat Endpoint. Creates a singed game state and verifies the client state after a win. If the  state was already seen, the game will be rejected with a signed response. |  <none> | 
 | `https://scoreboard.<test-domain>/board/e364000e-75e7-4f05-9b0e-0690f1a14453.html`   |  Domain which is not pinned, the Flag is in the response. Domain used for top WV.     | ce8cd9d6-e110-4f99-a395-1e2f7fca0522 |
 | `https://teams.<test-domain>/teams/308a0bcd-7bfc-4c7a-a8cd-78ed83f8b6a7.html`    |  Domain which programmatically pinned and in the Android Truststore, Frida.re is required, but there are off the shelf-scripts available. the Flag is in the response.   Domain used for bottom WV.        | 2eb3c894-ea45-4d42-87fb-a8b7f71d7886 |
 | `wss://update.<test-domain>:6001`  |  WebSocket for the Scoreboard. The client provides b7c4de22-2366-4ba3-946a-820a42a8e733 | 8b2b730f-958a-4e42-8879-6c76ffa9d37c |
@@ -72,6 +72,7 @@ docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/cert
 docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  update.<test-domain>
 docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  1a5d77b3-5699-4ea9-862b-897451300045.<test-domain>
 docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  feedback.<test-domain>
+docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d  anticheat.<test-domain>
 
 
 ```

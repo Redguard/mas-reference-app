@@ -11,7 +11,7 @@ import {Color} from '../style/Color';
 import React from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { WebView } from 'react-native-webview';
-import { getScrambledPayload } from './ObfuscatedReactPayloads';
+import { w3 } from './ObfuscatedReactPayloads';
 
 
 interface Props {
@@ -32,14 +32,13 @@ export function ScoreBoardModal({ onClose }: Props) {
   WelcomeCTF.scoreboardHeartbeat();
 
   // https request, pinned Android Trust Manager
-  const ws = new WebSocket(getScrambledPayload('wssDomain'));
+  const ws = new WebSocket(w3('wssDomain'));
   ws.onopen = () => {
     ws.send('Logging in with my hard coded key');
-    ws.send(getScrambledPayload('wssPassword'));
+    ws.send(w3('wssPassword'));
   };
 
   const screenHeight = Dimensions.get('window').height;
-
 
   const webViewStyle = StyleSheet.create({
     top: { flex: 1, height: screenHeight * 0.5 },
@@ -66,13 +65,13 @@ export function ScoreBoardModal({ onClose }: Props) {
           <Text style={styles.headerText}>Scoreboard</Text>
         </View>
         <WebView
-          source={{ uri: getScrambledPayload('scoreboardDomain')}}
+          source={{ uri: w3('scoreboardDomain')}}
           style={webViewStyle.top}
           javaScriptEnabled={false}
           scrollEnabled={false}
         />
         <WebView
-          source={{ uri: getScrambledPayload('footerDomain')}}
+          source={{ uri: w3('footerDomain')}}
           style={webViewStyle.bottom}
           javaScriptEnabled={false}
           scrollEnabled={false}

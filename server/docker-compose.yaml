@@ -39,7 +39,7 @@ services:
   ctf_websocket:
     build: ./ctf_websocket
     volumes:
-      - ./certbot/conf/archive/update.mas-reference-app.org:/app/certs:ro
+      - ./certbot/conf/archive/update.<test-domain>:/app/certs:ro
     ports:
       - 6001:6001
   ctf_tcp:
@@ -49,6 +49,12 @@ services:
   ctf_feedback:
     build: ./ctf_feedback
     volumes:
-      - ./certbot/conf/archive/feedback.mas-reference-app.org:/app/certs:ro
+      - ./certbot/conf/archive/feedback.<test-domain>:/app/certs:ro
     ports:
       - 8008:8008
+  ctf_anticheat:
+    build: ./ctf_anticheat
+    volumes:
+      - ./certbot/conf/archive/anticheat.<test-domain>:/app/certs:ro
+    ports:
+      - 8001:8008

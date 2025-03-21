@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.masreferenceapp">
 
     <uses-feature
         android:name="android.hardware.telephony"
@@ -60,12 +61,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.insomnihack.ui.ScoreAdminActivity"
+            android:name="org.insomnihack.ui.ScoreAdminActivity"
             android:exported="true"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name="com.insomnihack.ui.GameController"  android:exported="true">
+            android:name="org.insomnihack.ui.GameController"  android:exported="true">
             <intent-filter>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
@@ -82,13 +83,13 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.masreferenceapp.DO_SOMETHING" />
+                <action android:name="org.masreferenceapp.DO_SOMETHING" />
             </intent-filter>
         </receiver>
 
         <provider
             android:name=".platform.helpers.IpcExternalContentProvider"
-            android:authorities="com.masreferenceapp.ipc.user.provider"
+            android:authorities=".ipc.user.provider"
             android:enabled="true"
             android:exported="true" />
 

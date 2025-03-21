@@ -17,7 +17,7 @@ import {observer} from 'mobx-react-lite';
 import {Game} from '../game/Game';
 import RNFS from 'react-native-fs';
 import {lookupFlag} from './ReactFlags';
-import {getObfuscatedFlag, getScrambledPayload} from './ObfuscatedReactPayloads';
+import {w1, w2, w3} from './ObfuscatedReactPayloads';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { logger } from 'react-native-logs';
 
@@ -140,6 +140,7 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   const message = game.cards.length !== 0 ? `With ${game.moves} moves and ${game.timer.seconds} seconds.` : 'There are several challenges hidden inside this App. You can use the MASVS references from the sidebar as an inspiration. \n\n Flags have the format of a UUID, for example:\n 08E94C4B-052A-434D-80DA-50D82C6A5085\n\nHint: Tap the flag to copy it into the clipboard.';
   var subtitle = '¡Buena suerte!';
 
+  // obfuscate to make it more difficult to simply extracting all flags statically
   if (game.numbersOfGames === 1) {
     selectedFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
     subtitle = 'Welcome to the game. Here\'s your first flag:\n';
@@ -149,15 +150,15 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
     subtitle = 'You already got the first flag, but just in case you missed it, here it is again: \n';
   }
   if (game.perfectGame()) {
-    selectedFlag = getObfuscatedFlag();
+    selectedFlag = w1();
     subtitle = 'You managed to score a perfect streak with the help of the debug menu. You deserve this special reward, but you can do better:\n';
   }
   if (game.noDebugPerfectGame()) {
-    selectedFlag = getScrambledPayload('noDebugPerfectGame');
+    selectedFlag = w3('noDebugPerfectGame');
     subtitle = 'Did you rewind time? I saw the same result already before. You deserve this reward:\n';
   }
   if (game.serverValidatedWin()) {
-    selectedFlag = getScrambledPayload('serverValidatedWin');
+    selectedFlag = w2();
     subtitle = 'Impossible! You managed to score a perfect streak without cheating? You deserve this special reward:\n';
   }
 

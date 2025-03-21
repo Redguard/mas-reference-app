@@ -31,7 +31,7 @@ lazy_static! {
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgameInit(_env: JNIEnv, _class: JClass) {
+pub extern "C" fn Java_org_insomnihack_utils_JniThingies_JNIgameInit(_env: JNIEnv, _class: JClass) {
 
     let game_state = GameState {
         score: 0,
@@ -45,7 +45,7 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgameInit(_env: JNIEn
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgameDestroy(_env: JNIEnv, _class: JClass) {
+pub extern "C" fn Java_org_insomnihack_utils_JniThingies_JNIgameDestroy(_env: JNIEnv, _class: JClass) {
 
     let mut state_guard = GAME_STATE.lock().unwrap();
     *state_guard = None;  // Drop the GameState.
@@ -55,7 +55,7 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgameDestroy(_env: JN
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIincreaseScore(_env: JNIEnv, _class: JClass,
+pub extern "C" fn Java_org_insomnihack_utils_JniThingies_JNIincreaseScore(_env: JNIEnv, _class: JClass,
     amount: jint,
 ) {
     let mut state_guard = GAME_STATE.lock().unwrap();
@@ -66,7 +66,7 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIincreaseScore(_env: 
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIresetScore(_env: JNIEnv, _class: JClass) -> jint {
+pub extern "C" fn Java_org_insomnihack_utils_JniThingies_JNIresetScore(_env: JNIEnv, _class: JClass) -> jint {
     let mut state_guard = GAME_STATE.lock().unwrap();
     if let Some(state) = state_guard.as_mut(){
         state.score = 0;
@@ -78,7 +78,7 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIresetScore(_env: JNI
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetScore(_env: JNIEnv, _class: JClass) -> jint {
+pub extern "C" fn Java_org_insomnihack_utils_JniThingies_JNIgetScore(_env: JNIEnv, _class: JClass) -> jint {
 
      let mut state_guard = GAME_STATE.lock().unwrap();
      if let Some(state) = state_guard.as_mut(){
@@ -91,7 +91,7 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetScore(_env: JNIEn
 // --- Metadata Management ---
 
 #[no_mangle]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIsetMetadata(mut env: JNIEnv, _class: JClass,
+pub extern "C" fn Java_org_insomnihack_utils_JniThingies_JNIsetMetadata(mut env: JNIEnv, _class: JClass,
     key: JString,
     value: JString,
 ) {
@@ -105,7 +105,7 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIsetMetadata(mut env:
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetMetadata(mut env: JNIEnv, _class: JClass,
+pub extern "C" fn Java_org_insomnihack_utils_JniThingies_JNIgetMetadata(mut env: JNIEnv, _class: JClass,
     key: JString,
 ) -> jstring {
 
@@ -134,7 +134,7 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetMetadata(mut env:
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetRandomNumber(_env: JNIEnv, _class: JClass) -> jint {
+pub extern "C" fn Java_org_insomnihack_utils_JniThingies_JNIgetRandomNumber(_env: JNIEnv, _class: JClass) -> jint {
 
     let mut state_guard = GAME_STATE.lock().unwrap();
     if let Some(state) = state_guard.as_mut(){
@@ -151,7 +151,7 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgetRandomNumber(_env
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenFlagFromMetadata(mut env: JNIEnv,_class: JClass,
+pub extern "C" fn Java_org_insomnihack_utils_JniThingies_JNIgenFlagFromMetadata(mut env: JNIEnv,_class: JClass,
     key: JString
 ) -> jstring {
 
@@ -182,7 +182,7 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenFlagFromMetadata(
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenWololoFlag(mut env: JNIEnv,_class: JClass,
+pub extern "C" fn Java_org_insomnihack_utils_JniThingies_JNIgenWololoFlag(mut env: JNIEnv,_class: JClass,
     command: JString,
     token: JString
 )  -> jstring {
@@ -209,7 +209,7 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenWololoFlag(mut en
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenSpecialFlag(env: JNIEnv,_class: JClass)  -> jstring {
+pub extern "C" fn Java_org_insomnihack_utils_JniThingies_JNIgenSpecialFlag(env: JNIEnv,_class: JClass)  -> jstring {
 
     let mut state_guard = GAME_STATE.lock().unwrap();
     let flag = if let Some(state) = state_guard.as_mut(){
@@ -234,7 +234,7 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenSpecialFlag(env: 
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenHighScoreFlag(mut env: JNIEnv,_class: JClass,
+pub extern "C" fn Java_org_insomnihack_utils_JniThingies_JNIgenHighScoreFlag(mut env: JNIEnv,_class: JClass,
     key: JString
 ) -> jstring {
 
@@ -271,7 +271,7 @@ pub extern "C" fn Java_com_insomnihack_utils_JniThingies_JNIgenHighScoreFlag(mut
 // external fun JNImangle (part1: String, part2: String): String
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_Welcome_JNImangle<'local>(mut env: JNIEnv<'local>, _class: JClass,
+pub extern "C" fn Java_org_insomnihack_Welcome_JNImangle<'local>(mut env: JNIEnv<'local>, _class: JClass,
     jKotlin_flag: JString<'local>,
     jReact_flag: JString<'local>
 ) -> jstring {
@@ -296,7 +296,7 @@ pub extern "C" fn Java_com_insomnihack_Welcome_JNImangle<'local>(mut env: JNIEnv
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "C" fn Java_com_insomnihack_Welcome_enableExperimentalGuiNative(
+pub extern "C" fn Java_org_insomnihack_Welcome_enableExperimentalGuiNative(
     env: JNIEnv,
     _class: JClass,
 ) -> jstring {
