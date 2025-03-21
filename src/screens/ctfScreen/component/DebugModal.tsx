@@ -86,7 +86,7 @@ export function DebugModal({game, crashTheApp}: Props) {
       <View style={styles.lottieWrapper} pointerEvents="none">
         <LottieView
           ref={confettiRef}
-          source={require('./assets/confetti.json')}
+          source={require('../assets/confetti.json')}
           autoPlay={true}
           loop={false}
           style={styles.lottie}

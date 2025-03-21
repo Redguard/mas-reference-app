@@ -144,11 +144,11 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
 
 
   const explosionAssets: ExplosionAssets = {
-    1: require('./component/assets/explosion1.json'),
-    2: require('./component/assets/explosion2.json'),
-    3: require('./component/assets/explosion3.json'),
-    4: require('./component/assets/explosion4.json'),
-    5: require('./component/assets/explosion4.json'),
+    1: require('./assets/explosion1.json'),
+    2: require('./assets/explosion2.json'),
+    3: require('./assets/explosion3.json'),
+    4: require('./assets/explosion4.json'),
+    5: require('./assets/explosion4.json'),
   };
 
   const getRandomExplosion = (): any => {

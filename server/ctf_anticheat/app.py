@@ -19,11 +19,10 @@ hmac_secret = "61d05dfe-c4da-43cc-befb-af89bea3f2c6"
 def getCardDeck():
     
     logging.info("getCardDeck called")
-    print("bla")
 
     # Expected body:
     # {
-    #   "cardTypes": "...",
+    #   "cardTypes": ["..."],
     #   "token": "..."
     # }
     data = request.get_json()

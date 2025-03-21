@@ -1,14 +1,14 @@
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles.tsx';
 import TestScreen from '../testScreen/testScreen.tsx';
-import {TestCases} from '../../appContent.tsx';
+import {TestGroup} from '../../appContent.tsx';
 
 import React, {useRef} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import TerminalView from '../terminal/TerminalView.tsx';
 
 function CategoryScreen({route, navigation}: any): React.JSX.Element {
-  var platformTestCases: TestCases[] = route.params.tests;
+  var platformTestCases: TestGroup[] = route.params.tests;
 
   return (
     <ScrollView style={styles.categoryDescription}>
