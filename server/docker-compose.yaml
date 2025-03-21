@@ -56,5 +56,6 @@ services:
     build: ./ctf_anticheat
     volumes:
       - ./certbot/conf/archive/anticheat.<test-domain>:/app/certs:ro
+      - ./ctf_anticheat/signature_keys:/app/signature_keys:ro
     ports:
       - 8001:8008

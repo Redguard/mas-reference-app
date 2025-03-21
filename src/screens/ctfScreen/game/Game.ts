@@ -1,7 +1,11 @@
-import {action, computed, makeObservable, observable} from 'mobx';
+import {action, computed, makeObservable, observable, runInAction} from 'mobx';
 import {generateInitialCards} from './generateInitialCards';
 import {Card} from './Card';
 import {Timer} from './Timer';
+import uuid from 'react-native-uuid';
+import verifySignature from '../component/helper/Validator';
+import { logger } from 'react-native-logs';
+
 
 import {NativeModules} from 'react-native';
 const { WelcomeCTF } = NativeModules;
@@ -11,6 +15,7 @@ export class Game {
   cards: Card[] = [];
   clicks = 0;
   timer = new Timer();
+  anticheatEnabled: Boolean = false;
   /* Nobody can find it here, right?
   I heard that reverse engineering is illegal, or something */
   API_KEY = '458C0DC0-AA89-4B6D-AF74-564981068AD8';
@@ -28,8 +33,36 @@ export class Game {
     });
   }
 
-  startGame() {
+  async startGame() {
     this.cards = generateInitialCards();
+
+    // try to get a valid new deck from the server, if the server is not available just skip this step
+    try {
+      const response = await fetch('https://anticheat.mas-reference-app.org:8001/8dj21k01sx/api/v1/getCardDeck', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          session: uuid.v4(),
+        }),
+      });
+      const json = await response.json();
+      const valid =  await verifySignature(json.payload, json.signature);
+      if (!valid){
+        throw new Error('Someone manipulated the anti cheat payloads.');
+      }
+
+      // no errors occurred -> we have cheat protection enabled
+      this.anticheatEnabled = true;
+
+    } catch (error) {
+      const log = logger.createLogger();
+      log.error('Anti-Cheat measure failed to initialize.');
+      log.error(error);
+    }
+
     this.deckOpenedByDebugMenu = false;
 
     // we want the game stat to be in memory for easy memory scan
@@ -40,7 +73,9 @@ export class Game {
     });
     const cardsString = JSON.stringify(cardsWithoutGame);
     this.gameState = cardsString.toString();
-    this.clicks = 0;
+    runInAction(() => {
+      this.clicks = 0;
+    });
     this.timer.reset();
   }
 
@@ -106,16 +141,18 @@ export class Game {
     return this.cards.filter(card => card.isVisible);
   }
 
-  showAllCards(){
+  async showAllCards(){
     //reset the game, it should not be THAT easy
-    this.startGame();
+    await this.startGame();
     this.deckOpenedByDebugMenu = true;
     for (const card in this.cards){
       this.cards[card].makeVisible();
     }
     setTimeout(() => {
       for (const card in this.cards){
-        this.cards[card].cover();
+        runInAction(() => {
+          this.cards[card].cover();
+        });
       }
     }, 3000);
   }
@@ -133,8 +170,14 @@ export class Game {
   }
 
   serverValidatedWin() : Boolean {
-    // TODO: Implement
-    return false;
+    if (this.anticheatEnabled){
+      // validate result with the server
+      return false;
+
+    }
+    else{
+      return false;
+    }
   }
 }
 

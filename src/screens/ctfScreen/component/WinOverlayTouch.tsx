@@ -17,7 +17,7 @@ import {observer} from 'mobx-react-lite';
 import {Game} from '../game/Game';
 import RNFS from 'react-native-fs';
 import {lookupFlag} from './ReactFlags';
-import {w1, w2, w3} from './ObfuscatedReactPayloads';
+import {w1, w2, w3} from './helper/ObfuscatedReactPayloads';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { logger } from 'react-native-logs';
 
