@@ -88,10 +88,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cheatProtectionOk:{
-    backgroundColor: 'green',
+    backgroundColor: 'rgb(0, 125, 31)',
   },
   cheatProtectionNok:{
-    backgroundColor: 'red',
+    backgroundColor: 'rgb(125, 0, 0)',
   },
   cheatProtectionText:{
     textAlign: 'center',

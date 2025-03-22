@@ -4,8 +4,6 @@ import {Card} from './Card';
 import {Timer} from './Timer';
 import uuid from 'react-native-uuid';
 import verifySignature from '../component/helper/Validator';
-import { logger } from 'react-native-logs';
-
 
 import {NativeModules} from 'react-native';
 const { WelcomeCTF } = NativeModules;
@@ -59,9 +57,6 @@ export class Game {
 
     } catch (error) {
       this.anticheatEnabled = false;
-      const log = logger.createLogger();
-      log.error('Anti-Cheat measure failed to initialize.');
-      log.error(error);
     }
 
     this.deckOpenedByDebugMenu = false;
