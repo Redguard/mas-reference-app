@@ -36,20 +36,8 @@ export class Game {
     });
   }
 
-  alert_if_reconnect(){
-    // test if we regained connection to the server again
-    if (!this.serverConnectionEstablished){
-      //alert the user, that we now have a connection to the server
-      Toast.show({
-        type: 'info',
-        text1: 'Established connection to server.',
-        position: 'bottom',
-      });
-      this.serverConnectionEstablished = true;
-    }
-  }
-
   async startGame() {
+    this.cheatDetected = false;
     this.cards = generateInitialCards();
 
     // try to get a valid new deck from the server, if the server is not available just skip this step
@@ -57,7 +45,7 @@ export class Game {
       console.log('init server game');
       const cardTypeNames: CardType[] = Object.values(CardType) as CardType[];
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 200);
+      const timeoutId = setTimeout(() => controller.abort(), 500);
       const response = await fetch('https://anticheat.mas-reference-app.org:8001/8dj21k01sx/api/v1/init', {
         method: 'POST',
         signal: controller.signal,
@@ -72,7 +60,22 @@ export class Game {
       clearTimeout(timeoutId);
       const json = await response.json();
 
-      this.alert_if_reconnect();
+      // validate the signature
+      const valid =  await verifySignature(json.payload, json.signature);
+      if (!valid){
+        this.cheatDetected = true;
+      }
+
+      // test if we regained connection to the server again
+      if (!this.serverConnectionEstablished){
+        //alert the user, that we now have a connection to the server
+        Toast.show({
+          type: 'info',
+          text1: 'Established connection to server.',
+          position: 'bottom',
+        });
+        this.serverConnectionEstablished = true;
+      }
 
       const status = json.payload.status;
 
@@ -88,15 +91,6 @@ export class Game {
       for (var d in serverDeck){
         this.cards[Number(d)].type = serverDeck[d] as CardType;
       }
-      const valid =  await verifySignature(json.payload, json.signature);
-      if (!valid){
-        this.cheatDetected = true;
-        Toast.show({
-          type: 'error',
-          text1: 'Cheating attempt detected.',
-          position: 'bottom',
-        });
-      }
 
     } catch (error) {
       console.log(error);
@@ -109,6 +103,14 @@ export class Game {
         });
         this.serverConnectionEstablished = false;
       }
+    }
+
+    if(this.cheatDetected){
+      Toast.show({
+        type: 'error',
+        text1: 'Cheating attempt detected.',
+        position: 'bottom',
+      });
     }
 
     this.deckOpenedByDebugMenu = false;
@@ -128,7 +130,6 @@ export class Game {
   }
 
   onClick(card: Card) {
-    // console.log('onClick() card', card.type);
     if (!this.timer.isStarted) {
       this.timer.start();
     }
@@ -143,13 +144,12 @@ export class Game {
 
   async evaluateMatch() {
     const visibleCards = this.visibleCards();
-    // console.log('visibleCards.length', visibleCards.length);
     if (visibleCards.length !== 2) {
       return;
     }
     if (visibleCards[0].matches(visibleCards[1])) { // Correct match
 
-      // update the server state
+      // update server
       try {
         var deck = Array(this.cards.length).fill('');
         for (var d in deck){
@@ -158,7 +158,7 @@ export class Game {
           }
         }
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 200);
+        const timeoutId = setTimeout(() => controller.abort(), 500);
         const response = await fetch('https://anticheat.mas-reference-app.org:8001/8dj21k01sx/api/v1/validate', {
           method: 'POST',
           signal: controller.signal,
@@ -174,9 +174,8 @@ export class Game {
         clearTimeout(timeoutId);
         const json = await response.json();
 
-        this.alert_if_reconnect();
-
         const status = json.payload.status;
+
         // validate the signature
         const valid =  await verifySignature(json.payload, json.signature);
         if (!valid){
@@ -203,6 +202,14 @@ export class Game {
           });
           this.serverConnectionEstablished = false;
         }
+      }
+
+      if(this.cheatDetected){
+        Toast.show({
+          type: 'error',
+          text1: 'Cheating attempt detected.',
+          position: 'bottom',
+        });
       }
 
       WelcomeCTF.addStreak();

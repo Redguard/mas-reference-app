@@ -1,4 +1,4 @@
-from flask import Flask, request, Blueprint, session
+from flask import Flask, request, Blueprint, session, jsonify
 from uuid import uuid4
 import base64
 import hmac
@@ -21,7 +21,7 @@ api_v1 = Blueprint("api", __name__, url_prefix = "/8dj21k01sx/api/v1")
 # example:
 # {'<uuid>': {
 #     deck: ['paper-plane', 'bomb', ...],
-#     open_deck: ['', 'bomb', ...],
+#     client_deck: ['', 'bomb', ...],
 #     timestamps: [ts0, ts1, ts2 ...],
 #   }
 # }
@@ -33,27 +33,27 @@ def detect_timing_attacks(session):
     # trying to detect attacks using timestamps
     pass
 
-def update_client_deck(deck, open_deck):
-    if len(deck) != len(open_deck):
+def update_client_deck(client_deck, current_player_deck, winning_deck):
+    if len(client_deck) != len(current_player_deck):
         raise Exception("Decks must be of the same length")
 
     new_added_value = 0
 
-    for i in range(len(open_deck)):
-        if deck[i] == '':
-            deck[i] = open_deck[i]
-            if open_deck[i] != '':
-                new_added_value += 1
-        elif deck[i] != open_deck[i]:
-            raise Exception(f"The card client card does not match the server cards.")
-            
+    for i in range(len(current_player_deck)):
+        if current_player_deck[i] != '':
+            if winning_deck[i] != current_player_deck[i]:
+                raise Exception(f"The card client card does not match the server cards.")
+        if client_deck[i] == '' and current_player_deck[i] != '':
+            client_deck[i] = current_player_deck[i]
+            new_added_value += 1
+
     if new_added_value == 0:
         raise Exception(f"No newly added values, potentially a cheater is trying to replay requests.")
 
     if new_added_value > 2:
         raise Exception(f"More than one new card opened in one move.")
 
-    return deck
+    return client_deck
 
 def sign_response(payload):
     with open("/app/signature_keys/pkcs8_private_key.pem", "r") as pem_file:
@@ -84,8 +84,8 @@ def init():
     logging.info(data)
 
     if len(data['cards']) < 10:
-        response = sign_response({'status':'error', 'reason':'Something is fishy. Potential cheater detected. Suspicious behavior is: Client uses less than 10 unique cards.'})
-        return json.dumps(response), 400
+        response = sign_response({'reason':'Something is fishy. Potential cheater detected. Suspicious behavior is: Client uses less than 10 unique cards.', 'status':'error'})
+        return jsonify(response), 400
 
     # generate server deck
     deck = []
@@ -104,6 +104,7 @@ def init():
     }
 
     payload = {
+        'encryptedServerDeck': None,
         'session': session,
         'status': 'success'
     }
@@ -120,7 +121,7 @@ def init():
 
     logging.info("response is: " + str(response))
 
-    return json.dumps(response), 200
+    return jsonify(response), 200
 
 
 @api_v1.route("/validate", methods = ["POST"])
@@ -141,24 +142,30 @@ def validate():
     logging.info(data)
 
     if data['session'] not in in_memory_state:
-        response = sign_response({'status':'error', 'reason':'Unknown session'})
-        return json.dumps(response), 400
+        response = sign_response({'reason':'Unknown session', 'status':'error'})
+        return jsonify(response), 400
 
     # test if there are discrepancies between client and server state
     try:
         client_deck = in_memory_state[data['session']]['client_deck']
-        in_memory_state[data['session']]['client_deck'] = update_client_deck(client_deck,  data['openDeck'])
+        winning_deck = in_memory_state[data['session']]['deck']
+        in_memory_state[data['session']]['client_deck'] = update_client_deck(client_deck,  data['openDeck'], winning_deck)
         in_memory_state[data['session']]['timestamps'].append(time.time())
         detect_timing_attacks(in_memory_state[data['session']])
     except Exception as e:
         logging.error(e)
         # delete session, otherwise the attacker may use blind attacks to guess each card pair
         del(in_memory_state[data['session']])
-        response = sign_response({'status':'error', 'session':data['session'], 'reason':'Something is fishy. Potential cheater detected. Suspicious behavior is: ' + str(e)})
-        return json.dumps(response), 400
+        response = sign_response({ 'reason':'Something is fishy. Potential cheater detected. Suspicious behavior is: ' + str(e), 'session':data['session'], 'status':'error'})
+        return jsonify(response), 400
 
-    response = sign_response({'status':'success', 'session':data['session'], 'openDeck':in_memory_state[data['session']]['client_deck'], 'reason':'all good'})
-    return json.dumps(response), 200
+    response = sign_response({'openDeck':in_memory_state[data['session']]['client_deck'], 'reason':'all good', 'session':data['session'], 'status':'success'})
+
+    # delete session, if client_deck is fully uncovered
+    if '' not in in_memory_state[data['session']]['client_deck']:
+        del(in_memory_state[data['session']])
+
+    return jsonify(response), 200
 
 
 app = Flask(__name__)
