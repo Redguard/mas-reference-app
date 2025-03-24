@@ -6,7 +6,6 @@ import { sha256 } from 'react-native-sha256';
 
 async function verifySignature(payload, signature) {
   try {
-    console.log(JSON.stringify(payload));
     const hashHex = await sha256(JSON.stringify(payload));
     const hashBytes = secp.etc.hexToBytes(hashHex);
 
