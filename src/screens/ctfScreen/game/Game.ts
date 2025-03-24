@@ -66,7 +66,7 @@ export class Game {
         this.cheatDetected = true;
       }
 
-      // test if we regained connection to the server again
+      // test if we got connection to the server again
       if (!this.serverConnectionEstablished){
         //alert the user, that we now have a connection to the server
         Toast.show({
@@ -173,19 +173,13 @@ export class Game {
         });
         clearTimeout(timeoutId);
         const json = await response.json();
-
-        const status = json.payload.status;
-
         // validate the signature
         const valid =  await verifySignature(json.payload, json.signature);
         if (!valid){
           this.cheatDetected = true;
-          Toast.show({
-            type: 'error',
-            text1: 'Cheating attempt detected.',
-            position: 'bottom',
-          });
         }
+
+        const status = json.payload.status;
         // test if the server detected any fishy behavior
         if (status === 'error'){
           this.cheatDetected = true;
