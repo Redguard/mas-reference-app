@@ -36,6 +36,19 @@ export class Game {
     });
   }
 
+  alert_if_reconnect(){
+    // test if we regained connection to the server again
+    if (!this.serverConnectionEstablished){
+      //alert the user, that we now have a connection to the server
+      Toast.show({
+        type: 'info',
+        text1: 'Established connection to server.',
+        position: 'bottom',
+      });
+      this.serverConnectionEstablished = true;
+    }
+  }
+
   async startGame() {
     this.cards = generateInitialCards();
 
@@ -43,8 +56,11 @@ export class Game {
     try {
       console.log('init server game');
       const cardTypeNames: CardType[] = Object.values(CardType) as CardType[];
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 200);
       const response = await fetch('https://anticheat.mas-reference-app.org:8001/8dj21k01sx/api/v1/init', {
         method: 'POST',
+        signal: controller.signal,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -53,7 +69,10 @@ export class Game {
           cards: cardTypeNames,
         }),
       });
+      clearTimeout(timeoutId);
       const json = await response.json();
+
+      this.alert_if_reconnect();
 
       const status = json.payload.status;
 
@@ -78,20 +97,10 @@ export class Game {
           position: 'bottom',
         });
       }
-      // no errors occurred -> we have cheat protection enabled
-      if (!this.serverConnectionEstablished){
-        //alert the user, that we now have a connection to the server
-        Toast.show({
-          type: 'info',
-          text1: 'Established connection to server.',
-          position: 'bottom',
-        });
-        this.serverConnectionEstablished = true;
-      }
 
     } catch (error) {
       console.log(error);
-      if (String(error).includes('Network request failed')){
+      if (this.serverConnectionEstablished && (String(error).includes('Network request failed') || String(error).includes('Abort'))){
         //alert the user, that we lost the connection to the server
         Toast.show({
           type: 'error',
@@ -148,8 +157,11 @@ export class Game {
             deck[d] = this.cards[d].type.toString();
           }
         }
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 200);
         const response = await fetch('https://anticheat.mas-reference-app.org:8001/8dj21k01sx/api/v1/validate', {
           method: 'POST',
+          signal: controller.signal,
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -159,7 +171,11 @@ export class Game {
             openDeck: deck,
           }),
         });
+        clearTimeout(timeoutId);
         const json = await response.json();
+
+        this.alert_if_reconnect();
+
         const status = json.payload.status;
         // validate the signature
         const valid =  await verifySignature(json.payload, json.signature);
@@ -176,20 +192,9 @@ export class Game {
           this.cheatDetected = true;
           throw Error(json.payload.reason);
         }
-
-        // test if we regained connection to the server again
-        if (!this.serverConnectionEstablished){
-          //alert the user, that we now have a connection to the server
-          Toast.show({
-            type: 'info',
-            text1: 'Established connection to server.',
-            position: 'bottom',
-          });
-          this.serverConnectionEstablished = true;
-        }
       } catch (error) {
         console.log(error);
-        if (String(error).includes('Network request failed')){
+        if (this.serverConnectionEstablished && (String(error).includes('Network request failed') || String(error).includes('Abort'))){
           //alert the user, that we lost the connection to the server
           Toast.show({
             type: 'error',

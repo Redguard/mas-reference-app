@@ -35,22 +35,23 @@ def detect_timing_attacks(session):
 
 def update_client_deck(deck, open_deck):
     if len(deck) != len(open_deck):
-        raise Exception("Attempt to cheat detected: Decks must be of the same length")
+        raise Exception("Decks must be of the same length")
 
     new_added_value = 0
 
     for i in range(len(open_deck)):
         if deck[i] == '':
             deck[i] = open_deck[i]
-            new_added_value += 1
+            if open_deck[i] != '':
+                new_added_value += 1
         elif deck[i] != open_deck[i]:
-            raise Exception(f"Attempt to cheat detected: The card client card does not match the server cards.")
+            raise Exception(f"The card client card does not match the server cards.")
             
     if new_added_value == 0:
-        raise Exception(f"Attempt to cheat detected: No newly added values, potentially a cheater is trying to replay requests.")
+        raise Exception(f"No newly added values, potentially a cheater is trying to replay requests.")
 
-    if new_added_value > 1:
-        raise Exception(f"Attempt to cheat detected: More than one new card opened in one move.")
+    if new_added_value > 2:
+        raise Exception(f"More than one new card opened in one move.")
 
     return deck
 
@@ -83,7 +84,7 @@ def init():
     logging.info(data)
 
     if len(data['cards']) < 10:
-        response = sign_response({'status':'error', 'reason':'Attempt to cheat detected: Client uses less than 10 unique cards.'})
+        response = sign_response({'status':'error', 'reason':'Something is fishy. Potential cheater detected. Suspicious behavior is: Client uses less than 10 unique cards.'})
         return json.dumps(response), 400
 
     # generate server deck
@@ -153,9 +154,8 @@ def validate():
         logging.error(e)
         # delete session, otherwise the attacker may use blind attacks to guess each card pair
         del(in_memory_state[data['session']])
-        response = sign_response({'status':'error', 'session':data['session'], 'reason':'Something is fishy. Potential cheater detected. Exception was: ' + str(e)})
+        response = sign_response({'status':'error', 'session':data['session'], 'reason':'Something is fishy. Potential cheater detected. Suspicious behavior is: ' + str(e)})
         return json.dumps(response), 400
-
 
     response = sign_response({'status':'success', 'session':data['session'], 'openDeck':in_memory_state[data['session']]['client_deck'], 'reason':'all good'})
     return json.dumps(response), 200
