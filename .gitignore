@@ -87,3 +87,7 @@ ctf_server/__pycache__/
 
 yarn.lock
 package-lock.json
+
+# javascript obfuscation
+
+.jso/*
