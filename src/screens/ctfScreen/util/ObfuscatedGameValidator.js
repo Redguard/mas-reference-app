@@ -1,3 +1,5 @@
+// this code validates on the server
+
 import * as secp from '@noble/secp256k1';
 import { secp256k1 } from '@noble/curves/secp256k1';
 import { sha256 } from 'react-native-sha256';

@@ -1,11 +1,4 @@
 /* eslint-disable react/no-unstable-nested-components */
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import * as React from 'react';
 import {NativeModules, StyleSheet, Text, View} from 'react-native';
 
@@ -65,15 +58,14 @@ async function initGlobalSettings(){
   }
 }
 const styles = StyleSheet.create({
-  container: {
+  ctfContainer: {
     flex: 1,
   },
-  text: {
-    fontSize: 24,
+  ctfText: {
     fontWeight: 'bold',
     color: 'rgb(61, 61, 61)',
   },
-  lottieWrapper: {
+  cftLottieWrapper: {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -85,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-  lottie: {
+  ctfLottie: {
     width: 100,
     height: 100,
   },
@@ -130,37 +122,37 @@ function App(): React.JSX.Element {
               drawerItemStyle: {backgroundColor: 'rgb(225,239,255)'},
               headerBackground: () => <HeaderBackground />,
               drawerLabel: () => (
-                <View style={styles.container}>
+                <View style={styles.ctfContainer}>
                 <View>
-                  <Text style={styles.text}>CTF Game</Text>
+                  <Text style={styles.ctfText}>CTF Game</Text>
                 </View>
-                <View style={styles.lottieWrapper} pointerEvents="none">
+                <View style={styles.cftLottieWrapper} pointerEvents="none">
                   <LottieView
                     source={require('./src/assets/sparkle.json')}
                     autoPlay={true}
                     loop={true}
-                    style={styles.lottie}
+                    style={styles.ctfLottie}
                     resizeMode="cover"
                   />
                  <LottieView
                     source={require('./src/assets/sparkle.json')}
                     autoPlay={true}
                     loop={true}
-                    style={styles.lottie}
+                    style={styles.ctfLottie}
                     resizeMode="cover"
                   />
                  <LottieView
                     source={require('./src/assets/sparkle.json')}
                     autoPlay={true}
                     loop={true}
-                    style={styles.lottie}
+                    style={styles.ctfLottie}
                     resizeMode="cover"
                   />
                    <LottieView
                     source={require('./src/assets/sparkle.json')}
                     autoPlay={true}
                     loop={true}
-                    style={styles.lottie}
+                    style={styles.ctfLottie}
                     resizeMode="cover"
                   />
                 </View>

@@ -20,6 +20,7 @@ import { DebugModal } from './component/DebugModal.tsx';
 import { ScoreBoardModal } from './component/ScoreboardModal.tsx';
 import RNExitApp from 'react-native-exit-app';
 import LottieView from 'lottie-react-native';
+import Toast from 'react-native-toast-message';
 
 const { WelcomeCTF } = NativeModules;
 
@@ -250,15 +251,6 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
         </View>
 
         <View style={styles.spaceBottom} />
-
-        <View style={[
-          styles.cheatProtection,
-          game.anticheatEnabled ? styles.cheatProtectionOk : styles.cheatProtectionNok,
-        ]}>
-          <Text style={styles.cheatProtectionText}>
-            Cheat Protection {game.anticheatEnabled ? 'Enabled' : 'Disabled'}
-          </Text>
-        </View>
       </LinearGradient>
 
       {game.isCompleted && (
@@ -270,6 +262,7 @@ const CtfScreen = observer(function CtfScreen(): React.JSX.Element {
       {modals.feedback && <FeedbackModal game={game} onClose={() => toggleModal('feedback', false)} />}
       {modals.scoreboard && <ScoreBoardModal onClose={() => toggleModal('scoreboard', false)} />}
       <DebugModal game={game} crashTheApp={crashTheApp} />
+      <Toast/>
     </SafeAreaView>
   );
 });

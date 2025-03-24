@@ -11,7 +11,7 @@ import {Color} from '../style/Color';
 import React from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { WebView } from 'react-native-webview';
-import { w3 } from './helper/ObfuscatedReactPayloads';
+import { w3 } from '../util/ObfuscatedReactPayloads';
 
 
 interface Props {

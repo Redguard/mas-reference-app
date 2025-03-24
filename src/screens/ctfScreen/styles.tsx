@@ -71,31 +71,14 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 10000,
     pointerEvents: 'box-none',
   },
   explosion:{
     position: 'absolute',
     width: 300,
     height: 300,
-    zIndex:99999,
+    zIndex:1000,
     pointerEvents: 'box-none',
-  },
-  cheatProtection:{
-    width: '100%',
-    height: '5%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  cheatProtectionOk:{
-    backgroundColor: 'rgb(0, 125, 31)',
-  },
-  cheatProtectionNok:{
-    backgroundColor: 'rgb(125, 0, 0)',
-  },
-  cheatProtectionText:{
-    textAlign: 'center',
-    color: 'white',
   },
 });
 

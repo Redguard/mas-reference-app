@@ -2,23 +2,28 @@ import {action, computed, makeObservable, observable, runInAction} from 'mobx';
 import {generateInitialCards} from './generateInitialCards';
 import {Card} from './Card';
 import {Timer} from './Timer';
-import uuid from 'react-native-uuid';
-import verifySignature from '../component/helper/Validator';
+import verifySignature from '../util/ObfuscatedGameValidator.js';
+import Toast from 'react-native-toast-message';
 
 import {NativeModules} from 'react-native';
+import { CardState } from './CardState.ts';
+import { CardType } from './CardType.ts';
+import deobfuscate from '../util/ObfuscatedAes.js';
 const { WelcomeCTF } = NativeModules;
 
 export class Game {
+  serverConnectionEstablished: Boolean = true;
+  cheatDetected: Boolean = false;
+  session: String = '';
   numbersOfGames = 0;
   cards: Card[] = [];
   clicks = 0;
   timer = new Timer();
-  anticheatEnabled: Boolean = true;
+  gameState: String = '';
+  deckOpenedByDebugMenu: boolean = false;
   /* Nobody can find it here, right?
   I heard that reverse engineering is illegal, or something */
   API_KEY = '458C0DC0-AA89-4B6D-AF74-564981068AD8';
-  gameState: String = '';
-  deckOpenedByDebugMenu: boolean = false;
 
   constructor() {
     makeObservable(this, {
@@ -36,27 +41,65 @@ export class Game {
 
     // try to get a valid new deck from the server, if the server is not available just skip this step
     try {
-      const response = await fetch('https://anticheat.mas-reference-app.org:8001/8dj21k01sx/api/v1/getCardDeck', {
+      console.log('init server game');
+      const cardTypeNames: CardType[] = Object.values(CardType) as CardType[];
+      const response = await fetch('https://anticheat.mas-reference-app.org:8001/8dj21k01sx/api/v1/init', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          session: uuid.v4(),
+          cards: cardTypeNames,
         }),
       });
       const json = await response.json();
-      const valid =  await verifySignature(json.payload, json.signature);
-      if (!valid){
-        throw new Error('Someone manipulated the anti cheat payloads.');
+
+      const status = json.payload.status;
+
+      if (status === 'error'){
+        this.cheatDetected = true;
+        throw Error(json.payload.reason);
       }
 
+      // get the session, and decrypt the cards and init the state of the game
+      this.session = json.payload.session;
+
+      const serverDeck = JSON.parse(deobfuscate(json.payload.encryptedServerDeck));
+      for (var d in serverDeck){
+        this.cards[Number(d)].type = serverDeck[d] as CardType;
+      }
+      const valid =  await verifySignature(json.payload, json.signature);
+      if (!valid){
+        this.cheatDetected = true;
+        Toast.show({
+          type: 'error',
+          text1: 'Cheating attempt detected.',
+          position: 'bottom',
+        });
+      }
       // no errors occurred -> we have cheat protection enabled
-      this.anticheatEnabled = true;
+      if (!this.serverConnectionEstablished){
+        //alert the user, that we now have a connection to the server
+        Toast.show({
+          type: 'info',
+          text1: 'Established connection to server.',
+          position: 'bottom',
+        });
+        this.serverConnectionEstablished = true;
+      }
 
     } catch (error) {
-      this.anticheatEnabled = false;
+      console.log(error);
+      if (String(error).includes('Network request failed')){
+        //alert the user, that we lost the connection to the server
+        Toast.show({
+          type: 'error',
+          text1: 'Lost connection to server.',
+          position: 'bottom',
+        });
+        this.serverConnectionEstablished = false;
+      }
     }
 
     this.deckOpenedByDebugMenu = false;
@@ -89,17 +132,77 @@ export class Game {
     this.evaluateMatch();
   }
 
-  evaluateMatch() {
+  async evaluateMatch() {
     const visibleCards = this.visibleCards();
     // console.log('visibleCards.length', visibleCards.length);
     if (visibleCards.length !== 2) {
       return;
     }
     if (visibleCards[0].matches(visibleCards[1])) { // Correct match
+
+      // update the server state
+      try {
+        var deck = Array(this.cards.length).fill('');
+        for (var d in deck){
+          if (this.cards[d].state === CardState.Visible || this.cards[d].state === CardState.Matched){
+            deck[d] = this.cards[d].type.toString();
+          }
+        }
+        const response = await fetch('https://anticheat.mas-reference-app.org:8001/8dj21k01sx/api/v1/validate', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            session: this.session,
+            openDeck: deck,
+          }),
+        });
+        const json = await response.json();
+        const status = json.payload.status;
+        // validate the signature
+        const valid =  await verifySignature(json.payload, json.signature);
+        if (!valid){
+          this.cheatDetected = true;
+          Toast.show({
+            type: 'error',
+            text1: 'Cheating attempt detected.',
+            position: 'bottom',
+          });
+        }
+        // test if the server detected any fishy behavior
+        if (status === 'error'){
+          this.cheatDetected = true;
+          throw Error(json.payload.reason);
+        }
+
+        // test if we regained connection to the server again
+        if (!this.serverConnectionEstablished){
+          //alert the user, that we now have a connection to the server
+          Toast.show({
+            type: 'info',
+            text1: 'Established connection to server.',
+            position: 'bottom',
+          });
+          this.serverConnectionEstablished = true;
+        }
+      } catch (error) {
+        console.log(error);
+        if (String(error).includes('Network request failed')){
+          //alert the user, that we lost the connection to the server
+          Toast.show({
+            type: 'error',
+            text1: 'Lost connection to server.',
+            position: 'bottom',
+          });
+          this.serverConnectionEstablished = false;
+        }
+      }
+
       WelcomeCTF.addStreak();
       visibleCards[0].makeMatched();
       visibleCards[1].makeMatched();
-      /* native */
       WelcomeCTF.matched();
       if (this.isCompleted) {
         this.numbersOfGames += 1;
@@ -166,10 +269,14 @@ export class Game {
   }
 
   serverValidatedWin() : Boolean {
-    if (this.anticheatEnabled){
-      // validate result with the server
-      return false;
-
+    if (this.serverConnectionEstablished){
+      if (this.cheatDetected){
+        // validate result with the server
+        return false;
+      }
+      else{
+        return false;
+      }
     }
     else{
       return false;
