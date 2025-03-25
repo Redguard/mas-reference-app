@@ -91,3 +91,6 @@ package-lock.json
 # javascript obfuscation
 
 .jso/*
+
+# compiled tools
+*.jar
