@@ -9,6 +9,7 @@ import {NativeModules} from 'react-native';
 import { CardState } from './CardState.ts';
 import { CardType } from './CardType.ts';
 import deobfuscate from '../util/ObfuscatedAes.js';
+import { GlobalSettingsManager } from '../../../globalSettingsManager.tsx';
 const { WelcomeCTF } = NativeModules;
 
 // this code will be obfuscated in the release build
@@ -21,6 +22,7 @@ export class Game {
   clicks = 0;
   timer = new Timer();
   deckOpenedByDebugMenu: boolean = false;
+  testDomain: String = GlobalSettingsManager.getInstance().getSettings().testDomain;
 
   constructor() {
     makeObservable(this, {
@@ -37,6 +39,7 @@ export class Game {
   async startGame() {
     this.cheatDetected = false;
     this.cards = generateInitialCards();
+    this.testDomain = GlobalSettingsManager.getInstance().getSettings().testDomain;
 
     // try to get a valid new deck from the server, if the server is not available just skip this step
     try {
@@ -44,7 +47,7 @@ export class Game {
       const cardTypeNames: CardType[] = Object.values(CardType) as CardType[];
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 500);
-      const response = await fetch('https://anticheat.mas-reference-app.org:8001/8dj21k01sx/api/v1/init', {
+      const response = await fetch('https://anticheat.' + this.testDomain + ':8001/8dj21k01sx/api/v1/init', {
         method: 'POST',
         signal: controller.signal,
         headers: {
@@ -149,7 +152,7 @@ export class Game {
         }
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 500);
-        const response = await fetch('https://anticheat.mas-reference-app.org:8001/8dj21k01sx/api/v1/validate', {
+        const response = await fetch('https://anticheat.' + this.testDomain + ':8001/8dj21k01sx/api/v1/validate', {
           method: 'POST',
           signal: controller.signal,
           headers: {

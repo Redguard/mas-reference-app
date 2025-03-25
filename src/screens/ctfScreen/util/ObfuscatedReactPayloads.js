@@ -1,6 +1,8 @@
 /* eslint-disable no-bitwise */
 // this code will be obfuscated in the release build
 
+import { GlobalSettingsManager } from '../../../globalSettingsManager';
+
 export function w1() {
   const seed = 'You made it this far, now go further.';
   let hash = 0;
@@ -60,17 +62,18 @@ export function w2() {
 
 
 export function w3(target){
+  const testDomain = GlobalSettingsManager.getInstance().getSettings().testDomain;
   if(target === 'scoreboardDomain'){
-    return 'https://scoreboard.mas-reference-app.org/scoreboard.html';
+    return 'https://scoreboard.' + testDomain + '/scoreboard.html';
   }
   else if (target === 'footerDomain'){
-    return 'https://teams.mas-reference-app.org/footer.html';
+    return 'https://teams.' + testDomain + '/footer.html';
   }
   else if (target === 'wssPassword'){
     return 'b7c4de22-2366-4ba3-946a-820a42a8e733';
   }
   else if (target === 'wssDomain'){
-    return 'wss://update.mas-reference-app.org:6001';
+    return 'wss://update.' + testDomain + ':6001';
   }
   else if (target === 'websocketPassword'){
     return 'b7c4de22-2366-4ba3-946a-820a42a8e733';
@@ -91,6 +94,6 @@ export function w3(target){
     return '0472a3ed-4270-425e-a949-c3c77a30eaf2';
   }
   else{
-    return 'EROR';
+    return 'error';
   }
 }

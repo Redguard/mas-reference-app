@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -7,42 +7,19 @@ import {
   Text,
   TouchableOpacity,
   Linking,
-  NativeModules,
 } from 'react-native';
 import styles from './style.tsx';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import DialogInput from 'react-native-dialog-input';
-import EncryptedStorage from 'react-native-encrypted-storage';
-import {MasSettings} from '../../../App.tsx';
+import { GlobalSettingsManager } from '../../globalSettingsManager.tsx';
 
-const {MasSettingsSync} = NativeModules;
 
 function SettingsScreen(): React.JSX.Element {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [selectedSetting, setSelectedSetting] = useState(null);
-  const [settings, setSettings] = useState({
-    testDomain: '',
-    canaryToken: '',
-    androidCloudProjectNumber: '',
+  const [settings, setSettings] = useState(() => {
+    return GlobalSettingsManager.getInstance().getSettings();
   });
-
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const globalSettings: string | null = await EncryptedStorage.getItem(
-          'MasReferenceAppSettings',
-        );
-        if (globalSettings) {
-          setSettings(JSON.parse(globalSettings));
-        }
-      } catch (error) {
-        console.error('Failed to retrieve global settings:', error);
-      } finally {
-      }
-    };
-
-    fetchSettings();
-  }, []);
 
   const handleRowPress = (settingKey: any) => {
     setSelectedSetting(settingKey);
@@ -66,22 +43,11 @@ function SettingsScreen(): React.JSX.Element {
   const updateGlobalSettings = (updatedSettings: typeof settings) => {
     const {testDomain, canaryToken, androidCloudProjectNumber} =
       updatedSettings;
-
-    const masSettings: MasSettings = {
+    GlobalSettingsManager.getInstance().updateSettings({
       testDomain: testDomain,
       canaryToken: canaryToken,
       androidCloudProjectNumber: androidCloudProjectNumber,
-    };
-    try {
-      EncryptedStorage.setItem(
-        'MasReferenceAppSettings',
-        JSON.stringify(masSettings),
-      );
-      // sync settings to native app
-      MasSettingsSync.setSettings(JSON.stringify(masSettings));
-    } catch (error) {
-      console.log(error);
-    }
+    });
   };
 
   const handleCancel = () => {

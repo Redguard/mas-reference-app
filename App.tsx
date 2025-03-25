@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import * as React from 'react';
-import {NativeModules, StyleSheet, Text, View} from 'react-native';
+import { Text, View} from 'react-native';
 
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
@@ -11,80 +11,14 @@ import SettingsScreen from './src/screens/settingsScreen/settingsScreen.tsx';
 import CtfScreen from './src/screens/ctfScreen/ctfScreen.tsx';
 import appContent from './src/appContent.tsx';
 import HeaderBackground from './src/screens/header/headerBackground.tsx';
-import EncryptedStorage from 'react-native-encrypted-storage';
 import { MenuProvider } from 'react-native-popup-menu';
-import LottieView from 'lottie-react-native';
-const {MasSettingsSync} = NativeModules;
+import { GlobalSettingsManager } from './src/globalSettingsManager.tsx';
 
-export type MasSettings = {
-  testDomain: string;
-  canaryToken: string;
-  androidCloudProjectNumber: string;
-};
 
 const Drawer = createDrawerNavigator();
 
-async function syncGlobalSettingsNativeApp(){
-  try {
-    var settings = await EncryptedStorage.getItem('MasReferenceAppSettings');
-    console.log(MasSettingsSync.setSettings(settings));
-    } catch (error) {
-      console.log(error);
-  }
-}
-
-
-async function initGlobalSettings(){
-  try {
-    var settings = await EncryptedStorage.getItem('MasReferenceAppSettings');
-    if (settings === null) {
-      const masSettings: MasSettings = {
-        testDomain: 'mas-reference-app.org',
-        canaryToken: '__MAS.OWASP.MAS__',
-        androidCloudProjectNumber: '0',
-      };
-      try {
-        await EncryptedStorage.setItem(
-            'MasReferenceAppSettings',
-            JSON.stringify(masSettings)
-        );
-      } catch (error) {
-          console.log(error);
-      }
-      }
-      syncGlobalSettingsNativeApp();
-    } catch (error) {
-    console.log(error);
-  }
-}
-const styles = StyleSheet.create({
-  ctfContainer: {
-    flex: 1,
-  },
-  ctfText: {
-    fontWeight: 'bold',
-    color: 'rgb(61, 61, 61)',
-  },
-  cftLottieWrapper: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1000,
-    pointerEvents: 'none',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  ctfLottie: {
-    width: 100,
-    height: 100,
-  },
-});
-
 function App(): React.JSX.Element {
-  initGlobalSettings();
+  GlobalSettingsManager.getInstance().initialize();
 
   return (
     <MenuProvider>
@@ -122,40 +56,8 @@ function App(): React.JSX.Element {
               drawerItemStyle: {backgroundColor: 'rgb(225,239,255)'},
               headerBackground: () => <HeaderBackground />,
               drawerLabel: () => (
-                <View style={styles.ctfContainer}>
                 <View>
-                  <Text style={styles.ctfText}>CTF Game</Text>
-                </View>
-                <View style={styles.cftLottieWrapper} pointerEvents="none">
-                  <LottieView
-                    source={require('./src/assets/sparkle.json')}
-                    autoPlay={true}
-                    loop={true}
-                    style={styles.ctfLottie}
-                    resizeMode="cover"
-                  />
-                 <LottieView
-                    source={require('./src/assets/sparkle.json')}
-                    autoPlay={true}
-                    loop={true}
-                    style={styles.ctfLottie}
-                    resizeMode="cover"
-                  />
-                 <LottieView
-                    source={require('./src/assets/sparkle.json')}
-                    autoPlay={true}
-                    loop={true}
-                    style={styles.ctfLottie}
-                    resizeMode="cover"
-                  />
-                   <LottieView
-                    source={require('./src/assets/sparkle.json')}
-                    autoPlay={true}
-                    loop={true}
-                    style={styles.ctfLottie}
-                    resizeMode="cover"
-                  />
-                </View>
+                  <Text>CTF Game</Text>
               </View>
               ),
             }}/>
