@@ -20,13 +20,13 @@ export class Game {
   cards: Card[] = [];
   clicks = 0;
   timer = new Timer();
-  gameState: String = '';
   deckOpenedByDebugMenu: boolean = false;
 
   constructor() {
     makeObservable(this, {
       cards: observable,
       clicks: observable,
+      numbersOfGames: observable,
       startGame: action,
       onClick: action,
       moves: computed,
@@ -113,14 +113,6 @@ export class Game {
 
     this.deckOpenedByDebugMenu = false;
 
-    // we want the game stat to be in memory for easy memory scan
-    const cardsWithoutGame = this.cards.map(card => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { game, ...rest } = card;
-      return rest;
-    });
-    const cardsString = JSON.stringify(cardsWithoutGame);
-    this.gameState = cardsString.toString();
     runInAction(() => {
       this.clicks = 0;
     });
@@ -209,7 +201,9 @@ export class Game {
       visibleCards[1].makeMatched();
       WelcomeCTF.matched();
       if (this.isCompleted) {
-        this.numbersOfGames += 1;
+        runInAction(() => {
+          this.numbersOfGames += 1;
+        });
         this.timer.stop();
       }
     } else { // Wrong match

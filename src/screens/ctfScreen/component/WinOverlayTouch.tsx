@@ -142,25 +142,30 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
   var subtitle = '¡Buena suerte!';
 
   // obfuscate to make it more difficult to simply extracting all flags statically
-  if (game.numbersOfGames === 1) {
-    selectedFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
-    subtitle = 'Welcome to the game. Here\'s your first flag:\n';
+
+  // first we want to handle the special flags, as finding them otherwise requires to play at least one normal game
+  if (game.numbersOfGames > 0 && game.noDebugPerfectGame() && game.serverValidatedWin()) {
+    selectedFlag = w2();
+    subtitle = 'Impossible! You managed to score a perfect streak without cheating? You deserve this special reward:\n';
   }
-  if (game.numbersOfGames > 1) {
-    selectedFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
-    subtitle = 'You already got the first flag, but just in case you missed it, here it is again: \n';
-  }
-  if (game.debugPerfectGame()) {
-    selectedFlag = w1();
-    subtitle = 'You managed to score a perfect streak, but you used the debug menu. You deserve this special reward, but you can do better:\n';
-  }
-  if (game.noDebugPerfectGame() && !game.serverValidatedWin()) {
+  else if (game.numbersOfGames > 0 && game.noDebugPerfectGame() && !game.serverValidatedWin()) {
     selectedFlag = w3('noDebugPerfectGame');
     subtitle = 'You did manage to win the perfect game without using the debug menu. But the results are either not validated by the server or you cheated. You deserve this reward:\n';
   }
-  if (game.noDebugPerfectGame() && game.serverValidatedWin()) {
-    selectedFlag = w2();
-    subtitle = 'Impossible! You managed to score a perfect streak without cheating? You deserve this special reward:\n';
+  else if (game.numbersOfGames > 0 && game.debugPerfectGame()) {
+    selectedFlag = w1();
+    subtitle = 'You managed to score a perfect streak, but you used the debug menu. You deserve this special reward, but you can do better:\n';
+
+  }
+  else{
+    if (game.numbersOfGames === 1) {
+      selectedFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
+      subtitle = 'Welcome to the game. Here\'s your first flag:\n';
+    }
+    else if (game.numbersOfGames > 1) {
+      selectedFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
+      subtitle = 'You already got the first flag, but just in case you missed it, here it is again: \n';
+    }
   }
 
   return (
