@@ -30,7 +30,11 @@ const jsoMetroPlugin = require('@bernhste/obfuscator-io-metro-plugin')(
     runInDev: false,
     logObfuscatedFiles: true, // Enable this to debug
     exclude: [/^\.\//],  // exclude all
-    include: [/^src\/screens\/ctfScreen\/util\//, /^src\/screens\/ctfScreen\/game\/Game.js/],
+    include: [
+      /^src\/screens\/ctfScreen\/util\/Obfuscated(.*)\.js$/,
+      /^src\/screens\/ctfScreen\/game\/Game.js$/,
+      /^src\/screens\/ctfScreen\/component\/WinOverlayTouch.js$/,
+    ],
   }
 );
 

@@ -21,6 +21,7 @@ import {w1, w2, w3} from '../util/ObfuscatedReactPayloads';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { logger } from 'react-native-logs';
 
+// this code will be obfuscated in the release build
 const { WelcomeCTF } = NativeModules;
 
 interface Props {
@@ -149,15 +150,15 @@ export const WinOverlayTouch = observer(({game, onClose}: Props) => {
     selectedFlag = WelcomeCTF.showToast('0FE3F0F0-DFD6-4B1D-92A7-005EC104C403');
     subtitle = 'You already got the first flag, but just in case you missed it, here it is again: \n';
   }
-  if (game.perfectGame()) {
+  if (game.debugPerfectGame()) {
     selectedFlag = w1();
-    subtitle = 'You managed to score a perfect streak with the help of the debug menu. You deserve this special reward, but you can do better:\n';
+    subtitle = 'You managed to score a perfect streak, but you used the debug menu. You deserve this special reward, but you can do better:\n';
   }
-  if (game.noDebugPerfectGame()) {
+  if (game.noDebugPerfectGame() && !game.serverValidatedWin()) {
     selectedFlag = w3('noDebugPerfectGame');
-    subtitle = 'Did you rewind time? I saw the same result already before. You deserve this reward:\n';
+    subtitle = 'You did manage to win the perfect game without using the debug menu. But the results are either not validated by the server or you cheated. You deserve this reward:\n';
   }
-  if (game.serverValidatedWin()) {
+  if (game.noDebugPerfectGame() && game.serverValidatedWin()) {
     selectedFlag = w2();
     subtitle = 'Impossible! You managed to score a perfect streak without cheating? You deserve this special reward:\n';
   }

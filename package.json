@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@bernhste/obfuscator-io-metro-plugin": "^2.2.8",
-    "@craftzdog/react-native-buffer": "^6.0.5",
     "@noble/curves": "^1.8.1",
     "@noble/secp256k1": "^2.2.3",
     "@react-native-clipboard/clipboard": "^1.16.2",
@@ -36,6 +35,7 @@
     "react-native": "0.76.7",
     "react-native-animatable": "^1.4.0",
     "react-native-cli": "^2.0.1",
+    "react-native-buffer": "^6.0.3",
     "react-native-dialog-input": "^1.0.8",
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-exit-app": "^2.0.0",

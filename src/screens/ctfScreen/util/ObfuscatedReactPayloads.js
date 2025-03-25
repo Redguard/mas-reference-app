@@ -1,26 +1,23 @@
-/* eslint-disable eslint-comments/no-unlimited-disable */
-/* eslint-disable */
+/* eslint-disable no-bitwise */
+// this code will be obfuscated in the release build
 
-// https://obfuscator.io/#code
-// don't string array rotate/shuffle
-
-export function getWinnerFlag() {
-  const seed = "You made it this far, now go further."
-  let hash = 0
+export function w1() {
+  const seed = 'You made it this far, now go further.';
+  let hash = 0;
   for (let i = 0; i < seed.length; i++) {
-    hash = (hash * 31 + seed.charCodeAt(i)) % 0xffffffff
+    hash = (hash * 31 + seed.charCodeAt(i)) % 0xffffffff;
   }
 
-  let hex = ""
+  let hex = '';
   for (let i = 0; i < 8; i++) {
-    const part = (hash >> (i * 4)) & 0xf
-    hex += part.toString(16)
+    const part = (hash >> (i * 4)) & 0xf;
+    hex += part.toString(16);
   }
 
   while (hex.length < 32) {
-    hex += hex
+    hex += hex;
   }
-  hex = hex.substring(0, 32)
+  hex = hex.substring(0, 32);
 
   return [
     hex.substring(0, 8),
@@ -29,13 +26,13 @@ export function getWinnerFlag() {
     `${((parseInt(hex.substring(16, 17), 16) & 0x3) | 0x8).toString(
       16
     )}${hex.substring(17, 20)}`,
-    hex.substring(20, 32)
-  ].join("-")
+    hex.substring(20, 32),
+  ].join('-');
 }
 
 
 export function w2() {
-  const seed = "This is really not the flag you are looking for: 642e7f41-1fa9-48b7-8a8b-106d02713298";
+  const seed = 'This is really not the flag you are looking for: 642e7f41-1fa9-48b7-8a8b-106d02713298';
   const bytes = new Uint8Array(16);
 
   for (let i = 0; i < 16; i++) {
@@ -53,11 +50,11 @@ export function w2() {
   return [
     bytes.slice(0, 4).map(b => b.toString(16).padStart(2, '0')).join(''),
     bytes.slice(4, 6).map(b => b.toString(16).padStart(2, '0')).join(''),
-    (bytes[6] & 0x0f | 0x40).toString(16).padStart(2, '0') + 
+    (bytes[6] & 0x0f | 0x40).toString(16).padStart(2, '0') +
       bytes[7].toString(16).padStart(2, '0'),
-    (bytes[8] & 0x3f | 0x80).toString(16).padStart(2, '0') + 
+    (bytes[8] & 0x3f | 0x80).toString(16).padStart(2, '0') +
       bytes[9].toString(16).padStart(2, '0'),
-    bytes.slice(10, 16).map(b => b.toString(16).padStart(2, '0')).join('')
+    bytes.slice(10, 16).map(b => b.toString(16).padStart(2, '0')).join(''),
   ].join('-');
 }
 

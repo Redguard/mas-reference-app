@@ -11,6 +11,7 @@ import { CardType } from './CardType.ts';
 import deobfuscate from '../util/ObfuscatedAes.js';
 const { WelcomeCTF } = NativeModules;
 
+// this code will be obfuscated in the release build
 export class Game {
   serverConnectionEstablished: Boolean = true;
   cheatDetected: Boolean = false;
@@ -259,26 +260,31 @@ export class Game {
     }, 3000);
   }
 
-  perfectGame() : Boolean {
-     if (this.numbersOfGames === 0){
+  debugPerfectGame() : Boolean {
+    if (this.deckOpenedByDebugMenu){
+      return this.moves === (this.cards.length / 2);
+    }
+    else {
       return false;
-     }
-
-    return this.moves === (this.cards.length / 2);
+    }
   }
 
   noDebugPerfectGame() : Boolean {
-    return (!this.deckOpenedByDebugMenu && this.perfectGame()) ? true : false;
+    if (!this.deckOpenedByDebugMenu){
+      return this.moves === (this.cards.length / 2);
+    }
+    else {
+      return false;
+    }
   }
 
   serverValidatedWin() : Boolean {
     if (this.serverConnectionEstablished){
       if (this.cheatDetected){
-        // validate result with the server
         return false;
       }
       else{
-        return false;
+        return true;
       }
     }
     else{
