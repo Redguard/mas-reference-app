@@ -21,9 +21,6 @@ export class Game {
   timer = new Timer();
   gameState: String = '';
   deckOpenedByDebugMenu: boolean = false;
-  /* Nobody can find it here, right?
-  I heard that reverse engineering is illegal, or something */
-  API_KEY = '458C0DC0-AA89-4B6D-AF74-564981068AD8';
 
   constructor() {
     makeObservable(this, {

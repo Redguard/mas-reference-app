@@ -1,7 +1,7 @@
 const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 const defaultConfig = getDefaultConfig(__dirname);
 
-const jsoMetroPlugin = require('obfuscator-io-metro-plugin')(
+const jsoMetroPlugin = require('@bernhste/obfuscator-io-metro-plugin')(
   {
     compact: true,
     controlFlowFlattening: true,
@@ -29,7 +29,8 @@ const jsoMetroPlugin = require('obfuscator-io-metro-plugin')(
   {
     runInDev: false,
     logObfuscatedFiles: true, // Enable this to debug
-    include: ['./src/screens/ctfScreen/util/*.js'],
+    exclude: [/^\.\//],  // exclude all
+    include: [/^src\/screens\/ctfScreen\/util\//, /^src\/screens\/ctfScreen\/game\/Game.js/],
   }
 );
 
@@ -43,7 +44,7 @@ module.exports = mergeConfig(
           inlineRequires: false,
         },
       }),
-    }
+    },
   }),
   jsoMetroPlugin
 );
