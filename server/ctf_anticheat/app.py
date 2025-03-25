@@ -7,6 +7,7 @@ import time
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from base64 import b64encode
+from coincurve import PrivateKey
 
 logging.basicConfig(level=logging.INFO)
 api_v1 = Blueprint("api", __name__, url_prefix = "/8dj21k01sx/api/v1")
@@ -54,14 +55,14 @@ def update_client_deck(client_deck, current_player_deck, winning_deck):
 def sign_response(payload):
     with open("/app/signature_keys/pkcs8_private_key.pem", "r") as pem_file:
         pem_data = pem_file.read()
-    private_key = PrivateKey.from_pem(pem_data.encode())
-    payload_json = json.dumps(payload, separators=(',', ':'))
-    signature = private_key.sign(payload_json.encode('utf-8'))
-    response = {
-            "payload": payload,
-            "signature": signature.hex()
-        }
-    return response 
+        private_key = PrivateKey.from_pem(pem_data.encode())
+        payload_json = json.dumps(payload, separators=(',', ':'))
+        signature = private_key.sign(payload_json.encode('utf-8'))
+        response = {
+                "payload": payload,
+                "signature": signature.hex()
+            }
+        return response 
 
 @api_v1.route("/init", methods = ["POST"])
 def init():

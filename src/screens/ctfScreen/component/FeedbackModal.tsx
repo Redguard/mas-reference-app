@@ -21,7 +21,10 @@ interface Props {
   onClose: () => void;
 }
 
-export function FeedbackModal({game, onClose}: Props) {
+export function FeedbackModal({onClose}: Props) {
+  /* Nobody can find it here, right?
+  I heard that reverse engineering is illegal, or something */
+  const API_KEY = '458C0DC0-AA89-4B6D-AF74-564981068AD8';
 
   const [name, setName] = useState('');
   const [feedback, setFeedback] = useState('');
@@ -37,7 +40,7 @@ export function FeedbackModal({game, onClose}: Props) {
     setSubmitting(true);
 
     try {
-      WelcomeCTF.submitFeedback(game.API_KEY, name, feedback,
+      WelcomeCTF.submitFeedback(API_KEY, name, feedback,
         (response: string) => {
           setName('');
           setFeedback('');

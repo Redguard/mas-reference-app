@@ -1,4 +1,9 @@
 services:
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
   echoserver:
     image: vhiribarren/echo-server
     ports:
@@ -31,31 +36,26 @@ services:
       - ./nginx/html/:/etc/nginx/html/:ro
       - ./certbot/www:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/nginx/ssl/:ro
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
-  ctf_websocket:
-    build: ./ctf_websocket
-    volumes:
-      - ./certbot/conf/archive/update.<test-domain>:/app/certs:ro
-    ports:
-      - 6001:6001
   ctf_tcp:
     build: ./ctf_tcp
     ports:
       - 7001:7001
+  ctf_websocket:
+    build: ./ctf_websocket
+    volumes:
+      - ./certbot/conf:/app/certs:ro
+    ports:
+      - 6001:6001
   ctf_feedback:
     build: ./ctf_feedback
     volumes:
-      - ./certbot/conf/archive/feedback.<test-domain>:/app/certs:ro
+      - ./certbot/conf:/app/certs:ro
     ports:
       - 8008:8008
   ctf_anticheat:
     build: ./ctf_anticheat
     volumes:
-      - ./certbot/conf/archive/anticheat.<test-domain>:/app/certs:ro
+      - ./certbot/conf:/app/certs:ro
       - ./ctf_anticheat/signature_keys:/app/signature_keys:ro
     ports:
       - 8001:8008

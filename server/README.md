@@ -25,14 +25,13 @@ For the CTF we use the following domains:
 
 | Endpoint                       | Description                                                    |   Flag | 
 | ------------------------------ | -------------------------------------------------------------- | ------- |
-| `https://anticheat.<test-domain>:8001`  |  Anti-Cheat Endpoint. Creates a singed game state and verifies the client state after a win. If the  state was already seen, the game will be rejected with a signed response. |  <none> | 
+| `https://anticheat.<test-domain>:8001`  |  Anti-Cheat Endpoint. Creates a signed game state and verifies the client state after a win. The client must then validate each move in order to fairly win the game.|  <none> | 
 | `https://scoreboard.<test-domain>/board/e364000e-75e7-4f05-9b0e-0690f1a14453.html`   |  Domain which is not pinned, the Flag is in the response. Domain used for top WV.     | ce8cd9d6-e110-4f99-a395-1e2f7fca0522 |
 | `https://teams.<test-domain>/teams/308a0bcd-7bfc-4c7a-a8cd-78ed83f8b6a7.html`    |  Domain which programmatically pinned and in the Android Truststore, Frida.re is required, but there are off the shelf-scripts available. the Flag is in the response.   Domain used for bottom WV.        | 2eb3c894-ea45-4d42-87fb-a8b7f71d7886 |
 | `wss://update.<test-domain>:6001`  |  WebSocket for the Scoreboard. The client provides b7c4de22-2366-4ba3-946a-820a42a8e733 | 8b2b730f-958a-4e42-8879-6c76ffa9d37c |
 | `<test-domain>:7001`         |  Raw TPC for a heartbeat. The client provides 5604c261-651e-42fa-848e-31ab334e8f0c     | dea0b6f6-3143-45fb-bd80-818ad6688797 |
 | `https://1a5d77b3-5699-4ea9-862b-897451300045.<test-domain>/index.html`   |  This domain is never used in the app, but since its HTTPS the users can use Certificate Transparency to enumerate it          | 78bf6a45-31d2-4c96-a6fd-715b9ebc6167 |
 | `https://feedback.<test-domain>`  | Domain contacted to submit the feedback | 66FB159E-8477-4AB3-9029-173725448749 |
-
 
 
 
@@ -43,11 +42,11 @@ For TLS we use Let's Encrypt and certbot for certificate enrollment.
 
 ## Step 1: Set up your domain and update the nginx config file
 
-Register your domain and replace the `<testDomain>` in the following files:
+Register a domain and replace the `<testDomain>` everywhere:
 
-- `./nginx/conf_http/server_http.conf`
-- `./nginx/conf_https/server_https.conf`
-
+``
+find ./ -type f -exec grep -l "<test-domain>" {} \; | xargs sed -i 's/<test-domain>/your_domain.org/g'
+``
 
 ## Step 2: Start the Web-Server
 

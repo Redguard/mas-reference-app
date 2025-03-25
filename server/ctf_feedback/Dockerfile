@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8008
 
 #CMD ["flask", "--debug", "run", "--cert=adhoc"]
-CMD gunicorn --certfile certs/fullchain1.pem --keyfile certs/privkey1.pem --bind 0.0.0.0:8008 app:app
+CMD gunicorn --certfile /app/certs/live/feedback.<test-domain>/fullchain.pem --keyfile /app/certs/live/feedback.<test-domain>/privkey.pem --bind 0.0.0.0:8008 app:app
